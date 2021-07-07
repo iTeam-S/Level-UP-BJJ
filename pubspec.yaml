@@ -30,6 +30,9 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
+  get: ^4.1.4
+  progress_state_button: ^1.0.3
+  rounded_loading_button: ^2.0.5
 
 dev_dependencies:
   flutter_test:
@@ -68,6 +71,12 @@ flutter:
         - asset: assets/fonts/PS.ttf
           style: normal
           weight: 700
+    
+    - family: Comforta
+      fonts:
+        - asset: assets/fonts/Comforta.ttf
+          style: normal
+          weight: 700
 
   #
   # For details regarding fonts from package dependencies,
@@ -75,3 +84,4 @@ flutter:
   
   assets:
     - assets/images/logo.jpg
+    - assets/images/workout.jpg
