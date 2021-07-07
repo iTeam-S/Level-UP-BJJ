@@ -33,7 +33,7 @@ class _SplashScreenState extends State<SplashScreen>{
 									child: Text(
 										"BJJ-Library",
 										style: TextStyle(
-											fontSize: 20,
+											fontSize: 15,
 											fontFamily: "ProductSans",
 										),
 									),
