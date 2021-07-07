@@ -27,8 +27,8 @@ class _LoginScreenState extends State<LoginScreen>{
 				child: ListView(
          	children: [
 						Container(
-							margin: EdgeInsets.only(top:MediaQuery.of(context).size.height*0.08),
-							height: MediaQuery.of(context).size.height*0.375,
+							margin: EdgeInsets.only(top:MediaQuery.of(context).size.height*0.14),
+							height: MediaQuery.of(context).size.height*0.28,
 							child:Image.asset('assets/images/workout.jpg'),
 						),
             Container(
@@ -38,24 +38,17 @@ class _LoginScreenState extends State<LoginScreen>{
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Container(
-                    height: MediaQuery.of(context).size.height*0.5,
+                    height: MediaQuery.of(context).size.height*0.363,
                     child: Card(
-                      elevation: 0,
+                      elevation: 0.3,
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(13)),
                       child: Column(
                         children: [
-                          // Container(
-                          //   margin: EdgeInsets.only(top:MediaQuery.of(context).size.height*0.055),
-                          //   child: Text(
-                          //     'BJJ-Library',
-                          //     style: TextStyle(color: Colors.teal[300], fontFamily: "ProductSans", fontSize: 20, fontWeight: FontWeight.bold),
-                          //   ),
-                          // ),
                           Container(
                             height: MediaQuery.of(context).size.height*0.08,
                             margin: EdgeInsets.symmetric(
                               horizontal: MediaQuery.of(context).size.width*0.06,
-                              vertical: MediaQuery.of(context).size.height*0.03
+                              vertical: MediaQuery.of(context).size.height*0.01
                             ),
                             child: TextField(
                               style: TextStyle(fontSize: 13, color: Colors.grey[800]),
@@ -105,9 +98,19 @@ class _LoginScreenState extends State<LoginScreen>{
                             ),
                           ),
                           Container(
+                            width: MediaQuery.of(context).size.width*0.5,
+                            margin: EdgeInsets.only(
+                              top:MediaQuery.of(context).size.height*0.02, 
+                            ),
+                            child: Text(
+                              "Contactez l'admin si vous avez oublié votre mot de passe.", textAlign: TextAlign.center,
+                              style: TextStyle(color: Colors.grey[400], fontFamily: "ProductSans", fontSize: 15, fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                          Container(
                             margin: EdgeInsets.symmetric(
                               horizontal:MediaQuery.of(context).size.width*0.06,
-                              vertical:MediaQuery.of(context).size.height*0.064
+                              vertical:MediaQuery.of(context).size.height*0.03
                             ),
                             child: RoundedLoadingButton(
                               color: Colors.teal[400],
@@ -115,10 +118,10 @@ class _LoginScreenState extends State<LoginScreen>{
                               controller: _btnController,
                               onPressed: () => _doSomething(_btnController),
                               valueColor: Colors.white,
-                              borderRadius: 20,
+                              borderRadius: 90,
                               child: Text("SE CONNECTER", style: TextStyle(color: Colors.white)),
                             ),
-                          )
+                          ),
                         ],
                       )
                     )
