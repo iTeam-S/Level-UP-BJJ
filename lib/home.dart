@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:bottom_bar_with_sheet/bottom_bar_with_sheet.dart';
 
 
 class HomeScreen extends StatefulWidget{
@@ -153,6 +154,25 @@ class _HomeScreenState extends State<HomeScreen>{
 					],
 				),
 			),
+      bottomNavigationBar: BottomBarWithSheet(
+        disableMainActionButton : true,
+        selectedIndex: 0,
+        sheetChild: Center(child: Text("Place for your another content")),
+        bottomBarTheme: BottomBarTheme(
+          mainButtonPosition: MainButtonPosition.left,
+          selectedItemBackgroundColor: Colors.teal[400],
+          itemIconColor: Colors.grey[600],
+          selectedItemIconColor: Colors.white,
+          selectedItemLabelColor: Colors.teal[400]
+        ),
+        onSelectItem: (index) => print('item $index was pressed'),
+        items: [
+          BottomBarWithSheetItem(icon: Icons.people, label: "Tous"),
+          BottomBarWithSheetItem(icon: Icons.shopping_cart, label: "Musculation"),
+          BottomBarWithSheetItem(icon: Icons.settings, label: "Abdomino"),
+          BottomBarWithSheetItem(icon: Icons.favorite, label: "Traction"),
+        ],
+      ),
 		);
 	}
 } 
