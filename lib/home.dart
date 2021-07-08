@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 
 
@@ -48,7 +46,10 @@ class _HomeScreenState extends State<HomeScreen>{
           children: [
             Stack(
               children: [
-                Image.asset('assets/images/cover.jpg', width: MediaQuery.of(context).size.width),
+                Image.asset(
+                  'assets/images/cover.jpg', 
+                  width: MediaQuery.of(context).size.width, 
+                ),
                 Container(
                   margin: EdgeInsets.only(
                     top: MediaQuery.of(context).size.height*0.045,
@@ -82,8 +83,9 @@ class _HomeScreenState extends State<HomeScreen>{
               ],
             ),
             Container(
-              height: MediaQuery.of(context).size.height*0.8,
+              height: MediaQuery.of(context).size.height*0.76,
               child:Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children:[
                   Column(
                     children:[
@@ -115,8 +117,7 @@ class _HomeScreenState extends State<HomeScreen>{
                   Container(
                     alignment: Alignment.center,
                     margin: EdgeInsets.only(
-                      top: MediaQuery.of(context).size.height*0.5,
-                      // left: MediaQuery.of(context).size.width*0.06,
+                      // top: MediaQuery.of(context).size.height*0.5,
                     ),
                     child: Text(
                       'BJJ-Library 0.0.1',
