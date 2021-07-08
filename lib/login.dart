@@ -119,7 +119,6 @@ class _LoginScreenState extends State<LoginScreen>{
                             ),
                             child: RoundedLoadingButton(
                               color: Colors.teal[400],
-                              height: MediaQuery.of(context).size.height*0.09 ,
                               successColor: Colors.teal,
                               controller: _btnController,
                               onPressed: () => _doSomething(_btnController),
