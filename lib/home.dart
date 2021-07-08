@@ -24,13 +24,13 @@ class _HomeScreenState extends State<HomeScreen>{
             children: [
               Container(
                 margin: EdgeInsets.only(
-                  top: MediaQuery.of(context).size.height*0.019,
+                  top: MediaQuery.of(context).size.height*0.017,
                   right: MediaQuery.of(context).size.height*0.02
                 ),
                 child:Icon(Icons.notifications_sharp),
               ),
               Positioned(
-                top: MediaQuery.of(context).size.height*0.020,
+                top: MediaQuery.of(context).size.height*0.018,
                 right: MediaQuery.of(context).size.height*0.02,
                 child: Icon(Icons.brightness_1, size: 10, color: Colors.red),
               )
@@ -51,39 +51,49 @@ class _HomeScreenState extends State<HomeScreen>{
                   width: MediaQuery.of(context).size.width, 
                 ),
                 Container(
+                  alignment: Alignment.centerLeft,
                   margin: EdgeInsets.only(
-                    top: MediaQuery.of(context).size.height*0.045,
-                    left: MediaQuery.of(context).size.width*0.06,
+                    top: MediaQuery.of(context).size.height*0.048,
                   ),
-                  child: CircleAvatar(
-                    radius: 30,
-                    backgroundImage: AssetImage('assets/images/avatar.jpg'),
-                  )
+                  child: Column(
+                    children: [
+                      Container(
+                        alignment: Alignment.centerLeft,
+                        margin: EdgeInsets.only(
+                          left: MediaQuery.of(context).size.width*0.1,
+                        ),
+                        child: CircleAvatar(
+                          radius: 30,
+                          backgroundImage: AssetImage('assets/images/avatar.jpg'),
+                        )
+                      ),
+                      Container(
+                        alignment: Alignment.centerLeft,
+                        margin: EdgeInsets.only(
+                          left: MediaQuery.of(context).size.width*0.1,
+                        ),
+                        child: Text(
+                          'landry.apsa@gmail.com',
+                          style: TextStyle(fontSize: 20, color: Colors.white)
+                        )
+                      ),
+                      Container(
+                        alignment: Alignment.centerLeft,
+                        margin: EdgeInsets.only(
+                          left: MediaQuery.of(context).size.width*0.1,
+                        ),
+                        child: Text(
+                          'Administrateur',
+                          style: TextStyle(fontSize: 14, color: Colors.white54,)
+                        ),
+                      )
+                    ],
+                  ),
                 ),
-                Container(
-                  margin: EdgeInsets.only(
-                    top: MediaQuery.of(context).size.height*0.12,
-                    left: MediaQuery.of(context).size.width*0.06,
-                  ),
-                  child: Text(
-                    'landry.apsa@gmail.com',
-                    style: TextStyle(fontSize: 20, color: Colors.white)
-                  )
-                ),
-                Container(
-                  margin: EdgeInsets.only(
-                    top: MediaQuery.of(context).size.height*0.155,
-                    left: MediaQuery.of(context).size.width*0.06,
-                  ),
-                  child: Text(
-                    'Administrateur',
-                    style: TextStyle(fontSize: 14, color: Colors.white54,)
-                  ),
-                )
               ],
             ),
             Container(
-              height: MediaQuery.of(context).size.height*0.76,
+              height: MediaQuery.of(context).size.height*0.73,
               child:Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children:[
