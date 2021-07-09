@@ -197,14 +197,21 @@ class _HomeScreenState extends State<HomeScreen>{
                                   ),
                                   Container(
                                     margin: EdgeInsets.only(
-                                      // horizontal:MediaQuery.of(context).size.width*0.25,
-                                      top: MediaQuery.of(context).size.height*0.014,
-                                      left: MediaQuery.of(context).size.width*0.25
+                                      left: MediaQuery.of(context).size.width*0.20
                                     ),
-                                    child: Icon(
-                                      Icons.more_vert_sharp,
+                                    child: PopupMenuButton(
                                       color: Colors.white,
-                                      size: 19,
+                                      icon: Icon(Icons.more_vert, color: Colors.white, size: 18),
+                                      itemBuilder: (context) => [
+                                        PopupMenuItem(
+                                          child: Text("First"),
+                                          value: 1,
+                                        ),
+                                        PopupMenuItem(
+                                          child: Text("Second"),
+                                          value: 2,
+                                        )
+                                      ]
                                     )
                                   )
                                 ]
@@ -236,14 +243,21 @@ class _HomeScreenState extends State<HomeScreen>{
                                   ),
                                   Container(
                                     margin: EdgeInsets.only(
-                                      // horizontal:MediaQuery.of(context).size.width*0.25,
-                                      top: MediaQuery.of(context).size.height*0.014,
-                                      left: MediaQuery.of(context).size.width*0.25
+                                      left: MediaQuery.of(context).size.width*0.20
                                     ),
-                                    child: Icon(
-                                      Icons.more_vert_sharp,
+                                    child: PopupMenuButton(
                                       color: Colors.white,
-                                      size: 19,
+                                      icon: Icon(Icons.more_vert, color: Colors.white, size: 18),
+                                      itemBuilder: (context) => [
+                                        PopupMenuItem(
+                                          child: Text("First"),
+                                          value: 1,
+                                        ),
+                                        PopupMenuItem(
+                                          child: Text("Second"),
+                                          value: 2,
+                                        )
+                                      ]
                                     )
                                   )
                                 ]
