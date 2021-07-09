@@ -142,17 +142,203 @@ class _HomeScreenState extends State<HomeScreen>{
         ),
       ),
 			body: Container(
-				alignment: Alignment.center,
-				color: Colors.cyan[50],
-				child: Column(
-					children: [
-						Container(
-							margin: EdgeInsets.only(top:MediaQuery.of(context).size.height*0.25),
-							height: MediaQuery.of(context).size.height*0.375,
-							child:Image.asset('assets/images/logo.jpg')
-						),
-					],
-				),
+        child: ListView(
+          children: [
+            Column(
+              children: [
+                Container(
+                  alignment: Alignment.centerLeft,
+                  margin: EdgeInsets.only(
+                    top: MediaQuery.of(context).size.height*0.03,
+                    left: MediaQuery.of(context).size.width*0.02,
+                  ),
+                  child: Column(
+                    children: [
+                      Container(
+                        alignment: Alignment.centerLeft,
+                        margin: EdgeInsets.only(
+                          left: MediaQuery.of(context).size.width*0.04,
+                          bottom: MediaQuery.of(context).size.height*0.005,
+                        ),
+                        child: Text(
+                          "Musculation",
+                          style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold, color: Colors.grey[700]),
+                        ),
+                      ),
+                      Container(
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            children: [
+                              Container(
+                                height: MediaQuery.of(context).size.height*0.23,
+                                width: MediaQuery.of(context).size.width*0.35,
+                                child: Card(
+                                  elevation: 1.5,
+                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                                ),
+                              ),
+                              Container(
+                                height: MediaQuery.of(context).size.height*0.23,
+                                width: MediaQuery.of(context).size.width*0.35,
+                                child: Card(
+                                  elevation: 1.5,
+                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                                ),
+                              ),
+                              Container(
+                                height: MediaQuery.of(context).size.height*0.23,
+                                width: MediaQuery.of(context).size.width*0.35,
+                                child: Card(
+                                  elevation: 1.5,
+                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                                ),
+                              ),
+                              Container(
+                                height: MediaQuery.of(context).size.height*0.23,
+                                width: MediaQuery.of(context).size.width*0.35,
+                                child: Card(
+                                  elevation: 1.5,
+                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                                ),
+                              ),
+                            ],
+                          )
+                        )
+                      )
+                    ],
+                  )
+                ),
+                Container(
+                  alignment: Alignment.centerLeft,
+                  margin: EdgeInsets.only(
+                    top: MediaQuery.of(context).size.height*0.03,
+                    left: MediaQuery.of(context).size.width*0.02,
+                  ),
+                  child: Column(
+                    children: [
+                      Container(
+                        alignment: Alignment.centerLeft,
+                        margin: EdgeInsets.only(
+                          left: MediaQuery.of(context).size.width*0.04,
+                          bottom: MediaQuery.of(context).size.height*0.005,
+                        ),
+                        child: Text(
+                          "Abdomino",
+                          style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold, color: Colors.grey[700]),
+                        ),
+                      ),
+                      Container(
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            children: [
+                              Container(
+                                height: MediaQuery.of(context).size.height*0.23,
+                                width: MediaQuery.of(context).size.width*0.35,
+                                child: Card(
+                                  elevation: 1.5,
+                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                                ),
+                              ),
+                              Container(
+                                height: MediaQuery.of(context).size.height*0.23,
+                                width: MediaQuery.of(context).size.width*0.35,
+                                child: Card(
+                                  elevation: 1.5,
+                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                                ),
+                              ),
+                              Container(
+                                height: MediaQuery.of(context).size.height*0.23,
+                                width: MediaQuery.of(context).size.width*0.35,
+                                child: Card(
+                                  elevation: 1.5,
+                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                                ),
+                              ),
+                              Container(
+                                height: MediaQuery.of(context).size.height*0.23,
+                                width: MediaQuery.of(context).size.width*0.35,
+                                child: Card(
+                                  elevation: 1.5,
+                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                                ),
+                              ),
+                            ],
+                          )
+                        )
+                      )
+                    ],
+                  )
+                ),
+                Container(
+                  alignment: Alignment.centerLeft,
+                  margin: EdgeInsets.only(
+                    top: MediaQuery.of(context).size.height*0.03,
+                    left: MediaQuery.of(context).size.width*0.02,
+                  ),
+                  child: Column(
+                    children: [
+                      Container(
+                        alignment: Alignment.centerLeft,
+                        margin: EdgeInsets.only(
+                          left: MediaQuery.of(context).size.width*0.04,
+                          bottom: MediaQuery.of(context).size.height*0.005,
+                        ),
+                        child: Text(
+                          "Traction",
+                          style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold, color: Colors.grey[700]),
+                        ),
+                      ),
+                      Container(
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            children: [
+                              Container(
+                                height: MediaQuery.of(context).size.height*0.23,
+                                width: MediaQuery.of(context).size.width*0.35,
+                                child: Card(
+                                  elevation: 1.5,
+                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                                ),
+                              ),
+                              Container(
+                                height: MediaQuery.of(context).size.height*0.23,
+                                width: MediaQuery.of(context).size.width*0.35,
+                                child: Card(
+                                  elevation: 1.5,
+                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                                ),
+                              ),
+                              Container(
+                                height: MediaQuery.of(context).size.height*0.23,
+                                width: MediaQuery.of(context).size.width*0.35,
+                                child: Card(
+                                  elevation: 1.5,
+                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                                ),
+                              ),
+                              Container(
+                                height: MediaQuery.of(context).size.height*0.23,
+                                width: MediaQuery.of(context).size.width*0.35,
+                                child: Card(
+                                  elevation: 1.5,
+                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                                ),
+                              ),
+                            ],
+                          )
+                        )
+                      )
+                    ],
+                  )
+                ),
+              ]
+            )
+          ]
+        ),
 			),
       bottomNavigationBar: BottomBarWithSheet(
         disableMainActionButton : true,
@@ -168,7 +354,7 @@ class _HomeScreenState extends State<HomeScreen>{
         onSelectItem: (index) => print('item $index was pressed'),
         items: [
           BottomBarWithSheetItem(icon: Icons.people, label: "Tous"),
-          BottomBarWithSheetItem(icon: Icons.shopping_cart, label: "Musculation"),
+          BottomBarWithSheetItem(icon: Icons.shopping_cart, label: "Muscu"),
           BottomBarWithSheetItem(icon: Icons.settings, label: "Abdomino"),
           BottomBarWithSheetItem(icon: Icons.favorite, label: "Traction"),
         ],
