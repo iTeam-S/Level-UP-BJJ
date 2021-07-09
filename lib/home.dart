@@ -170,21 +170,83 @@ class _HomeScreenState extends State<HomeScreen>{
                           scrollDirection: Axis.horizontal,
                           child: Row(
                             children: [
-                              Container(
-                                height: MediaQuery.of(context).size.height*0.23,
-                                width: MediaQuery.of(context).size.width*0.35,
-                                child: Card(
-                                  elevation: 1.5,
-                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-                                ),
+                              Stack(
+                                children:[
+                                  Container(
+                                    height: MediaQuery.of(context).size.height*0.23,
+                                    width: MediaQuery.of(context).size.width*0.33,
+                                    child: Card(
+                                      elevation: 1.5,
+                                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(5),
+                                        child:Image.asset('assets/images/cover.jpg', fit: BoxFit.cover),
+                                      )
+                                    ),
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.symmetric(
+                                      horizontal:MediaQuery.of(context).size.width*0.09,
+                                      vertical:MediaQuery.of(context).size.height*0.07
+                                    ),
+                                    child: Icon(
+                                      Icons.play_arrow_sharp,
+                                      color: Colors.teal[400],
+                                      size: 40,
+                                    )
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.only(
+                                      // horizontal:MediaQuery.of(context).size.width*0.25,
+                                      top: MediaQuery.of(context).size.height*0.014,
+                                      left: MediaQuery.of(context).size.width*0.25
+                                    ),
+                                    child: Icon(
+                                      Icons.more_vert_sharp,
+                                      color: Colors.white,
+                                      size: 19,
+                                    )
+                                  )
+                                ]
                               ),
-                              Container(
-                                height: MediaQuery.of(context).size.height*0.23,
-                                width: MediaQuery.of(context).size.width*0.35,
-                                child: Card(
-                                  elevation: 1.5,
-                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-                                ),
+                              Stack(
+                                children:[
+                                  Container(
+                                    height: MediaQuery.of(context).size.height*0.23,
+                                    width: MediaQuery.of(context).size.width*0.33,
+                                    child: Card(
+                                      elevation: 1.5,
+                                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(5),
+                                        child:Image.asset('assets/images/cover.jpg', fit: BoxFit.cover),
+                                      )
+                                    ),
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.symmetric(
+                                      horizontal:MediaQuery.of(context).size.width*0.09,
+                                      vertical:MediaQuery.of(context).size.height*0.07
+                                    ),
+                                    child: Icon(
+                                      Icons.play_arrow_sharp,
+                                      color: Colors.teal[400],
+                                      size: 40,
+                                    )
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.only(
+                                      // horizontal:MediaQuery.of(context).size.width*0.25,
+                                      top: MediaQuery.of(context).size.height*0.014,
+                                      left: MediaQuery.of(context).size.width*0.25
+                                    ),
+                                    child: Icon(
+                                      Icons.more_vert_sharp,
+                                      color: Colors.white,
+                                      size: 19,
+                                    )
+                                  )
+                                ]
                               ),
                               Container(
                                 height: MediaQuery.of(context).size.height*0.23,
