@@ -204,12 +204,47 @@ class _HomeScreenState extends State<HomeScreen>{
                                       icon: Icon(Icons.more_vert, color: Colors.white, size: 18),
                                       itemBuilder: (context) => [
                                         PopupMenuItem(
-                                          child: Text("First"),
                                           value: 1,
+                                          child: Row(
+                                            children: [
+                                              Icon(Icons.edit),
+                                              Text("Modifier")
+                                            ]
+                                          ),
                                         ),
                                         PopupMenuItem(
-                                          child: Text("Second"),
                                           value: 2,
+                                          child: Row(
+                                            children: [
+                                              Icon(Icons.delete_outline, color: Colors.red),
+                                              TextButton(
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                  showDialog(
+                                                    context: context,
+                                                    builder: (BuildContext context) => AlertDialog(
+                                                      title: const Text("Suppression d'une vidéo"),
+                                                      content: const Text('Voulez-vous vraiment supprimer cette vidéo ?'),
+                                                      actions: [
+                                                        TextButton(
+                                                          onPressed: () => Navigator.pop(context, 'Cancel'),
+                                                          child: const Text('Annuler'),
+                                                        ),
+                                                        TextButton(
+                                                          onPressed: () => Navigator.pop(context, 'OK'),
+                                                          child: const Text('OK'),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  );
+                                                },
+                                                child: Text(
+                                                  "Supprimer",
+                                                  style: TextStyle(color: Colors.red),
+                                                )
+                                              )
+                                            ]
+                                          ),
                                         )
                                       ]
                                     )
@@ -246,16 +281,28 @@ class _HomeScreenState extends State<HomeScreen>{
                                       left: MediaQuery.of(context).size.width*0.20
                                     ),
                                     child: PopupMenuButton(
-                                      color: Colors.white,
                                       icon: Icon(Icons.more_vert, color: Colors.white, size: 18),
                                       itemBuilder: (context) => [
                                         PopupMenuItem(
-                                          child: Text("First"),
                                           value: 1,
+                                          child: Row(
+                                            children: [
+                                              Icon(Icons.edit),
+                                              Text("Modifier")
+                                            ]
+                                          ),
                                         ),
                                         PopupMenuItem(
-                                          child: Text("Second"),
                                           value: 2,
+                                          child: Row(
+                                            children: [
+                                              Icon(Icons.delete_outline, color: Colors.red),
+                                              Text(
+                                                "Supprimer",
+                                                style: TextStyle(color: Colors.red),
+                                              )
+                                            ]
+                                          ),
                                         )
                                       ]
                                     )
