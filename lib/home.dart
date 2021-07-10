@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:bottom_bar_with_sheet/bottom_bar_with_sheet.dart';
+import 'package:rounded_loading_button/rounded_loading_button.dart';
+import 'package:get/get.dart';
+import 'dart:async';
 
 
 class HomeScreen extends StatefulWidget{
@@ -9,6 +12,16 @@ class HomeScreen extends StatefulWidget{
 
 
 class _HomeScreenState extends State<HomeScreen>{
+
+    final RoundedLoadingButtonController _btnController = RoundedLoadingButtonController();
+
+  void _doSomething(RoundedLoadingButtonController controller) async {
+    Timer(Duration(seconds: 2), () {
+      controller.success();
+      Navigator.pop(context);
+    });
+  }
+
 	@override
 	Widget build(BuildContext context){
 		return Scaffold(
@@ -208,7 +221,94 @@ class _HomeScreenState extends State<HomeScreen>{
                                           child: Row(
                                             children: [
                                               Icon(Icons.edit),
-                                              Text("Modifier")
+                                              TextButton(
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                  showDialog(
+                                                    context: context,
+                                                    builder: (BuildContext context) => SimpleDialog(
+                                                      title : Text(
+                                                        "Modification d'une vidéo", 
+                                                      ),
+                                                      children:[
+                                                        Container(
+                                                          height: MediaQuery.of(context).size.height*0.08,
+                                                          margin: EdgeInsets.symmetric(
+                                                            horizontal: MediaQuery.of(context).size.width*0.06,
+                                                            vertical: MediaQuery.of(context).size.height*0.0113
+                                                          ),
+                                                          child:TextField(
+                                                            style: TextStyle(fontSize: 13, color: Colors.grey[800]),
+                                                            decoration: InputDecoration(
+                                                              filled: true,
+                                                              fillColor: Colors.teal[50],
+                                                              border: OutlineInputBorder(
+                                                                borderRadius: BorderRadius.all(Radius.circular(90.0)),
+                                                                borderSide: BorderSide.none
+                                                              ),
+                                                              focusedBorder: UnderlineInputBorder(
+                                                                borderRadius: BorderRadius.all(Radius.circular(90.0)),
+                                                                borderSide: BorderSide.none
+                                                              ),
+                                                              hintText: "Titre",
+                                                              prefixIcon: Icon(
+                                                                Icons.edit,
+                                                                color: Colors.teal
+                                                              ),
+                                                            ),
+                                                          )
+                                                        ),
+                                                        Container(
+                                                          height: MediaQuery.of(context).size.height*0.08,
+                                                          margin: EdgeInsets.symmetric(
+                                                            horizontal: MediaQuery.of(context).size.width*0.06,
+                                                            vertical: MediaQuery.of(context).size.height*0.0113
+                                                          ),
+                                                          child:TextField(
+                                                            style: TextStyle(fontSize: 13, color: Colors.grey[800]),
+                                                            decoration: InputDecoration(
+                                                              filled: true,
+                                                              fillColor: Colors.teal[50],
+                                                              border: OutlineInputBorder(
+                                                                borderRadius: BorderRadius.all(Radius.circular(90.0)),
+                                                                borderSide: BorderSide.none
+                                                              ),
+                                                              focusedBorder: UnderlineInputBorder(
+                                                                borderRadius: BorderRadius.all(Radius.circular(90.0)),
+                                                                borderSide: BorderSide.none
+                                                              ),
+                                                              hintText: "Module",
+                                                              prefixIcon: Icon(
+                                                                Icons.edit,
+                                                                color: Colors.teal
+                                                              ),
+                                                            ),
+                                                          )
+                                                        ),
+                                                        Container(
+                                                          margin: EdgeInsets.symmetric(
+                                                            horizontal:MediaQuery.of(context).size.width*0.06,
+                                                            vertical:MediaQuery.of(context).size.height*0.03
+                                                          ),
+                                                          child: RoundedLoadingButton(
+                                                            color: Colors.teal[400],
+                                                            successColor: Colors.teal,
+                                                            controller: _btnController,
+                                                            onPressed: () {_doSomething(_btnController);} ,
+                                                            valueColor: Colors.white,
+                                                            borderRadius: 90,
+                                                            child: Text("ENREGISTRER", style: TextStyle(color: Colors.white)),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    )
+                                                  );
+                                                },
+                                                child: Text(
+                                                  "Modifier",
+                                                  style: TextStyle(color: Colors.black),
+                                                )
+                                              )
                                             ]
                                           ),
                                         ),
@@ -227,7 +327,7 @@ class _HomeScreenState extends State<HomeScreen>{
                                                       content: const Text('Voulez-vous vraiment supprimer cette vidéo ?'),
                                                       actions: [
                                                         TextButton(
-                                                          onPressed: () => Navigator.pop(context, 'Cancel'),
+                                                          onPressed: () => Navigator.pop(context, 'Annuler'),
                                                           child: const Text('Annuler'),
                                                         ),
                                                         TextButton(
