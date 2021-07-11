@@ -18,7 +18,6 @@ class _HomeScreenState extends State<HomeScreen>{
   void _doSomething(RoundedLoadingButtonController controller) async {
     Timer(Duration(seconds: 2), () {
       controller.success();
-      Navigator.pop(context);
     });
   }
 
@@ -130,10 +129,131 @@ class _HomeScreenState extends State<HomeScreen>{
                       ),
                       Divider(),
                       ListTile(
+                        leading: Icon(Icons.lock, color: Colors.teal[400]),
+                        title: Text("Changer mot de passe"),
+                        onTap: () {
+                          Navigator.pop(context);
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) => SimpleDialog(
+                              title : Text(
+                                "Changement de mot de passe", 
+                              ),
+                              children:[
+                                Container(
+                                  height: MediaQuery.of(context).size.height*0.08,
+                                  margin: EdgeInsets.symmetric(
+                                    horizontal: MediaQuery.of(context).size.width*0.06,
+                                    vertical: MediaQuery.of(context).size.height*0.0113
+                                  ),
+                                  child:TextField(
+                                    style: TextStyle(fontSize: 13, color: Colors.grey[800]),
+                                    decoration: InputDecoration(
+                                      filled: true,
+                                      fillColor: Colors.teal[50],
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.all(Radius.circular(90.0)),
+                                        borderSide: BorderSide.none
+                                      ),
+                                      focusedBorder: UnderlineInputBorder(
+                                        borderRadius: BorderRadius.all(Radius.circular(90.0)),
+                                        borderSide: BorderSide.none
+                                      ),
+                                      hintText: "Ancien mot de passe",
+                                      prefixIcon: Icon(
+                                        Icons.lock,
+                                        color: Colors.teal
+                                      ),
+                                    ),
+                                  )
+                                ),
+                                Container(
+                                  height: MediaQuery.of(context).size.height*0.08,
+                                  margin: EdgeInsets.symmetric(
+                                    horizontal: MediaQuery.of(context).size.width*0.06,
+                                    vertical: MediaQuery.of(context).size.height*0.0113
+                                  ),
+                                  child:TextField(
+                                    style: TextStyle(fontSize: 13, color: Colors.grey[800]),
+                                    decoration: InputDecoration(
+                                      filled: true,
+                                      fillColor: Colors.teal[50],
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.all(Radius.circular(90.0)),
+                                        borderSide: BorderSide.none
+                                      ),
+                                      focusedBorder: UnderlineInputBorder(
+                                        borderRadius: BorderRadius.all(Radius.circular(90.0)),
+                                        borderSide: BorderSide.none
+                                      ),
+                                      hintText: "Nouveau mot de passe",
+                                      prefixIcon: Icon(
+                                        Icons.lock,
+                                        color: Colors.teal
+                                      ),
+                                    ),
+                                  )
+                                ),
+                                Container(
+                                  margin: EdgeInsets.symmetric(
+                                    horizontal:MediaQuery.of(context).size.width*0.06,
+                                    vertical:MediaQuery.of(context).size.height*0.03
+                                  ),
+                                  child: RoundedLoadingButton(
+                                    color: Colors.teal[400],
+                                    successColor: Colors.teal,
+                                    controller: _btnController,
+                                    onPressed: () {
+                                      _doSomething(_btnController);
+                                      Navigator.pop(context);
+                                      Get.snackbar(
+                                        "Modification",
+                                        "Votre mot de passe a été modifié.",
+                                        backgroundColor: Colors.grey,
+                                        snackPosition: SnackPosition.BOTTOM,
+                                        borderColor: Colors.grey,
+                                        borderRadius: 10,
+                                        borderWidth: 2,
+                                        barBlur: 0,
+                                        duration: Duration(seconds:2),
+                                      );
+                                    },
+                                    valueColor: Colors.white,
+                                    borderRadius: 90,
+                                    child: Text("ENREGISTRER", style: TextStyle(color: Colors.white)),
+                                  ),
+                                ),
+                              ],
+                            )
+                          );
+                        },
+                      ),
+                      Divider(),
+                      ListTile(
                         leading: Icon(Icons.logout_outlined, color: Colors.teal[400]),
                         title: Text("Deconnexion"),
                         onTap: () {
                           Navigator.pop(context);
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) => AlertDialog(
+                              title: const Text("Deconnexion"),
+                              content: const Text('Voulez-vous vraiment vous déconnecter ?'),
+                              actions: [
+                                TextButton(
+                                  onPressed: () => Navigator.pop(context, 'Annuler'),
+                                  child: const Text('Annuler'),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    _doSomething(_btnController);
+                                    Navigator.pop(context);
+                                  },
+                                  child: Text('OK'),
+                                ),
+                              ],
+                            ),
+                          );
                         },
                       ),
                     ]
@@ -167,16 +287,36 @@ class _HomeScreenState extends State<HomeScreen>{
                   ),
                   child: Column(
                     children: [
-                      Container(
-                        alignment: Alignment.centerLeft,
-                        margin: EdgeInsets.only(
-                          left: MediaQuery.of(context).size.width*0.04,
-                          bottom: MediaQuery.of(context).size.height*0.005,
-                        ),
-                        child: Text(
-                          "Musculation",
-                          style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold, color: Colors.grey[700]),
-                        ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            alignment: Alignment.centerLeft,
+                            margin: EdgeInsets.only(
+                              left: MediaQuery.of(context).size.width*0.04,
+                              bottom: MediaQuery.of(context).size.height*0.005,
+                            ),
+                            child: Text(
+                              "Course",
+                              style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold, color: Colors.grey[700]),
+                            ),
+                          ),
+                          Container(
+                            alignment: Alignment.centerRight,
+                            margin: EdgeInsets.only(
+                              right: MediaQuery.of(context).size.width*0.02,
+                            ),
+                            child: Row(
+                              children: [
+                                TextButton(
+                                  child: Text("Tout voir", style: TextStyle(color: Colors.teal[400])),
+                                  onPressed: () {}
+                                ),
+                                Icon(Icons.chevron_right_outlined, color: Colors.teal[400],)
+                              ]
+                            )
+                          )
+                        ]
                       ),
                       Container(
                         child: SingleChildScrollView(
@@ -294,7 +434,21 @@ class _HomeScreenState extends State<HomeScreen>{
                                                             color: Colors.teal[400],
                                                             successColor: Colors.teal,
                                                             controller: _btnController,
-                                                            onPressed: () {_doSomething(_btnController);} ,
+                                                            onPressed: () {
+                                                              _doSomething(_btnController);
+                                                              Navigator.pop(context);
+                                                              Get.snackbar(
+                                                                "Modification",
+                                                                "La vidéo a été bien modifiée.",
+                                                                backgroundColor: Colors.grey,
+                                                                snackPosition: SnackPosition.BOTTOM,
+                                                                borderColor: Colors.grey,
+                                                                borderRadius: 10,
+                                                                borderWidth: 2,
+                                                                barBlur: 0,
+                                                                duration: Duration(seconds:2),
+                                                              );
+                                                            } ,
                                                             valueColor: Colors.white,
                                                             borderRadius: 90,
                                                             child: Text("ENREGISTRER", style: TextStyle(color: Colors.white)),
@@ -331,8 +485,22 @@ class _HomeScreenState extends State<HomeScreen>{
                                                           child: const Text('Annuler'),
                                                         ),
                                                         TextButton(
-                                                          onPressed: () => Navigator.pop(context, 'OK'),
-                                                          child: const Text('OK'),
+                                                          onPressed: () {
+                                                            _doSomething(_btnController);
+                                                            Navigator.pop(context);
+                                                            Get.snackbar(
+                                                              "Suppression",
+                                                              "La vidéo a été bien supprimée.",
+                                                              backgroundColor: Colors.grey,
+                                                              snackPosition: SnackPosition.BOTTOM,
+                                                              borderColor: Colors.grey,
+                                                              borderRadius: 10,
+                                                              borderWidth: 2,
+                                                              barBlur: 0,
+                                                              duration: Duration(seconds:2),
+                                                            );
+                                                          },
+                                                          child: Text('OK'),
                                                         ),
                                                       ],
                                                     ),
@@ -409,21 +577,121 @@ class _HomeScreenState extends State<HomeScreen>{
                                   )
                                 ]
                               ),
-                              Container(
-                                height: MediaQuery.of(context).size.height*0.23,
-                                width: MediaQuery.of(context).size.width*0.35,
-                                child: Card(
-                                  elevation: 1.5,
-                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-                                ),
+                              Stack(
+                                children:[
+                                  Container(
+                                    height: MediaQuery.of(context).size.height*0.23,
+                                    width: MediaQuery.of(context).size.width*0.33,
+                                    child: Card(
+                                      elevation: 1.5,
+                                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(5),
+                                        child:Image.asset('assets/images/cover.jpg', fit: BoxFit.cover),
+                                      )
+                                    ),
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.symmetric(
+                                      horizontal:MediaQuery.of(context).size.width*0.09,
+                                      vertical:MediaQuery.of(context).size.height*0.07
+                                    ),
+                                    child: Icon(
+                                      Icons.play_arrow_sharp,
+                                      color: Colors.teal[400],
+                                      size: 40,
+                                    )
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.only(
+                                      left: MediaQuery.of(context).size.width*0.20
+                                    ),
+                                    child: PopupMenuButton(
+                                      icon: Icon(Icons.more_vert, color: Colors.white, size: 18),
+                                      itemBuilder: (context) => [
+                                        PopupMenuItem(
+                                          value: 1,
+                                          child: Row(
+                                            children: [
+                                              Icon(Icons.edit),
+                                              Text("Modifier")
+                                            ]
+                                          ),
+                                        ),
+                                        PopupMenuItem(
+                                          value: 2,
+                                          child: Row(
+                                            children: [
+                                              Icon(Icons.delete_outline, color: Colors.red),
+                                              Text(
+                                                "Supprimer",
+                                                style: TextStyle(color: Colors.red),
+                                              )
+                                            ]
+                                          ),
+                                        )
+                                      ]
+                                    )
+                                  )
+                                ]
                               ),
-                              Container(
-                                height: MediaQuery.of(context).size.height*0.23,
-                                width: MediaQuery.of(context).size.width*0.35,
-                                child: Card(
-                                  elevation: 1.5,
-                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-                                ),
+                              Stack(
+                                children:[
+                                  Container(
+                                    height: MediaQuery.of(context).size.height*0.23,
+                                    width: MediaQuery.of(context).size.width*0.33,
+                                    child: Card(
+                                      elevation: 1.5,
+                                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(5),
+                                        child:Image.asset('assets/images/cover.jpg', fit: BoxFit.cover),
+                                      )
+                                    ),
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.symmetric(
+                                      horizontal:MediaQuery.of(context).size.width*0.09,
+                                      vertical:MediaQuery.of(context).size.height*0.07
+                                    ),
+                                    child: Icon(
+                                      Icons.play_arrow_sharp,
+                                      color: Colors.teal[400],
+                                      size: 40,
+                                    )
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.only(
+                                      left: MediaQuery.of(context).size.width*0.20
+                                    ),
+                                    child: PopupMenuButton(
+                                      icon: Icon(Icons.more_vert, color: Colors.white, size: 18),
+                                      itemBuilder: (context) => [
+                                        PopupMenuItem(
+                                          value: 1,
+                                          child: Row(
+                                            children: [
+                                              Icon(Icons.edit),
+                                              Text("Modifier")
+                                            ]
+                                          ),
+                                        ),
+                                        PopupMenuItem(
+                                          value: 2,
+                                          child: Row(
+                                            children: [
+                                              Icon(Icons.delete_outline, color: Colors.red),
+                                              Text(
+                                                "Supprimer",
+                                                style: TextStyle(color: Colors.red),
+                                              )
+                                            ]
+                                          ),
+                                        )
+                                      ]
+                                    )
+                                  )
+                                ]
                               ),
                             ],
                           )
@@ -440,53 +708,273 @@ class _HomeScreenState extends State<HomeScreen>{
                   ),
                   child: Column(
                     children: [
-                      Container(
-                        alignment: Alignment.centerLeft,
-                        margin: EdgeInsets.only(
-                          left: MediaQuery.of(context).size.width*0.04,
-                          bottom: MediaQuery.of(context).size.height*0.005,
-                        ),
-                        child: Text(
-                          "Abdomino",
-                          style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold, color: Colors.grey[700]),
-                        ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            alignment: Alignment.centerLeft,
+                            margin: EdgeInsets.only(
+                              left: MediaQuery.of(context).size.width*0.04,
+                              bottom: MediaQuery.of(context).size.height*0.005,
+                            ),
+                            child: Text(
+                              "Pompe",
+                              style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold, color: Colors.grey[700]),
+                            ),
+                          ),
+                          Container(
+                            alignment: Alignment.centerRight,
+                            margin: EdgeInsets.only(
+                              right: MediaQuery.of(context).size.width*0.02,
+                            ),
+                            child: Row(
+                              children: [
+                                TextButton(
+                                  child: Text("Tout voir", style: TextStyle(color: Colors.teal[400])),
+                                  onPressed: () {}
+                                ),
+                                Icon(Icons.chevron_right_outlined, color: Colors.teal[400],)
+                              ]
+                            )
+                          )
+                        ]
                       ),
                       Container(
                         child: SingleChildScrollView(
                           scrollDirection: Axis.horizontal,
                           child: Row(
                             children: [
-                              Container(
-                                height: MediaQuery.of(context).size.height*0.23,
-                                width: MediaQuery.of(context).size.width*0.35,
-                                child: Card(
-                                  elevation: 1.5,
-                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-                                ),
+                              Stack(
+                                children:[
+                                  Container(
+                                    height: MediaQuery.of(context).size.height*0.23,
+                                    width: MediaQuery.of(context).size.width*0.33,
+                                    child: Card(
+                                      elevation: 1.5,
+                                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(5),
+                                        child:Image.asset('assets/images/cover.jpg', fit: BoxFit.cover),
+                                      )
+                                    ),
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.symmetric(
+                                      horizontal:MediaQuery.of(context).size.width*0.09,
+                                      vertical:MediaQuery.of(context).size.height*0.07
+                                    ),
+                                    child: Icon(
+                                      Icons.play_arrow_sharp,
+                                      color: Colors.teal[400],
+                                      size: 40,
+                                    )
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.only(
+                                      left: MediaQuery.of(context).size.width*0.20
+                                    ),
+                                    child: PopupMenuButton(
+                                      icon: Icon(Icons.more_vert, color: Colors.white, size: 18),
+                                      itemBuilder: (context) => [
+                                        PopupMenuItem(
+                                          value: 1,
+                                          child: Row(
+                                            children: [
+                                              Icon(Icons.edit),
+                                              Text("Modifier")
+                                            ]
+                                          ),
+                                        ),
+                                        PopupMenuItem(
+                                          value: 2,
+                                          child: Row(
+                                            children: [
+                                              Icon(Icons.delete_outline, color: Colors.red),
+                                              Text(
+                                                "Supprimer",
+                                                style: TextStyle(color: Colors.red),
+                                              )
+                                            ]
+                                          ),
+                                        )
+                                      ]
+                                    )
+                                  )
+                                ]
                               ),
-                              Container(
-                                height: MediaQuery.of(context).size.height*0.23,
-                                width: MediaQuery.of(context).size.width*0.35,
-                                child: Card(
-                                  elevation: 1.5,
-                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-                                ),
+                              Stack(
+                                children:[
+                                  Container(
+                                    height: MediaQuery.of(context).size.height*0.23,
+                                    width: MediaQuery.of(context).size.width*0.33,
+                                    child: Card(
+                                      elevation: 1.5,
+                                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(5),
+                                        child:Image.asset('assets/images/cover.jpg', fit: BoxFit.cover),
+                                      )
+                                    ),
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.symmetric(
+                                      horizontal:MediaQuery.of(context).size.width*0.09,
+                                      vertical:MediaQuery.of(context).size.height*0.07
+                                    ),
+                                    child: Icon(
+                                      Icons.play_arrow_sharp,
+                                      color: Colors.teal[400],
+                                      size: 40,
+                                    )
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.only(
+                                      left: MediaQuery.of(context).size.width*0.20
+                                    ),
+                                    child: PopupMenuButton(
+                                      icon: Icon(Icons.more_vert, color: Colors.white, size: 18),
+                                      itemBuilder: (context) => [
+                                        PopupMenuItem(
+                                          value: 1,
+                                          child: Row(
+                                            children: [
+                                              Icon(Icons.edit),
+                                              Text("Modifier")
+                                            ]
+                                          ),
+                                        ),
+                                        PopupMenuItem(
+                                          value: 2,
+                                          child: Row(
+                                            children: [
+                                              Icon(Icons.delete_outline, color: Colors.red),
+                                              Text(
+                                                "Supprimer",
+                                                style: TextStyle(color: Colors.red),
+                                              )
+                                            ]
+                                          ),
+                                        )
+                                      ]
+                                    )
+                                  )
+                                ]
                               ),
-                              Container(
-                                height: MediaQuery.of(context).size.height*0.23,
-                                width: MediaQuery.of(context).size.width*0.35,
-                                child: Card(
-                                  elevation: 1.5,
-                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-                                ),
+                              Stack(
+                                children:[
+                                  Container(
+                                    height: MediaQuery.of(context).size.height*0.23,
+                                    width: MediaQuery.of(context).size.width*0.33,
+                                    child: Card(
+                                      elevation: 1.5,
+                                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(5),
+                                        child:Image.asset('assets/images/cover.jpg', fit: BoxFit.cover),
+                                      )
+                                    ),
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.symmetric(
+                                      horizontal:MediaQuery.of(context).size.width*0.09,
+                                      vertical:MediaQuery.of(context).size.height*0.07
+                                    ),
+                                    child: Icon(
+                                      Icons.play_arrow_sharp,
+                                      color: Colors.teal[400],
+                                      size: 40,
+                                    )
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.only(
+                                      left: MediaQuery.of(context).size.width*0.20
+                                    ),
+                                    child: PopupMenuButton(
+                                      icon: Icon(Icons.more_vert, color: Colors.white, size: 18),
+                                      itemBuilder: (context) => [
+                                        PopupMenuItem(
+                                          value: 1,
+                                          child: Row(
+                                            children: [
+                                              Icon(Icons.edit),
+                                              Text("Modifier")
+                                            ]
+                                          ),
+                                        ),
+                                        PopupMenuItem(
+                                          value: 2,
+                                          child: Row(
+                                            children: [
+                                              Icon(Icons.delete_outline, color: Colors.red),
+                                              Text(
+                                                "Supprimer",
+                                                style: TextStyle(color: Colors.red),
+                                              )
+                                            ]
+                                          ),
+                                        )
+                                      ]
+                                    )
+                                  )
+                                ]
                               ),
-                              Container(
-                                height: MediaQuery.of(context).size.height*0.23,
-                                width: MediaQuery.of(context).size.width*0.35,
-                                child: Card(
-                                  elevation: 1.5,
-                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-                                ),
+                              Stack(
+                                children:[
+                                  Container(
+                                    height: MediaQuery.of(context).size.height*0.23,
+                                    width: MediaQuery.of(context).size.width*0.33,
+                                    child: Card(
+                                      elevation: 1.5,
+                                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(5),
+                                        child:Image.asset('assets/images/cover.jpg', fit: BoxFit.cover),
+                                      )
+                                    ),
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.symmetric(
+                                      horizontal:MediaQuery.of(context).size.width*0.09,
+                                      vertical:MediaQuery.of(context).size.height*0.07
+                                    ),
+                                    child: Icon(
+                                      Icons.play_arrow_sharp,
+                                      color: Colors.teal[400],
+                                      size: 40,
+                                    )
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.only(
+                                      left: MediaQuery.of(context).size.width*0.20
+                                    ),
+                                    child: PopupMenuButton(
+                                      icon: Icon(Icons.more_vert, color: Colors.white, size: 18),
+                                      itemBuilder: (context) => [
+                                        PopupMenuItem(
+                                          value: 1,
+                                          child: Row(
+                                            children: [
+                                              Icon(Icons.edit),
+                                              Text("Modifier")
+                                            ]
+                                          ),
+                                        ),
+                                        PopupMenuItem(
+                                          value: 2,
+                                          child: Row(
+                                            children: [
+                                              Icon(Icons.delete_outline, color: Colors.red),
+                                              Text(
+                                                "Supprimer",
+                                                style: TextStyle(color: Colors.red),
+                                              )
+                                            ]
+                                          ),
+                                        )
+                                      ]
+                                    )
+                                  )
+                                ]
                               ),
                             ],
                           )
@@ -503,53 +991,273 @@ class _HomeScreenState extends State<HomeScreen>{
                   ),
                   child: Column(
                     children: [
-                      Container(
-                        alignment: Alignment.centerLeft,
-                        margin: EdgeInsets.only(
-                          left: MediaQuery.of(context).size.width*0.04,
-                          bottom: MediaQuery.of(context).size.height*0.005,
-                        ),
-                        child: Text(
-                          "Traction",
-                          style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold, color: Colors.grey[700]),
-                        ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            alignment: Alignment.centerLeft,
+                            margin: EdgeInsets.only(
+                              left: MediaQuery.of(context).size.width*0.04,
+                              bottom: MediaQuery.of(context).size.height*0.005,
+                            ),
+                            child: Text(
+                              "Traction",
+                              style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold, color: Colors.grey[700]),
+                            ),
+                          ),
+                          Container(
+                            alignment: Alignment.centerRight,
+                            margin: EdgeInsets.only(
+                              right: MediaQuery.of(context).size.width*0.02,
+                            ),
+                            child: Row(
+                              children: [
+                                TextButton(
+                                  child: Text("Tout voir", style: TextStyle(color: Colors.teal[400])),
+                                  onPressed: () {}
+                                ),
+                                Icon(Icons.chevron_right_outlined, color: Colors.teal[400],)
+                              ]
+                            )
+                          )
+                        ]
                       ),
                       Container(
                         child: SingleChildScrollView(
                           scrollDirection: Axis.horizontal,
                           child: Row(
                             children: [
-                              Container(
-                                height: MediaQuery.of(context).size.height*0.23,
-                                width: MediaQuery.of(context).size.width*0.35,
-                                child: Card(
-                                  elevation: 1.5,
-                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-                                ),
+                              Stack(
+                                children:[
+                                  Container(
+                                    height: MediaQuery.of(context).size.height*0.23,
+                                    width: MediaQuery.of(context).size.width*0.33,
+                                    child: Card(
+                                      elevation: 1.5,
+                                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(5),
+                                        child:Image.asset('assets/images/cover.jpg', fit: BoxFit.cover),
+                                      )
+                                    ),
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.symmetric(
+                                      horizontal:MediaQuery.of(context).size.width*0.09,
+                                      vertical:MediaQuery.of(context).size.height*0.07
+                                    ),
+                                    child: Icon(
+                                      Icons.play_arrow_sharp,
+                                      color: Colors.teal[400],
+                                      size: 40,
+                                    )
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.only(
+                                      left: MediaQuery.of(context).size.width*0.20
+                                    ),
+                                    child: PopupMenuButton(
+                                      icon: Icon(Icons.more_vert, color: Colors.white, size: 18),
+                                      itemBuilder: (context) => [
+                                        PopupMenuItem(
+                                          value: 1,
+                                          child: Row(
+                                            children: [
+                                              Icon(Icons.edit),
+                                              Text("Modifier")
+                                            ]
+                                          ),
+                                        ),
+                                        PopupMenuItem(
+                                          value: 2,
+                                          child: Row(
+                                            children: [
+                                              Icon(Icons.delete_outline, color: Colors.red),
+                                              Text(
+                                                "Supprimer",
+                                                style: TextStyle(color: Colors.red),
+                                              )
+                                            ]
+                                          ),
+                                        )
+                                      ]
+                                    )
+                                  )
+                                ]
                               ),
-                              Container(
-                                height: MediaQuery.of(context).size.height*0.23,
-                                width: MediaQuery.of(context).size.width*0.35,
-                                child: Card(
-                                  elevation: 1.5,
-                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-                                ),
+                              Stack(
+                                children:[
+                                  Container(
+                                    height: MediaQuery.of(context).size.height*0.23,
+                                    width: MediaQuery.of(context).size.width*0.33,
+                                    child: Card(
+                                      elevation: 1.5,
+                                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(5),
+                                        child:Image.asset('assets/images/cover.jpg', fit: BoxFit.cover),
+                                      )
+                                    ),
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.symmetric(
+                                      horizontal:MediaQuery.of(context).size.width*0.09,
+                                      vertical:MediaQuery.of(context).size.height*0.07
+                                    ),
+                                    child: Icon(
+                                      Icons.play_arrow_sharp,
+                                      color: Colors.teal[400],
+                                      size: 40,
+                                    )
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.only(
+                                      left: MediaQuery.of(context).size.width*0.20
+                                    ),
+                                    child: PopupMenuButton(
+                                      icon: Icon(Icons.more_vert, color: Colors.white, size: 18),
+                                      itemBuilder: (context) => [
+                                        PopupMenuItem(
+                                          value: 1,
+                                          child: Row(
+                                            children: [
+                                              Icon(Icons.edit),
+                                              Text("Modifier")
+                                            ]
+                                          ),
+                                        ),
+                                        PopupMenuItem(
+                                          value: 2,
+                                          child: Row(
+                                            children: [
+                                              Icon(Icons.delete_outline, color: Colors.red),
+                                              Text(
+                                                "Supprimer",
+                                                style: TextStyle(color: Colors.red),
+                                              )
+                                            ]
+                                          ),
+                                        )
+                                      ]
+                                    )
+                                  )
+                                ]
                               ),
-                              Container(
-                                height: MediaQuery.of(context).size.height*0.23,
-                                width: MediaQuery.of(context).size.width*0.35,
-                                child: Card(
-                                  elevation: 1.5,
-                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-                                ),
+                              Stack(
+                                children:[
+                                  Container(
+                                    height: MediaQuery.of(context).size.height*0.23,
+                                    width: MediaQuery.of(context).size.width*0.33,
+                                    child: Card(
+                                      elevation: 1.5,
+                                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(5),
+                                        child:Image.asset('assets/images/cover.jpg', fit: BoxFit.cover),
+                                      )
+                                    ),
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.symmetric(
+                                      horizontal:MediaQuery.of(context).size.width*0.09,
+                                      vertical:MediaQuery.of(context).size.height*0.07
+                                    ),
+                                    child: Icon(
+                                      Icons.play_arrow_sharp,
+                                      color: Colors.teal[400],
+                                      size: 40,
+                                    )
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.only(
+                                      left: MediaQuery.of(context).size.width*0.20
+                                    ),
+                                    child: PopupMenuButton(
+                                      icon: Icon(Icons.more_vert, color: Colors.white, size: 18),
+                                      itemBuilder: (context) => [
+                                        PopupMenuItem(
+                                          value: 1,
+                                          child: Row(
+                                            children: [
+                                              Icon(Icons.edit),
+                                              Text("Modifier")
+                                            ]
+                                          ),
+                                        ),
+                                        PopupMenuItem(
+                                          value: 2,
+                                          child: Row(
+                                            children: [
+                                              Icon(Icons.delete_outline, color: Colors.red),
+                                              Text(
+                                                "Supprimer",
+                                                style: TextStyle(color: Colors.red),
+                                              )
+                                            ]
+                                          ),
+                                        )
+                                      ]
+                                    )
+                                  )
+                                ]
                               ),
-                              Container(
-                                height: MediaQuery.of(context).size.height*0.23,
-                                width: MediaQuery.of(context).size.width*0.35,
-                                child: Card(
-                                  elevation: 1.5,
-                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-                                ),
+                              Stack(
+                                children:[
+                                  Container(
+                                    height: MediaQuery.of(context).size.height*0.23,
+                                    width: MediaQuery.of(context).size.width*0.33,
+                                    child: Card(
+                                      elevation: 1.5,
+                                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(5),
+                                        child:Image.asset('assets/images/cover.jpg', fit: BoxFit.cover),
+                                      )
+                                    ),
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.symmetric(
+                                      horizontal:MediaQuery.of(context).size.width*0.09,
+                                      vertical:MediaQuery.of(context).size.height*0.07
+                                    ),
+                                    child: Icon(
+                                      Icons.play_arrow_sharp,
+                                      color: Colors.teal[400],
+                                      size: 40,
+                                    )
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.only(
+                                      left: MediaQuery.of(context).size.width*0.20
+                                    ),
+                                    child: PopupMenuButton(
+                                      icon: Icon(Icons.more_vert, color: Colors.white, size: 18),
+                                      itemBuilder: (context) => [
+                                        PopupMenuItem(
+                                          value: 1,
+                                          child: Row(
+                                            children: [
+                                              Icon(Icons.edit),
+                                              Text("Modifier")
+                                            ]
+                                          ),
+                                        ),
+                                        PopupMenuItem(
+                                          value: 2,
+                                          child: Row(
+                                            children: [
+                                              Icon(Icons.delete_outline, color: Colors.red),
+                                              Text(
+                                                "Supprimer",
+                                                style: TextStyle(color: Colors.red),
+                                              )
+                                            ]
+                                          ),
+                                        )
+                                      ]
+                                    )
+                                  )
+                                ]
                               ),
                             ],
                           )
@@ -563,6 +1271,12 @@ class _HomeScreenState extends State<HomeScreen>{
           ]
         ),
 			),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: const Icon(Icons.add),
+        backgroundColor: Colors.teal,
+        elevation: 10,
+      ),
       bottomNavigationBar: BottomBarWithSheet(
         disableMainActionButton : true,
         selectedIndex: 0,
@@ -576,10 +1290,10 @@ class _HomeScreenState extends State<HomeScreen>{
         ),
         onSelectItem: (index) => print('item $index was pressed'),
         items: [
-          BottomBarWithSheetItem(icon: Icons.people, label: "Tous"),
-          BottomBarWithSheetItem(icon: Icons.shopping_cart, label: "Muscu"),
-          BottomBarWithSheetItem(icon: Icons.settings, label: "Abdomino"),
-          BottomBarWithSheetItem(icon: Icons.favorite, label: "Traction"),
+          BottomBarWithSheetItem(icon: Icons.video_library_outlined, label: "Tous"),
+          BottomBarWithSheetItem(icon: Icons.sports_outlined, label: "Course"),
+          BottomBarWithSheetItem(icon: Icons.settings, label: "Pompe"),
+          BottomBarWithSheetItem(icon: Icons.favorite_outlined, label: "Traction"),
         ],
       ),
 		);
