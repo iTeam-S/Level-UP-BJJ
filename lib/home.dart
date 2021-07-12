@@ -260,11 +260,8 @@ class _HomeScreenState extends State<HomeScreen>{
                   ),
                   Container(
                     alignment: Alignment.center,
-                    margin: EdgeInsets.only(
-                      // top: MediaQuery.of(context).size.height*0.5,
-                    ),
                     child: Text(
-                      'BJJ-Library 0.0.1',
+                      'BJJ-Library 0.0.4',
                       style: TextStyle(fontSize: 12),
                     ),
                   )
@@ -327,10 +324,10 @@ class _HomeScreenState extends State<HomeScreen>{
                                 alignment: Alignment.center,
                                 children:[
                                   Container(
-                                    height: MediaQuery.of(context).size.height*0.22,
-                                    width: MediaQuery.of(context).size.width*0.37,
+                                    height:MediaQuery.of(context).size.height*0.17,
+                                    width: MediaQuery.of(context).size.width*0.32,
                                     child: Card(
-                                      elevation: 1.5,
+                                      elevation: 1,
                                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
                                       child: ClipRRect(
                                         borderRadius: BorderRadius.circular(5),
@@ -351,8 +348,8 @@ class _HomeScreenState extends State<HomeScreen>{
                                   ),
                                   Container(
                                     margin: EdgeInsets.only(
-                                      top:MediaQuery.of(context).size.height*0.15,
-                                      left:MediaQuery.of(context).size.width*0.23,
+                                      top:MediaQuery.of(context).size.height*0.13,
+                                      left:MediaQuery.of(context).size.width*0.18,
                                     ),
                                     child: PopupMenuButton(
                                       color: Colors.white,
@@ -524,10 +521,10 @@ class _HomeScreenState extends State<HomeScreen>{
                                 alignment: Alignment.center,
                                 children:[
                                   Container(
-                                    height: MediaQuery.of(context).size.height*0.22,
-                                    width: MediaQuery.of(context).size.width*0.37,
+                                    height:MediaQuery.of(context).size.height*0.17,
+                                    width: MediaQuery.of(context).size.width*0.32,
                                     child: Card(
-                                      elevation: 1.5,
+                                      elevation: 1,
                                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
                                       child: ClipRRect(
                                         borderRadius: BorderRadius.circular(5),
@@ -537,8 +534,8 @@ class _HomeScreenState extends State<HomeScreen>{
                                   ),
                                   Container(
                                     margin: EdgeInsets.only(
-                                      top:MediaQuery.of(context).size.height*0.15,
-                                      left:MediaQuery.of(context).size.width*0.23,
+                                      top:MediaQuery.of(context).size.height*0.13,
+                                      left:MediaQuery.of(context).size.width*0.18,
                                     ),
                                     child: PopupMenuButton(
                                       icon: Icon(Icons.more_horiz, color: Colors.white, size: 18),
@@ -580,10 +577,10 @@ class _HomeScreenState extends State<HomeScreen>{
                                 alignment: Alignment.center,
                                 children:[
                                   Container(
-                                    height: MediaQuery.of(context).size.height*0.22,
-                                    width: MediaQuery.of(context).size.width*0.37,
+                                    height:MediaQuery.of(context).size.height*0.17,
+                                    width: MediaQuery.of(context).size.width*0.32,
                                     child: Card(
-                                      elevation: 1.5,
+                                      elevation: 1,
                                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
                                       child: ClipRRect(
                                         borderRadius: BorderRadius.circular(5),
@@ -593,8 +590,8 @@ class _HomeScreenState extends State<HomeScreen>{
                                   ),
                                   Container(
                                     margin: EdgeInsets.only(
-                                      top:MediaQuery.of(context).size.height*0.15,
-                                      left:MediaQuery.of(context).size.width*0.23,
+                                      top:MediaQuery.of(context).size.height*0.13,
+                                      left:MediaQuery.of(context).size.width*0.18,
                                     ),
                                     child: PopupMenuButton(
                                       icon: Icon(Icons.more_horiz, color: Colors.white, size: 18),
@@ -636,10 +633,10 @@ class _HomeScreenState extends State<HomeScreen>{
                                 alignment: Alignment.center,
                                 children:[
                                   Container(
-                                    height: MediaQuery.of(context).size.height*0.22,
-                                    width: MediaQuery.of(context).size.width*0.37,
+                                    height:MediaQuery.of(context).size.height*0.17,
+                                    width: MediaQuery.of(context).size.width*0.32,
                                     child: Card(
-                                      elevation: 1.5,
+                                      elevation: 1,
                                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
                                       child: ClipRRect(
                                         borderRadius: BorderRadius.circular(5),
@@ -649,8 +646,8 @@ class _HomeScreenState extends State<HomeScreen>{
                                   ),
                                   Container(
                                     margin: EdgeInsets.only(
-                                      top:MediaQuery.of(context).size.height*0.15,
-                                      left:MediaQuery.of(context).size.width*0.23,
+                                      top:MediaQuery.of(context).size.height*0.13,
+                                      left:MediaQuery.of(context).size.width*0.18,
                                     ),
                                     child: PopupMenuButton(
                                       icon: Icon(Icons.more_horiz, color: Colors.white, size: 18),
@@ -744,10 +741,10 @@ class _HomeScreenState extends State<HomeScreen>{
                                 alignment: Alignment.center,
                                 children:[
                                   Container(
-                                    height: MediaQuery.of(context).size.height*0.22,
-                                    width: MediaQuery.of(context).size.width*0.37,
+                                    height:MediaQuery.of(context).size.height*0.17,
+                                    width: MediaQuery.of(context).size.width*0.32,
                                     child: Card(
-                                      elevation: 1.5,
+                                      elevation: 1,
                                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
                                       child: ClipRRect(
                                         borderRadius: BorderRadius.circular(5),
@@ -757,8 +754,8 @@ class _HomeScreenState extends State<HomeScreen>{
                                   ),
                                   Container(
                                     margin: EdgeInsets.only(
-                                      top:MediaQuery.of(context).size.height*0.15,
-                                      left:MediaQuery.of(context).size.width*0.23,
+                                      top:MediaQuery.of(context).size.height*0.13,
+                                      left:MediaQuery.of(context).size.width*0.18,
                                     ),
                                     child: PopupMenuButton(
                                       icon: Icon(Icons.more_horiz, color: Colors.white, size: 18),
@@ -800,10 +797,10 @@ class _HomeScreenState extends State<HomeScreen>{
                                 alignment: Alignment.center,
                                 children:[
                                   Container(
-                                    height: MediaQuery.of(context).size.height*0.22,
-                                    width: MediaQuery.of(context).size.width*0.37,
+                                    height:MediaQuery.of(context).size.height*0.17,
+                                    width: MediaQuery.of(context).size.width*0.32,
                                     child: Card(
-                                      elevation: 1.5,
+                                      elevation: 1,
                                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
                                       child: ClipRRect(
                                         borderRadius: BorderRadius.circular(5),
@@ -813,8 +810,8 @@ class _HomeScreenState extends State<HomeScreen>{
                                   ),
                                   Container(
                                     margin: EdgeInsets.only(
-                                      top:MediaQuery.of(context).size.height*0.15,
-                                      left:MediaQuery.of(context).size.width*0.23,
+                                      top:MediaQuery.of(context).size.height*0.13,
+                                      left:MediaQuery.of(context).size.width*0.18,
                                     ),
                                     child: PopupMenuButton(
                                       icon: Icon(Icons.more_horiz, color: Colors.white, size: 18),
@@ -856,10 +853,10 @@ class _HomeScreenState extends State<HomeScreen>{
                                 alignment: Alignment.center,
                                 children:[
                                   Container(
-                                    height: MediaQuery.of(context).size.height*0.22,
-                                    width: MediaQuery.of(context).size.width*0.37,
+                                    height:MediaQuery.of(context).size.height*0.17,
+                                    width: MediaQuery.of(context).size.width*0.32,
                                     child: Card(
-                                      elevation: 1.5,
+                                      elevation: 1,
                                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
                                       child: ClipRRect(
                                         borderRadius: BorderRadius.circular(5),
@@ -869,8 +866,8 @@ class _HomeScreenState extends State<HomeScreen>{
                                   ),
                                   Container(
                                     margin: EdgeInsets.only(
-                                      top:MediaQuery.of(context).size.height*0.15,
-                                      left:MediaQuery.of(context).size.width*0.23,
+                                      top:MediaQuery.of(context).size.height*0.13,
+                                      left:MediaQuery.of(context).size.width*0.18,
                                     ),
                                     child: PopupMenuButton(
                                       icon: Icon(Icons.more_horiz, color: Colors.white, size: 18),
@@ -912,10 +909,10 @@ class _HomeScreenState extends State<HomeScreen>{
                                 alignment: Alignment.center,
                                 children:[
                                   Container(
-                                    height: MediaQuery.of(context).size.height*0.22,
-                                    width: MediaQuery.of(context).size.width*0.37,
+                                    height:MediaQuery.of(context).size.height*0.17,
+                                    width: MediaQuery.of(context).size.width*0.32,
                                     child: Card(
-                                      elevation: 1.5,
+                                      elevation: 1,
                                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
                                       child: ClipRRect(
                                         borderRadius: BorderRadius.circular(5),
@@ -925,8 +922,8 @@ class _HomeScreenState extends State<HomeScreen>{
                                   ),
                                   Container(
                                     margin: EdgeInsets.only(
-                                      top:MediaQuery.of(context).size.height*0.15,
-                                      left:MediaQuery.of(context).size.width*0.23,
+                                      top:MediaQuery.of(context).size.height*0.13,
+                                      left:MediaQuery.of(context).size.width*0.18,
                                     ),
                                     child: PopupMenuButton(
                                       icon: Icon(Icons.more_horiz, color: Colors.white, size: 18),
@@ -1020,10 +1017,10 @@ class _HomeScreenState extends State<HomeScreen>{
                                 alignment: Alignment.center,
                                 children:[
                                   Container(
-                                    height: MediaQuery.of(context).size.height*0.22,
-                                    width: MediaQuery.of(context).size.width*0.37,
+                                    height:MediaQuery.of(context).size.height*0.17,
+                                    width: MediaQuery.of(context).size.width*0.32,
                                     child: Card(
-                                      elevation: 1.5,
+                                      elevation: 1,
                                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
                                       child: ClipRRect(
                                         borderRadius: BorderRadius.circular(5),
@@ -1033,8 +1030,8 @@ class _HomeScreenState extends State<HomeScreen>{
                                   ),
                                   Container(
                                     margin: EdgeInsets.only(
-                                      top:MediaQuery.of(context).size.height*0.15,
-                                      left:MediaQuery.of(context).size.width*0.23,
+                                      top:MediaQuery.of(context).size.height*0.13,
+                                      left:MediaQuery.of(context).size.width*0.18,
                                     ),
                                     child: PopupMenuButton(
                                       icon: Icon(Icons.more_horiz, color: Colors.white, size: 18),
@@ -1076,10 +1073,10 @@ class _HomeScreenState extends State<HomeScreen>{
                                 alignment: Alignment.center,
                                 children:[
                                   Container(
-                                    height: MediaQuery.of(context).size.height*0.22,
-                                    width: MediaQuery.of(context).size.width*0.37,
+                                    height:MediaQuery.of(context).size.height*0.17,
+                                    width: MediaQuery.of(context).size.width*0.32,
                                     child: Card(
-                                      elevation: 1.5,
+                                      elevation: 1,
                                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
                                       child: ClipRRect(
                                         borderRadius: BorderRadius.circular(5),
@@ -1089,8 +1086,8 @@ class _HomeScreenState extends State<HomeScreen>{
                                   ),
                                   Container(
                                     margin: EdgeInsets.only(
-                                      top:MediaQuery.of(context).size.height*0.15,
-                                      left:MediaQuery.of(context).size.width*0.23,
+                                      top:MediaQuery.of(context).size.height*0.13,
+                                      left:MediaQuery.of(context).size.width*0.18,
                                     ),
                                     child: PopupMenuButton(
                                       icon: Icon(Icons.more_horiz, color: Colors.white, size: 18),
@@ -1132,10 +1129,10 @@ class _HomeScreenState extends State<HomeScreen>{
                                 alignment: Alignment.center,
                                 children:[
                                   Container(
-                                    height: MediaQuery.of(context).size.height*0.22,
-                                    width: MediaQuery.of(context).size.width*0.37,
+                                    height:MediaQuery.of(context).size.height*0.17,
+                                    width: MediaQuery.of(context).size.width*0.32,
                                     child: Card(
-                                      elevation: 1.5,
+                                      elevation: 1,
                                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
                                       child: ClipRRect(
                                         borderRadius: BorderRadius.circular(5),
@@ -1145,8 +1142,8 @@ class _HomeScreenState extends State<HomeScreen>{
                                   ),
                                   Container(
                                     margin: EdgeInsets.only(
-                                      top:MediaQuery.of(context).size.height*0.15,
-                                      left:MediaQuery.of(context).size.width*0.23,
+                                      top:MediaQuery.of(context).size.height*0.13,
+                                      left:MediaQuery.of(context).size.width*0.18,
                                     ),
                                     child: PopupMenuButton(
                                       icon: Icon(Icons.more_horiz, color: Colors.white, size: 18),
@@ -1188,10 +1185,10 @@ class _HomeScreenState extends State<HomeScreen>{
                                 alignment: Alignment.center,
                                 children:[
                                   Container(
-                                    height: MediaQuery.of(context).size.height*0.22,
-                                    width: MediaQuery.of(context).size.width*0.37,
+                                    height:MediaQuery.of(context).size.height*0.17,
+                                    width: MediaQuery.of(context).size.width*0.32,
                                     child: Card(
-                                      elevation: 1.5,
+                                      elevation: 1,
                                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
                                       child: ClipRRect(
                                         borderRadius: BorderRadius.circular(5),
@@ -1201,8 +1198,8 @@ class _HomeScreenState extends State<HomeScreen>{
                                   ),
                                   Container(
                                     margin: EdgeInsets.only(
-                                      top:MediaQuery.of(context).size.height*0.15,
-                                      left:MediaQuery.of(context).size.width*0.23,
+                                      top:MediaQuery.of(context).size.height*0.13,
+                                      left:MediaQuery.of(context).size.width*0.18,
                                     ),
                                     child: PopupMenuButton(
                                       icon: Icon(Icons.more_horiz, color: Colors.white, size: 18),
