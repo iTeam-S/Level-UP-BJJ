@@ -1268,7 +1268,7 @@ class _HomeScreenState extends State<HomeScreen>{
           selectedItemIconColor: Colors.white,
           selectedItemLabelColor: Colors.teal[400]
         ),
-        onSelectItem: (index) => Get.to(ModuleScreen()),
+        onSelectItem: (index) => Get.to(ModuleScreen()) ,
         items: [
           BottomBarWithSheetItem(icon: Icons.video_library_outlined, label: "Tous"),
           BottomBarWithSheetItem(icon: Icons.sports_outlined, label: "Course"),
