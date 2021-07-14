@@ -123,7 +123,7 @@ class _ModuleScreenState extends State<ModuleScreen>{
                       Divider(),
                       ListTile(
                         leading: Icon(Icons.settings, color: Colors.teal[400]),
-                        title: Text("Administrations"),
+                        title: Text("Gestion des modules"),
                         onTap: () {
                           Navigator.pop(context);
                         },

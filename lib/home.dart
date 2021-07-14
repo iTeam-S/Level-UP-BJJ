@@ -124,7 +124,7 @@ class _HomeScreenState extends State<HomeScreen>{
                       Divider(),
                       ListTile(
                         leading: Icon(Icons.settings, color: Colors.teal[400]),
-                        title: Text("Administrations"),
+                        title: Text("Gestion des modules"),
                         onTap: () {
                           Navigator.pop(context);
                         },
@@ -1251,7 +1251,127 @@ class _HomeScreenState extends State<HomeScreen>{
         ),
 			),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) => SimpleDialog(
+              title : Text(
+                "Ajouter une vidéo", 
+              ),
+              children:[
+                Container(
+                  height: MediaQuery.of(context).size.height*0.08,
+                  margin: EdgeInsets.symmetric(
+                    horizontal: MediaQuery.of(context).size.width*0.06,
+                    vertical: MediaQuery.of(context).size.height*0.0113
+                  ),
+                  child:TextField(
+                    style: TextStyle(fontSize: 13, color: Colors.grey[800]),
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Colors.teal[50],
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(90.0)),
+                        borderSide: BorderSide.none
+                      ),
+                      focusedBorder: UnderlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(90.0)),
+                        borderSide: BorderSide.none
+                      ),
+                      hintText: "Titre",
+                      prefixIcon: Icon(
+                        Icons.edit,
+                        color: Colors.teal
+                      ),
+                    ),
+                  )
+                ),
+                Container(
+                  height: MediaQuery.of(context).size.height*0.08,
+                  margin: EdgeInsets.symmetric(
+                    horizontal: MediaQuery.of(context).size.width*0.06,
+                  ),
+                  child:TextField(
+                    style: TextStyle(fontSize: 13, color: Colors.grey[800]),
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Colors.teal[50],
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(90.0)),
+                        borderSide: BorderSide.none
+                      ),
+                      focusedBorder: UnderlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(90.0)),
+                        borderSide: BorderSide.none
+                      ),
+                      hintText: "Module",
+                      prefixIcon: Icon(
+                        Icons.sports_outlined,
+                        color: Colors.teal
+                      ),
+                    ),
+                  )
+                ),
+                Container(
+                  height: MediaQuery.of(context).size.height*0.08,
+                  margin: EdgeInsets.symmetric(
+                    horizontal: MediaQuery.of(context).size.width*0.06,
+                    vertical: MediaQuery.of(context).size.height*0.0115,
+                  ),
+                  child:TextField(
+                    style: TextStyle(fontSize: 13, color: Colors.grey[800]),
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Colors.teal[50],
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(90.0)),
+                        borderSide: BorderSide.none
+                      ),
+                      focusedBorder: UnderlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(90.0)),
+                        borderSide: BorderSide.none
+                      ),
+                      hintText: "Vidéo",
+                      prefixIcon: Icon(
+                        Icons.video_library_outlined,
+                        color: Colors.teal
+                      ),
+                    ),
+                  )
+                ),
+                Container(
+                  margin: EdgeInsets.symmetric(
+                    horizontal:MediaQuery.of(context).size.width*0.06,
+                    vertical:MediaQuery.of(context).size.height*0.01
+                  ),
+                  child: RoundedLoadingButton(
+                    color: Colors.teal[400],
+                    successColor: Colors.teal,
+                    controller: _btnController,
+                    onPressed: () {
+                      _doSomething(_btnController);
+                      Navigator.pop(context);
+                      Get.snackbar(
+                        "Ajout",
+                        "La vidéo a été bien ajoutée.",
+                        backgroundColor: Colors.grey,
+                        snackPosition: SnackPosition.BOTTOM,
+                        borderColor: Colors.grey,
+                        borderRadius: 10,
+                        borderWidth: 2,
+                        barBlur: 0,
+                        duration: Duration(seconds:2),
+                      );
+                    } ,
+                    valueColor: Colors.white,
+                    borderRadius: 90,
+                    child: Text("AJOUTER", style: TextStyle(color: Colors.white)),
+                  ),
+                ),
+              ],
+            )
+          );
+        },
         child: const Icon(Icons.add),
         backgroundColor: Colors.teal,
         elevation: 10,
