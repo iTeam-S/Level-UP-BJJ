@@ -35,6 +35,7 @@ dependencies:
   get: ^4.1.4
   progress_state_button: ^1.0.3
   rounded_loading_button: ^2.0.5
+  file_picker: ^3.0.3
 
 dev_dependencies:
   flutter_test:

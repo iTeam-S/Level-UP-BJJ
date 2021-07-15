@@ -1,7 +1,9 @@
 import 'package:bjj_library/module.dart';
 import 'package:flutter/material.dart';
 import 'package:bottom_bar_with_sheet/bottom_bar_with_sheet.dart';
+import 'package:flutter/services.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:get/get.dart';
 import 'dart:async';
 
@@ -14,13 +16,47 @@ class HomeScreen extends StatefulWidget{
 
 class _HomeScreenState extends State<HomeScreen>{
 
-    final RoundedLoadingButtonController _btnController = RoundedLoadingButtonController();
+  final RoundedLoadingButtonController _btnController = RoundedLoadingButtonController();
 
   void _doSomething(RoundedLoadingButtonController controller) async {
     Timer(Duration(seconds: 2), () {
       controller.success();
     });
   }
+
+  late String fileName;
+  late String path;
+  late Map<String, String> paths;
+  late List<String> extensions;
+  bool isLoadingPath = false;
+  bool isMultiPick = false;
+  late FileType fileType;
+
+  void _openFileExplorer() async {
+    setState(() => isLoadingPath = true);
+    try {
+        FilePickerResult ? result = await FilePicker.platform.pickFiles(
+          type: FileType.custom,
+          allowedExtensions: ['avi', 'mkv', 'mp4'],
+        );
+        if(result != null) {
+          PlatformFile file = result.files.first;
+          
+          print(file.name);
+          print(file.bytes);
+          print(file.size);
+          print(file.extension);
+          print(file.path);
+        } 
+        else {
+          print("Annuler");
+        }
+    }
+    on PlatformException catch (e) {
+      print("Unsupported operation" + e.toString());
+    }
+  }
+
 
 	@override
 	Widget build(BuildContext context){
@@ -1287,57 +1323,36 @@ class _HomeScreenState extends State<HomeScreen>{
                   )
                 ),
                 Container(
-                  height: MediaQuery.of(context).size.height*0.08,
+                  height: MediaQuery.of(context).size.height*0.06,
                   margin: EdgeInsets.symmetric(
-                    horizontal: MediaQuery.of(context).size.width*0.06,
-                  ),
-                  child:TextField(
-                    style: TextStyle(fontSize: 13, color: Colors.grey[800]),
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor: Colors.teal[50],
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(90.0)),
-                        borderSide: BorderSide.none
-                      ),
-                      focusedBorder: UnderlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(90.0)),
-                        borderSide: BorderSide.none
-                      ),
-                      hintText: "Module",
-                      prefixIcon: Icon(
-                        Icons.sports_outlined,
-                        color: Colors.teal
-                      ),
-                    ),
-                  )
-                ),
-                Container(
-                  height: MediaQuery.of(context).size.height*0.08,
-                  margin: EdgeInsets.symmetric(
-                    horizontal: MediaQuery.of(context).size.width*0.06,
+                    horizontal: MediaQuery.of(context).size.width*0.09,
                     vertical: MediaQuery.of(context).size.height*0.0115,
                   ),
-                  child:TextField(
-                    style: TextStyle(fontSize: 13, color: Colors.grey[800]),
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor: Colors.teal[50],
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(90.0)),
-                        borderSide: BorderSide.none
-                      ),
-                      focusedBorder: UnderlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(90.0)),
-                        borderSide: BorderSide.none
-                      ),
-                      hintText: "Vidéo",
-                      prefixIcon: Icon(
-                        Icons.video_library_outlined,
-                        color: Colors.teal
-                      ),
-                    ),
-                  )
+                  child: Row(children: [
+                    DropdownButton(
+                      icon: Icon(Icons.arrow_drop_down_circle),
+                      iconDisabledColor: Colors.teal[400],
+                      iconEnabledColor: Colors.teal[400],
+                      iconSize: 25,
+                      underline: SizedBox(),
+                      hint: Text('Module', style: TextStyle(fontSize: 14)),
+                      items: [
+                        DropdownMenuItem(
+                          child: Text('Course'),
+                          value: 1,
+                        ),
+                        DropdownMenuItem(
+                          child: Text('Pompe'),
+                          value: 2,
+                        ),
+                        DropdownMenuItem(
+                          child: Text('Traction'),
+                          value: 3,
+                        ),
+                      ],  
+                      onChanged: (value) => print(value)            
+                    )
+                  ]),
                 ),
                 Container(
                   margin: EdgeInsets.symmetric(
