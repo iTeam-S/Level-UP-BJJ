@@ -13,7 +13,7 @@ class ModuleScreen extends StatefulWidget{
 
 class _ModuleScreenState extends State<ModuleScreen>{
 
-    final RoundedLoadingButtonController _btnController = RoundedLoadingButtonController();
+  final RoundedLoadingButtonController _btnController = RoundedLoadingButtonController();
 
   void _doSomething(RoundedLoadingButtonController controller) async {
     Timer(Duration(seconds: 2), () {
@@ -21,9 +21,9 @@ class _ModuleScreenState extends State<ModuleScreen>{
     });
   }
 
-	@override
-	Widget build(BuildContext context){
-		return Scaffold(
+  @override
+  Widget build(BuildContext context){
+    return Scaffold(
       appBar: AppBar(
         toolbarHeight: 45,
         backgroundColor: Colors.teal[400],
@@ -1367,6 +1367,6 @@ class _ModuleScreenState extends State<ModuleScreen>{
           BottomBarWithSheetItem(icon: Icons.favorite_outlined, label: "Traction"),
         ],
       ),
-		);
-	}
+    );
+  }
 } 
