@@ -4,6 +4,7 @@ import 'package:bottom_bar_with_sheet/bottom_bar_with_sheet.dart';
 import 'package:flutter/services.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter_switch/flutter_switch.dart';
 import 'package:get/get.dart';
 import 'dart:async';
 
@@ -17,6 +18,9 @@ class HomeScreen extends StatefulWidget{
 class _HomeScreenState extends State<HomeScreen>{
 
   final RoundedLoadingButtonController _btnController = RoundedLoadingButtonController();
+
+  bool status1 = false;
+  bool isSwitched = false;
 
   void _doSomething(RoundedLoadingButtonController controller) async {
     Timer(Duration(seconds: 2), () {
@@ -57,6 +61,18 @@ class _HomeScreenState extends State<HomeScreen>{
     }
   }
 
+  FocusNode _focus = FocusNode();
+
+  @override
+  void initState() {
+    super.initState();
+    _focus.addListener(_onFocusChange);
+  }
+
+  void _onFocusChange(){
+    _openFileExplorer();
+    debugPrint("Focus: "+_focus.hasFocus.toString());
+  }
 
 	@override
 	Widget build(BuildContext context){
@@ -159,10 +175,227 @@ class _HomeScreenState extends State<HomeScreen>{
                       ),
                       Divider(),
                       ListTile(
-                        leading: Icon(Icons.settings, color: Colors.teal[400]),
-                        title: Text("Gestion des modules"),
-                        onTap: () {
+                        leading: Icon(Icons.add_outlined, color: Colors.teal[400]),
+                        title: Text("Ajouter un module"),
+                          onTap: () {
                           Navigator.pop(context);
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) => SimpleDialog(
+                              title : Text(
+                                "Ajouter un module", 
+                              ),
+                              children:[
+                                Container(
+                                  height: MediaQuery.of(context).size.height*0.08,
+                                  margin: EdgeInsets.symmetric(
+                                    horizontal: MediaQuery.of(context).size.width*0.06,
+                                  ),
+                                  child:TextField(
+                                    style: TextStyle(fontSize: 13, color: Colors.grey[800]),
+                                    decoration: InputDecoration(
+                                      filled: true,
+                                      fillColor: Colors.teal[50],
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.all(Radius.circular(90.0)),
+                                        borderSide: BorderSide.none
+                                      ),
+                                      focusedBorder: UnderlineInputBorder(
+                                        borderRadius: BorderRadius.all(Radius.circular(90.0)),
+                                        borderSide: BorderSide.none
+                                      ),
+                                      hintText: "Module",
+                                      prefixIcon: Icon(
+                                        Icons.edit_outlined,
+                                        color: Colors.teal
+                                      ),
+                                    ),
+                                  )
+                                ),
+                                Container(
+                                  margin: EdgeInsets.symmetric(
+                                    horizontal:MediaQuery.of(context).size.width*0.06,
+                                    vertical:MediaQuery.of(context).size.height*0.01
+                                  ),
+                                  child: RoundedLoadingButton(
+                                    color: Colors.teal[400],
+                                    successColor: Colors.teal,
+                                    controller: _btnController,
+                                    onPressed: () {
+                                      _doSomething(_btnController);
+                                      Navigator.pop(context);
+                                      Get.snackbar(
+                                        "Ajout",
+                                        "Le module a été enregistré avec succès",
+                                        backgroundColor: Colors.grey,
+                                        snackPosition: SnackPosition.BOTTOM,
+                                        borderColor: Colors.grey,
+                                        borderRadius: 10,
+                                        borderWidth: 2,
+                                        barBlur: 0,
+                                        duration: Duration(seconds:2),
+                                      );
+                                    },
+                                    valueColor: Colors.white,
+                                    borderRadius: 90,
+                                    child: Text("AJOUTER", style: TextStyle(color: Colors.white)),
+                                  ),
+                                ),
+                              ],
+                            )
+                          );
+                        },
+                      ),
+                      Divider(),
+                      ListTile(
+                        leading: Icon(Icons.edit_outlined, color: Colors.teal[400]),
+                        title: Text("Modifier un module"),
+                          onTap: () {
+                          Navigator.pop(context);
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) => SimpleDialog(
+                              title : Text(
+                                "Modifier un module", 
+                              ),
+                              children:[
+                                // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                Row(
+                                  children: [
+                                    Container(
+                                      height: MediaQuery.of(context).size.height*0.06,
+                                      margin: EdgeInsets.symmetric(
+                                        horizontal: MediaQuery.of(context).size.width*0.09,
+                                        vertical: MediaQuery.of(context).size.height*0.0115,
+                                      ),
+                                      child: Row(children: [
+                                        DropdownButton(
+                                          icon: Icon(Icons.arrow_drop_down_circle),
+                                          iconDisabledColor: Colors.teal[400],
+                                          iconEnabledColor: Colors.teal[400],
+                                          iconSize: 20,
+                                          underline: SizedBox(),
+                                          hint: Text('Module', style: TextStyle(fontSize: 14)),
+                                          items: [
+                                            DropdownMenuItem(
+                                              child: Text('Course'),
+                                              value: 1,
+                                            ),
+                                            DropdownMenuItem(
+                                              child: Text('Pompe'),
+                                              value: 2,
+                                            ),
+                                            DropdownMenuItem(
+                                              child: Text('Traction'),
+                                              value: 3,
+                                            ),
+                                          ],  
+                                          onChanged: (value) => print(value)            
+                                        )
+                                      ]),
+                                    ),
+                                    Container(
+                                      margin: EdgeInsets.only(
+                                        // left: MediaQuery.of(context).size.width*0.15,
+                                      ),
+                                      child: IconButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                        showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) => AlertDialog(
+                                            title: const Text("Suppression d'un module"),
+                                            content: const Text('Voulez-vous vraiment supprimer ce module ?'),
+                                            actions: [
+                                              TextButton(
+                                                onPressed: () => Navigator.pop(context, 'Annuler'),
+                                                child: const Text('Annuler'),
+                                              ),
+                                              TextButton(
+                                                onPressed: () {
+                                                  _doSomething(_btnController);
+                                                  Navigator.pop(context);
+                                                  Get.snackbar(
+                                                    "Suppression",
+                                                    "Le module a été supprimé.",
+                                                    backgroundColor: Colors.grey,
+                                                    snackPosition: SnackPosition.BOTTOM,
+                                                    borderColor: Colors.grey,
+                                                    borderRadius: 10,
+                                                    borderWidth: 2,
+                                                    barBlur: 0,
+                                                    duration: Duration(seconds:2),
+                                                  );
+                                                },
+                                                child: Text('OK'),
+                                              ),
+                                            ],
+                                          ),
+                                        );
+                                      },
+                                      icon: Icon(Icons.delete, color: Colors.red[400], size: 22),
+                                      ),
+                                    ),
+                                  ]
+                                ),
+                                Container(
+                                  height: MediaQuery.of(context).size.height*0.08,
+                                  margin: EdgeInsets.symmetric(
+                                    horizontal: MediaQuery.of(context).size.width*0.06,
+                                  ),
+                                  child:TextField(
+                                    style: TextStyle(fontSize: 13, color: Colors.grey[800]),
+                                    decoration: InputDecoration(
+                                      filled: true,
+                                      fillColor: Colors.teal[50],
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.all(Radius.circular(90.0)),
+                                        borderSide: BorderSide.none
+                                      ),
+                                      focusedBorder: UnderlineInputBorder(
+                                        borderRadius: BorderRadius.all(Radius.circular(90.0)),
+                                        borderSide: BorderSide.none
+                                      ),
+                                      hintText: "Nouveau nom de module",
+                                      prefixIcon: Icon(
+                                        Icons.edit_outlined,
+                                        color: Colors.teal
+                                      ),
+                                    ),
+                                  )
+                                ),
+                                Container(
+                                  margin: EdgeInsets.symmetric(
+                                    horizontal:MediaQuery.of(context).size.width*0.06,
+                                    vertical:MediaQuery.of(context).size.height*0.01
+                                  ),
+                                  child: RoundedLoadingButton(
+                                    color: Colors.teal[400],
+                                    successColor: Colors.teal,
+                                    controller: _btnController,
+                                    onPressed: () {
+                                      _doSomething(_btnController);
+                                      Navigator.pop(context);
+                                      Get.snackbar(
+                                        "Modification",
+                                        "Le nom de module a été modifié",
+                                        backgroundColor: Colors.grey,
+                                        snackPosition: SnackPosition.BOTTOM,
+                                        borderColor: Colors.grey,
+                                        borderRadius: 10,
+                                        borderWidth: 2,
+                                        barBlur: 0,
+                                        duration: Duration(seconds:2),
+                                      );
+                                    },
+                                    valueColor: Colors.white,
+                                    borderRadius: 90,
+                                    child: Text("ENREGISTRER", style: TextStyle(color: Colors.white)),
+                                  ),
+                                ),
+                              ],
+                            )
+                          );
                         },
                       ),
                       Divider(),
@@ -1317,6 +1550,34 @@ class _HomeScreenState extends State<HomeScreen>{
                       hintText: "Titre",
                       prefixIcon: Icon(
                         Icons.edit,
+                        color: Colors.teal
+                      ),
+                    ),
+                  )
+                ),
+                Container(
+                  height: MediaQuery.of(context).size.height*0.08,
+                  margin: EdgeInsets.symmetric(
+                    horizontal: MediaQuery.of(context).size.width*0.06,
+                    vertical: MediaQuery.of(context).size.height*0.0113
+                  ),
+                  child:TextField(
+                    focusNode: _focus,
+                    style: TextStyle(fontSize: 13, color: Colors.grey[800]),
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Colors.teal[50],
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(90.0)),
+                        borderSide: BorderSide.none
+                      ),
+                      focusedBorder: UnderlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(90.0)),
+                        borderSide: BorderSide.none
+                      ),
+                      hintText: "Video",
+                      prefixIcon: Icon(
+                        Icons.video_library_outlined,
                         color: Colors.teal
                       ),
                     ),
