@@ -34,7 +34,7 @@ class _LoginScreenState extends State<LoginScreen>{
 						Container(
 							margin: EdgeInsets.only(top:MediaQuery.of(context).size.height*0.13),
 							height: MediaQuery.of(context).size.height*0.28,
-							child:Image.asset('assets/images/work.png'),
+							child:Image.asset('assets/images/workout.jpg'),
 						),
             Container(
               alignment: Alignment.center,
