@@ -79,7 +79,7 @@ class _HomeScreenState extends State<HomeScreen>{
 		return Scaffold(
       appBar: AppBar(
         toolbarHeight: 45,
-        backgroundColor: Colors.teal[400],
+        backgroundColor: Colors.blue[400],
         title: Text(
           'BJJ-Library',
           style: TextStyle(color: Colors.white, fontFamily: "ProductSans", fontSize: 17)
@@ -167,7 +167,7 @@ class _HomeScreenState extends State<HomeScreen>{
                   Column(
                     children:[
                       ListTile(
-                        leading: Icon(Icons.video_collection_outlined, color: Colors.teal[400]),
+                        leading: Icon(Icons.video_collection_outlined, color: Colors.blue[400]),
                         title: Text("Vidéos"),
                         onTap: () {
                           Navigator.pop(context);
@@ -175,7 +175,7 @@ class _HomeScreenState extends State<HomeScreen>{
                       ),
                       Divider(),
                       ListTile(
-                        leading: Icon(Icons.add_outlined, color: Colors.teal[400]),
+                        leading: Icon(Icons.add_outlined, color: Colors.blue[400]),
                         title: Text("Ajouter un module"),
                           onTap: () {
                           Navigator.pop(context);
@@ -195,7 +195,7 @@ class _HomeScreenState extends State<HomeScreen>{
                                     style: TextStyle(fontSize: 13, color: Colors.grey[800]),
                                     decoration: InputDecoration(
                                       filled: true,
-                                      fillColor: Colors.teal[50],
+                                      fillColor: Colors.blue[50],
                                       border: OutlineInputBorder(
                                         borderRadius: BorderRadius.all(Radius.circular(90.0)),
                                         borderSide: BorderSide.none
@@ -207,7 +207,7 @@ class _HomeScreenState extends State<HomeScreen>{
                                       hintText: "Module",
                                       prefixIcon: Icon(
                                         Icons.edit_outlined,
-                                        color: Colors.teal
+                                        color: Colors.blue
                                       ),
                                     ),
                                   )
@@ -218,8 +218,8 @@ class _HomeScreenState extends State<HomeScreen>{
                                     vertical:MediaQuery.of(context).size.height*0.01
                                   ),
                                   child: RoundedLoadingButton(
-                                    color: Colors.teal[400],
-                                    successColor: Colors.teal,
+                                    color: Colors.blue[400],
+                                    successColor: Colors.blue,
                                     controller: _btnController,
                                     onPressed: () {
                                       _doSomething(_btnController);
@@ -248,7 +248,7 @@ class _HomeScreenState extends State<HomeScreen>{
                       ),
                       Divider(),
                       ListTile(
-                        leading: Icon(Icons.edit_outlined, color: Colors.teal[400]),
+                        leading: Icon(Icons.edit_outlined, color: Colors.blue[400]),
                         title: Text("Modifier un module"),
                           onTap: () {
                           Navigator.pop(context);
@@ -271,8 +271,8 @@ class _HomeScreenState extends State<HomeScreen>{
                                       child: Row(children: [
                                         DropdownButton(
                                           icon: Icon(Icons.arrow_drop_down_circle),
-                                          iconDisabledColor: Colors.teal[400],
-                                          iconEnabledColor: Colors.teal[400],
+                                          iconDisabledColor: Colors.blue[400],
+                                          iconEnabledColor: Colors.blue[400],
                                           iconSize: 20,
                                           underline: SizedBox(),
                                           hint: Text('Module', style: TextStyle(fontSize: 14)),
@@ -347,7 +347,7 @@ class _HomeScreenState extends State<HomeScreen>{
                                     style: TextStyle(fontSize: 13, color: Colors.grey[800]),
                                     decoration: InputDecoration(
                                       filled: true,
-                                      fillColor: Colors.teal[50],
+                                      fillColor: Colors.blue[50],
                                       border: OutlineInputBorder(
                                         borderRadius: BorderRadius.all(Radius.circular(90.0)),
                                         borderSide: BorderSide.none
@@ -359,7 +359,7 @@ class _HomeScreenState extends State<HomeScreen>{
                                       hintText: "Nouveau nom de module",
                                       prefixIcon: Icon(
                                         Icons.edit_outlined,
-                                        color: Colors.teal
+                                        color: Colors.blue
                                       ),
                                     ),
                                   )
@@ -370,8 +370,8 @@ class _HomeScreenState extends State<HomeScreen>{
                                     vertical:MediaQuery.of(context).size.height*0.01
                                   ),
                                   child: RoundedLoadingButton(
-                                    color: Colors.teal[400],
-                                    successColor: Colors.teal,
+                                    color: Colors.blue[400],
+                                    successColor: Colors.blue,
                                     controller: _btnController,
                                     onPressed: () {
                                       _doSomething(_btnController);
@@ -400,7 +400,7 @@ class _HomeScreenState extends State<HomeScreen>{
                       ),
                       Divider(),
                       ListTile(
-                        leading: Icon(Icons.lock, color: Colors.teal[400]),
+                        leading: Icon(Icons.lock, color: Colors.blue[400]),
                         title: Text("Changer mot de passe"),
                         onTap: () {
                           Navigator.pop(context);
@@ -421,7 +421,7 @@ class _HomeScreenState extends State<HomeScreen>{
                                     style: TextStyle(fontSize: 13, color: Colors.grey[800]),
                                     decoration: InputDecoration(
                                       filled: true,
-                                      fillColor: Colors.teal[50],
+                                      fillColor: Colors.blue[50],
                                       border: OutlineInputBorder(
                                         borderRadius: BorderRadius.all(Radius.circular(90.0)),
                                         borderSide: BorderSide.none
@@ -433,7 +433,7 @@ class _HomeScreenState extends State<HomeScreen>{
                                       hintText: "Ancien mot de passe",
                                       prefixIcon: Icon(
                                         Icons.lock,
-                                        color: Colors.teal
+                                        color: Colors.blue
                                       ),
                                     ),
                                   )
@@ -447,7 +447,7 @@ class _HomeScreenState extends State<HomeScreen>{
                                     style: TextStyle(fontSize: 13, color: Colors.grey[800]),
                                     decoration: InputDecoration(
                                       filled: true,
-                                      fillColor: Colors.teal[50],
+                                      fillColor: Colors.blue[50],
                                       border: OutlineInputBorder(
                                         borderRadius: BorderRadius.all(Radius.circular(90.0)),
                                         borderSide: BorderSide.none
@@ -459,7 +459,7 @@ class _HomeScreenState extends State<HomeScreen>{
                                       hintText: "Nouveau mot de passe",
                                       prefixIcon: Icon(
                                         Icons.lock,
-                                        color: Colors.teal
+                                        color: Colors.blue
                                       ),
                                     ),
                                   )
@@ -470,8 +470,8 @@ class _HomeScreenState extends State<HomeScreen>{
                                     vertical:MediaQuery.of(context).size.height*0.01
                                   ),
                                   child: RoundedLoadingButton(
-                                    color: Colors.teal[400],
-                                    successColor: Colors.teal,
+                                    color: Colors.blue[400],
+                                    successColor: Colors.blue,
                                     controller: _btnController,
                                     onPressed: () {
                                       _doSomething(_btnController);
@@ -500,7 +500,7 @@ class _HomeScreenState extends State<HomeScreen>{
                       ),
                       Divider(),
                       ListTile(
-                        leading: Icon(Icons.logout_outlined, color: Colors.teal[400]),
+                        leading: Icon(Icons.logout_outlined, color: Colors.blue[400]),
                         title: Text("Deconnexion"),
                         onTap: () {
                           Navigator.pop(context);
@@ -577,8 +577,8 @@ class _HomeScreenState extends State<HomeScreen>{
                               onPressed: (){},
                               child: Row(
                                 children: [
-                                  Text("Tout voir", style: TextStyle(color: Colors.teal[400], fontWeight: FontWeight.bold)),
-                                  Icon(Icons.chevron_right_outlined, color: Colors.teal[400]),
+                                  Text("Tout voir", style: TextStyle(color: Colors.blue[400], fontWeight: FontWeight.bold)),
+                                  Icon(Icons.chevron_right_outlined, color: Colors.blue[400]),
                                 ]
                               )
                             )
@@ -612,7 +612,7 @@ class _HomeScreenState extends State<HomeScreen>{
                                     ),
                                     child: Icon(
                                       Icons.play_arrow,
-                                      color: Colors.teal[400],
+                                      color: Colors.blue[400],
                                       size: 30,
                                     )
                                   ),
@@ -647,7 +647,7 @@ class _HomeScreenState extends State<HomeScreen>{
                                                         style: TextStyle(fontSize: 13, color: Colors.grey[800]),
                                                         decoration: InputDecoration(
                                                           filled: true,
-                                                          fillColor: Colors.teal[50],
+                                                          fillColor: Colors.blue[50],
                                                           border: OutlineInputBorder(
                                                             borderRadius: BorderRadius.all(Radius.circular(90.0)),
                                                             borderSide: BorderSide.none
@@ -659,7 +659,7 @@ class _HomeScreenState extends State<HomeScreen>{
                                                           hintText: "Titre",
                                                           prefixIcon: Icon(
                                                             Icons.edit,
-                                                            color: Colors.teal
+                                                            color: Colors.blue
                                                           ),
                                                         ),
                                                       )
@@ -673,7 +673,7 @@ class _HomeScreenState extends State<HomeScreen>{
                                                         style: TextStyle(fontSize: 13, color: Colors.grey[800]),
                                                         decoration: InputDecoration(
                                                           filled: true,
-                                                          fillColor: Colors.teal[50],
+                                                          fillColor: Colors.blue[50],
                                                           border: OutlineInputBorder(
                                                             borderRadius: BorderRadius.all(Radius.circular(90.0)),
                                                             borderSide: BorderSide.none
@@ -685,7 +685,7 @@ class _HomeScreenState extends State<HomeScreen>{
                                                           hintText: "Module",
                                                           prefixIcon: Icon(
                                                             Icons.edit,
-                                                            color: Colors.teal
+                                                            color: Colors.blue
                                                           ),
                                                         ),
                                                       )
@@ -696,8 +696,8 @@ class _HomeScreenState extends State<HomeScreen>{
                                                         vertical:MediaQuery.of(context).size.height*0.01
                                                       ),
                                                       child: RoundedLoadingButton(
-                                                        color: Colors.teal[400],
-                                                        successColor: Colors.teal,
+                                                        color: Colors.blue[400],
+                                                        successColor: Colors.blue,
                                                         controller: _btnController,
                                                         onPressed: () {
                                                           _doSomething(_btnController);
@@ -837,7 +837,7 @@ class _HomeScreenState extends State<HomeScreen>{
                                   Container(
                                     child: Icon(
                                       Icons.play_arrow,
-                                      color: Colors.teal[400],
+                                      color: Colors.blue[400],
                                       size: 30,
                                     )
                                   )
@@ -893,7 +893,7 @@ class _HomeScreenState extends State<HomeScreen>{
                                   Container(
                                     child: Icon(
                                       Icons.play_arrow,
-                                      color: Colors.teal[400],
+                                      color: Colors.blue[400],
                                       size: 30,
                                     )
                                   )
@@ -949,7 +949,7 @@ class _HomeScreenState extends State<HomeScreen>{
                                   Container(
                                     child: Icon(
                                       Icons.play_arrow,
-                                      color: Colors.teal[400],
+                                      color: Colors.blue[400],
                                       size: 30,
                                     )
                                   )
@@ -994,8 +994,8 @@ class _HomeScreenState extends State<HomeScreen>{
                               onPressed: (){},
                               child: Row(
                                 children: [
-                                  Text("Tout voir", style: TextStyle(color: Colors.teal[400], fontWeight: FontWeight.bold)),
-                                  Icon(Icons.chevron_right_outlined, color: Colors.teal[400]),
+                                  Text("Tout voir", style: TextStyle(color: Colors.blue[400], fontWeight: FontWeight.bold)),
+                                  Icon(Icons.chevron_right_outlined, color: Colors.blue[400]),
                                 ]
                               )
                             )
@@ -1057,7 +1057,7 @@ class _HomeScreenState extends State<HomeScreen>{
                                   Container(
                                     child: Icon(
                                       Icons.play_arrow,
-                                      color: Colors.teal[400],
+                                      color: Colors.blue[400],
                                       size: 30,
                                     )
                                   )
@@ -1113,7 +1113,7 @@ class _HomeScreenState extends State<HomeScreen>{
                                   Container(
                                     child: Icon(
                                       Icons.play_arrow,
-                                      color: Colors.teal[400],
+                                      color: Colors.blue[400],
                                       size: 30,
                                     )
                                   )
@@ -1169,7 +1169,7 @@ class _HomeScreenState extends State<HomeScreen>{
                                   Container(
                                     child: Icon(
                                       Icons.play_arrow,
-                                      color: Colors.teal[400],
+                                      color: Colors.blue[400],
                                       size: 30,
                                     )
                                   )
@@ -1225,7 +1225,7 @@ class _HomeScreenState extends State<HomeScreen>{
                                   Container(
                                     child: Icon(
                                       Icons.play_arrow,
-                                      color: Colors.teal[400],
+                                      color: Colors.blue[400],
                                       size: 30,
                                     )
                                   )
@@ -1270,8 +1270,8 @@ class _HomeScreenState extends State<HomeScreen>{
                               onPressed: (){},
                               child: Row(
                                 children: [
-                                  Text("Tout voir", style: TextStyle(color: Colors.teal[400], fontWeight: FontWeight.bold)),
-                                  Icon(Icons.chevron_right_outlined, color: Colors.teal[400]),
+                                  Text("Tout voir", style: TextStyle(color: Colors.blue[400], fontWeight: FontWeight.bold)),
+                                  Icon(Icons.chevron_right_outlined, color: Colors.blue[400]),
                                 ]
                               )
                             )
@@ -1333,7 +1333,7 @@ class _HomeScreenState extends State<HomeScreen>{
                                   Container(
                                     child: Icon(
                                       Icons.play_arrow,
-                                      color: Colors.teal[400],
+                                      color: Colors.blue[400],
                                       size: 30,
                                     )
                                   )
@@ -1389,7 +1389,7 @@ class _HomeScreenState extends State<HomeScreen>{
                                   Container(
                                     child: Icon(
                                       Icons.play_arrow,
-                                      color: Colors.teal[400],
+                                      color: Colors.blue[400],
                                       size: 30,
                                     )
                                   )
@@ -1445,7 +1445,7 @@ class _HomeScreenState extends State<HomeScreen>{
                                   Container(
                                     child: Icon(
                                       Icons.play_arrow,
-                                      color: Colors.teal[400],
+                                      color: Colors.blue[400],
                                       size: 30,
                                     )
                                   )
@@ -1501,7 +1501,7 @@ class _HomeScreenState extends State<HomeScreen>{
                                   Container(
                                     child: Icon(
                                       Icons.play_arrow,
-                                      color: Colors.teal[400],
+                                      color: Colors.blue[400],
                                       size: 30,
                                     )
                                   )
@@ -1538,7 +1538,7 @@ class _HomeScreenState extends State<HomeScreen>{
                     style: TextStyle(fontSize: 13, color: Colors.grey[800]),
                     decoration: InputDecoration(
                       filled: true,
-                      fillColor: Colors.teal[50],
+                      fillColor: Colors.blue[50],
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(90.0)),
                         borderSide: BorderSide.none
@@ -1550,7 +1550,7 @@ class _HomeScreenState extends State<HomeScreen>{
                       hintText: "Titre",
                       prefixIcon: Icon(
                         Icons.edit,
-                        color: Colors.teal
+                        color: Colors.blue
                       ),
                     ),
                   )
@@ -1566,7 +1566,7 @@ class _HomeScreenState extends State<HomeScreen>{
                     style: TextStyle(fontSize: 13, color: Colors.grey[800]),
                     decoration: InputDecoration(
                       filled: true,
-                      fillColor: Colors.teal[50],
+                      fillColor: Colors.blue[50],
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(90.0)),
                         borderSide: BorderSide.none
@@ -1578,7 +1578,7 @@ class _HomeScreenState extends State<HomeScreen>{
                       hintText: "Video",
                       prefixIcon: Icon(
                         Icons.video_library_outlined,
-                        color: Colors.teal
+                        color: Colors.blue
                       ),
                     ),
                   )
@@ -1592,8 +1592,8 @@ class _HomeScreenState extends State<HomeScreen>{
                   child: Row(children: [
                     DropdownButton(
                       icon: Icon(Icons.arrow_drop_down_circle),
-                      iconDisabledColor: Colors.teal[400],
-                      iconEnabledColor: Colors.teal[400],
+                      iconDisabledColor: Colors.blue[400],
+                      iconEnabledColor: Colors.blue[400],
                       iconSize: 25,
                       underline: SizedBox(),
                       hint: Text('Module', style: TextStyle(fontSize: 14)),
@@ -1621,8 +1621,8 @@ class _HomeScreenState extends State<HomeScreen>{
                     vertical:MediaQuery.of(context).size.height*0.01
                   ),
                   child: RoundedLoadingButton(
-                    color: Colors.teal[400],
-                    successColor: Colors.teal,
+                    color: Colors.blue[400],
+                    successColor: Colors.blue,
                     controller: _btnController,
                     onPressed: () {
                       _doSomething(_btnController);
@@ -1649,7 +1649,7 @@ class _HomeScreenState extends State<HomeScreen>{
           );
         },
         child: const Icon(Icons.add),
-        backgroundColor: Colors.teal,
+        backgroundColor: Colors.blue,
         elevation: 10,
       ),
       bottomNavigationBar: BottomBarWithSheet(
@@ -1659,10 +1659,10 @@ class _HomeScreenState extends State<HomeScreen>{
         bottomBarTheme: BottomBarTheme(
           backgroundColor: Colors.black12,
           mainButtonPosition: MainButtonPosition.left,
-          selectedItemBackgroundColor: Colors.teal[400],
+          selectedItemBackgroundColor: Colors.blue[400],
           itemIconColor: Colors.grey[600],
           selectedItemIconColor: Colors.white,
-          selectedItemLabelColor: Colors.teal[400]
+          selectedItemLabelColor: Colors.blue[400]
         ),
         onSelectItem: (index) => Get.to(ModuleScreen()) ,
         items: [

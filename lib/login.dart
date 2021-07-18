@@ -34,7 +34,7 @@ class _LoginScreenState extends State<LoginScreen>{
 						Container(
 							margin: EdgeInsets.only(top:MediaQuery.of(context).size.height*0.13),
 							height: MediaQuery.of(context).size.height*0.28,
-							child:Image.asset('assets/images/workout.jpg'),
+							child:Image.asset('assets/images/work.png'),
 						),
             Container(
               alignment: Alignment.center,
@@ -59,7 +59,7 @@ class _LoginScreenState extends State<LoginScreen>{
                               style: TextStyle(fontSize: 13, color: Colors.grey[800]),
                               decoration: InputDecoration(
                                 filled: true,
-                                fillColor: Colors.teal[50],
+                                fillColor: Colors.blue[50],
                                 floatingLabelBehavior: FloatingLabelBehavior.auto,
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.all(Radius.circular(90.0)),
@@ -72,7 +72,7 @@ class _LoginScreenState extends State<LoginScreen>{
                                 hintText: "Nom d'utilisateur",
                                 prefixIcon: Icon(
                                   Icons.person,
-                                  color: Colors.teal
+                                  color: Colors.blue
                                 ),
                               ),
                             ),
@@ -85,7 +85,7 @@ class _LoginScreenState extends State<LoginScreen>{
                               obscureText: true,
                               decoration: InputDecoration(
                                 filled: true,
-                                fillColor: Colors.teal[50],
+                                fillColor: Colors.blue[50],
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.all(Radius.circular(90.0)),
                                   borderSide: BorderSide.none
@@ -97,7 +97,7 @@ class _LoginScreenState extends State<LoginScreen>{
                                 hintText: "Mot de passe",
                                 prefixIcon: Icon(
                                   Icons.lock,
-                                  color: Colors.teal
+                                  color: Colors.blue
                                 ),
                               ),
                             ),
@@ -118,8 +118,8 @@ class _LoginScreenState extends State<LoginScreen>{
                               vertical:MediaQuery.of(context).size.height*0.03
                             ),
                             child: RoundedLoadingButton(
-                              color: Colors.teal[400],
-                              successColor: Colors.teal,
+                              color: Colors.blue[400],
+                              successColor: Colors.blue,
                               controller: _btnController,
                               onPressed: () => _doSomething(_btnController),
                               valueColor: Colors.white,

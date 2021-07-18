@@ -26,7 +26,7 @@ class _ModuleScreenState extends State<ModuleScreen>{
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 45,
-        backgroundColor: Colors.teal[400],
+        backgroundColor: Colors.blue[400],
         title: Text(
           'Course',
           style: TextStyle(color: Colors.white, fontFamily: "ProductSans", fontSize: 17)
@@ -114,7 +114,7 @@ class _ModuleScreenState extends State<ModuleScreen>{
                   Column(
                     children:[
                       ListTile(
-                        leading: Icon(Icons.video_collection_outlined, color: Colors.teal[400]),
+                        leading: Icon(Icons.video_collection_outlined, color: Colors.blue[400]),
                         title: Text("Vidéos"),
                         onTap: () {
                           Navigator.pop(context);
@@ -122,7 +122,7 @@ class _ModuleScreenState extends State<ModuleScreen>{
                       ),
                       Divider(),
                       ListTile(
-                        leading: Icon(Icons.settings, color: Colors.teal[400]),
+                        leading: Icon(Icons.settings, color: Colors.blue[400]),
                         title: Text("Gestion des modules"),
                         onTap: () {
                           Navigator.pop(context);
@@ -130,7 +130,7 @@ class _ModuleScreenState extends State<ModuleScreen>{
                       ),
                       Divider(),
                       ListTile(
-                        leading: Icon(Icons.lock, color: Colors.teal[400]),
+                        leading: Icon(Icons.lock, color: Colors.blue[400]),
                         title: Text("Changer mot de passe"),
                         onTap: () {
                           Navigator.pop(context);
@@ -151,7 +151,7 @@ class _ModuleScreenState extends State<ModuleScreen>{
                                     style: TextStyle(fontSize: 13, color: Colors.grey[800]),
                                     decoration: InputDecoration(
                                       filled: true,
-                                      fillColor: Colors.teal[50],
+                                      fillColor: Colors.blue[50],
                                       border: OutlineInputBorder(
                                         borderRadius: BorderRadius.all(Radius.circular(90.0)),
                                         borderSide: BorderSide.none
@@ -163,7 +163,7 @@ class _ModuleScreenState extends State<ModuleScreen>{
                                       hintText: "Ancien mot de passe",
                                       prefixIcon: Icon(
                                         Icons.lock,
-                                        color: Colors.teal
+                                        color: Colors.blue
                                       ),
                                     ),
                                   )
@@ -177,7 +177,7 @@ class _ModuleScreenState extends State<ModuleScreen>{
                                     style: TextStyle(fontSize: 13, color: Colors.grey[800]),
                                     decoration: InputDecoration(
                                       filled: true,
-                                      fillColor: Colors.teal[50],
+                                      fillColor: Colors.blue[50],
                                       border: OutlineInputBorder(
                                         borderRadius: BorderRadius.all(Radius.circular(90.0)),
                                         borderSide: BorderSide.none
@@ -189,7 +189,7 @@ class _ModuleScreenState extends State<ModuleScreen>{
                                       hintText: "Nouveau mot de passe",
                                       prefixIcon: Icon(
                                         Icons.lock,
-                                        color: Colors.teal
+                                        color: Colors.blue
                                       ),
                                     ),
                                   )
@@ -200,8 +200,8 @@ class _ModuleScreenState extends State<ModuleScreen>{
                                     vertical:MediaQuery.of(context).size.height*0.01
                                   ),
                                   child: RoundedLoadingButton(
-                                    color: Colors.teal[400],
-                                    successColor: Colors.teal,
+                                    color: Colors.blue[400],
+                                    successColor: Colors.blue,
                                     controller: _btnController,
                                     onPressed: () {
                                       _doSomething(_btnController);
@@ -230,7 +230,7 @@ class _ModuleScreenState extends State<ModuleScreen>{
                       ),
                       Divider(),
                       ListTile(
-                        leading: Icon(Icons.logout_outlined, color: Colors.teal[400]),
+                        leading: Icon(Icons.logout_outlined, color: Colors.blue[400]),
                         title: Text("Deconnexion"),
                         onTap: () {
                           Navigator.pop(context);
@@ -304,7 +304,7 @@ class _ModuleScreenState extends State<ModuleScreen>{
                         ),
                         child: Icon(
                           Icons.play_arrow,
-                          color: Colors.teal[400],
+                          color: Colors.blue[400],
                           size: 40,
                         )
                       ),
@@ -339,7 +339,7 @@ class _ModuleScreenState extends State<ModuleScreen>{
                                             style: TextStyle(fontSize: 13, color: Colors.grey[800]),
                                             decoration: InputDecoration(
                                               filled: true,
-                                              fillColor: Colors.teal[50],
+                                              fillColor: Colors.blue[50],
                                               border: OutlineInputBorder(
                                                 borderRadius: BorderRadius.all(Radius.circular(90.0)),
                                                 borderSide: BorderSide.none
@@ -351,7 +351,7 @@ class _ModuleScreenState extends State<ModuleScreen>{
                                               hintText: "Titre",
                                               prefixIcon: Icon(
                                                 Icons.edit,
-                                                color: Colors.teal
+                                                color: Colors.blue
                                               ),
                                             ),
                                           )
@@ -365,7 +365,7 @@ class _ModuleScreenState extends State<ModuleScreen>{
                                             style: TextStyle(fontSize: 13, color: Colors.grey[800]),
                                             decoration: InputDecoration(
                                               filled: true,
-                                              fillColor: Colors.teal[50],
+                                              fillColor: Colors.blue[50],
                                               border: OutlineInputBorder(
                                                 borderRadius: BorderRadius.all(Radius.circular(90.0)),
                                                 borderSide: BorderSide.none
@@ -377,7 +377,7 @@ class _ModuleScreenState extends State<ModuleScreen>{
                                               hintText: "Module",
                                               prefixIcon: Icon(
                                                 Icons.edit,
-                                                color: Colors.teal
+                                                color: Colors.blue
                                               ),
                                             ),
                                           )
@@ -388,8 +388,8 @@ class _ModuleScreenState extends State<ModuleScreen>{
                                             vertical:MediaQuery.of(context).size.height*0.01
                                           ),
                                           child: RoundedLoadingButton(
-                                            color: Colors.teal[400],
-                                            successColor: Colors.teal,
+                                            color: Colors.blue[400],
+                                            successColor: Colors.blue,
                                             controller: _btnController,
                                             onPressed: () {
                                               _doSomething(_btnController);
@@ -570,7 +570,7 @@ class _ModuleScreenState extends State<ModuleScreen>{
                         ),
                         child: Icon(
                           Icons.play_arrow,
-                          color: Colors.teal[400],
+                          color: Colors.blue[400],
                           size: 40,
                         )
                       ),
@@ -605,7 +605,7 @@ class _ModuleScreenState extends State<ModuleScreen>{
                                             style: TextStyle(fontSize: 13, color: Colors.grey[800]),
                                             decoration: InputDecoration(
                                               filled: true,
-                                              fillColor: Colors.teal[50],
+                                              fillColor: Colors.blue[50],
                                               border: OutlineInputBorder(
                                                 borderRadius: BorderRadius.all(Radius.circular(90.0)),
                                                 borderSide: BorderSide.none
@@ -617,7 +617,7 @@ class _ModuleScreenState extends State<ModuleScreen>{
                                               hintText: "Titre",
                                               prefixIcon: Icon(
                                                 Icons.edit,
-                                                color: Colors.teal
+                                                color: Colors.blue
                                               ),
                                             ),
                                           )
@@ -631,7 +631,7 @@ class _ModuleScreenState extends State<ModuleScreen>{
                                             style: TextStyle(fontSize: 13, color: Colors.grey[800]),
                                             decoration: InputDecoration(
                                               filled: true,
-                                              fillColor: Colors.teal[50],
+                                              fillColor: Colors.blue[50],
                                               border: OutlineInputBorder(
                                                 borderRadius: BorderRadius.all(Radius.circular(90.0)),
                                                 borderSide: BorderSide.none
@@ -643,7 +643,7 @@ class _ModuleScreenState extends State<ModuleScreen>{
                                               hintText: "Module",
                                               prefixIcon: Icon(
                                                 Icons.edit,
-                                                color: Colors.teal
+                                                color: Colors.blue
                                               ),
                                             ),
                                           )
@@ -654,8 +654,8 @@ class _ModuleScreenState extends State<ModuleScreen>{
                                             vertical:MediaQuery.of(context).size.height*0.01
                                           ),
                                           child: RoundedLoadingButton(
-                                            color: Colors.teal[400],
-                                            successColor: Colors.teal,
+                                            color: Colors.blue[400],
+                                            successColor: Colors.blue,
                                             controller: _btnController,
                                             onPressed: () {
                                               _doSomething(_btnController);
@@ -836,7 +836,7 @@ class _ModuleScreenState extends State<ModuleScreen>{
                         ),
                         child: Icon(
                           Icons.play_arrow,
-                          color: Colors.teal[400],
+                          color: Colors.blue[400],
                           size: 40,
                         )
                       ),
@@ -871,7 +871,7 @@ class _ModuleScreenState extends State<ModuleScreen>{
                                             style: TextStyle(fontSize: 13, color: Colors.grey[800]),
                                             decoration: InputDecoration(
                                               filled: true,
-                                              fillColor: Colors.teal[50],
+                                              fillColor: Colors.blue[50],
                                               border: OutlineInputBorder(
                                                 borderRadius: BorderRadius.all(Radius.circular(90.0)),
                                                 borderSide: BorderSide.none
@@ -883,7 +883,7 @@ class _ModuleScreenState extends State<ModuleScreen>{
                                               hintText: "Titre",
                                               prefixIcon: Icon(
                                                 Icons.edit,
-                                                color: Colors.teal
+                                                color: Colors.blue
                                               ),
                                             ),
                                           )
@@ -897,7 +897,7 @@ class _ModuleScreenState extends State<ModuleScreen>{
                                             style: TextStyle(fontSize: 13, color: Colors.grey[800]),
                                             decoration: InputDecoration(
                                               filled: true,
-                                              fillColor: Colors.teal[50],
+                                              fillColor: Colors.blue[50],
                                               border: OutlineInputBorder(
                                                 borderRadius: BorderRadius.all(Radius.circular(90.0)),
                                                 borderSide: BorderSide.none
@@ -909,7 +909,7 @@ class _ModuleScreenState extends State<ModuleScreen>{
                                               hintText: "Module",
                                               prefixIcon: Icon(
                                                 Icons.edit,
-                                                color: Colors.teal
+                                                color: Colors.blue
                                               ),
                                             ),
                                           )
@@ -920,8 +920,8 @@ class _ModuleScreenState extends State<ModuleScreen>{
                                             vertical:MediaQuery.of(context).size.height*0.01
                                           ),
                                           child: RoundedLoadingButton(
-                                            color: Colors.teal[400],
-                                            successColor: Colors.teal,
+                                            color: Colors.blue[400],
+                                            successColor: Colors.blue,
                                             controller: _btnController,
                                             onPressed: () {
                                               _doSomething(_btnController);
@@ -1102,7 +1102,7 @@ class _ModuleScreenState extends State<ModuleScreen>{
                         ),
                         child: Icon(
                           Icons.play_arrow,
-                          color: Colors.teal[400],
+                          color: Colors.blue[400],
                           size: 40,
                         )
                       ),
@@ -1137,7 +1137,7 @@ class _ModuleScreenState extends State<ModuleScreen>{
                                             style: TextStyle(fontSize: 13, color: Colors.grey[800]),
                                             decoration: InputDecoration(
                                               filled: true,
-                                              fillColor: Colors.teal[50],
+                                              fillColor: Colors.blue[50],
                                               border: OutlineInputBorder(
                                                 borderRadius: BorderRadius.all(Radius.circular(90.0)),
                                                 borderSide: BorderSide.none
@@ -1149,7 +1149,7 @@ class _ModuleScreenState extends State<ModuleScreen>{
                                               hintText: "Titre",
                                               prefixIcon: Icon(
                                                 Icons.edit,
-                                                color: Colors.teal
+                                                color: Colors.blue
                                               ),
                                             ),
                                           )
@@ -1163,7 +1163,7 @@ class _ModuleScreenState extends State<ModuleScreen>{
                                             style: TextStyle(fontSize: 13, color: Colors.grey[800]),
                                             decoration: InputDecoration(
                                               filled: true,
-                                              fillColor: Colors.teal[50],
+                                              fillColor: Colors.blue[50],
                                               border: OutlineInputBorder(
                                                 borderRadius: BorderRadius.all(Radius.circular(90.0)),
                                                 borderSide: BorderSide.none
@@ -1175,7 +1175,7 @@ class _ModuleScreenState extends State<ModuleScreen>{
                                               hintText: "Module",
                                               prefixIcon: Icon(
                                                 Icons.edit,
-                                                color: Colors.teal
+                                                color: Colors.blue
                                               ),
                                             ),
                                           )
@@ -1186,8 +1186,8 @@ class _ModuleScreenState extends State<ModuleScreen>{
                                             vertical:MediaQuery.of(context).size.height*0.01
                                           ),
                                           child: RoundedLoadingButton(
-                                            color: Colors.teal[400],
-                                            successColor: Colors.teal,
+                                            color: Colors.blue[400],
+                                            successColor: Colors.blue,
                                             controller: _btnController,
                                             onPressed: () {
                                               _doSomething(_btnController);
@@ -1344,7 +1344,7 @@ class _ModuleScreenState extends State<ModuleScreen>{
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
         child: const Icon(Icons.add),
-        backgroundColor: Colors.teal,
+        backgroundColor: Colors.blue,
         elevation: 10,
       ),
       bottomNavigationBar: BottomBarWithSheet(
@@ -1354,10 +1354,10 @@ class _ModuleScreenState extends State<ModuleScreen>{
         bottomBarTheme: BottomBarTheme(
           backgroundColor: Colors.black12,
           mainButtonPosition: MainButtonPosition.left,
-          selectedItemBackgroundColor: Colors.teal[400],
+          selectedItemBackgroundColor: Colors.blue[400],
           itemIconColor: Colors.grey[600],
           selectedItemIconColor: Colors.white,
-          selectedItemLabelColor: Colors.teal[400]
+          selectedItemLabelColor: Colors.blue[400]
         ),
         onSelectItem: (index) => print('item $index was pressed'),
         items: [

@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget{
     });
 		return GetMaterialApp(
 			theme: ThemeData(
-				primarySwatch: Colors.teal,
+				primarySwatch: Colors.blue,
 				fontFamily: "ProductSans",
 			),
 			debugShowCheckedModeBanner: false,
