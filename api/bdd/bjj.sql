@@ -16,6 +16,32 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `Module`
+--
+
+DROP TABLE IF EXISTS `Module`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Module` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nom` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `date` date NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `Module_UN` (`nom`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Module`
+--
+
+LOCK TABLES `Module` WRITE;
+/*!40000 ALTER TABLE `Module` DISABLE KEYS */;
+INSERT INTO `Module` VALUES (1,'Musculation','2021-07-20'),(2,'Course','2021-07-20'),(3,'Traction','2021-07-20'),(4,'Pompe','2021-07-20');
+/*!40000 ALTER TABLE `Module` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `Utilisateur`
 --
 
@@ -51,4 +77,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-07-20 19:56:15
+-- Dump completed on 2021-07-20 23:12:42
