@@ -15,13 +15,16 @@ class _SplashScreenState extends State<SplashScreen>{
 		return Scaffold(
 			body: Container(
 				alignment: Alignment.center,
-				color: Colors.cyan[50],
+				color: Colors.white,
 				child: Column(
 					children: [
 						Container(
-							margin: EdgeInsets.only(top:MediaQuery.of(context).size.height*0.25),
+							margin: EdgeInsets.only(top:MediaQuery.of(context).size.height*0.26),
 							height: MediaQuery.of(context).size.height*0.375,
-							child:Image.asset('assets/images/logo.jpg')
+							child: CircleAvatar(
+                radius : 85,
+                backgroundImage : AssetImage('assets/images/logo.jpg')
+              )
 						),
 						Container(
 							margin: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.275),

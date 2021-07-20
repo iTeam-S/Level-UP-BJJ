@@ -530,7 +530,7 @@ class _HomeScreenState extends State<HomeScreen>{
                     Container(
                       alignment: Alignment.center,
                       child: Text(
-                        'BJJ-Library 0.0.4',
+                        'BJJ-Library 0.0.6',
                         style: TextStyle(fontSize: 12),
                       ),
                     )
