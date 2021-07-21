@@ -7,7 +7,6 @@ import jwt
 
 app = Flask(__name__)
 
-
 def encode_auth_token(user_id):
     payload = {
         'exp': datetime.utcnow() + timedelta(days=7),
@@ -18,6 +17,9 @@ def encode_auth_token(user_id):
         "MOT_SECRET_DECRYPTE",
         algorithm='HS256'
     )
+
+def verifToken(token):
+    return jwt.decode(token, options={"verify_signature": False})
 
 db = mysql.connector.connect(**database())
 cursor = db.cursor()
@@ -61,6 +63,14 @@ def get_all_modules():
 		DESC : Fonction permettant de récuperer tous les modules
 	"""
 
+	data = request.get_json()
+	
+	token = data.get("token")
+	user_id = data.get("user_id")
+
+	if verifToken(token).get('sub') != user_id :
+		return {"status" : "Erreur Token"}, 403
+
 	cursor.execute("""
 		SELECT id, nom FROM Module
 	""")
@@ -69,7 +79,7 @@ def get_all_modules():
 
 	if module_data is not None :
 		return jsonify({"data": module_data}), 200
-	
+
 	else:
 		return jsonify({'status': 'Bad request',}), 400
 
@@ -82,6 +92,11 @@ def create_module():
 	data = request.get_json()
 	
 	nom = data.get("nom")
+	token = data.get("token")
+	user_id = data.get("user_id")
+
+	if verifToken(token).get('sub') != user_id :
+		return {"status" : "Erreur Token"}, 403
 
 	try : 
 		cursor.execute("""
@@ -102,13 +117,18 @@ def update_module():
 	"""
 	data = request.get_json()
 	
-	id_module = data.get("id")
+	module_id = data.get("module_id")
 	nom = data.get("nom")
+	token = data.get("token")
+	user_id = data.get("user_id")
+
+	if verifToken(token).get('sub') != user_id :
+		return {"status" : "Erreur Token"}, 403
 
 	try : 
 		cursor.execute("""
 			UPDATE Module SET nom = %s WHERE id = %s
-		""",(nom, id_module)
+		""",(nom, module_id)
 		)
 		db.commit()
 
@@ -125,12 +145,12 @@ def delete_module():
 	"""
 	data = request.get_json()
 	
-	id_module = data.get("id")
+	module_id = data.get("id")
 
 	try : 
 		cursor.execute("""
 			DELETE FROM Module WHERE id = %s
-		""",(id_module,)
+		""",(module_id,)
 		)
 		db.commit()
 
