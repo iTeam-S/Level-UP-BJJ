@@ -1,9 +1,10 @@
 import os
-from flask import Flask , request, jsonify
+from flask import Flask , request, jsonify, flash, redirect, render_template
 from conf import *
 import mysql.connector, time
 from datetime import date, datetime, timedelta
 import jwt
+from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
 
@@ -19,15 +20,36 @@ def encode_auth_token(user_id):
     )
 
 def verifToken(token):
-    return jwt.decode(token, options={"verify_signature": False})
+	try:
+		return jwt.decode(token, options={"verify_signature": False})
+	except:
+		return {"sub":0}
+
+
+app.config['MAX_CONTENT_LENGTH'] = 100 * 1024 * 1024
+
+path = os.getcwd()
+
+UPLOAD_FOLDER = os.path.join(path, 'uploads')
+
+if not os.path.isdir(UPLOAD_FOLDER):
+    os.mkdir(UPLOAD_FOLDER)
+
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+ALLOWED_EXTENSIONS = set(['mp4', 'mkv', 'avi'])
+
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
 
 db = mysql.connector.connect(**database())
 cursor = db.cursor()
 
 
 @app.route('/')
-def index():
-	return "200_OK"
+def upload_form():
+    return render_template('upload.html')
 
 
 @app.route("/api/v1/login/", methods=['POST'])
@@ -36,6 +58,7 @@ def login():
 		DESC : Fonction permettant l'authentification d'un utilisateur
 	"""
 	data = request.get_json()
+
 	mail = data.get("mail")
 	password = data.get("password")
 
@@ -159,6 +182,33 @@ def delete_module():
 
 	return jsonify({'status': 'Suppression de module avec succès'}), 204
 
+
+@app.route('/api/v1/upload_video/', methods=['POST'])
+def upload_video():
+	"""
+		DESC : Fonction permettant d'uploader un vidéo
+	"""
+	token = request.form.get('token')
+	user_id = request.form.get('user_id')
+
+	if verifToken(token).get('sub') != user_id :
+		return {"status" : "Erreur Token"}, 403
+
+	if 'file' not in request.files:
+		return jsonify({'status': 'No file selected'}), 400
+
+	file = request.files['file']
+
+	if file.filename == '':
+		return jsonify({'status': 'No file selected'}), 400
+	
+	if file and allowed_file(file.filename):
+		filename = secure_filename(file.filename)
+		file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+		return jsonify({'status': 'Video uploaded successfully'}), 201
+		
+	else:
+		return jsonify({'status': 'Allowed file types are mp4, mkv, avi'}), 400
 
 
 if __name__=="__main__":
