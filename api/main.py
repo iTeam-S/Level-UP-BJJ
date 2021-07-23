@@ -206,7 +206,7 @@ def upload_video():
 		filename = secure_filename(file.filename)
 		file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 		return jsonify({'status': 'Video uploaded successfully'}), 201
-		
+
 	else:
 		return jsonify({'status': 'Allowed file types are mp4, mkv, avi'}), 400
 
