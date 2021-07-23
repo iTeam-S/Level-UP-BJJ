@@ -5,19 +5,21 @@ import mysql.connector, time
 from datetime import date, datetime, timedelta
 import jwt
 from werkzeug.utils import secure_filename
+import cv2
+import time
 
 app = Flask(__name__)
 
 def encode_auth_token(user_id):
-    payload = {
-        'exp': datetime.utcnow() + timedelta(days=7),
-        'sub': user_id
-    }
-    return jwt.encode(
-        payload,
-        "MOT_SECRET_DECRYPTE",
-        algorithm='HS256'
-    )
+	payload = {
+		'exp': datetime.utcnow() + timedelta(days=7),
+		'sub': user_id
+	}
+	return jwt.encode(
+		payload,
+		"MOT_SECRET_DECRYPTE",
+		algorithm='HS256'
+	)
 
 def verifToken(token):
 	try:
@@ -25,22 +27,51 @@ def verifToken(token):
 	except:
 		return {"sub":0}
 
+def extract(video_name):
+	"""
+		DESC : Fonction permettant d'extraire l'image de la vidéo à la 20ème % de sa durée
+	"""
+	cam = cv2.VideoCapture(video_name)
+
+	nb_frame = cam.get(cv2.CAP_PROP_FRAME_COUNT)
+	start_cap = ((nb_frame / 30) * 0.20) * 1000
+	
+	try:
+		os.makedirs('data/images')
+	
+	except OSError:
+		print ('Directory already exists')
+
+	cam.set(cv2.CAP_PROP_POS_MSEC, start_cap)  
+	currentframe = start_cap
+		
+	ret,frame = cam.read(currentframe)
+
+	if ret:
+		name = './data/images/image' + str(time.time()) + '.jpg'
+		cv2.imwrite(name, frame)
+
+		return name
+
+	cam.release()
+	cv2.destroyAllWindows()
+
 
 app.config['MAX_CONTENT_LENGTH'] = 100 * 1024 * 1024
 
 path = os.getcwd()
 
-UPLOAD_FOLDER = os.path.join(path, 'uploads')
+UPLOAD_FOLDER = os.path.join(path, 'data/videos')
 
 if not os.path.isdir(UPLOAD_FOLDER):
-    os.mkdir(UPLOAD_FOLDER)
+	os.mkdir(UPLOAD_FOLDER)
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 ALLOWED_EXTENSIONS = set(['mp4', 'mkv', 'avi'])
 
 def allowed_file(filename):
-    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+	return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
 db = mysql.connector.connect(**database())
@@ -49,7 +80,7 @@ cursor = db.cursor()
 
 @app.route('/')
 def upload_form():
-    return render_template('upload.html')
+	return render_template('upload.html')
 
 
 @app.route("/api/v1/login/", methods=['POST'])
@@ -188,8 +219,8 @@ def upload_video():
 	"""
 		DESC : Fonction permettant d'uploader un vidéo
 	"""
-	token = request.form.get('token')
-	user_id = request.form.get('user_id')
+	token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2Mjc2NzQyNjYsInN1YiI6MX0.wHkz4rchzbK2CuXpevy2IdrpbTYGUXeRLyzD6jBEy40"
+	user_id = 1
 
 	if verifToken(token).get('sub') != user_id :
 		return {"status" : "Erreur Token"}, 403
@@ -205,11 +236,13 @@ def upload_video():
 	if file and allowed_file(file.filename):
 		filename = secure_filename(file.filename)
 		file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-		return jsonify({'status': 'Video uploaded successfully'}), 201
+		image_name = extract("./data/videos/"+filename)
+		print(image_name)
+		return jsonify({'status': 'Video uploaded successfully'+filename}), 201
 
 	else:
 		return jsonify({'status': 'Allowed file types are mp4, mkv, avi'}), 400
 
 
 if __name__=="__main__":
-    app.run(host=os.getenv('IP', '0.0.0.0'), port=int(os.getenv('PORT', 4444)))
+	app.run(host=os.getenv('IP', '0.0.0.0'), port=int(os.getenv('PORT', 4444)))
