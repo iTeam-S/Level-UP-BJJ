@@ -1,3 +1,5 @@
+import 'package:bjj_library/controlleur/api.dart';
+import 'package:bjj_library/controlleur/users.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
@@ -16,6 +18,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
   bool status1 = false;
   bool isSwitched = false;
+
+  // Instance ana controlleur
+  UserController userController = Get.put(UserController());
+  ApiController apiController = Get.put(ApiController());
 
   void _doSomething(RoundedLoadingButtonController controller) async {
     Timer(Duration(seconds: 2), () {
@@ -132,7 +138,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 left: MediaQuery.of(context).size.width * 0.1,
                                 top: MediaQuery.of(context).size.height * 0.01,
                               ),
-                              child: Text('landry.apsa@gmail.com',
+                              child: Text(userController.user.email,
                                   style: TextStyle(
                                       fontSize: 20, color: Colors.white))),
                           Container(
@@ -650,8 +656,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       ),
                                       TextButton(
                                         onPressed: () {
-                                          _doSomething(_btnController);
-                                          Navigator.pop(context);
+                                          Get.offNamed('/login');
                                         },
                                         child: Text('OK'),
                                       ),

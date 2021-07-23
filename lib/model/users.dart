@@ -1,8 +1,12 @@
 class User {
   final int id;
-  final String email;
+  String email;
   String token;
   final bool admin;
 
-  User({this.id: 0, required this.email, this.token: '', this.admin: false});
+  User(
+      {required this.id,
+      required this.email,
+      required this.token,
+      required this.admin});
 }
