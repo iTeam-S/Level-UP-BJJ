@@ -48,8 +48,8 @@ def extract(video_name):
 	ret,frame = cam.read(currentframe)
 
 	if ret:
-		name = './data/images/image' + str(time.time()) + '.jpg'
-		cv2.imwrite(name, frame)
+		name = 'image_' + str(time.time()) + '.jpg'
+		cv2.imwrite("./data/images/"+name, frame)
 
 		return name
 
@@ -154,9 +154,10 @@ def create_module():
 
 	try : 
 		cursor.execute("""
-			INSERT INTO Module(nom) VALUES("%s")
+			INSERT INTO Module(nom) VALUES(%s)
 		""",(nom)
 		)
+		db.commit()
 
 	except Exception:
 		return jsonify({'status': 'Module existant',}), 400
@@ -219,8 +220,11 @@ def upload_video():
 	"""
 		DESC : Fonction permettant d'uploader un vidéo
 	"""
-	token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2Mjc2NzQyNjYsInN1YiI6MX0.wHkz4rchzbK2CuXpevy2IdrpbTYGUXeRLyzD6jBEy40"
+	token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2Mjc3MjEwNDIsInN1YiI6MX0.bsn9q5Sb6BX8XP23YvyV8QFLW84c4uCX1-yU4cdd_fI"
+	# token = request.form.get('token')
 	user_id = 1
+	module_id = 1
+	titre_video = "Pompe 20 fois par jour, pourquoi ?"
 
 	if verifToken(token).get('sub') != user_id :
 		return {"status" : "Erreur Token"}, 403
@@ -237,8 +241,14 @@ def upload_video():
 		filename = secure_filename(file.filename)
 		file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 		image_name = extract("./data/videos/"+filename)
-		print(image_name)
-		return jsonify({'status': 'Video uploaded successfully'+filename}), 201
+
+		cursor.execute("""
+			INSERT INTO Video(titre, nom, image, module_id) VALUES(%s, %s, %s, %s)
+		""",(titre_video, str(time.time())+filename,  image_name, module_id)
+		)
+		db.commit()
+
+		return jsonify({'status': 'Video uploaded successfully'}), 201
 
 	else:
 		return jsonify({'status': 'Allowed file types are mp4, mkv, avi'}), 400
