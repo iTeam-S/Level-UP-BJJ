@@ -1,7 +1,8 @@
-import 'package:bjj_library/controlleur/api.dart';
-import 'package:bjj_library/controlleur/users.dart';
+import 'package:bjj_library/controller/api.dart';
+import 'package:bjj_library/controller/users.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:get/get.dart';
@@ -22,6 +23,9 @@ class _HomeScreenState extends State<HomeScreen> {
   // Instance ana controlleur
   UserController userController = Get.put(UserController());
   ApiController apiController = Get.put(ApiController());
+
+  // stockena donnee ilaina apres fermeture application
+  final box = GetStorage();
 
   void _doSomething(RoundedLoadingButtonController controller) async {
     Timer(Duration(seconds: 2), () {
@@ -656,6 +660,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       ),
                                       TextButton(
                                         onPressed: () {
+                                          box.remove('user');
                                           Get.offNamed('/login');
                                         },
                                         child: Text('OK'),

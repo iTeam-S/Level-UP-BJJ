@@ -1,17 +1,36 @@
+import 'package:bjj_library/controller/api.dart';
+import 'package:bjj_library/controller/users.dart';
+import 'package:bjj_library/model/users.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:bjj_library/view/splash.dart';
 import 'package:bjj_library/view/login.dart';
 import 'package:bjj_library/view/home.dart';
+import 'package:get_storage/get_storage.dart';
 
-void main() {
+void main() async {
+  await GetStorage.init();
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  final box = GetStorage();
+  final UserController userController = Get.put(UserController());
+  final ApiController apiController = Get.put(ApiController());
+
   @override
   Widget build(BuildContext context) {
-    Future.delayed(const Duration(milliseconds: 3000), () {
+    Future.delayed(const Duration(milliseconds: 2000), () async {
+      if (box.hasData('user')) {
+        Map usrTmp = box.read('user');
+        userController.user = User(
+            email: usrTmp['email'],
+            admin: usrTmp['admin'],
+            id: usrTmp['id'],
+            token: usrTmp['token']);
+        Get.offNamed('/home');
+        return;
+      }
       Get.offNamed('/login');
     });
     return GetMaterialApp(
