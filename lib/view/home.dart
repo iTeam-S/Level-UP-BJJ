@@ -33,6 +33,91 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
+  void changePassword() {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) => SimpleDialog(
+              title: Text(
+                "Changement de mot de passe",
+              ),
+              children: [
+                Container(
+                    height: MediaQuery.of(context).size.height * 0.08,
+                    margin: EdgeInsets.symmetric(
+                        horizontal: MediaQuery.of(context).size.width * 0.06,
+                        vertical: MediaQuery.of(context).size.height * 0.0113),
+                    child: TextField(
+                      style: TextStyle(fontSize: 13, color: Colors.grey[800]),
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Colors.blue[50],
+                        border: OutlineInputBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(90.0)),
+                            borderSide: BorderSide.none),
+                        focusedBorder: UnderlineInputBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(90.0)),
+                            borderSide: BorderSide.none),
+                        hintText: "Ancien mot de passe",
+                        prefixIcon: Icon(Icons.lock, color: Colors.blue),
+                      ),
+                    )),
+                Container(
+                    height: MediaQuery.of(context).size.height * 0.08,
+                    margin: EdgeInsets.symmetric(
+                      horizontal: MediaQuery.of(context).size.width * 0.06,
+                    ),
+                    child: TextField(
+                      style: TextStyle(fontSize: 13, color: Colors.grey[800]),
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Colors.blue[50],
+                        border: OutlineInputBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(90.0)),
+                            borderSide: BorderSide.none),
+                        focusedBorder: UnderlineInputBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(90.0)),
+                            borderSide: BorderSide.none),
+                        hintText: "Nouveau mot de passe",
+                        prefixIcon: Icon(Icons.lock, color: Colors.blue),
+                      ),
+                    )),
+                Container(
+                  margin: EdgeInsets.symmetric(
+                      horizontal: MediaQuery.of(context).size.width * 0.06,
+                      vertical: MediaQuery.of(context).size.height * 0.01),
+                  child: RoundedLoadingButton(
+                    color: Colors.blue[400],
+                    successColor: Colors.blue,
+                    controller: _btnController,
+                    onPressed: () {
+                      _doSomething(_btnController);
+                      Navigator.pop(context);
+                      Get.snackbar(
+                        "Modification",
+                        "Votre mot de passe a été modifié.",
+                        backgroundColor: Colors.grey,
+                        snackPosition: SnackPosition.BOTTOM,
+                        borderColor: Colors.grey,
+                        borderRadius: 10,
+                        borderWidth: 2,
+                        barBlur: 0,
+                        duration: Duration(seconds: 2),
+                      );
+                    },
+                    valueColor: Colors.white,
+                    borderRadius: 90,
+                    child: Text("ENREGISTRER",
+                        style: TextStyle(color: Colors.white)),
+                  ),
+                ),
+              ],
+            ));
+  }
+
   late String fileName;
   late String path;
   late Map<String, String> paths;
@@ -150,7 +235,10 @@ class _HomeScreenState extends State<HomeScreen> {
                             margin: EdgeInsets.only(
                               left: MediaQuery.of(context).size.width * 0.1,
                             ),
-                            child: Text('Administrateur',
+                            child: Text(
+                                userController.user.admin
+                                    ? 'Administrateur'
+                                    : 'Utilisateur',
                                 style: TextStyle(
                                   fontSize: 14,
                                   color: Colors.white54,
@@ -166,511 +254,484 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Column(children: [
-                            ListTile(
-                              leading: Icon(Icons.video_collection_outlined,
-                                  color: Colors.blue[400]),
-                              title: Text("Vidéos"),
-                              onTap: () {
-                                Navigator.pop(context);
-                              },
-                            ),
-                            Divider(),
-                            ListTile(
-                              leading: Icon(Icons.add_outlined,
-                                  color: Colors.blue[400]),
-                              title: Text("Ajouter un module"),
-                              onTap: () {
-                                Navigator.pop(context);
-                                showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) =>
-                                        SimpleDialog(
-                                          title: Text(
-                                            "Ajouter un module",
-                                          ),
-                                          children: [
-                                            Container(
-                                                height: MediaQuery.of(context)
-                                                        .size
-                                                        .height *
-                                                    0.08,
-                                                margin: EdgeInsets.symmetric(
-                                                  horizontal:
-                                                      MediaQuery.of(context)
-                                                              .size
-                                                              .width *
-                                                          0.06,
-                                                ),
-                                                child: TextField(
-                                                  style: TextStyle(
-                                                      fontSize: 13,
-                                                      color: Colors.grey[800]),
-                                                  decoration: InputDecoration(
-                                                    filled: true,
-                                                    fillColor: Colors.blue[50],
-                                                    border: OutlineInputBorder(
-                                                        borderRadius:
-                                                            BorderRadius.all(
-                                                                Radius.circular(
-                                                                    90.0)),
-                                                        borderSide:
-                                                            BorderSide.none),
-                                                    focusedBorder:
-                                                        UnderlineInputBorder(
-                                                            borderRadius:
-                                                                BorderRadius.all(
-                                                                    Radius.circular(
-                                                                        90.0)),
-                                                            borderSide:
-                                                                BorderSide
-                                                                    .none),
-                                                    hintText: "Module",
-                                                    prefixIcon: Icon(
-                                                        Icons.edit_outlined,
-                                                        color: Colors.blue),
-                                                  ),
-                                                )),
-                                            Container(
-                                              margin: EdgeInsets.symmetric(
-                                                  horizontal:
-                                                      MediaQuery.of(context)
-                                                              .size
-                                                              .width *
-                                                          0.06,
-                                                  vertical:
-                                                      MediaQuery.of(context)
-                                                              .size
-                                                              .height *
-                                                          0.01),
-                                              child: RoundedLoadingButton(
-                                                color: Colors.blue[400],
-                                                successColor: Colors.blue,
-                                                controller: _btnController,
-                                                onPressed: () {
-                                                  _doSomething(_btnController);
-                                                  Navigator.pop(context);
-                                                  Get.snackbar(
-                                                    "Ajout",
-                                                    "Le module a été enregistré avec succès",
-                                                    backgroundColor:
-                                                        Colors.grey,
-                                                    snackPosition:
-                                                        SnackPosition.BOTTOM,
-                                                    borderColor: Colors.grey,
-                                                    borderRadius: 10,
-                                                    borderWidth: 2,
-                                                    barBlur: 0,
-                                                    duration:
-                                                        Duration(seconds: 2),
-                                                  );
-                                                },
-                                                valueColor: Colors.white,
-                                                borderRadius: 90,
-                                                child: Text("AJOUTER",
-                                                    style: TextStyle(
-                                                        color: Colors.white)),
-                                              ),
-                                            ),
-                                          ],
-                                        ));
-                              },
-                            ),
-                            Divider(),
-                            ListTile(
-                              leading: Icon(Icons.edit_outlined,
-                                  color: Colors.blue[400]),
-                              title: Text("Modifier un module"),
-                              onTap: () {
-                                Navigator.pop(context);
-                                showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) =>
-                                        SimpleDialog(
-                                          title: Text(
-                                            "Modifier un module",
-                                          ),
-                                          children: [
-                                            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                            Row(children: [
-                                              Container(
-                                                height: MediaQuery.of(context)
-                                                        .size
-                                                        .height *
-                                                    0.06,
-                                                margin: EdgeInsets.symmetric(
-                                                  horizontal:
-                                                      MediaQuery.of(context)
-                                                              .size
-                                                              .width *
-                                                          0.09,
-                                                  vertical:
-                                                      MediaQuery.of(context)
-                                                              .size
-                                                              .height *
-                                                          0.0115,
-                                                ),
-                                                child: Row(children: [
-                                                  DropdownButton(
-                                                      icon: Icon(Icons
-                                                          .arrow_drop_down_circle),
-                                                      iconDisabledColor:
-                                                          Colors.blue[400],
-                                                      iconEnabledColor:
-                                                          Colors.blue[400],
-                                                      iconSize: 20,
-                                                      underline: SizedBox(),
-                                                      hint: Text('Module',
-                                                          style: TextStyle(
-                                                              fontSize: 14)),
-                                                      items: [
-                                                        DropdownMenuItem(
-                                                          child: Text('Course'),
-                                                          value: 1,
-                                                        ),
-                                                        DropdownMenuItem(
-                                                          child: Text('Pompe'),
-                                                          value: 2,
-                                                        ),
-                                                        DropdownMenuItem(
-                                                          child:
-                                                              Text('Traction'),
-                                                          value: 3,
-                                                        ),
-                                                      ],
-                                                      onChanged: (value) =>
-                                                          print(value))
-                                                ]),
-                                              ),
-                                              Container(
-                                                margin: EdgeInsets.only(
-                                                    // left: MediaQuery.of(context).size.width*0.15,
+                          Column(
+                              children: userController.user.admin
+                                  ? [
+                                      ListTile(
+                                        leading: Icon(
+                                            Icons.video_collection_outlined,
+                                            color: Colors.blue[400]),
+                                        title: Text("Vidéos"),
+                                        onTap: () {
+                                          Navigator.pop(context);
+                                        },
+                                      ),
+                                      Divider(),
+                                      ListTile(
+                                        leading: Icon(Icons.add_outlined,
+                                            color: Colors.blue[400]),
+                                        title: Text("Ajouter un module"),
+                                        onTap: () {
+                                          Navigator.pop(context);
+                                          showDialog(
+                                              context: context,
+                                              builder: (BuildContext context) =>
+                                                  SimpleDialog(
+                                                    title: Text(
+                                                      "Ajouter un module",
                                                     ),
-                                                child: IconButton(
-                                                  onPressed: () {
-                                                    Navigator.pop(context);
-                                                    showDialog(
-                                                      context: context,
-                                                      builder: (BuildContext
-                                                              context) =>
-                                                          AlertDialog(
-                                                        title: const Text(
-                                                            "Suppression d'un module"),
-                                                        content: const Text(
-                                                            'Voulez-vous vraiment supprimer ce module ?'),
-                                                        actions: [
-                                                          TextButton(
-                                                            onPressed: () =>
-                                                                Navigator.pop(
-                                                                    context,
-                                                                    'Annuler'),
-                                                            child: const Text(
-                                                                'Annuler'),
+                                                    children: [
+                                                      Container(
+                                                          height: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .height *
+                                                              0.08,
+                                                          margin: EdgeInsets
+                                                              .symmetric(
+                                                            horizontal:
+                                                                MediaQuery.of(
+                                                                            context)
+                                                                        .size
+                                                                        .width *
+                                                                    0.06,
                                                           ),
-                                                          TextButton(
+                                                          child: TextField(
+                                                            style: TextStyle(
+                                                                fontSize: 13,
+                                                                color: Colors
+                                                                    .grey[800]),
+                                                            decoration:
+                                                                InputDecoration(
+                                                              filled: true,
+                                                              fillColor: Colors
+                                                                  .blue[50],
+                                                              border: OutlineInputBorder(
+                                                                  borderRadius:
+                                                                      BorderRadius.all(
+                                                                          Radius.circular(
+                                                                              90.0)),
+                                                                  borderSide:
+                                                                      BorderSide
+                                                                          .none),
+                                                              focusedBorder: UnderlineInputBorder(
+                                                                  borderRadius:
+                                                                      BorderRadius.all(
+                                                                          Radius.circular(
+                                                                              90.0)),
+                                                                  borderSide:
+                                                                      BorderSide
+                                                                          .none),
+                                                              hintText:
+                                                                  "Module",
+                                                              prefixIcon: Icon(
+                                                                  Icons
+                                                                      .edit_outlined,
+                                                                  color: Colors
+                                                                      .blue),
+                                                            ),
+                                                          )),
+                                                      Container(
+                                                        margin: EdgeInsets.symmetric(
+                                                            horizontal:
+                                                                MediaQuery.of(
+                                                                            context)
+                                                                        .size
+                                                                        .width *
+                                                                    0.06,
+                                                            vertical: MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .height *
+                                                                0.01),
+                                                        child:
+                                                            RoundedLoadingButton(
+                                                          color:
+                                                              Colors.blue[400],
+                                                          successColor:
+                                                              Colors.blue,
+                                                          controller:
+                                                              _btnController,
+                                                          onPressed: () {
+                                                            _doSomething(
+                                                                _btnController);
+                                                            Navigator.pop(
+                                                                context);
+                                                            Get.snackbar(
+                                                              "Ajout",
+                                                              "Le module a été enregistré avec succès",
+                                                              backgroundColor:
+                                                                  Colors.grey,
+                                                              snackPosition:
+                                                                  SnackPosition
+                                                                      .BOTTOM,
+                                                              borderColor:
+                                                                  Colors.grey,
+                                                              borderRadius: 10,
+                                                              borderWidth: 2,
+                                                              barBlur: 0,
+                                                              duration:
+                                                                  Duration(
+                                                                      seconds:
+                                                                          2),
+                                                            );
+                                                          },
+                                                          valueColor:
+                                                              Colors.white,
+                                                          borderRadius: 90,
+                                                          child: Text("AJOUTER",
+                                                              style: TextStyle(
+                                                                  color: Colors
+                                                                      .white)),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ));
+                                        },
+                                      ),
+                                      Divider(),
+                                      ListTile(
+                                        leading: Icon(Icons.edit_outlined,
+                                            color: Colors.blue[400]),
+                                        title: Text("Modifier un module"),
+                                        onTap: () {
+                                          Navigator.pop(context);
+                                          showDialog(
+                                              context: context,
+                                              builder: (BuildContext context) =>
+                                                  SimpleDialog(
+                                                    title: Text(
+                                                      "Modifier un module",
+                                                    ),
+                                                    children: [
+                                                      // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                      Row(children: [
+                                                        Container(
+                                                          height: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .height *
+                                                              0.06,
+                                                          margin: EdgeInsets
+                                                              .symmetric(
+                                                            horizontal:
+                                                                MediaQuery.of(
+                                                                            context)
+                                                                        .size
+                                                                        .width *
+                                                                    0.09,
+                                                            vertical: MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .height *
+                                                                0.0115,
+                                                          ),
+                                                          child: Row(children: [
+                                                            DropdownButton(
+                                                                icon: Icon(Icons
+                                                                    .arrow_drop_down_circle),
+                                                                iconDisabledColor:
+                                                                    Colors.blue[
+                                                                        400],
+                                                                iconEnabledColor:
+                                                                    Colors.blue[
+                                                                        400],
+                                                                iconSize: 20,
+                                                                underline:
+                                                                    SizedBox(),
+                                                                hint: Text(
+                                                                    'Module',
+                                                                    style: TextStyle(
+                                                                        fontSize:
+                                                                            14)),
+                                                                items: [
+                                                                  DropdownMenuItem(
+                                                                    child: Text(
+                                                                        'Course'),
+                                                                    value: 1,
+                                                                  ),
+                                                                  DropdownMenuItem(
+                                                                    child: Text(
+                                                                        'Pompe'),
+                                                                    value: 2,
+                                                                  ),
+                                                                  DropdownMenuItem(
+                                                                    child: Text(
+                                                                        'Traction'),
+                                                                    value: 3,
+                                                                  ),
+                                                                ],
+                                                                onChanged:
+                                                                    (value) =>
+                                                                        print(
+                                                                            value))
+                                                          ]),
+                                                        ),
+                                                        Container(
+                                                          margin: EdgeInsets.only(
+                                                              // left: MediaQuery.of(context).size.width*0.15,
+                                                              ),
+                                                          child: IconButton(
                                                             onPressed: () {
-                                                              _doSomething(
-                                                                  _btnController);
                                                               Navigator.pop(
                                                                   context);
-                                                              Get.snackbar(
-                                                                "Suppression",
-                                                                "Le module a été supprimé.",
-                                                                backgroundColor:
-                                                                    Colors.grey,
-                                                                snackPosition:
-                                                                    SnackPosition
-                                                                        .BOTTOM,
-                                                                borderColor:
-                                                                    Colors.grey,
-                                                                borderRadius:
-                                                                    10,
-                                                                borderWidth: 2,
-                                                                barBlur: 0,
-                                                                duration:
-                                                                    Duration(
-                                                                        seconds:
-                                                                            2),
+                                                              showDialog(
+                                                                context:
+                                                                    context,
+                                                                builder: (BuildContext
+                                                                        context) =>
+                                                                    AlertDialog(
+                                                                  title: const Text(
+                                                                      "Suppression d'un module"),
+                                                                  content:
+                                                                      const Text(
+                                                                          'Voulez-vous vraiment supprimer ce module ?'),
+                                                                  actions: [
+                                                                    TextButton(
+                                                                      onPressed: () => Navigator.pop(
+                                                                          context,
+                                                                          'Annuler'),
+                                                                      child: const Text(
+                                                                          'Annuler'),
+                                                                    ),
+                                                                    TextButton(
+                                                                      onPressed:
+                                                                          () {
+                                                                        _doSomething(
+                                                                            _btnController);
+                                                                        Navigator.pop(
+                                                                            context);
+                                                                        Get.snackbar(
+                                                                          "Suppression",
+                                                                          "Le module a été supprimé.",
+                                                                          backgroundColor:
+                                                                              Colors.grey,
+                                                                          snackPosition:
+                                                                              SnackPosition.BOTTOM,
+                                                                          borderColor:
+                                                                              Colors.grey,
+                                                                          borderRadius:
+                                                                              10,
+                                                                          borderWidth:
+                                                                              2,
+                                                                          barBlur:
+                                                                              0,
+                                                                          duration:
+                                                                              Duration(seconds: 2),
+                                                                        );
+                                                                      },
+                                                                      child: Text(
+                                                                          'OK'),
+                                                                    ),
+                                                                  ],
+                                                                ),
                                                               );
                                                             },
-                                                            child: Text('OK'),
+                                                            icon: Icon(
+                                                                Icons.delete,
+                                                                color: Colors
+                                                                    .red[400],
+                                                                size: 22),
                                                           ),
-                                                        ],
+                                                        ),
+                                                      ]),
+                                                      Container(
+                                                          height: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .height *
+                                                              0.08,
+                                                          margin: EdgeInsets
+                                                              .symmetric(
+                                                            horizontal:
+                                                                MediaQuery.of(
+                                                                            context)
+                                                                        .size
+                                                                        .width *
+                                                                    0.06,
+                                                          ),
+                                                          child: TextField(
+                                                            style: TextStyle(
+                                                                fontSize: 13,
+                                                                color: Colors
+                                                                    .grey[800]),
+                                                            decoration:
+                                                                InputDecoration(
+                                                              filled: true,
+                                                              fillColor: Colors
+                                                                  .blue[50],
+                                                              border: OutlineInputBorder(
+                                                                  borderRadius:
+                                                                      BorderRadius.all(
+                                                                          Radius.circular(
+                                                                              90.0)),
+                                                                  borderSide:
+                                                                      BorderSide
+                                                                          .none),
+                                                              focusedBorder: UnderlineInputBorder(
+                                                                  borderRadius:
+                                                                      BorderRadius.all(
+                                                                          Radius.circular(
+                                                                              90.0)),
+                                                                  borderSide:
+                                                                      BorderSide
+                                                                          .none),
+                                                              hintText:
+                                                                  "Nouveau nom de module",
+                                                              prefixIcon: Icon(
+                                                                  Icons
+                                                                      .edit_outlined,
+                                                                  color: Colors
+                                                                      .blue),
+                                                            ),
+                                                          )),
+                                                      Container(
+                                                        margin: EdgeInsets.symmetric(
+                                                            horizontal:
+                                                                MediaQuery.of(
+                                                                            context)
+                                                                        .size
+                                                                        .width *
+                                                                    0.06,
+                                                            vertical: MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .height *
+                                                                0.01),
+                                                        child:
+                                                            RoundedLoadingButton(
+                                                          color:
+                                                              Colors.blue[400],
+                                                          successColor:
+                                                              Colors.blue,
+                                                          controller:
+                                                              _btnController,
+                                                          onPressed: () {
+                                                            _doSomething(
+                                                                _btnController);
+                                                            Navigator.pop(
+                                                                context);
+                                                            Get.snackbar(
+                                                              "Modification",
+                                                              "Le nom de module a été modifié",
+                                                              backgroundColor:
+                                                                  Colors.grey,
+                                                              snackPosition:
+                                                                  SnackPosition
+                                                                      .BOTTOM,
+                                                              borderColor:
+                                                                  Colors.grey,
+                                                              borderRadius: 10,
+                                                              borderWidth: 2,
+                                                              barBlur: 0,
+                                                              duration:
+                                                                  Duration(
+                                                                      seconds:
+                                                                          2),
+                                                            );
+                                                          },
+                                                          valueColor:
+                                                              Colors.white,
+                                                          borderRadius: 90,
+                                                          child: Text(
+                                                              "ENREGISTRER",
+                                                              style: TextStyle(
+                                                                  color: Colors
+                                                                      .white)),
+                                                        ),
                                                       ),
-                                                    );
-                                                  },
-                                                  icon: Icon(Icons.delete,
-                                                      color: Colors.red[400],
-                                                      size: 22),
-                                                ),
-                                              ),
-                                            ]),
-                                            Container(
-                                                height: MediaQuery.of(context)
-                                                        .size
-                                                        .height *
-                                                    0.08,
-                                                margin: EdgeInsets.symmetric(
-                                                  horizontal:
-                                                      MediaQuery.of(context)
-                                                              .size
-                                                              .width *
-                                                          0.06,
-                                                ),
-                                                child: TextField(
-                                                  style: TextStyle(
-                                                      fontSize: 13,
-                                                      color: Colors.grey[800]),
-                                                  decoration: InputDecoration(
-                                                    filled: true,
-                                                    fillColor: Colors.blue[50],
-                                                    border: OutlineInputBorder(
-                                                        borderRadius:
-                                                            BorderRadius.all(
-                                                                Radius.circular(
-                                                                    90.0)),
-                                                        borderSide:
-                                                            BorderSide.none),
-                                                    focusedBorder:
-                                                        UnderlineInputBorder(
-                                                            borderRadius:
-                                                                BorderRadius.all(
-                                                                    Radius.circular(
-                                                                        90.0)),
-                                                            borderSide:
-                                                                BorderSide
-                                                                    .none),
-                                                    hintText:
-                                                        "Nouveau nom de module",
-                                                    prefixIcon: Icon(
-                                                        Icons.edit_outlined,
-                                                        color: Colors.blue),
-                                                  ),
-                                                )),
-                                            Container(
-                                              margin: EdgeInsets.symmetric(
-                                                  horizontal:
-                                                      MediaQuery.of(context)
-                                                              .size
-                                                              .width *
-                                                          0.06,
-                                                  vertical:
-                                                      MediaQuery.of(context)
-                                                              .size
-                                                              .height *
-                                                          0.01),
-                                              child: RoundedLoadingButton(
-                                                color: Colors.blue[400],
-                                                successColor: Colors.blue,
-                                                controller: _btnController,
-                                                onPressed: () {
-                                                  _doSomething(_btnController);
-                                                  Navigator.pop(context);
-                                                  Get.snackbar(
-                                                    "Modification",
-                                                    "Le nom de module a été modifié",
-                                                    backgroundColor:
-                                                        Colors.grey,
-                                                    snackPosition:
-                                                        SnackPosition.BOTTOM,
-                                                    borderColor: Colors.grey,
-                                                    borderRadius: 10,
-                                                    borderWidth: 2,
-                                                    barBlur: 0,
-                                                    duration:
-                                                        Duration(seconds: 2),
-                                                  );
-                                                },
-                                                valueColor: Colors.white,
-                                                borderRadius: 90,
-                                                child: Text("ENREGISTRER",
-                                                    style: TextStyle(
-                                                        color: Colors.white)),
-                                              ),
-                                            ),
-                                          ],
-                                        ));
-                              },
-                            ),
-                            Divider(),
-                            ListTile(
-                              leading:
-                                  Icon(Icons.lock, color: Colors.blue[400]),
-                              title: Text("Changer mot de passe"),
-                              onTap: () {
-                                Navigator.pop(context);
-                                showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) =>
-                                        SimpleDialog(
-                                          title: Text(
-                                            "Changement de mot de passe",
-                                          ),
-                                          children: [
-                                            Container(
-                                                height: MediaQuery.of(context)
-                                                        .size
-                                                        .height *
-                                                    0.08,
-                                                margin: EdgeInsets.symmetric(
-                                                    horizontal:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .width *
-                                                            0.06,
-                                                    vertical:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .height *
-                                                            0.0113),
-                                                child: TextField(
-                                                  style: TextStyle(
-                                                      fontSize: 13,
-                                                      color: Colors.grey[800]),
-                                                  decoration: InputDecoration(
-                                                    filled: true,
-                                                    fillColor: Colors.blue[50],
-                                                    border: OutlineInputBorder(
-                                                        borderRadius:
-                                                            BorderRadius.all(
-                                                                Radius.circular(
-                                                                    90.0)),
-                                                        borderSide:
-                                                            BorderSide.none),
-                                                    focusedBorder:
-                                                        UnderlineInputBorder(
-                                                            borderRadius:
-                                                                BorderRadius.all(
-                                                                    Radius.circular(
-                                                                        90.0)),
-                                                            borderSide:
-                                                                BorderSide
-                                                                    .none),
-                                                    hintText:
-                                                        "Ancien mot de passe",
-                                                    prefixIcon: Icon(Icons.lock,
-                                                        color: Colors.blue),
-                                                  ),
-                                                )),
-                                            Container(
-                                                height: MediaQuery.of(context)
-                                                        .size
-                                                        .height *
-                                                    0.08,
-                                                margin: EdgeInsets.symmetric(
-                                                  horizontal:
-                                                      MediaQuery.of(context)
-                                                              .size
-                                                              .width *
-                                                          0.06,
-                                                ),
-                                                child: TextField(
-                                                  style: TextStyle(
-                                                      fontSize: 13,
-                                                      color: Colors.grey[800]),
-                                                  decoration: InputDecoration(
-                                                    filled: true,
-                                                    fillColor: Colors.blue[50],
-                                                    border: OutlineInputBorder(
-                                                        borderRadius:
-                                                            BorderRadius.all(
-                                                                Radius.circular(
-                                                                    90.0)),
-                                                        borderSide:
-                                                            BorderSide.none),
-                                                    focusedBorder:
-                                                        UnderlineInputBorder(
-                                                            borderRadius:
-                                                                BorderRadius.all(
-                                                                    Radius.circular(
-                                                                        90.0)),
-                                                            borderSide:
-                                                                BorderSide
-                                                                    .none),
-                                                    hintText:
-                                                        "Nouveau mot de passe",
-                                                    prefixIcon: Icon(Icons.lock,
-                                                        color: Colors.blue),
-                                                  ),
-                                                )),
-                                            Container(
-                                              margin: EdgeInsets.symmetric(
-                                                  horizontal:
-                                                      MediaQuery.of(context)
-                                                              .size
-                                                              .width *
-                                                          0.06,
-                                                  vertical:
-                                                      MediaQuery.of(context)
-                                                              .size
-                                                              .height *
-                                                          0.01),
-                                              child: RoundedLoadingButton(
-                                                color: Colors.blue[400],
-                                                successColor: Colors.blue,
-                                                controller: _btnController,
-                                                onPressed: () {
-                                                  _doSomething(_btnController);
-                                                  Navigator.pop(context);
-                                                  Get.snackbar(
-                                                    "Modification",
-                                                    "Votre mot de passe a été modifié.",
-                                                    backgroundColor:
-                                                        Colors.grey,
-                                                    snackPosition:
-                                                        SnackPosition.BOTTOM,
-                                                    borderColor: Colors.grey,
-                                                    borderRadius: 10,
-                                                    borderWidth: 2,
-                                                    barBlur: 0,
-                                                    duration:
-                                                        Duration(seconds: 2),
-                                                  );
-                                                },
-                                                valueColor: Colors.white,
-                                                borderRadius: 90,
-                                                child: Text("ENREGISTRER",
-                                                    style: TextStyle(
-                                                        color: Colors.white)),
-                                              ),
-                                            ),
-                                          ],
-                                        ));
-                              },
-                            ),
-                            Divider(),
-                            ListTile(
-                              leading: Icon(Icons.logout_outlined,
-                                  color: Colors.blue[400]),
-                              title: Text("Deconnexion"),
-                              onTap: () {
-                                Navigator.pop(context);
-                                showDialog(
-                                  context: context,
-                                  builder: (BuildContext context) =>
-                                      AlertDialog(
-                                    title: const Text("Deconnexion"),
-                                    content: const Text(
-                                        'Voulez-vous vraiment vous déconnecter ?'),
-                                    actions: [
-                                      TextButton(
-                                        onPressed: () =>
-                                            Navigator.pop(context, 'Annuler'),
-                                        child: const Text('Annuler'),
-                                      ),
-                                      TextButton(
-                                        onPressed: () {
-                                          box.remove('user');
-                                          Get.offNamed('/login');
+                                                    ],
+                                                  ));
                                         },
-                                        child: Text('OK'),
                                       ),
-                                    ],
-                                  ),
-                                );
-                              },
-                            ),
-                          ]),
+                                      Divider(),
+                                      ListTile(
+                                        leading: Icon(Icons.lock,
+                                            color: Colors.blue[400]),
+                                        title: Text("Changer mot de passe"),
+                                        onTap: () {
+                                          Navigator.pop(context);
+                                          changePassword();
+                                        },
+                                      ),
+                                      Divider(),
+                                      ListTile(
+                                        leading: Icon(Icons.logout_outlined,
+                                            color: Colors.blue[400]),
+                                        title: Text("Deconnexion"),
+                                        onTap: () {
+                                          Navigator.pop(context);
+                                          showDialog(
+                                            context: context,
+                                            builder: (BuildContext context) =>
+                                                AlertDialog(
+                                              title: const Text("Deconnexion"),
+                                              content: const Text(
+                                                  'Voulez-vous vraiment vous déconnecter ?'),
+                                              actions: [
+                                                TextButton(
+                                                  onPressed: () =>
+                                                      Navigator.pop(
+                                                          context, 'Annuler'),
+                                                  child: const Text('Annuler'),
+                                                ),
+                                                TextButton(
+                                                  onPressed: () {
+                                                    box.remove('user');
+                                                    Get.offNamed('/login');
+                                                  },
+                                                  child: Text('OK'),
+                                                ),
+                                              ],
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    ]
+                                  : [
+                                      ListTile(
+                                        leading: Icon(Icons.lock,
+                                            color: Colors.blue[400]),
+                                        title: Text("Changer mot de passe"),
+                                        onTap: () {
+                                          Navigator.pop(context);
+                                          changePassword();
+                                        },
+                                      ),
+                                      Divider(),
+                                      ListTile(
+                                        leading: Icon(Icons.logout_outlined,
+                                            color: Colors.blue[400]),
+                                        title: Text("Deconnexion"),
+                                        onTap: () {
+                                          Navigator.pop(context);
+                                          showDialog(
+                                            context: context,
+                                            builder: (BuildContext context) =>
+                                                AlertDialog(
+                                              title: const Text("Deconnexion"),
+                                              content: const Text(
+                                                  'Voulez-vous vraiment vous déconnecter ?'),
+                                              actions: [
+                                                TextButton(
+                                                  onPressed: () =>
+                                                      Navigator.pop(
+                                                          context, 'Annuler'),
+                                                  child: const Text('Annuler'),
+                                                ),
+                                                TextButton(
+                                                  onPressed: () {
+                                                    box.remove('user');
+                                                    Get.offNamed('/login');
+                                                  },
+                                                  child: Text('OK'),
+                                                ),
+                                              ],
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    ]),
                           Container(
                             alignment: Alignment.center,
                             child: Text(
@@ -3257,139 +3318,153 @@ class _HomeScreenState extends State<HomeScreen> {
             Container(child: Icon(Icons.camera)),
             Container(child: Icon(Icons.camera)),
           ]),
-          floatingActionButton: FloatingActionButton(
-            onPressed: () {
-              showDialog(
-                  context: context,
-                  builder: (BuildContext context) => SimpleDialog(
-                        title: Text(
-                          "Ajouter une vidéo",
-                        ),
-                        children: [
-                          Container(
-                              height: MediaQuery.of(context).size.height * 0.08,
-                              margin: EdgeInsets.symmetric(
-                                  horizontal:
-                                      MediaQuery.of(context).size.width * 0.06,
-                                  vertical: MediaQuery.of(context).size.height *
-                                      0.0113),
-                              child: TextField(
-                                style: TextStyle(
-                                    fontSize: 13, color: Colors.grey[800]),
-                                decoration: InputDecoration(
-                                  filled: true,
-                                  fillColor: Colors.blue[50],
-                                  border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(90.0)),
-                                      borderSide: BorderSide.none),
-                                  focusedBorder: UnderlineInputBorder(
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(90.0)),
-                                      borderSide: BorderSide.none),
-                                  hintText: "Titre",
-                                  prefixIcon:
-                                      Icon(Icons.edit, color: Colors.blue),
-                                ),
-                              )),
-                          Container(
-                              height: MediaQuery.of(context).size.height * 0.08,
-                              margin: EdgeInsets.symmetric(
-                                horizontal:
-                                    MediaQuery.of(context).size.width * 0.06,
-                                // vertical: MediaQuery.of(context).size.height*0.0110
+          floatingActionButton: userController.user.admin
+              ? FloatingActionButton(
+                  onPressed: () {
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) => SimpleDialog(
+                              title: Text(
+                                "Ajouter une vidéo",
                               ),
-                              child: TextField(
-                                focusNode: _focus,
-                                style: TextStyle(
-                                    fontSize: 13, color: Colors.grey[800]),
-                                decoration: InputDecoration(
-                                  filled: true,
-                                  fillColor: Colors.blue[50],
-                                  border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(90.0)),
-                                      borderSide: BorderSide.none),
-                                  focusedBorder: UnderlineInputBorder(
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(90.0)),
-                                      borderSide: BorderSide.none),
-                                  hintText: "Video",
-                                  prefixIcon: Icon(Icons.video_library_outlined,
-                                      color: Colors.blue),
+                              children: [
+                                Container(
+                                    height: MediaQuery.of(context).size.height *
+                                        0.08,
+                                    margin: EdgeInsets.symmetric(
+                                        horizontal:
+                                            MediaQuery.of(context).size.width *
+                                                0.06,
+                                        vertical:
+                                            MediaQuery.of(context).size.height *
+                                                0.0113),
+                                    child: TextField(
+                                      style: TextStyle(
+                                          fontSize: 13,
+                                          color: Colors.grey[800]),
+                                      decoration: InputDecoration(
+                                        filled: true,
+                                        fillColor: Colors.blue[50],
+                                        border: OutlineInputBorder(
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(90.0)),
+                                            borderSide: BorderSide.none),
+                                        focusedBorder: UnderlineInputBorder(
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(90.0)),
+                                            borderSide: BorderSide.none),
+                                        hintText: "Titre",
+                                        prefixIcon: Icon(Icons.edit,
+                                            color: Colors.blue),
+                                      ),
+                                    )),
+                                Container(
+                                    height: MediaQuery.of(context).size.height *
+                                        0.08,
+                                    margin: EdgeInsets.symmetric(
+                                      horizontal:
+                                          MediaQuery.of(context).size.width *
+                                              0.06,
+                                      // vertical: MediaQuery.of(context).size.height*0.0110
+                                    ),
+                                    child: TextField(
+                                      focusNode: _focus,
+                                      style: TextStyle(
+                                          fontSize: 13,
+                                          color: Colors.grey[800]),
+                                      decoration: InputDecoration(
+                                        filled: true,
+                                        fillColor: Colors.blue[50],
+                                        border: OutlineInputBorder(
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(90.0)),
+                                            borderSide: BorderSide.none),
+                                        focusedBorder: UnderlineInputBorder(
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(90.0)),
+                                            borderSide: BorderSide.none),
+                                        hintText: "Video",
+                                        prefixIcon: Icon(
+                                            Icons.video_library_outlined,
+                                            color: Colors.blue),
+                                      ),
+                                    )),
+                                Container(
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.06,
+                                  margin: EdgeInsets.symmetric(
+                                    horizontal:
+                                        MediaQuery.of(context).size.width *
+                                            0.09,
+                                    // vertical: MediaQuery.of(context).size.height*0.0110,
+                                  ),
+                                  child: Row(children: [
+                                    DropdownButton(
+                                        icon:
+                                            Icon(Icons.arrow_drop_down_circle),
+                                        iconDisabledColor: Colors.blue[400],
+                                        iconEnabledColor: Colors.blue[400],
+                                        iconSize: 25,
+                                        underline: SizedBox(),
+                                        hint: Text('Module',
+                                            style: TextStyle(fontSize: 14)),
+                                        items: [
+                                          DropdownMenuItem(
+                                            child: Text('Course'),
+                                            value: 1,
+                                          ),
+                                          DropdownMenuItem(
+                                            child: Text('Pompe'),
+                                            value: 2,
+                                          ),
+                                          DropdownMenuItem(
+                                            child: Text('Traction'),
+                                            value: 3,
+                                          ),
+                                        ],
+                                        onChanged: (value) => print(value))
+                                  ]),
                                 ),
-                              )),
-                          Container(
-                            height: MediaQuery.of(context).size.height * 0.06,
-                            margin: EdgeInsets.symmetric(
-                              horizontal:
-                                  MediaQuery.of(context).size.width * 0.09,
-                              // vertical: MediaQuery.of(context).size.height*0.0110,
-                            ),
-                            child: Row(children: [
-                              DropdownButton(
-                                  icon: Icon(Icons.arrow_drop_down_circle),
-                                  iconDisabledColor: Colors.blue[400],
-                                  iconEnabledColor: Colors.blue[400],
-                                  iconSize: 25,
-                                  underline: SizedBox(),
-                                  hint: Text('Module',
-                                      style: TextStyle(fontSize: 14)),
-                                  items: [
-                                    DropdownMenuItem(
-                                      child: Text('Course'),
-                                      value: 1,
-                                    ),
-                                    DropdownMenuItem(
-                                      child: Text('Pompe'),
-                                      value: 2,
-                                    ),
-                                    DropdownMenuItem(
-                                      child: Text('Traction'),
-                                      value: 3,
-                                    ),
-                                  ],
-                                  onChanged: (value) => print(value))
-                            ]),
-                          ),
-                          Container(
-                            margin: EdgeInsets.symmetric(
-                              horizontal:
-                                  MediaQuery.of(context).size.width * 0.06,
-                              // vertical:MediaQuery.of(context).size.height*0.01
-                            ),
-                            child: RoundedLoadingButton(
-                              color: Colors.blue[400],
-                              successColor: Colors.blue,
-                              controller: _btnController,
-                              onPressed: () {
-                                _doSomething(_btnController);
-                                Navigator.pop(context);
-                                Get.snackbar(
-                                  "Ajout",
-                                  "La vidéo a été bien ajoutée.",
-                                  backgroundColor: Colors.grey,
-                                  snackPosition: SnackPosition.BOTTOM,
-                                  borderColor: Colors.grey,
-                                  borderRadius: 10,
-                                  borderWidth: 2,
-                                  barBlur: 0,
-                                  duration: Duration(seconds: 2),
-                                );
-                              },
-                              valueColor: Colors.white,
-                              borderRadius: 90,
-                              child: Text("AJOUTER",
-                                  style: TextStyle(color: Colors.white)),
-                            ),
-                          ),
-                        ],
-                      ));
-            },
-            child: const Icon(Icons.add),
-            backgroundColor: Colors.blue,
-            elevation: 10,
-          ),
+                                Container(
+                                  margin: EdgeInsets.symmetric(
+                                    horizontal:
+                                        MediaQuery.of(context).size.width *
+                                            0.06,
+                                    // vertical:MediaQuery.of(context).size.height*0.01
+                                  ),
+                                  child: RoundedLoadingButton(
+                                    color: Colors.blue[400],
+                                    successColor: Colors.blue,
+                                    controller: _btnController,
+                                    onPressed: () {
+                                      _doSomething(_btnController);
+                                      Navigator.pop(context);
+                                      Get.snackbar(
+                                        "Ajout",
+                                        "La vidéo a été bien ajoutée.",
+                                        backgroundColor: Colors.grey,
+                                        snackPosition: SnackPosition.BOTTOM,
+                                        borderColor: Colors.grey,
+                                        borderRadius: 10,
+                                        borderWidth: 2,
+                                        barBlur: 0,
+                                        duration: Duration(seconds: 2),
+                                      );
+                                    },
+                                    valueColor: Colors.white,
+                                    borderRadius: 90,
+                                    child: Text("AJOUTER",
+                                        style: TextStyle(color: Colors.white)),
+                                  ),
+                                ),
+                              ],
+                            ));
+                  },
+                  child: const Icon(Icons.add),
+                  backgroundColor: Colors.blue,
+                  elevation: 10,
+                )
+              : null,
         ));
   }
 
