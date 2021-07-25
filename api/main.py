@@ -10,6 +10,10 @@ import time
 
 app = Flask(__name__)
 
+db = mysql.connector.connect(**database())
+cursor = db.cursor()
+
+
 def encode_auth_token(user_id):
 	payload = {
 		'exp': datetime.utcnow() + timedelta(days=7),
@@ -26,6 +30,17 @@ def verifToken(token):
 		return jwt.decode(token, options={"verify_signature": False})
 	except:
 		return {"sub":0}
+
+def is_admin(user_id):
+	"""
+		DESC : Fonction permettant de vérifier si un user est un administrateur ou pas
+	"""
+	cursor.execute("""
+		SELECT admin FROM Utilisateur WHERE id = %s
+	""", (user_id,)
+	)
+	admin = cursor.fetchone()
+	return admin[0]
 
 def extract(video_name):
 	"""
@@ -48,8 +63,8 @@ def extract(video_name):
 	ret,frame = cam.read(currentframe)
 
 	if ret:
-		name = './data/images/image' + str(time.time()) + '.jpg'
-		cv2.imwrite(name, frame)
+		name = 'image_' + str(time.time()) + '.jpg'
+		cv2.imwrite("./data/images/"+name, frame)
 
 		return name
 
@@ -68,14 +83,10 @@ if not os.path.isdir(UPLOAD_FOLDER):
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-ALLOWED_EXTENSIONS = set(['mp4', 'mkv', 'avi'])
+ALLOWED_EXTENSIONS = set(['mp4', 'mkv', 'avi', 'webm'])
 
 def allowed_file(filename):
 	return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
-
-
-db = mysql.connector.connect(**database())
-cursor = db.cursor()
 
 
 @app.route('/')
@@ -122,6 +133,11 @@ def get_all_modules():
 	token = data.get("token")
 	user_id = data.get("user_id")
 
+	user_admin = is_admin(user_id)
+
+	if user_admin != 1 :
+		return {"status" : "Vous n'avez pas assez de droit !"}, 403
+
 	if verifToken(token).get('sub') != user_id :
 		return {"status" : "Erreur Token"}, 403
 
@@ -149,17 +165,23 @@ def create_module():
 	token = data.get("token")
 	user_id = data.get("user_id")
 
+	user_admin = is_admin(user_id)
+
+	if user_admin != 1 :
+		return {"status" : "Vous n'avez pas assez de droit !"}, 403
+
 	if verifToken(token).get('sub') != user_id :
 		return {"status" : "Erreur Token"}, 403
 
 	try : 
 		cursor.execute("""
-			INSERT INTO Module(nom) VALUES("%s")
+			INSERT INTO Module(nom) VALUES(%s)
 		""",(nom)
 		)
+		db.commit()
 
 	except Exception:
-		return jsonify({'status': 'Module existant',}), 400
+		return jsonify({'status': 'Module existant !',}), 400
 
 	return jsonify({'status': 'Création de module avec succès',}), 201
 
@@ -176,6 +198,11 @@ def update_module():
 	token = data.get("token")
 	user_id = data.get("user_id")
 
+	user_admin = is_admin(user_id)
+
+	if user_admin != 1 :
+		return {"status" : "Vous n'avez pas assez de droit !"}, 403
+
 	if verifToken(token).get('sub') != user_id :
 		return {"status" : "Erreur Token"}, 403
 
@@ -187,7 +214,7 @@ def update_module():
 		db.commit()
 
 	except Exception:
-		return jsonify({'status': 'Bad request'}), 400
+		return jsonify({'status': 'Module existant !'}), 400
 
 	return jsonify({'status': 'Module mis à jour avec succès'}), 204
 
@@ -199,7 +226,17 @@ def delete_module():
 	"""
 	data = request.get_json()
 	
-	module_id = data.get("id")
+	module_id = data.get("module_id")
+	token = data.get("token")
+	user_id = data.get("user_id")
+
+	user_admin = is_admin(user_id)
+
+	if user_admin != 1 :
+		return {"status" : "Vous n'avez pas assez de droit !"}, 403
+
+	if verifToken(token).get('sub') != user_id :
+		return {"status" : "Erreur Token"}, 403
 
 	try : 
 		cursor.execute("""
@@ -209,7 +246,7 @@ def delete_module():
 		db.commit()
 
 	except Exception:
-		return jsonify({'status': 'Bad request'}), 400
+		return jsonify({'status': "Ce module est en cours d'utilisation"}), 400
 
 	return jsonify({'status': 'Suppression de module avec succès'}), 204
 
@@ -219,8 +256,16 @@ def upload_video():
 	"""
 		DESC : Fonction permettant d'uploader un vidéo
 	"""
-	token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2Mjc2NzQyNjYsInN1YiI6MX0.wHkz4rchzbK2CuXpevy2IdrpbTYGUXeRLyzD6jBEy40"
-	user_id = 1
+	token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2Mjc3MjMwNzksInN1YiI6M30.U8qAatBoULsxrD3QkCPO8skGI5TiZ-UX9LyM93UM5dw"
+	# token = request.form.get('token')
+	user_id = 3
+	module_id = 1
+	titre_video = "Pompe 20 fois par jour, pourquoi ?"
+
+	user_admin = is_admin(user_id)
+
+	if user_admin != 1 :
+		return {"status" : "Vous n'avez pas assez de droit !"}, 403
 
 	if verifToken(token).get('sub') != user_id :
 		return {"status" : "Erreur Token"}, 403
@@ -237,11 +282,17 @@ def upload_video():
 		filename = secure_filename(file.filename)
 		file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 		image_name = extract("./data/videos/"+filename)
-		print(image_name)
-		return jsonify({'status': 'Video uploaded successfully'+filename}), 201
+
+		cursor.execute("""
+			INSERT INTO Video(titre, nom, image, module_id) VALUES(%s, %s, %s, %s)
+		""",(titre_video, str(time.time())+filename,  image_name, module_id)
+		)
+		db.commit()
+
+		return jsonify({'status': 'Video uploaded successfully'}), 201
 
 	else:
-		return jsonify({'status': 'Allowed file types are mp4, mkv, avi'}), 400
+		return jsonify({'status': 'Allowed file types are mp4, mkv, avi, webm'}), 400
 
 
 if __name__=="__main__":
