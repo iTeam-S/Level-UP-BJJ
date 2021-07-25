@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 
 class ApiController extends GetxController {
-  var client = Dio(BaseOptions(baseUrl: "http://192.168.137.71:4444"));
+  var client = Dio(BaseOptions(baseUrl: "http://192.168.2.5:4444"));
 
   Future<List> login(usr, passwd) async {
     try {
