@@ -293,6 +293,36 @@ def upload_video():
 
 	else:
 		return jsonify({'status': 'Allowed file types are mp4, mkv, avi, webm'}), 400
+	
+
+@app.route('/api/v1/get_all_videos/<int:limit>', methods=['GET'])
+def get_all_videos(limit):
+	"""
+		DESC : Fonction permettant de récuperer les vidéos
+	"""
+	token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2Mjc3MjMwNzksInN1YiI6M30.U8qAatBoULsxrD3QkCPO8skGI5TiZ-UX9LyM93UM5dw"
+	# token = request.form.get('token')
+	user_id = 3
+
+	if verifToken(token).get('sub') != user_id :
+		return {"status" : "Erreur Token"}, 403
+	
+	cursor.execute("""
+		SELECT * FROM Video ORDER BY id DESC LIMIT %s
+	""",(limit,)
+	)
+
+	video_data = cursor.fetchall()
+
+	return jsonify({"data": video_data}), 200
+
+# result = [
+# {'module_id': 1,
+# 'nom': 'gv',
+# 'videos': [ 
+# 	{'id'}, {}
+# ]}, {}
+# ]
 
 
 if __name__=="__main__":
