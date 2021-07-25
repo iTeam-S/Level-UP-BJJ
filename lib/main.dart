@@ -1,4 +1,4 @@
-import 'package:bjj_library/controller/api.dart';
+import 'package:bjj_library/service/api.dart';
 import 'package:bjj_library/controller/users.dart';
 import 'package:bjj_library/model/users.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Future.delayed(const Duration(milliseconds: 2000), () async {
+    Future.delayed(const Duration(milliseconds: 2000), () {
       if (box.hasData('user')) {
         Map usrTmp = box.read('user');
         userController.user = User(
