@@ -122,7 +122,7 @@ def login():
 		return jsonify({'status': 'Adresse email ou mot de passe incorrect',}), 403
 
 
-@app.route("/api/v1/get_all_modules/", methods=['GET'])
+@app.route("/api/v1/get_all_modules/", methods=['POST'])
 def get_all_modules():
 	"""
 		DESC : Fonction permettant de récuperer tous les modules
@@ -132,11 +132,6 @@ def get_all_modules():
 	
 	token = data.get("token")
 	user_id = data.get("user_id")
-
-	user_admin = is_admin(user_id)
-
-	if user_admin != 1 :
-		return {"status" : "Vous n'avez pas assez de droit !"}, 403
 
 	if verifToken(token).get('sub') != user_id :
 		return {"status" : "Erreur Token"}, 403
@@ -298,7 +293,7 @@ def upload_video():
 @app.route('/api/v1/get_all_videos/<int:limit>', methods=['GET'])
 def get_all_videos(limit):
 	"""
-		DESC : Fonction permettant de récuperer les vidéos
+		DESC : Fonction permettant de récuperer tous les vidéos
 	"""
 	token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2Mjc3MjMwNzksInN1YiI6M30.U8qAatBoULsxrD3QkCPO8skGI5TiZ-UX9LyM93UM5dw"
 	# token = request.form.get('token')
@@ -316,13 +311,63 @@ def get_all_videos(limit):
 
 	return jsonify({"data": video_data}), 200
 
-# result = [
-# {'module_id': 1,
-# 'nom': 'gv',
-# 'videos': [ 
-# 	{'id'}, {}
-# ]}, {}
-# ]
+
+@app.route('/api/v1/get_videos/', methods=['POST'])
+def get_videos():
+	"""
+		DESC : Fonction permettant de récuperer les vidéos
+	"""
+	def struct_video(video):
+		return {
+			'id': video[0],
+			'titre': video[1],
+			'date_upload': video[2],
+			'nom': video[3],
+			'image': video[4]
+		}
+
+	token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2Mjc3MjMwNzksInN1YiI6M30.U8qAatBoULsxrD3QkCPO8skGI5TiZ-UX9LyM93UM5dw"
+	# token = request.form.get('token')
+	
+	data = request.get_json()
+	
+	module_id = data.get("module_id")
+	user_id = data.get("user_id")
+	limit =  data.get("limit")
+
+	if verifToken(token).get('sub') != user_id :
+		return {"status" : "Erreur Token"}, 403
+	
+	resultat = []
+	if module_id :
+		cursor.execute("""
+			SELECT id, nom FROM Module WHERE id = %s
+		""",(module_id,)
+		)
+	else:
+		cursor.execute("""
+			SELECT id, nom FROM Module
+		""")
+	
+	module_data = cursor.fetchall()
+
+	for mdl in module_data:
+		cursor.execute('''
+			SELECT * FROM Video WHERE module_id = %s
+			ORDER BY id DESC
+		''', (mdl[0],))
+
+		video_data = cursor.fetchall()[:limit]
+
+		resultat.append(
+			{
+				'module_id': mdl[0],
+				'nom': mdl[1],
+				'videos': list(map(struct_video, video_data))
+			}
+		)
+
+	return  jsonify({'data': resultat}), 200
 
 
 if __name__=="__main__":
