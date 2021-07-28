@@ -1,5 +1,5 @@
 import os
-from flask import Flask , request, jsonify, flash, redirect, render_template
+from flask import Flask , request, jsonify, flash, redirect, render_template, send_from_directory
 from conf import *
 import mysql.connector, time
 from datetime import date, datetime, timedelta
@@ -122,7 +122,7 @@ def login():
 		return jsonify({'status': 'Adresse email ou mot de passe incorrect',}), 403
 
 
-@app.route("/api/v1/get_all_modules/", methods=['GET'])
+@app.route("/api/v1/get_all_modules/", methods=['POST'])
 def get_all_modules():
 	"""
 		DESC : Fonction permettant de récuperer tous les modules
@@ -132,11 +132,6 @@ def get_all_modules():
 	
 	token = data.get("token")
 	user_id = data.get("user_id")
-
-	user_admin = is_admin(user_id)
-
-	if user_admin != 1 :
-		return {"status" : "Vous n'avez pas assez de droit !"}, 403
 
 	if verifToken(token).get('sub') != user_id :
 		return {"status" : "Erreur Token"}, 403
@@ -186,7 +181,7 @@ def create_module():
 	return jsonify({'status': 'Création de module avec succès',}), 201
 
 
-@app.route("/api/v1/update_module/", methods=['PUT'])
+@app.route("/api/v1/update_module/", methods=['POST'])
 def update_module():
 	"""
 		DESC : Fonction permettant de modifier un module'
@@ -256,11 +251,10 @@ def upload_video():
 	"""
 		DESC : Fonction permettant d'uploader un vidéo
 	"""
-	token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2Mjc3MjMwNzksInN1YiI6M30.U8qAatBoULsxrD3QkCPO8skGI5TiZ-UX9LyM93UM5dw"
-	# token = request.form.get('token')
-	user_id = 3
-	module_id = 1
-	titre_video = "Pompe 20 fois par jour, pourquoi ?"
+	token = request.form.get('token')
+	user_id = request.form.get('user_id')
+	module_id = request.form.get('module_id')
+	titre_video = request.form.get('titre_video')
 
 	user_admin = is_admin(user_id)
 
@@ -279,13 +273,13 @@ def upload_video():
 		return jsonify({'status': 'No file selected'}), 400
 	
 	if file and allowed_file(file.filename):
-		filename = secure_filename(file.filename)
+		filename = str(time.time()) + secure_filename(file.filename)
 		file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 		image_name = extract("./data/videos/"+filename)
 
 		cursor.execute("""
 			INSERT INTO Video(titre, nom, image, module_id) VALUES(%s, %s, %s, %s)
-		""",(titre_video, str(time.time())+filename,  image_name, module_id)
+		""",(titre_video, filename,  image_name, module_id)
 		)
 		db.commit()
 
@@ -298,11 +292,12 @@ def upload_video():
 @app.route('/api/v1/get_all_videos/<int:limit>', methods=['GET'])
 def get_all_videos(limit):
 	"""
-		DESC : Fonction permettant de récuperer les vidéos
+		DESC : Fonction permettant de récuperer tous les vidéos
 	"""
-	token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2Mjc3MjMwNzksInN1YiI6M30.U8qAatBoULsxrD3QkCPO8skGI5TiZ-UX9LyM93UM5dw"
-	# token = request.form.get('token')
-	user_id = 3
+	data = request.get_json()
+
+	token = data.get('token')
+	user_id = data.get('user_id')
 
 	if verifToken(token).get('sub') != user_id :
 		return {"status" : "Erreur Token"}, 403
@@ -316,13 +311,145 @@ def get_all_videos(limit):
 
 	return jsonify({"data": video_data}), 200
 
-# result = [
-# {'module_id': 1,
-# 'nom': 'gv',
-# 'videos': [ 
-# 	{'id'}, {}
-# ]}, {}
-# ]
+
+@app.route('/api/v1/get_videos/', methods=['POST'])
+def get_videos():
+	"""
+		DESC : Fonction permettant de récuperer les vidéos
+	"""
+	data = request.get_json()
+	
+	module_id = data.get("module_id")
+	user_id = data.get("user_id")
+	limit =  data.get("limit")
+	token = data.get('token')
+	
+	def struct_video(video):
+		return {
+			'id': video[0],
+			'titre': video[1],
+			'date_upload': video[2],
+			'nom': video[3],
+			'image': video[4]
+		}
+
+	if verifToken(token).get('sub') != user_id :
+		return {"status" : "Erreur Token"}, 403
+	
+	resultat = []
+
+	if module_id :
+		cursor.execute("""
+			SELECT id, nom FROM Module WHERE id = %s
+		""",(module_id,)
+		)
+	else:
+		cursor.execute("""
+			SELECT id, nom FROM Module
+		""")
+	
+	module_data = cursor.fetchall()
+
+	for mdl in module_data:
+		cursor.execute('''
+			SELECT * FROM Video WHERE module_id = %s
+			ORDER BY id DESC
+		''', (mdl[0],))
+
+		video_data = cursor.fetchall()[:limit]
+
+		resultat.append(
+			{
+				'module_id': mdl[0],
+				'nom': mdl[1],
+				'videos': list(map(struct_video, video_data))
+			}
+		)
+
+	return  jsonify({'data': resultat}), 200
+
+
+@app.route("/api/v1/update_video/", methods=['POST'])
+def update_video():
+	"""
+		DESC : Fonction permettant de modifier une vidéo'
+	"""
+	data = request.get_json()
+	
+	video_id = data.get("video_id")
+	titre = data.get("titre")
+	token = data.get("token")
+	user_id = data.get("user_id")
+
+	user_admin = is_admin(user_id)
+
+	if user_admin != 1 :
+		return {"status" : "Vous n'avez pas assez de droit !"}, 403
+
+	if verifToken(token).get('sub') != user_id :
+		return {"status" : "Erreur Token"}, 403
+
+	cursor.execute("""
+		UPDATE Video SET titre = %s WHERE id = %s
+	""",(titre, video_id)
+	)
+	db.commit()
+
+	return jsonify({'status': 'Vidéo mise à jour avec succès'}), 204
+
+
+@app.route("/api/v1/delete_video/", methods=['POST'])
+def delete_video():
+	"""
+		DESC : Fonction permettant de supprimer une vidéo'
+	"""
+	data = request.get_json()
+	
+	video_id = data.get("video_id")
+	token = data.get("token")
+	user_id = data.get("user_id")
+
+	user_admin = is_admin(user_id)
+
+	if user_admin != 1 :
+		return {"status" : "Vous n'avez pas assez de droit !"}, 403
+
+	if verifToken(token).get('sub') != user_id :
+		return {"status" : "Erreur Token"}, 403
+
+	cursor.execute("""
+		DELETE FROM Video WHERE id = %s
+	""",(video_id,)
+	)
+	db.commit()
+
+	return jsonify({'status': 'Suppression de la vidéo avec succès'}), 204
+
+
+@app.route('/api/v1/get_image/<image>', methods=['GET'])
+def get_image(image):
+	"""
+		DESC : Fonction permettant de récuperer l'image d'une vidéo
+	"""
+	token = request.args.get("token")
+
+	if verifToken(token).get('sub') == 0 :
+		return {"status" : "Erreur Token"}, 403
+
+	return send_from_directory(directory='./data/images/', path=image, as_attachment=True)
+
+
+@app.route('/api/v1/get_video/<video>', methods=['GET'])
+def get_video(video):
+	"""
+		DESC : Fonction permettant de récuperer la video d'une vidéo
+	"""
+	token = request.args.get("token")
+
+	if verifToken(token).get('sub') == 0 :
+		return {"status" : "Erreur Token"}, 403
+
+	return send_from_directory(directory='./data/videos/', path=video, as_attachment=True)
 
 
 if __name__=="__main__":
