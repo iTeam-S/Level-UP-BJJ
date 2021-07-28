@@ -181,7 +181,7 @@ def create_module():
 	return jsonify({'status': 'Création de module avec succès',}), 201
 
 
-@app.route("/api/v1/update_module/", methods=['PUT'])
+@app.route("/api/v1/update_module/", methods=['POST'])
 def update_module():
 	"""
 		DESC : Fonction permettant de modifier un module'
@@ -367,6 +367,63 @@ def get_videos():
 		)
 
 	return  jsonify({'data': resultat}), 200
+
+
+@app.route("/api/v1/update_video/", methods=['POST'])
+def update_video():
+	"""
+		DESC : Fonction permettant de modifier une vidéo'
+	"""
+	data = request.get_json()
+	
+	video_id = data.get("video_id")
+	titre = data.get("titre")
+	token = data.get("token")
+	user_id = data.get("user_id")
+
+	user_admin = is_admin(user_id)
+
+	if user_admin != 1 :
+		return {"status" : "Vous n'avez pas assez de droit !"}, 403
+
+	if verifToken(token).get('sub') != user_id :
+		return {"status" : "Erreur Token"}, 403
+
+	cursor.execute("""
+		UPDATE Video SET titre = %s WHERE id = %s
+	""",(titre, video_id)
+	)
+	db.commit()
+
+	return jsonify({'status': 'Vidéo mise à jour avec succès'}), 204
+
+
+@app.route("/api/v1/delete_video/", methods=['POST'])
+def delete_video():
+	"""
+		DESC : Fonction permettant de supprimer une vidéo'
+	"""
+	data = request.get_json()
+	
+	video_id = data.get("video_id")
+	token = data.get("token")
+	user_id = data.get("user_id")
+
+	user_admin = is_admin(user_id)
+
+	if user_admin != 1 :
+		return {"status" : "Vous n'avez pas assez de droit !"}, 403
+
+	if verifToken(token).get('sub') != user_id :
+		return {"status" : "Erreur Token"}, 403
+
+	cursor.execute("""
+		DELETE FROM Video WHERE id = %s
+	""",(video_id,)
+	)
+	db.commit()
+
+	return jsonify({'status': 'Suppression de la vidéo avec succès'}), 204
 
 
 @app.route('/api/v1/get_image/<image>', methods=['GET'])
