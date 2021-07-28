@@ -64,6 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     _focus.addListener(_onFocusChange);
+    appController.trtVideos(userController.user.id, userController.user.token);
     appController.trtModules(userController.user.id, userController.user.token);
   }
 
