@@ -251,11 +251,10 @@ def upload_video():
 	"""
 		DESC : Fonction permettant d'uploader un vidéo
 	"""
-	token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2Mjc3MjMwNzksInN1YiI6M30.U8qAatBoULsxrD3QkCPO8skGI5TiZ-UX9LyM93UM5dw"
-	# token = request.form.get('token')
-	user_id = 3
-	module_id = 1
-	titre_video = "Pompe 20 fois par jour, pourquoi ?"
+	token = request.form.get('token')
+	user_id = request.form.get('user_id')
+	module_id = request.form.get('module_id')
+	titre_video = request.form.get('titre_video')
 
 	user_admin = is_admin(user_id)
 
@@ -295,9 +294,10 @@ def get_all_videos(limit):
 	"""
 		DESC : Fonction permettant de récuperer tous les vidéos
 	"""
-	token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2Mjc3MjMwNzksInN1YiI6M30.U8qAatBoULsxrD3QkCPO8skGI5TiZ-UX9LyM93UM5dw"
-	# token = request.form.get('token')
-	user_id = 3
+	data = request.get_json()
+
+	token = data.get('token')
+	user_id = data.get('user_id')
 
 	if verifToken(token).get('sub') != user_id :
 		return {"status" : "Erreur Token"}, 403
@@ -317,14 +317,12 @@ def get_videos():
 	"""
 		DESC : Fonction permettant de récuperer les vidéos
 	"""
-	token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2Mjc3MjMwNzksInN1YiI6M30.U8qAatBoULsxrD3QkCPO8skGI5TiZ-UX9LyM93UM5dw"
-	# token = request.form.get('token')
-	
 	data = request.get_json()
 	
 	module_id = data.get("module_id")
 	user_id = data.get("user_id")
 	limit =  data.get("limit")
+	token = data.get('token')
 	
 	def struct_video(video):
 		return {
