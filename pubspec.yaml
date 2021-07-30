@@ -37,8 +37,10 @@ dependencies:
   progress_state_button: ^1.0.3
   rounded_loading_button: ^2.0.5
   file_picker: ^3.0.3
-  dependencies:
   dio: ^4.0.0
+  shimmer_animation: ^0.0.9
+  chewie: ^1.2.2
+  video_player: ^2.1.12
 
 dev_dependencies:
   flutter_test:
@@ -95,3 +97,4 @@ flutter:
     - assets/images/avatar.jpg
     - assets/images/video_logo.jpg
     - assets/images/work.png
+    - assets/videos/chriso.mp4

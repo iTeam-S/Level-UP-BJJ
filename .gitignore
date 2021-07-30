@@ -1,3 +1,7 @@
+# For API
+__pycache__
+conf.py
+
 # Miscellaneous
 *.class
 *.log
