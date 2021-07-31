@@ -5,6 +5,10 @@ Flask == 2.0.1
 
 # api/main.py: 6
 jwt == 1.2.0
+PyJWT
 
 # api/main.py: 4
 mysql_connector == 2.2.9
+
+# opencv
+opencv-python
