@@ -15,7 +15,11 @@ class AppController extends GetxController {
   // void onInit() {
   //   super.onInit();
   // }
-
+  void finish(){
+    _videoList.clear();
+    _moduleList.clear();
+    _modulePageList.clear();
+  }
   List<Module> getmoduleList() {
     return _moduleList;
   }

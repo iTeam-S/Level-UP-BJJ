@@ -1,5 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.bjj_library">
+    <uses-permission android:name="android.permission.INTERNET"/>
    <application
         android:label="bjj_library"
         android:icon="@mipmap/ic_launcher">

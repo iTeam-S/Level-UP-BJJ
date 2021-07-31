@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:bjj_library/controller/app.dart';
 import 'package:bjj_library/controller/users.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -8,6 +9,7 @@ import 'package:rounded_loading_button/rounded_loading_button.dart';
 
 class AppDrawer extends StatelessWidget {
   final UserController userController = Get.put(UserController());
+  final AppController appController = Get.put(AppController());
 
   final RoundedLoadingButtonController _btnController =
       RoundedLoadingButtonController();
@@ -326,6 +328,7 @@ class AppDrawer extends StatelessWidget {
           ),
           TextButton(
             onPressed: () {
+              appController.finish();
               box.remove('user');
               Get.offNamed('/login');
             },

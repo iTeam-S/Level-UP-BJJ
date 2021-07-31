@@ -84,10 +84,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 toolbarHeight: 45,
                 backgroundColor: Colors.blue[400],
                 title: Text('BJJ-Library',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontFamily: "ProductSans",
-                        fontSize: 17)),
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontFamily: "ProductSans",
+                      fontSize: 17)),
                 centerTitle: true,
                 actions: [
                   Stack(children: [
@@ -123,7 +123,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           text: module.nom,
                           icon: module.nom == 'Tous'
                               ? Icon(Icons.video_library_outlined, size: 20)
-                              : Icon(Icons.camera, size: 20)),
+                              : Icon(Icons.camera, size: 20)
+                      ),
                   ],
                 ),
               ),
@@ -133,15 +134,15 @@ class _HomeScreenState extends State<HomeScreen> {
                   contentPage
               ]),
               floatingActionButton: userController.user.admin
-                  ? FloatingActionButton(
-                      onPressed: () {
-                        addVideo(context);
-                      },
-                      child: const Icon(Icons.add),
-                      backgroundColor: Colors.blue,
-                      elevation: 10,
-                    )
-                  : null,
+                ? FloatingActionButton(
+                    onPressed: () {
+                      addVideo(context);
+                    },
+                    child: const Icon(Icons.add),
+                    backgroundColor: Colors.blue,
+                    elevation: 10,
+                  )
+                : null,
             )));
   }
 }
