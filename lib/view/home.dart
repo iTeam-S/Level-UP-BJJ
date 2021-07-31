@@ -1,14 +1,17 @@
+import 'dart:async';
+
 import 'package:bjj_library/controller/app.dart';
+import 'package:bjj_library/controller/data.dart';
 import 'package:bjj_library/model/module.dart';
 import 'package:bjj_library/service/api.dart';
 import 'package:bjj_library/controller/users.dart';
-import 'package:bjj_library/view/screen/gestion_video.dart';
 import 'package:bjj_library/view/screen/drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:get/get.dart';
+import 'package:rounded_loading_button/rounded_loading_button.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -23,6 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
   UserController userController = Get.put(UserController());
   ApiController apiController = Get.put(ApiController());
   AppController appController = Get.put(AppController());
+  DataController dataController = Get.put(DataController());
 
   // stockena donnee ilaina apres fermeture application
   final box = GetStorage();
@@ -35,7 +39,180 @@ class _HomeScreenState extends State<HomeScreen> {
   bool isMultiPick = false;
   late FileType fileType;
 
-  void _openFileExplorer() async {
+  final RoundedLoadingButtonController _btnController =
+      RoundedLoadingButtonController();
+
+  FocusNode focus = FocusNode();
+
+  void addVideo(context, moduleList) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) => SimpleDialog(
+              title: Text(
+                "Ajouter une vidéo",
+              ),
+              children: [
+                Container(
+                    height: MediaQuery.of(context).size.height * 0.08,
+                    margin: EdgeInsets.symmetric(
+                        horizontal: MediaQuery.of(context).size.width * 0.06,
+                        vertical: MediaQuery.of(context).size.height * 0.0113),
+                    child: TextField(
+                      controller: dataController.titre,
+                      style: TextStyle(fontSize: 13, color: Colors.grey[800]),
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Colors.blue[50],
+                        border: OutlineInputBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(90.0)),
+                            borderSide: BorderSide.none),
+                        focusedBorder: UnderlineInputBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(90.0)),
+                            borderSide: BorderSide.none),
+                        hintText: "Titre",
+                        prefixIcon: Icon(Icons.edit, color: Colors.blue),
+                      ),
+                    )),
+                Container(
+                    height: MediaQuery.of(context).size.height * 0.08,
+                    margin: EdgeInsets.symmetric(
+                      horizontal: MediaQuery.of(context).size.width * 0.06,
+                      // vertical: MediaQuery.of(context).size.height*0.0110
+                    ),
+                    child: TextField(
+                      controller: dataController.videotitle,
+                      focusNode: focus,
+                      style: TextStyle(fontSize: 13, color: Colors.grey[800]),
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Colors.blue[50],
+                        border: OutlineInputBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(90.0)),
+                            borderSide: BorderSide.none),
+                        focusedBorder: UnderlineInputBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(90.0)),
+                            borderSide: BorderSide.none),
+                        hintText: "Video",
+                        prefixIcon: Icon(Icons.video_library_outlined,
+                            color: Colors.blue),
+                      ),
+                    )),
+                Container(
+                  height: MediaQuery.of(context).size.height * 0.06,
+                  margin: EdgeInsets.symmetric(
+                    horizontal: MediaQuery.of(context).size.width * 0.09,
+                    // vertical: MediaQuery.of(context).size.height*0.0110,
+                  ),
+                  child: Row(children: [
+                    DropdownButton(
+                      value: dataController.moduleChoix,
+                      icon: Icon(Icons.arrow_drop_down_circle),
+                      iconDisabledColor: Colors.blue[400],
+                      iconEnabledColor: Colors.blue[400],
+                      iconSize: 25,
+                      underline: SizedBox(),
+                      hint: Text(dataController.moduleChoix,
+                          style: TextStyle(fontSize: 14)),
+                      items: [
+                        for (Module mod in moduleList)
+                          DropdownMenuItem(
+                            child: Text(mod.nom),
+                            value: mod.nom,
+                          ),
+                      ],
+                      onChanged: (value) {
+                        dataController.moduleChoix = value.toString();
+                        //dataController.forceUpdate();
+                        Navigator.pop(context);
+                        addVideo(context, moduleList);
+                      },
+                    )
+                  ]),
+                ),
+                Container(
+                  margin: EdgeInsets.symmetric(
+                    horizontal: MediaQuery.of(context).size.width * 0.06,
+                    // vertical:MediaQuery.of(context).size.height*0.01
+                  ),
+                  child: RoundedLoadingButton(
+                    color: Colors.blue[400],
+                    successColor: Colors.blue,
+                    controller: _btnController,
+                    onPressed: () {
+                      if (dataController.titre.text.trim() == '' ||
+                          dataController.videopath.trim() == '' ||
+                          dataController.moduleChoix == 'Tous') {
+                        Get.snackbar(
+                          "Erreur",
+                          "Champ manquante",
+                          colorText: Colors.white,
+                          backgroundColor: Colors.red,
+                          snackPosition: SnackPosition.BOTTOM,
+                          borderColor: Colors.red,
+                          borderRadius: 10,
+                          borderWidth: 2,
+                          barBlur: 0,
+                          duration: Duration(seconds: 2),
+                        );
+                        Timer(Duration(seconds: 2), () {
+                          _btnController.reset();
+                        });
+                        _btnController.error();
+                        return;
+                      }
+
+                      Future uploadVideo() async {
+                        bool res = await appController.uploadVideo(
+                            userController.user.id,
+                            userController.user.token,
+                            appController
+                                .getModuleId(dataController.moduleChoix),
+                            dataController.titre.text,
+                            dataController.videopath);
+
+                        if (res) {
+                          dataController.videopath = '';
+                          dataController.videotitle.text = '';
+                          _btnController.success();
+                          Get.snackbar(
+                            "Ajout",
+                            "La vidéo a été bien ajoutée.",
+                            backgroundColor: Colors.grey,
+                            snackPosition: SnackPosition.BOTTOM,
+                            borderColor: Colors.grey,
+                            borderRadius: 10,
+                            borderWidth: 2,
+                            barBlur: 0,
+                            duration: Duration(seconds: 2),
+                          );
+                          Timer(Duration(seconds: 2), () {
+                            _btnController.reset();
+                            Get.back();
+                            appController.trtVideos(userController.user.id,
+                                userController.user.token);
+                          });
+                        }
+                      }
+
+                      uploadVideo();
+                      //_doSomething(_btnController);
+                      //Navigator.pop(context);
+                    },
+                    valueColor: Colors.white,
+                    borderRadius: 90,
+                    child:
+                        Text("AJOUTER", style: TextStyle(color: Colors.white)),
+                  ),
+                ),
+              ],
+            ));
+  }
+
+  dynamic _openFileExplorer() async {
     setState(() => isLoadingPath = true);
     try {
       FilePickerResult? result = await FilePicker.platform.pickFiles(
@@ -44,12 +221,14 @@ class _HomeScreenState extends State<HomeScreen> {
       );
       if (result != null) {
         PlatformFile file = result.files.first;
-
-        print(file.name);
-        print(file.bytes);
-        print(file.size);
-        print(file.extension);
-        print(file.path);
+        // print(file.name);
+        // print(file.bytes);
+        // print(file.size);
+        // print(file.extension);
+        // print(file.path);
+        dataController.videopath = file.path.toString();
+        dataController.videotitle.text = file.name;
+        dataController.forceUpdate();
       } else {
         print("Annuler");
       }
@@ -58,20 +237,18 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  FocusNode _focus = FocusNode();
-
   @override
   void initState() {
     super.initState();
-    _focus.addListener(_onFocusChange);
+    focus.addListener(_onFocusChange);
     // appController.trtModules(userController.user.id, userController.user.token);
     // assemblé les données dans une seule requete.
     appController.trtVideos(userController.user.id, userController.user.token);
   }
 
   void _onFocusChange() {
-    _openFileExplorer();
-    debugPrint("Focus: " + _focus.hasFocus.toString());
+    debugPrint("Focus: " + focus.hasFocus.toString());
+    if (focus.hasFocus) _openFileExplorer();
   }
 
   @override
@@ -84,10 +261,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 toolbarHeight: 45,
                 backgroundColor: Colors.blue[400],
                 title: Text('BJJ-Library',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontFamily: "ProductSans",
-                      fontSize: 17)),
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontFamily: "ProductSans",
+                        fontSize: 17)),
                 centerTitle: true,
                 actions: [
                   Stack(children: [
@@ -123,8 +300,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           text: module.nom,
                           icon: module.nom == 'Tous'
                               ? Icon(Icons.video_library_outlined, size: 20)
-                              : Icon(Icons.camera, size: 20)
-                      ),
+                              : Icon(Icons.camera, size: 20)),
                   ],
                 ),
               ),
@@ -134,15 +310,15 @@ class _HomeScreenState extends State<HomeScreen> {
                   contentPage
               ]),
               floatingActionButton: userController.user.admin
-                ? FloatingActionButton(
-                    onPressed: () {
-                      addVideo(context);
-                    },
-                    child: const Icon(Icons.add),
-                    backgroundColor: Colors.blue,
-                    elevation: 10,
-                  )
-                : null,
+                  ? FloatingActionButton(
+                      onPressed: () {
+                        addVideo(context, appController.getmoduleList());
+                      },
+                      child: const Icon(Icons.add),
+                      backgroundColor: Colors.blue,
+                      elevation: 10,
+                    )
+                  : null,
             )));
   }
 }
