@@ -14,6 +14,8 @@ class AppDrawer extends StatelessWidget {
   final RoundedLoadingButtonController _btnController =
       RoundedLoadingButtonController();
 
+  final TextEditingController moduleAddController = TextEditingController();
+
   // stockena donnee ilaina apres fermeture application
   final box = GetStorage();
 
@@ -24,6 +26,54 @@ class AppDrawer extends StatelessWidget {
   }
 
   void ajoutModule(context) {
+    dynamic traitement(String module, controller) async {
+      if (appController.verifModule(module)) {
+        Timer(Duration(seconds: 1), () {
+          controller.reset();
+        });
+        Get.snackbar(
+          "Erreur",
+          "Nom deja existant",
+          colorText: Colors.white,
+          backgroundColor: Colors.red,
+          snackPosition: SnackPosition.BOTTOM,
+          borderColor: Colors.red,
+          borderRadius: 10,
+          borderWidth: 2,
+          barBlur: 0,
+          duration: Duration(seconds: 2),
+        );
+        return controller.error();
+      }
+      bool res = await appController.addModule(
+          userController.user.id, userController.user.token, module);
+      if (res) {
+        Timer(Duration(seconds: 2), () {
+          controller.reset();
+        });
+        Get.snackbar(
+          "Ajout",
+          "Le module a été enregistré avec succès",
+          backgroundColor: Colors.grey,
+          snackPosition: SnackPosition.BOTTOM,
+          borderColor: Colors.grey,
+          borderRadius: 10,
+          borderWidth: 2,
+          barBlur: 0,
+          duration: Duration(seconds: 2),
+        );
+        controller.success();
+
+        appController.trtVideos(
+            userController.user.id, userController.user.token);
+        return "GG";
+      }
+      Timer(Duration(seconds: 1), () {
+        controller.reset();
+      });
+      controller.error();
+    }
+
     showDialog(
         context: context,
         builder: (BuildContext context) => SimpleDialog(
@@ -37,6 +87,7 @@ class AppDrawer extends StatelessWidget {
                       horizontal: MediaQuery.of(context).size.width * 0.06,
                     ),
                     child: TextField(
+                      controller: moduleAddController,
                       style: TextStyle(fontSize: 13, color: Colors.grey[800]),
                       decoration: InputDecoration(
                         filled: true,
@@ -63,19 +114,10 @@ class AppDrawer extends StatelessWidget {
                     successColor: Colors.blue,
                     controller: _btnController,
                     onPressed: () {
-                      _doSomething(_btnController);
-                      Navigator.pop(context);
-                      Get.snackbar(
-                        "Ajout",
-                        "Le module a été enregistré avec succès",
-                        backgroundColor: Colors.grey,
-                        snackPosition: SnackPosition.BOTTOM,
-                        borderColor: Colors.grey,
-                        borderRadius: 10,
-                        borderWidth: 2,
-                        barBlur: 0,
-                        duration: Duration(seconds: 2),
-                      );
+                      // _doSomething(_btnController);
+                      var res =
+                          traitement(moduleAddController.text, _btnController);
+                      if (res == 'GG') Navigator.of(context).pop();
                     },
                     valueColor: Colors.white,
                     borderRadius: 90,
