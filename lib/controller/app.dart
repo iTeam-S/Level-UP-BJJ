@@ -1,5 +1,5 @@
 import 'package:bjj_library/model/module.dart';
-//import 'package:bjj_library/model/video.dart';
+import 'package:bjj_library/model/video.dart';
 import 'package:bjj_library/service/api.dart';
 import 'package:bjj_library/view/screen/video_page.dart';
 import 'package:flutter/material.dart';
@@ -34,7 +34,7 @@ class AppController extends GetxController {
     for (int i = 0; i < _moduleList.length; i++) {
       _modulePageList.add(i == 0
           ? videoAllModule(context, _videoList)
-          : videoTabModule(context));
+          : videoTabModule(context, _moduleList[i]));
     }
     return _moduleList.length;
   }
@@ -82,6 +82,19 @@ class AppController extends GetxController {
       var res = await apiController.getvideos(userid, token);
       if (res[0]) {
         _videoList = res[1]['data'];
+        // Mettre en place les modules
+        late Module modTmp;
+        for (var mod in _videoList) {
+          modTmp = Module(id: mod['module_id'], nom: mod['nom']);
+          // Mise en place des videos de modules
+          for (var vid in mod['videos'])
+            modTmp.videos.add(Video(
+                id: vid['id'],
+                nom: vid['nom'],
+                titre: vid['titre'],
+                image: vid['image']));
+          _moduleList.add(modTmp);
+        }
         update();
       } else {
         Get.snackbar(
