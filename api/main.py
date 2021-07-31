@@ -76,10 +76,10 @@ app.config['MAX_CONTENT_LENGTH'] = 100 * 1024 * 1024
 
 path = os.getcwd()
 
-UPLOAD_FOLDER = os.path.join(path, 'data/videos')
+if not os.path.isdir('data'):
+	os.makedirs('data/videos')
 
-if not os.path.isdir(UPLOAD_FOLDER):
-	os.mkdir(UPLOAD_FOLDER)
+UPLOAD_FOLDER = os.path.join(path, 'data/videos')
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
@@ -171,11 +171,12 @@ def create_module():
 	try : 
 		cursor.execute("""
 			INSERT INTO Module(nom) VALUES(%s)
-		""",(nom)
+		""",(nom,)
 		)
 		db.commit()
 
-	except Exception:
+	except Exception as err:
+		print(err)
 		return jsonify({'status': 'Module existant !',}), 400
 
 	return jsonify({'status': 'Création de module avec succès',}), 201
@@ -255,13 +256,13 @@ def upload_video():
 	user_id = request.form.get('user_id')
 	module_id = request.form.get('module_id')
 	titre_video = request.form.get('titre_video')
-
+	print(token, user_id)
 	user_admin = is_admin(user_id)
 
 	if user_admin != 1 :
 		return {"status" : "Vous n'avez pas assez de droit !"}, 403
 
-	if verifToken(token).get('sub') != user_id :
+	if verifToken(token).get('sub') != int(user_id):
 		return {"status" : "Erreur Token"}, 403
 
 	if 'file' not in request.files:
@@ -345,7 +346,7 @@ def get_videos():
 		)
 	else:
 		cursor.execute("""
-			SELECT id, nom FROM Module
+			SELECT id, nom FROM Module ORDER BY id ASC
 		""")
 	
 	module_data = cursor.fetchall()
