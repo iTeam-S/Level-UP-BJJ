@@ -123,7 +123,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           text: module.nom,
                           icon: module.nom == 'Tous'
                               ? Icon(Icons.video_library_outlined, size: 20)
-                              : Icon(Icons.camera, size: 20)
+                              : Icon(Icons.motion_photos_on, size: 20)
                       ),
                   ],
                 ),
