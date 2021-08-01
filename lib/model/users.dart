@@ -10,9 +10,4 @@ class User {
       required this.email,
       required this.token,
       required this.admin});
-
-  Duration getPos() {
-    print("OITY ARK AI: ${video['pos']}");
-    return video['pos'];
-  }
 }

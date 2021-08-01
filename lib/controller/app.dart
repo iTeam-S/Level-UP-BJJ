@@ -13,11 +13,9 @@ class AppController extends GetxController {
   List _videoList = [];
   UploadVideoDataController dataController =
       Get.put(UploadVideoDataController());
+  //final TickerProviderStateMixin vsync  = TickerProviderStateMixin();
+  late TabController tabController;
 
-  // @override
-  // void onInit() {
-  //   super.onInit();
-  // }
   void finish() {
     _videoList.clear();
     _moduleList.clear();
@@ -46,6 +44,7 @@ class AppController extends GetxController {
           ? videoAllModule(context, _videoList)
           : videoTabModule(context, _moduleList[i]));
     }
+
     return _moduleList.length;
   }
 

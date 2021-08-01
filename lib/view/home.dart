@@ -44,6 +44,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   FocusNode focus = FocusNode();
 
+  late TabController tabController;
+
   void addVideo(context, moduleList) {
     showDialog(
         context: context,
@@ -243,6 +245,14 @@ class _HomeScreenState extends State<HomeScreen> {
     // appController.trtModules(userController.user.id, userController.user.token);
     // assemblé les données dans une seule requete.
     appController.trtVideos(userController.user.id, userController.user.token);
+    //tabController =
+    //TabController(length: appController.moduleInit(context), vsync: this);
+  }
+
+  @override
+  void dispose() {
+    tabController.dispose();
+    super.dispose();
   }
 
   void _onFocusChange() {
@@ -265,22 +275,25 @@ class _HomeScreenState extends State<HomeScreen> {
                         fontFamily: "ProductSans",
                         fontSize: 17)),
                 centerTitle: true,
-                actions: [
-                  Stack(children: [
-                    Container(
-                      margin: EdgeInsets.only(
-                          top: MediaQuery.of(context).size.height * 0.017,
-                          right: MediaQuery.of(context).size.height * 0.02),
-                      child: Icon(Icons.notifications_sharp),
-                    ),
-                    Positioned(
-                      top: MediaQuery.of(context).size.height * 0.018,
-                      right: MediaQuery.of(context).size.height * 0.02,
-                      child:
-                          Icon(Icons.brightness_1, size: 10, color: Colors.red),
-                    )
-                  ]),
-                ],
+                actions: userController.user.admin
+                    ? [
+                        Stack(children: [
+                          Container(
+                            margin: EdgeInsets.only(
+                                top: MediaQuery.of(context).size.height * 0.017,
+                                right:
+                                    MediaQuery.of(context).size.height * 0.02),
+                            child: Icon(Icons.notifications_sharp),
+                          ),
+                          Positioned(
+                            top: MediaQuery.of(context).size.height * 0.018,
+                            right: MediaQuery.of(context).size.height * 0.02,
+                            child: Icon(Icons.brightness_1,
+                                size: 10, color: Colors.red),
+                          )
+                        ]),
+                      ]
+                    : null,
                 actionsIconTheme: IconThemeData(color: Colors.white, size: 21),
               ),
               drawer: AppDrawer(),
@@ -299,8 +312,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           text: module.nom,
                           icon: module.nom == 'Tous'
                               ? Icon(Icons.video_library_outlined, size: 20)
-                              : Icon(Icons.motion_photos_on, size: 20)
-                      ),
+                              : Icon(Icons.motion_photos_on, size: 20)),
                   ],
                 ),
               ),

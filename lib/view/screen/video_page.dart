@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:bjj_library/controller/app.dart';
 import 'package:bjj_library/controller/data.dart';
 import 'package:bjj_library/controller/users.dart';
 import 'package:bjj_library/model/video.dart';
@@ -19,6 +20,8 @@ final ApiController apiController = Get.put(ApiController());
 
 final CurrentVideoController currentVideoController =
     Get.put(CurrentVideoController());
+
+final AppController appController = Get.put(AppController());
 
 void _doSomething(RoundedLoadingButtonController controller) async {
   Timer(Duration(seconds: 2), () {
@@ -223,7 +226,9 @@ Container videoAllModule(context, data) {
                                       ),
                                       child: TextButton(
                                           onPressed: () {
-                                            print(dataVideo['module_id']);
+                                            //appController.tabIndex =
+                                            //dataVideo['module_id'];
+                                            appController.update();
                                           },
                                           child: Row(children: [
                                             Text("Tout voir",
@@ -303,86 +308,89 @@ Container videoAllModule(context, data) {
                                                         Get.toNamed('/video');
                                                       },
                                                     )),
-                                                Container(
-                                                    margin: EdgeInsets.only(
-                                                      top:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .height *
-                                                              0.13,
-                                                      left:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width *
-                                                              0.18,
-                                                    ),
-                                                    child: PopupMenuButton(
-                                                        color: Colors.white,
-                                                        icon: Icon(
-                                                            Icons.more_horiz,
-                                                            color: Colors.white,
-                                                            size: 18),
-                                                        itemBuilder:
-                                                            (context) => [
-                                                                  PopupMenuItem(
-                                                                      value: 1,
-                                                                      child: TextButton(
-                                                                          onPressed: () {},
-                                                                          child: Row(
-                                                                            children: [
-                                                                              Icon(Icons.edit, color: Colors.black),
-                                                                              Text("Modifier", style: TextStyle(color: Colors.black)),
-                                                                            ],
-                                                                          ))),
-                                                                  PopupMenuItem(
-                                                                      value: 2,
-                                                                      child:
-                                                                          TextButton(
-                                                                        onPressed:
-                                                                            () {
-                                                                          Navigator.pop(
-                                                                              context);
-                                                                          showDialog(
-                                                                            context:
-                                                                                context,
-                                                                            builder: (BuildContext context) =>
-                                                                                AlertDialog(
-                                                                              title: const Text("Suppression d'une vidéo"),
-                                                                              content: const Text('Voulez-vous vraiment supprimer cette vidéo ?'),
-                                                                              actions: [
-                                                                                TextButton(
-                                                                                  onPressed: () => Navigator.pop(context, 'Annuler'),
-                                                                                  child: const Text('Annuler'),
-                                                                                ),
-                                                                                TextButton(
-                                                                                  onPressed: () {
-                                                                                    _doSomething(_btnController);
-                                                                                    Navigator.pop(context);
-                                                                                    Get.snackbar(
-                                                                                      "Suppression",
-                                                                                      "La vidéo a été bien supprimée.",
-                                                                                      backgroundColor: Colors.grey,
-                                                                                      snackPosition: SnackPosition.BOTTOM,
-                                                                                      borderColor: Colors.grey,
-                                                                                      borderRadius: 10,
-                                                                                      borderWidth: 2,
-                                                                                      barBlur: 0,
-                                                                                      duration: Duration(seconds: 2),
-                                                                                    );
-                                                                                  },
-                                                                                  child: Text('OK'),
-                                                                                ),
+                                                if (userController.user.admin)
+                                                  Container(
+                                                      margin: EdgeInsets.only(
+                                                        top: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .height *
+                                                            0.13,
+                                                        left: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .width *
+                                                            0.18,
+                                                      ),
+                                                      child: PopupMenuButton(
+                                                          color: Colors.white,
+                                                          icon: Icon(
+                                                              Icons.more_horiz,
+                                                              color:
+                                                                  Colors.white,
+                                                              size: 18),
+                                                          itemBuilder:
+                                                              (context) => [
+                                                                    PopupMenuItem(
+                                                                        value:
+                                                                            1,
+                                                                        child: TextButton(
+                                                                            onPressed: () {},
+                                                                            child: Row(
+                                                                              children: [
+                                                                                Icon(Icons.edit, color: Colors.black),
+                                                                                Text("Modifier", style: TextStyle(color: Colors.black)),
                                                                               ],
-                                                                            ),
-                                                                          );
-                                                                        },
-                                                                        child: Row(
-                                                                            children: [
-                                                                              Icon(Icons.delete_outline, color: Colors.red),
-                                                                              Text("Supprimer", style: TextStyle(color: Colors.red)),
-                                                                            ]),
-                                                                      )),
-                                                                ]))
+                                                                            ))),
+                                                                    PopupMenuItem(
+                                                                        value:
+                                                                            2,
+                                                                        child:
+                                                                            TextButton(
+                                                                          onPressed:
+                                                                              () {
+                                                                            Navigator.pop(context);
+                                                                            showDialog(
+                                                                              context: context,
+                                                                              builder: (BuildContext context) => AlertDialog(
+                                                                                title: const Text("Suppression d'une vidéo"),
+                                                                                content: const Text('Voulez-vous vraiment supprimer cette vidéo ?'),
+                                                                                actions: [
+                                                                                  TextButton(
+                                                                                    onPressed: () => Navigator.pop(context, 'Annuler'),
+                                                                                    child: const Text('Annuler'),
+                                                                                  ),
+                                                                                  TextButton(
+                                                                                    onPressed: () {
+                                                                                      _doSomething(_btnController);
+                                                                                      Navigator.pop(context);
+                                                                                      Get.snackbar(
+                                                                                        "Suppression",
+                                                                                        "La vidéo a été bien supprimée.",
+                                                                                        backgroundColor: Colors.grey,
+                                                                                        snackPosition: SnackPosition.BOTTOM,
+                                                                                        borderColor: Colors.grey,
+                                                                                        borderRadius: 10,
+                                                                                        borderWidth: 2,
+                                                                                        barBlur: 0,
+                                                                                        duration: Duration(seconds: 2),
+                                                                                      );
+                                                                                    },
+                                                                                    child: Text('OK'),
+                                                                                  ),
+                                                                                ],
+                                                                              ),
+                                                                            );
+                                                                          },
+                                                                          child:
+                                                                              Row(children: [
+                                                                            Icon(Icons.delete_outline,
+                                                                                color: Colors.red),
+                                                                            Text("Supprimer",
+                                                                                style: TextStyle(color: Colors.red)),
+                                                                          ]),
+                                                                        )),
+                                                                  ]))
                                               ]),
                                       ],
                                     )))

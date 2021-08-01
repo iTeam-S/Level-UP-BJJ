@@ -60,9 +60,8 @@ class _VideoScreenState extends State<VideoScreen> {
       autoPlay: true,
       startAt:
           userController.user.video['id'] == currentVideoController.video!.id
-              ? userController.user.getPos()
+              ? userController.user.video['pos']
               : Duration(),
-      //looping: true,
       showControls: true,
       materialProgressColors: ChewieProgressColors(
         playedColor: Colors.red,

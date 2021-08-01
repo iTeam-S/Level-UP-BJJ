@@ -33,7 +33,6 @@ class MyApp extends StatelessWidget {
 
         if (usrTmp['video'] != null) {
           var vidtmp = usrTmp['video'];
-          print(vidtmp);
           userController.user.video['id'] = vidtmp['id'];
           userController.user.video['pos'] = Duration(
               minutes: vidtmp['pos']['minutes'],
