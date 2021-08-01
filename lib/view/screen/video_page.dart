@@ -1,6 +1,8 @@
 import 'dart:async';
 
+import 'package:bjj_library/controller/data.dart';
 import 'package:bjj_library/controller/users.dart';
+import 'package:bjj_library/model/video.dart';
 import 'package:bjj_library/service/api.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -14,6 +16,9 @@ final RoundedLoadingButtonController _btnController =
 final UserController userController = Get.put(UserController());
 
 final ApiController apiController = Get.put(ApiController());
+
+final CurrentVideoController currentVideoController =
+    Get.put(CurrentVideoController());
 
 void _doSomething(RoundedLoadingButtonController controller) async {
   Timer(Duration(seconds: 2), () {
@@ -184,46 +189,49 @@ Container videoAllModule(context, data) {
                         child: Column(
                           children: [
                             Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Container(
                                     alignment: Alignment.centerLeft,
                                     margin: EdgeInsets.only(
-                                      left: MediaQuery.of(context).size.width *0.04,
-                                      bottom: MediaQuery.of(context).size.height *0.005,
+                                      left: MediaQuery.of(context).size.width *
+                                          0.04,
+                                      bottom:
+                                          MediaQuery.of(context).size.height *
+                                              0.005,
                                     ),
                                     child: Text(
                                       "${dataVideo['nom']}",
                                       style: TextStyle(
-                                        fontSize: 23,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.grey[700]
-                                      ),
+                                          fontSize: 23,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.grey[700]),
                                     ),
                                   ),
                                   Container(
                                       alignment: Alignment.centerRight,
                                       margin: EdgeInsets.only(
-                                        right:MediaQuery.of(context).size.width *0.02,
+                                        right:
+                                            MediaQuery.of(context).size.width *
+                                                0.02,
                                       ),
                                       child: TextButton(
-                                        onPressed: () {
-                                          print(dataVideo['module_id']);
-                                        },
-                                        child: Row(children: [
-                                          Text("Tout voir",
-                                              style: TextStyle(
-                                                  color: Colors.blue[400],
-                                                  fontWeight:
-                                                      FontWeight.bold)),
-                                          Icon(
-                                            Icons.chevron_right_outlined,
-                                              color: Colors.blue[400]
-                                            ),
+                                          onPressed: () {
+                                            print(dataVideo['module_id']);
+                                          },
+                                          child: Row(children: [
+                                            Text("Tout voir",
+                                                style: TextStyle(
+                                                    color: Colors.blue[400],
+                                                    fontWeight:
+                                                        FontWeight.bold)),
+                                            Icon(Icons.chevron_right_outlined,
+                                                color: Colors.blue[400]),
                                           ])))
                                 ]),
                             Container(
-                              alignment: Alignment.centerLeft,
+                                alignment: Alignment.centerLeft,
                                 child: SingleChildScrollView(
                                     scrollDirection: Axis.horizontal,
                                     child: Row(
@@ -271,10 +279,24 @@ Container videoAllModule(context, data) {
                                                                 .size
                                                                 .height *
                                                             0.07),
-                                                    child: Icon(
-                                                      Icons.play_arrow,
+                                                    child: IconButton(
+                                                      icon: Icon(
+                                                          Icons.play_arrow),
                                                       color: Colors.blue[400],
-                                                      size: 30,
+                                                      iconSize: 30,
+                                                      onPressed: () {
+                                                        currentVideoController
+                                                                .video =
+                                                            Video(
+                                                                id: video['id'],
+                                                                nom: video[
+                                                                    'nom'],
+                                                                titre: video[
+                                                                    'titre'],
+                                                                image: video[
+                                                                    'image']);
+                                                        Get.toNamed('/video');
+                                                      },
                                                     )),
                                                 Container(
                                                     margin: EdgeInsets.only(

@@ -11,7 +11,8 @@ class AppController extends GetxController {
   List<Module> _moduleList = <Module>[];
   List<Container> _modulePageList = <Container>[];
   List _videoList = [];
-  DataController dataController = Get.put(DataController());
+  UploadVideoDataController dataController =
+      Get.put(UploadVideoDataController());
 
   // @override
   // void onInit() {
@@ -185,7 +186,7 @@ class AppController extends GetxController {
   Future<bool> uploadVideo(int userid, String token, int moduleid, String titre,
       String videopath) async {
     try {
-      Get.bottomSheet(GetBuilder<DataController>(
+      Get.bottomSheet(GetBuilder<UploadVideoDataController>(
           builder: (_) => Container(
               margin: EdgeInsets.symmetric(
                 vertical: Get.height * 0.025,
@@ -218,6 +219,7 @@ class AppController extends GetxController {
       }
     } catch (err) {
       print(err);
+      Get.back();
       Get.snackbar(
         "Erreur",
         "Vérfier votre connexion Internet.",

@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:bjj_library/controller/app.dart';
 import 'package:bjj_library/controller/data.dart';
 import 'package:bjj_library/model/module.dart';
@@ -26,7 +25,8 @@ class _HomeScreenState extends State<HomeScreen> {
   UserController userController = Get.put(UserController());
   ApiController apiController = Get.put(ApiController());
   AppController appController = Get.put(AppController());
-  DataController dataController = Get.put(DataController());
+  UploadVideoDataController uploadVideoDataController =
+      Get.put(UploadVideoDataController());
 
   // stockena donnee ilaina apres fermeture application
   final box = GetStorage();
@@ -58,7 +58,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         horizontal: MediaQuery.of(context).size.width * 0.06,
                         vertical: MediaQuery.of(context).size.height * 0.0113),
                     child: TextField(
-                      controller: dataController.titre,
+                      controller: uploadVideoDataController.titre,
                       style: TextStyle(fontSize: 13, color: Colors.grey[800]),
                       decoration: InputDecoration(
                         filled: true,
@@ -82,7 +82,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       // vertical: MediaQuery.of(context).size.height*0.0110
                     ),
                     child: TextField(
-                      controller: dataController.videotitle,
+                      controller: uploadVideoDataController.videotitle,
                       focusNode: focus,
                       style: TextStyle(fontSize: 13, color: Colors.grey[800]),
                       decoration: InputDecoration(
@@ -109,13 +109,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   child: Row(children: [
                     DropdownButton(
-                      value: dataController.moduleChoix,
+                      value: uploadVideoDataController.moduleChoix,
                       icon: Icon(Icons.arrow_drop_down_circle),
                       iconDisabledColor: Colors.blue[400],
                       iconEnabledColor: Colors.blue[400],
                       iconSize: 25,
                       underline: SizedBox(),
-                      hint: Text(dataController.moduleChoix,
+                      hint: Text(uploadVideoDataController.moduleChoix,
                           style: TextStyle(fontSize: 14)),
                       items: [
                         for (Module mod in moduleList)
@@ -125,7 +125,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                       ],
                       onChanged: (value) {
-                        dataController.moduleChoix = value.toString();
+                        uploadVideoDataController.moduleChoix =
+                            value.toString();
                         //dataController.forceUpdate();
                         Navigator.pop(context);
                         addVideo(context, moduleList);
@@ -143,9 +144,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     successColor: Colors.blue,
                     controller: _btnController,
                     onPressed: () {
-                      if (dataController.titre.text.trim() == '' ||
-                          dataController.videopath.trim() == '' ||
-                          dataController.moduleChoix == 'Tous') {
+                      if (uploadVideoDataController.titre.text.trim() == '' ||
+                          uploadVideoDataController.videopath.trim() == '' ||
+                          uploadVideoDataController.moduleChoix == 'Tous') {
                         Get.snackbar(
                           "Erreur",
                           "Champ manquante",
@@ -169,14 +170,14 @@ class _HomeScreenState extends State<HomeScreen> {
                         bool res = await appController.uploadVideo(
                             userController.user.id,
                             userController.user.token,
-                            appController
-                                .getModuleId(dataController.moduleChoix),
-                            dataController.titre.text,
-                            dataController.videopath);
+                            appController.getModuleId(
+                                uploadVideoDataController.moduleChoix),
+                            uploadVideoDataController.titre.text,
+                            uploadVideoDataController.videopath);
 
                         if (res) {
-                          dataController.videopath = '';
-                          dataController.videotitle.text = '';
+                          uploadVideoDataController.videopath = '';
+                          uploadVideoDataController.videotitle.text = '';
                           _btnController.success();
                           Get.snackbar(
                             "Ajout",
@@ -195,12 +196,15 @@ class _HomeScreenState extends State<HomeScreen> {
                             appController.trtVideos(userController.user.id,
                                 userController.user.token);
                           });
+                        } else {
+                          _btnController.error();
+                          Timer(Duration(seconds: 2), () {
+                            _btnController.reset();
+                          });
                         }
                       }
 
                       uploadVideo();
-                      //_doSomething(_btnController);
-                      //Navigator.pop(context);
                     },
                     valueColor: Colors.white,
                     borderRadius: 90,
@@ -221,14 +225,9 @@ class _HomeScreenState extends State<HomeScreen> {
       );
       if (result != null) {
         PlatformFile file = result.files.first;
-        // print(file.name);
-        // print(file.bytes);
-        // print(file.size);
-        // print(file.extension);
-        // print(file.path);
-        dataController.videopath = file.path.toString();
-        dataController.videotitle.text = file.name;
-        dataController.forceUpdate();
+        uploadVideoDataController.videopath = file.path.toString();
+        uploadVideoDataController.videotitle.text = file.name;
+        uploadVideoDataController.forceUpdate();
       } else {
         print("Annuler");
       }

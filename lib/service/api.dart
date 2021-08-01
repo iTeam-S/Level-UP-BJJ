@@ -6,7 +6,8 @@ import 'package:get/get_state_manager/get_state_manager.dart';
 class ApiController extends GetxController {
   final String url = "http://192.168.137.1:4444";
   var client = dio.Dio(dio.BaseOptions(baseUrl: "http://192.168.137.1:4444"));
-  DataController dataController = Get.put(DataController());
+  UploadVideoDataController dataController =
+      Get.put(UploadVideoDataController());
 
   Future<List> login(usr, passwd) async {
     try {

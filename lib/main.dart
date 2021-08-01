@@ -1,6 +1,7 @@
 import 'package:bjj_library/service/api.dart';
 import 'package:bjj_library/controller/users.dart';
 import 'package:bjj_library/model/users.dart';
+import 'package:bjj_library/view/play_video.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:bjj_library/view/splash.dart';
@@ -44,6 +45,7 @@ class MyApp extends StatelessWidget {
         '/': (context) => SplashScreen(),
         '/login': (context) => LoginScreen(),
         '/home': (context) => HomeScreen(),
+        '/video': (context) => VideoScreen()
       },
     );
   }

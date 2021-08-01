@@ -1,27 +1,26 @@
-import 'package:bjj_library/controller/app.dart';
-import 'package:bjj_library/service/api.dart';
+import 'package:bjj_library/controller/data.dart';
 import 'package:bjj_library/controller/users.dart';
-import 'package:bjj_library/view/screen/gestion_video.dart';
+import 'package:bjj_library/service/api.dart';
 import 'package:flutter/material.dart';
-import 'package:get_storage/get_storage.dart';
-import 'package:get/get.dart';
 import 'package:chewie/chewie.dart';
+import 'package:get/get.dart';
 import 'package:video_player/video_player.dart';
 
-
 class VideoScreen extends StatefulWidget {
-  const VideoScreen({
-    Key? key,
-  }) : super(key: key);
-  
+  const VideoScreen({Key? key}) : super(key: key);
+
   @override
   _VideoScreenState createState() => _VideoScreenState();
 }
 
 class _VideoScreenState extends State<VideoScreen> {
-  late VideoPlayerController _videoPlayerController1;
-  late VideoPlayerController _videoPlayerController2;
+  late VideoPlayerController _videoPlayerController;
   ChewieController? _chewieController;
+
+  UserController userController = Get.put(UserController());
+  ApiController apiController = Get.put(ApiController());
+  CurrentVideoController currentVideoController =
+      Get.put(CurrentVideoController());
 
   @override
   void initState() {
@@ -31,28 +30,27 @@ class _VideoScreenState extends State<VideoScreen> {
 
   @override
   void dispose() {
-    _videoPlayerController2.dispose();
+    _videoPlayerController.dispose();
     _chewieController?.dispose();
     super.dispose();
   }
 
   Future<void> initializePlayer() async {
-    _videoPlayerController2 = VideoPlayerController.network('http://192.168.137.1:4444/api/v1/get_video/1627756931.5752923Juliano.mp4?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MjgzMzI3NjAsInN1YiI6Mn0.htGeu_xrEVW822r_kQIaUYQA2HLRKc5KNHzG-6DJf6E');
+    _videoPlayerController = VideoPlayerController.network(
+        "${apiController.url}/api/v1/get_video/${currentVideoController.video!.nom}?token=${userController.user.token}");
 
     await Future.wait([
-      _videoPlayerController2.initialize(),
+      _videoPlayerController.initialize(),
     ]);
     _createChewieController();
     setState(() {});
   }
 
-    void _createChewieController() {
-
+  void _createChewieController() {
     _chewieController = ChewieController(
-      videoPlayerController: _videoPlayerController2,
+      videoPlayerController: _videoPlayerController,
       autoPlay: true,
       looping: true,
-
       showControls: true,
       materialProgressColors: ChewieProgressColors(
         playedColor: Colors.red,
@@ -74,10 +72,8 @@ class _VideoScreenState extends State<VideoScreen> {
         toolbarHeight: 45,
         backgroundColor: Colors.blue[400],
         title: Text('Lecture de vidéo',
-          style: TextStyle(
-              color: Colors.white,
-              fontFamily: "ProductSans",
-              fontSize: 17)),
+            style: TextStyle(
+                color: Colors.white, fontFamily: "ProductSans", fontSize: 17)),
         centerTitle: true,
         actions: [
           Stack(children: [
@@ -90,37 +86,36 @@ class _VideoScreenState extends State<VideoScreen> {
             Positioned(
               top: MediaQuery.of(context).size.height * 0.018,
               right: MediaQuery.of(context).size.height * 0.02,
-              child:
-                  Icon(Icons.brightness_1, size: 10, color: Colors.red),
+              child: Icon(Icons.brightness_1, size: 10, color: Colors.red),
             )
           ]),
         ],
         actionsIconTheme: IconThemeData(color: Colors.white, size: 21),
       ),
-
       body: Column(
         children: <Widget>[
           Container(
             child: Center(
-              child: _chewieController != null && _chewieController!.videoPlayerController.value.isInitialized
-                ? Container(
-                  height: MediaQuery.of(context).size.height * 0.31,
-                  child: Theme(
-                      data: ThemeData.light().copyWith(
-                      platform: TargetPlatform.iOS,
+              child: _chewieController != null &&
+                      _chewieController!
+                          .videoPlayerController.value.isInitialized
+                  ? Container(
+                      height: MediaQuery.of(context).size.height * 0.31,
+                      child: Theme(
+                          data: ThemeData.light().copyWith(
+                            platform: TargetPlatform.iOS,
+                          ),
+                          child: Chewie(
+                            controller: _chewieController!,
+                          )))
+                  : Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const [
+                        CircularProgressIndicator(),
+                        SizedBox(height: 20),
+                        Text('Loading'),
+                      ],
                     ),
-                    child :Chewie(
-                      controller: _chewieController!,
-                    )
-                  ))
-                : Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
-                      CircularProgressIndicator(),
-                      SizedBox(height: 20),
-                      Text('Loading'),
-                    ],
-                  ),
             ),
           ),
         ],
