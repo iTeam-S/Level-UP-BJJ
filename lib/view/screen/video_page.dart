@@ -59,10 +59,14 @@ Container videoTabModule(context, module) {
                                 MediaQuery.of(context).size.width * 0.11,
                             vertical:
                                 MediaQuery.of(context).size.height * 0.07),
-                        child: Icon(
-                          Icons.play_arrow,
+                        child: IconButton(
+                          icon: Icon(Icons.play_arrow),
                           color: Colors.blue[400],
-                          size: 40,
+                          iconSize: 30,
+                          onPressed: () {
+                            currentVideoController.video = video;
+                            Get.toNamed('/video');
+                          },
                         )),
                     Container(
                         margin: EdgeInsets.only(
@@ -160,7 +164,8 @@ Container videoTabModule(context, module) {
               ]),
           ])
         : Center(
-            child: Icon(Icons.motion_photos_off_outlined, size: 120, color: Colors.grey),
+            child: Icon(Icons.motion_photos_off_outlined,
+                size: 120, color: Colors.grey),
           ),
   );
 }

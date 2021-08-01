@@ -36,4 +36,8 @@ class UserController extends GetxController {
     loginFormkey.currentState!.save();
     valid = true;
   }
+
+  void forceUpdate() {
+    update();
+  }
 }
