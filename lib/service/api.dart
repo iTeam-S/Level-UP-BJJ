@@ -117,4 +117,23 @@ class ApiController extends GetxController {
       return [false, "Verifier Votre Réseau"];
     }
   }
+
+  Future<List> deletevideo(int userid, String token, int id) async {
+    try {
+      var response = await client.post(
+        "/api/v1/delete_video/",
+        data: {"user_id": userid, "token": token, "video_id": id},
+      );
+      return [true, response.data];
+    } on dio.DioError catch (err) {
+      if (err.response!.statusCode == 403) {
+        return [false, err.response!.data['status']];
+      } else {
+        return [false, err.response!.data['status']];
+      }
+    } catch (e) {
+      print(e);
+      return [false, "Verifier Votre Réseau"];
+    }
+  }
 }
