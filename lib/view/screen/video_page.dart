@@ -160,7 +160,7 @@ Container videoTabModule(context, module) {
               ]),
           ])
         : Center(
-            child: Text('Aucun vidéo dans cette section'),
+            child: Icon(Icons.motion_photos_off_outlined, size: 120, color: Colors.grey),
           ),
   );
 }
