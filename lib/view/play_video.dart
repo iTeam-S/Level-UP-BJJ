@@ -1,9 +1,6 @@
 import 'package:bjj_library/controller/data.dart';
 import 'package:bjj_library/controller/users.dart';
-<<<<<<< HEAD
 import 'package:bjj_library/service/api.dart';
-=======
->>>>>>> 84452b9ef669cfd6b5f41d918f8eb87b22e3f80f
 import 'package:flutter/material.dart';
 import 'package:chewie/chewie.dart';
 import 'package:get/get.dart';
