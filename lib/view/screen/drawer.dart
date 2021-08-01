@@ -408,8 +408,8 @@ class AppDrawer extends StatelessWidget {
                         ),
                         child: CircleAvatar(
                           radius: 30,
-                          backgroundImage:
-                              AssetImage('assets/images/avatar.jpg'),
+                          backgroundColor: Colors.pinkAccent[400],
+                          child: Text('L'),
                         )),
                     Container(
                         alignment: Alignment.centerLeft,
@@ -448,8 +448,7 @@ class AppDrawer extends StatelessWidget {
                         children: userController.user.admin
                             ? [
                                 ListTile(
-                                  leading: Icon(Icons.video_collection_outlined,
-                                      color: Colors.blue[400]),
+                                  leading: Icon(Icons.video_collection_outlined, color: Colors.blue[400]),
                                   title: Text("Vidéos"),
                                   onTap: () {
                                     Navigator.pop(context);

@@ -13,13 +13,13 @@ import 'package:get/get.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 
 class HomeScreen extends StatefulWidget {
-  @override
-  _HomeScreenState createState() => _HomeScreenState();
+	@override
+	_HomeScreenState createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  bool status1 = false;
-  bool isSwitched = false;
+	bool status1 = false;
+	bool isSwitched = false;
 
   // Instance ana controlleur
   UserController userController = Get.put(UserController());
@@ -28,21 +28,21 @@ class _HomeScreenState extends State<HomeScreen> {
   UploadVideoDataController uploadVideoDataController =
       Get.put(UploadVideoDataController());
 
-  // stockena donnee ilaina apres fermeture application
-  final box = GetStorage();
+	// stockena donnee ilaina apres fermeture application
+	final box = GetStorage();
 
-  late String fileName;
-  late String path;
-  late Map<String, String> paths;
-  late List<String> extensions;
-  bool isLoadingPath = false;
-  bool isMultiPick = false;
-  late FileType fileType;
+	late String fileName;
+	late String path;
+	late Map<String, String> paths;
+	late List<String> extensions;
+	bool isLoadingPath = false;
+	bool isMultiPick = false;
+	late FileType fileType;
 
-  final RoundedLoadingButtonController _btnController =
-      RoundedLoadingButtonController();
+	final RoundedLoadingButtonController _btnController =
+			RoundedLoadingButtonController();
 
-  FocusNode focus = FocusNode();
+	FocusNode focus = FocusNode();
 
   void addVideo(context, moduleList) {
     showDialog(
@@ -236,89 +236,89 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  @override
-  void initState() {
-    super.initState();
-    focus.addListener(_onFocusChange);
-    // appController.trtModules(userController.user.id, userController.user.token);
-    // assemblé les données dans une seule requete.
-    appController.trtVideos(userController.user.id, userController.user.token);
-  }
+	@override
+	void initState() {
+		super.initState();
+		focus.addListener(_onFocusChange);
+		// appController.trtModules(userController.user.id, userController.user.token);
+		// assemblé les données dans une seule requete.
+		appController.trtVideos(userController.user.id, userController.user.token);
+	}
 
-  void _onFocusChange() {
-    debugPrint("Focus: " + focus.hasFocus.toString());
-    if (focus.hasFocus) _openFileExplorer();
-  }
+	void _onFocusChange() {
+		debugPrint("Focus: " + focus.hasFocus.toString());
+		if (focus.hasFocus) _openFileExplorer();
+	}
 
-  @override
-  Widget build(BuildContext context) {
-    return GetBuilder<AppController>(
-        builder: (_) => DefaultTabController(
-            length: appController.moduleInit(context),
-            child: Scaffold(
-              appBar: AppBar(
-                toolbarHeight: 45,
-                backgroundColor: Colors.blue[400],
-                title: Text('BJJ-Library',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontFamily: "ProductSans",
-                        fontSize: 17)),
-                centerTitle: true,
-                actions: [
-                  Stack(children: [
-                    Container(
-                      margin: EdgeInsets.only(
-                          top: MediaQuery.of(context).size.height * 0.017,
-                          right: MediaQuery.of(context).size.height * 0.02),
-                      child: Icon(Icons.notifications_sharp),
-                    ),
-                    Positioned(
-                      top: MediaQuery.of(context).size.height * 0.018,
-                      right: MediaQuery.of(context).size.height * 0.02,
-                      child:
-                          Icon(Icons.brightness_1, size: 10, color: Colors.red),
-                    )
-                  ]),
-                ],
-                actionsIconTheme: IconThemeData(color: Colors.white, size: 21),
-              ),
-              drawer: AppDrawer(),
-              bottomNavigationBar: Container(
-                color: Colors.black12,
-                child: TabBar(
-                  isScrollable: true,
-                  unselectedLabelColor: Colors.grey[800],
-                  labelColor: Colors.blue,
-                  indicatorSize: TabBarIndicatorSize.tab,
-                  indicatorPadding: EdgeInsets.all(5.0),
-                  indicatorColor: Colors.blue,
-                  tabs: [
-                    for (Module module in appController.getmoduleList())
-                      Tab(
-                          text: module.nom,
-                          icon: module.nom == 'Tous'
-                              ? Icon(Icons.video_library_outlined, size: 20)
-                              : Icon(Icons.motion_photos_on, size: 20)
-                      ),
-                  ],
-                ),
-              ),
-              body: TabBarView(children: [
-                for (Container contentPage
-                    in appController.getmodulePageList(context))
-                  contentPage
-              ]),
-              floatingActionButton: userController.user.admin
-                  ? FloatingActionButton(
-                      onPressed: () {
-                        addVideo(context, appController.getmoduleList());
-                      },
-                      child: const Icon(Icons.add),
-                      backgroundColor: Colors.blue,
-                      elevation: 10,
-                    )
-                  : null,
-            )));
-  }
+	@override
+	Widget build(BuildContext context) {
+		return GetBuilder<AppController>(
+				builder: (_) => DefaultTabController(
+						length: appController.moduleInit(context),
+						child: Scaffold(
+							appBar: AppBar(
+								toolbarHeight: 45,
+								backgroundColor: Colors.blue[400],
+								title: Text('BJJ-Library',
+										style: TextStyle(
+												color: Colors.white,
+												fontFamily: "ProductSans",
+												fontSize: 17)),
+								centerTitle: true,
+								actions: [
+									Stack(children: [
+										Container(
+											margin: EdgeInsets.only(
+													top: MediaQuery.of(context).size.height * 0.017,
+													right: MediaQuery.of(context).size.height * 0.02),
+											child: Icon(Icons.notifications_sharp),
+										),
+										Positioned(
+											top: MediaQuery.of(context).size.height * 0.018,
+											right: MediaQuery.of(context).size.height * 0.02,
+											child:
+													Icon(Icons.brightness_1, size: 10, color: Colors.red),
+										)
+									]),
+								],
+								actionsIconTheme: IconThemeData(color: Colors.white, size: 21),
+							),
+							drawer: AppDrawer(),
+							bottomNavigationBar: Container(
+								color: Colors.black12,
+								child: TabBar(
+									isScrollable: true,
+									unselectedLabelColor: Colors.grey[800],
+									labelColor: Colors.blue,
+									indicatorSize: TabBarIndicatorSize.tab,
+									indicatorPadding: EdgeInsets.all(5.0),
+									indicatorColor: Colors.blue,
+									tabs: [
+										for (Module module in appController.getmoduleList())
+											Tab(
+													text: module.nom,
+													icon: module.nom == 'Tous'
+															? Icon(Icons.video_library_outlined, size: 20)
+															: Icon(Icons.motion_photos_on, size: 20)
+											),
+									],
+								),
+							),
+							body: TabBarView(children: [
+								for (Container contentPage
+										in appController.getmodulePageList(context))
+									contentPage
+							]),
+							floatingActionButton: userController.user.admin
+									? FloatingActionButton(
+											onPressed: () {
+												addVideo(context, appController.getmoduleList());
+											},
+											child: const Icon(Icons.add),
+											backgroundColor: Colors.blue,
+											elevation: 10,
+										)
+									: null,
+						)));
+	}
 }
