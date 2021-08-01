@@ -1,9 +1,12 @@
-import 'package:dio/dio.dart';
+import 'package:bjj_library/controller/data.dart';
+import 'package:dio/dio.dart' as dio;
+import 'package:get/get.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 
 class ApiController extends GetxController {
   final String url = "http://192.168.137.1:4444";
-  var client = Dio(BaseOptions(baseUrl: "http://192.168.137.1:4444"));
+  var client = dio.Dio(dio.BaseOptions(baseUrl: "http://192.168.137.1:4444"));
+  DataController dataController = Get.put(DataController());
 
   Future<List> login(usr, passwd) async {
     try {
@@ -12,7 +15,7 @@ class ApiController extends GetxController {
         data: {"mail": usr, "password": passwd},
       );
       return [true, response.data];
-    } on DioError catch (err) {
+    } on dio.DioError catch (err) {
       if (err.response!.statusCode == 403) {
         return [false, err.response!.data['status']];
       } else {
@@ -31,7 +34,7 @@ class ApiController extends GetxController {
         data: {"user_id": userid, "token": token},
       );
       return [true, response.data];
-    } on DioError catch (err) {
+    } on dio.DioError catch (err) {
       if (err.response!.statusCode == 403) {
         return [false, err.response!.data['status']];
       } else {
@@ -50,7 +53,7 @@ class ApiController extends GetxController {
         data: {"user_id": userid, "token": token, "limit": 4},
       );
       return [true, response.data];
-    } on DioError catch (err) {
+    } on dio.DioError catch (err) {
       if (err.response!.statusCode == 403) {
         return [false, err.response!.data['status']];
       } else {
@@ -69,7 +72,40 @@ class ApiController extends GetxController {
         data: {"user_id": userid, "token": token, "nom": module},
       );
       return [true, response.data];
-    } on DioError catch (err) {
+    } on dio.DioError catch (err) {
+      if (err.response!.statusCode == 403) {
+        return [false, err.response!.data['status']];
+      } else {
+        return [false, err.response!.data['status']];
+      }
+    } catch (e) {
+      print(e);
+      return [false, "Verifier Votre Réseau"];
+    }
+  }
+
+  Future<List> uploadVideo(int userid, String token, int moduleid, String titre,
+      String videopath) async {
+    try {
+      List filetmp = videopath.split('/');
+      String filename = filetmp[filetmp.length - 1];
+      var formData = dio.FormData.fromMap({
+        'user_id': userid,
+        'token': token,
+        'module_id': moduleid,
+        'titre_video': titre,
+        'file': await dio.MultipartFile.fromFile(videopath, filename: filename),
+      });
+      var response = await client.post(
+        '/api/v1/upload_video/',
+        data: formData,
+        onSendProgress: (int sent, int total) {
+          dataController.uploadPourcent = sent / total;
+          dataController.forceUpdate();
+        },
+      );
+      return [true, response.data];
+    } on dio.DioError catch (err) {
       if (err.response!.statusCode == 403) {
         return [false, err.response!.data['status']];
       } else {

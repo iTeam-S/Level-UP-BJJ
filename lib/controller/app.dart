@@ -1,3 +1,4 @@
+import 'package:bjj_library/controller/data.dart';
 import 'package:bjj_library/model/module.dart';
 import 'package:bjj_library/model/video.dart';
 import 'package:bjj_library/service/api.dart';
@@ -10,6 +11,7 @@ class AppController extends GetxController {
   List<Module> _moduleList = <Module>[];
   List<Container> _modulePageList = <Container>[];
   List _videoList = [];
+  DataController dataController = Get.put(DataController());
 
   // @override
   // void onInit() {
@@ -139,6 +141,63 @@ class AppController extends GetxController {
   Future<bool> addModule(int userid, String token, String module) async {
     try {
       var res = await apiController.createmodule(userid, token, module);
+      if (res[0]) {
+        return true;
+      } else {
+        print(res[1]);
+        Get.snackbar(
+          "Erreur",
+          "${res[1]}",
+          colorText: Colors.white,
+          backgroundColor: Colors.red,
+          snackPosition: SnackPosition.BOTTOM,
+          borderColor: Colors.red,
+          borderRadius: 10,
+          borderWidth: 2,
+          barBlur: 0,
+          duration: Duration(seconds: 2),
+        );
+        return false;
+      }
+    } catch (err) {
+      print(err);
+      Get.snackbar(
+        "Erreur",
+        "Vérfier votre connexion Internet.",
+        colorText: Colors.white,
+        backgroundColor: Colors.red,
+        snackPosition: SnackPosition.BOTTOM,
+        borderColor: Colors.red,
+        borderRadius: 10,
+        borderWidth: 2,
+        barBlur: 0,
+        duration: Duration(seconds: 2),
+      );
+      return false;
+    }
+  }
+
+  int getModuleId(modname) {
+    for (Module mod in _moduleList) if (modname == mod.nom) return mod.id;
+    return 0;
+  }
+
+  Future<bool> uploadVideo(int userid, String token, int moduleid, String titre,
+      String videopath) async {
+    try {
+      Get.bottomSheet(GetBuilder<DataController>(
+          builder: (_) => Container(
+              margin: EdgeInsets.symmetric(
+                vertical: Get.height * 0.025,
+                horizontal: Get.width * 0.06,
+              ),
+              child: LinearProgressIndicator(
+                backgroundColor: Colors.grey,
+                value: dataController.uploadPourcent,
+              ))));
+      var res = await apiController.uploadVideo(
+          userid, token, moduleid, titre, videopath);
+      Get.back();
       if (res[0]) {
         return true;
       } else {
