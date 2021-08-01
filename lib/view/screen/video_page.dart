@@ -92,7 +92,7 @@ Container videoTabModule(context, module) {
                           width: MediaQuery.of(context).size.height * 0.3,
                           child: Text(video.titre,
                               softWrap: false,
-                              overflow: TextOverflow.ellipsis,
+                              overflow: TextOverflow.fade,
                               textAlign: TextAlign.start,
                               style: TextStyle(
                                   fontSize: 16, color: Colors.black)
@@ -159,7 +159,8 @@ Container videoTabModule(context, module) {
             )
         ])
         : Center(
-            child: Icon(Icons.motion_photos_off_outlined, size: 120, color: Colors.grey),
+            child: Icon(Icons.motion_photos_off_outlined,
+                size: 120, color: Colors.grey),
           ),
   );
 }

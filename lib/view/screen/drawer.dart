@@ -519,7 +519,7 @@ class AppDrawer extends StatelessWidget {
                     Container(
                       alignment: Alignment.center,
                       child: Text(
-                        'BJJ-Library 0.1.0',
+                        'BJJ-Library 0.3.6',
                         style: TextStyle(fontSize: 12),
                       ),
                     )

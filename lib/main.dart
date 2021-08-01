@@ -25,10 +25,20 @@ class MyApp extends StatelessWidget {
       if (box.hasData('user')) {
         Map usrTmp = box.read('user');
         userController.user = User(
-            email: usrTmp['email'],
-            admin: usrTmp['admin'],
-            id: usrTmp['id'],
-            token: usrTmp['token']);
+          email: usrTmp['email'],
+          admin: usrTmp['admin'],
+          id: usrTmp['id'],
+          token: usrTmp['token'],
+        );
+
+        if (usrTmp['video'] != null) {
+          var vidtmp = usrTmp['video'];
+          print(vidtmp);
+          userController.user.video['id'] = vidtmp['id'];
+          userController.user.video['pos'] = Duration(
+              minutes: vidtmp['pos']['minutes'],
+              seconds: vidtmp['pos']['seconds']);
+        }
         Get.offNamed('/home');
         return;
       }
