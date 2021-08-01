@@ -5,6 +5,7 @@ import 'package:bjj_library/controller/data.dart';
 import 'package:bjj_library/controller/users.dart';
 import 'package:bjj_library/model/video.dart';
 import 'package:bjj_library/service/api.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
@@ -33,139 +34,133 @@ Container videoTabModule(context, module) {
   return Container(
     child: module.videos.length != 0
         ? ListView(children: [
+            Divider(),
             for (var video in module.videos)
-              Column(children: [
+            Column(
+              children: [
                 Container(
-                  alignment: Alignment.center,
+                  height: MediaQuery.of(context).size.height * 0.1,
                   margin: EdgeInsets.only(
-                    top: MediaQuery.of(context).size.height * 0.04,
-                    left: MediaQuery.of(context).size.width * 0.0,
+                    top: MediaQuery.of(context).size.height * 0.001
                   ),
-                  child: Stack(alignment: Alignment.center, children: [
-                    Container(
-                      height: MediaQuery.of(context).size.height * 0.32,
-                      width: MediaQuery.of(context).size.width * 1,
-                      child: Card(
-                          elevation: 1,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(2)),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(2),
-                            child: Image.network(
-                                "${apiController.url}/api/v1/get_image/${video.image}?token=${userController.user.token}",
-                                fit: BoxFit.cover),
-                          )),
+                  child:
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween, 
+                  children: [
+                  Container(
+                    alignment: Alignment.centerLeft,
+                    margin: EdgeInsets.only(
+                      // top: MediaQuery.of(context).size.height * 0.00,
+                      left: MediaQuery.of(context).size.width * 0.0,
                     ),
-                    Container(
-                        margin: EdgeInsets.symmetric(
-                            horizontal:
-                                MediaQuery.of(context).size.width * 0.11,
-                            vertical:
-                                MediaQuery.of(context).size.height * 0.07),
-                        child: IconButton(
-                          icon: Icon(Icons.play_arrow),
-                          color: Colors.blue[400],
-                          iconSize: 30,
-                          onPressed: () {
-                            currentVideoController.video = video;
-                            Get.toNamed('/video');
-                          },
-                        )),
-                    Container(
-                        margin: EdgeInsets.only(
-                          top: MediaQuery.of(context).size.height * 0.24,
-                          left: MediaQuery.of(context).size.width * 0.82,
-                        ),
-                        child: PopupMenuButton(
-                            color: Colors.white,
-                            icon: Icon(Icons.more_horiz,
-                                color: Colors.white, size: 18),
-                            itemBuilder: (context) => [
-                                  PopupMenuItem(
-                                      value: 1,
-                                      child: TextButton(
-                                          onPressed: () {},
-                                          child: Row(
-                                            children: [
-                                              Icon(Icons.edit,
-                                                  color: Colors.black),
-                                              Text("Modifier",
-                                                  style: TextStyle(
-                                                      color: Colors.black)),
-                                            ],
-                                          ))),
-                                  PopupMenuItem(
-                                      value: 2,
-                                      child: TextButton(
-                                        onPressed: () {},
-                                        child: Row(children: [
-                                          Icon(Icons.delete_outline,
-                                              color: Colors.red),
-                                          Text("Supprimer",
-                                              style:
-                                                  TextStyle(color: Colors.red)),
-                                        ]),
-                                      )),
-                                ]))
-                  ]),
-                ),
-                Container(
-                  margin: EdgeInsets.only(
-                    top: MediaQuery.of(context).size.height * 0.00005,
-                    left: MediaQuery.of(context).size.width * 0.02,
-                  ),
-                  child: Row(
-                      // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Container(
-                            alignment: Alignment.centerLeft,
-                            margin: EdgeInsets.only(
-                              left: MediaQuery.of(context).size.width * 0.002,
-                            ),
-                            child: CircleAvatar(
-                              radius: 20,
-                              backgroundImage:
-                                  AssetImage('assets/images/video_logo.jpg'),
+                    child: Stack(
+                      alignment: Alignment.center, children: [
+                      Container(
+                        height: MediaQuery.of(context).size.height * 0.1,
+                        width: MediaQuery.of(context).size.width * 0.23,
+                        child: Card(
+                            elevation: 1,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(2)),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(2),
+                              child: Image.network(
+                                  "${apiController.url}/api/v1/get_image/${video.image}?token=${userController.user.token}",
+                                  fit: BoxFit.cover),
                             )),
-                        Container(
-                          margin: EdgeInsets.only(
-                              // left: MediaQuery.of(context).size.width*0.001,
-                              ),
-                          child: Column(children: [
-                            Container(
-                                margin: EdgeInsets.only(
-                                    // left: MediaQuery.of(context).size.width*0.001,
-                                    // top: MediaQuery.of(context).size.height*0.01,
-                                    ),
-                                child: Text(video.titre,
-                                    overflow: TextOverflow.visible,
-                                    style: TextStyle(
-                                        fontSize: 16, color: Colors.black))),
-                            Container(
-                              alignment: Alignment.centerLeft,
-                              margin: EdgeInsets.only(
-                                  // left: MediaQuery.of(context).size.width*0.001,
-                                  ),
-                              child: TextButton(
-                                onPressed: () {
-                                  print("WLL");
-                                },
-                                child: Row(children: [
-                                  Icon(Icons.message_outlined,
-                                      color: Colors.grey),
-                                  Text("10 commentaires",
-                                      style:
-                                          TextStyle(color: Colors.grey[700])),
-                                ]),
-                              ),
-                            )
+                      ),
+                      Container(
+                          margin: EdgeInsets.symmetric(
+                              horizontal:
+                                  MediaQuery.of(context).size.width * 0.11,
+                              vertical:
+                                  MediaQuery.of(context).size.height * 0.02),
+                          child: Icon(
+                            Icons.play_arrow,
+                            color: Colors.blue[400],
+                            size: 30,
+                          )),
+                      ]
+                    ),
+                  ),
+
+                  Container(
+                    margin: EdgeInsets.only(
+                      top: MediaQuery.of(context).size.height * 0.02,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                      Container(
+                          width: MediaQuery.of(context).size.height * 0.3,
+                          child: Text(video.titre,
+                              softWrap: false,
+                              overflow: TextOverflow.fade,
+                              textAlign: TextAlign.start,
+                              style: TextStyle(
+                                  fontSize: 16, color: Colors.black)
+                              )
+                      ),
+                      Container(
+                        child: TextButton(
+                          onPressed: () {
+                            print("WLL");
+                          },
+                          child: Row(children: [
+                            Icon(Icons.message_outlined, size: 17,
+                                color: Colors.grey),
+                            Text("10 commentaires",
+                                style:
+                                    TextStyle(color: Colors.grey[700])),
                           ]),
                         ),
-                      ]),
-                ),
+                      )
+                    ]),
+                  ),
+
+                        Container(
+                          margin: EdgeInsets.only(
+                            // top: MediaQuery.of(context).size.height * 0.08,
+                            // left: MediaQuery.of(context).size.width * 0.0,
+                          ),
+                          child: PopupMenuButton(
+                              color: Colors.white,
+                              icon: Icon(Icons.more_vert,
+                                  color: Colors.grey, size: 20),
+                              itemBuilder: (context) => [
+                                    PopupMenuItem(
+                                        value: 1,
+                                        child: TextButton(
+                                            onPressed: () {},
+                                            child: Row(
+                                              children: [
+                                                Icon(Icons.edit,
+                                                    color: Colors.black),
+                                                Text("Modifier",
+                                                    style: TextStyle(
+                                                        color: Colors.black)),
+                                              ],
+                                            ))),
+                                    PopupMenuItem(
+                                        value: 2,
+                                        child: TextButton(
+                                          onPressed: () {},
+                                          child: Row(children: [
+                                            Icon(Icons.delete_outline,
+                                                color: Colors.red),
+                                            Text("Supprimer",
+                                                style:
+                                                    TextStyle(color: Colors.red)),
+                                          ]),
+                                        )),
+                                  ])
+                        )
+                ]
+                )),
                 Divider()
-              ]),
-          ])
+              ]
+            )
+        ])
         : Center(
             child: Icon(Icons.motion_photos_off_outlined,
                 size: 120, color: Colors.grey),
