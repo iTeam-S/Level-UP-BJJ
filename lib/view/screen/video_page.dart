@@ -92,23 +92,26 @@ Container videoTabModule(context, module) {
                                   Container(
                                       width:
                                           MediaQuery.of(context).size.height *
-                                              0.3,
+                                              0.25,
                                       child: Text(video.titre,
                                           softWrap: false,
                                           overflow: TextOverflow.fade,
                                           textAlign: TextAlign.start,
                                           style: TextStyle(
-                                              fontSize: 16,
+                                              fontSize: 19.5,
                                               color: Colors.black))),
                                   Container(
                                     child: TextButton(
                                       onPressed: () {
                                         print("WLL");
                                       },
-                                      child: Row(children: [
+                                      child: Row(
+                                        // crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
                                         Icon(Icons.message_outlined,
                                             size: 17, color: Colors.grey),
                                         Text("10 commentaires",
+                                        textAlign: TextAlign.start,
                                             style: TextStyle(
                                                 color: Colors.grey[700])),
                                       ]),
