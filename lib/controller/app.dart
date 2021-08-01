@@ -15,6 +15,8 @@ class AppController extends GetxController {
       Get.put(UploadVideoDataController());
   //final TickerProviderStateMixin vsync  = TickerProviderStateMixin();
   late TabController tabController;
+  String choixModule = 'Tous';
+  TextEditingController newNomModule = TextEditingController();
 
   void finish() {
     _videoList.clear();
@@ -238,6 +240,85 @@ class AppController extends GetxController {
   Future<bool> delVideo(int userid, String token, int id) async {
     try {
       var res = await apiController.deletevideo(userid, token, id);
+      if (res[0]) {
+        return true;
+      } else {
+        print(res[1]);
+        Get.snackbar(
+          "Erreur",
+          "${res[1]}",
+          colorText: Colors.white,
+          backgroundColor: Colors.red,
+          snackPosition: SnackPosition.BOTTOM,
+          borderColor: Colors.red,
+          borderRadius: 10,
+          borderWidth: 2,
+          barBlur: 0,
+          duration: Duration(seconds: 2),
+        );
+        return false;
+      }
+    } catch (err) {
+      print(err);
+      Get.snackbar(
+        "Erreur",
+        "Vérfier votre connexion Internet.",
+        colorText: Colors.white,
+        backgroundColor: Colors.red,
+        snackPosition: SnackPosition.BOTTOM,
+        borderColor: Colors.red,
+        borderRadius: 10,
+        borderWidth: 2,
+        barBlur: 0,
+        duration: Duration(seconds: 2),
+      );
+      return false;
+    }
+  }
+
+  Future<bool> delModule(int userid, String token, int moduleId) async {
+    try {
+      var res = await apiController.deletemodule(userid, token, moduleId);
+      if (res[0]) {
+        return true;
+      } else {
+        print(res[1]);
+        Get.snackbar(
+          "Erreur",
+          "${res[1]}",
+          colorText: Colors.white,
+          backgroundColor: Colors.red,
+          snackPosition: SnackPosition.BOTTOM,
+          borderColor: Colors.red,
+          borderRadius: 10,
+          borderWidth: 2,
+          barBlur: 0,
+          duration: Duration(seconds: 2),
+        );
+        return false;
+      }
+    } catch (err) {
+      print(err);
+      Get.snackbar(
+        "Erreur",
+        "Vérfier votre connexion Internet.",
+        colorText: Colors.white,
+        backgroundColor: Colors.red,
+        snackPosition: SnackPosition.BOTTOM,
+        borderColor: Colors.red,
+        borderRadius: 10,
+        borderWidth: 2,
+        barBlur: 0,
+        duration: Duration(seconds: 2),
+      );
+      return false;
+    }
+  }
+
+  Future<bool> modifModule(
+      int userid, String token, int moduleId, String nom) async {
+    try {
+      var res = await apiController.updatemodule(userid, token, moduleId, nom);
       if (res[0]) {
         return true;
       } else {
