@@ -479,8 +479,9 @@ class AppDrawer extends StatelessWidget {
                         ),
                         child: CircleAvatar(
                           radius: 30,
-                          backgroundColor: Colors.pinkAccent[400],
-                          child: Text('L'),
+                          backgroundColor: Colors.blueAccent[500],
+                          child:
+                              Text(userController.user.email[0].toUpperCase()),
                         )),
                     Container(
                         alignment: Alignment.centerLeft,
