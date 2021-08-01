@@ -75,10 +75,16 @@ Container videoTabModule(context, module) {
                                       vertical:
                                           MediaQuery.of(context).size.height *
                                               0.02),
-                                  child: Icon(
-                                    Icons.play_arrow,
-                                    color: Colors.blue[400],
-                                    size: 30,
+                                  child: IconButton(
+                                    icon: Icon(
+                                      Icons.play_arrow,
+                                      color: Colors.blue[400],
+                                      size: 30,
+                                    ),
+                                    onPressed: () {
+                                      currentVideoController.video = video;
+                                      Get.toNamed('/video');
+                                    },
                                   )),
                             ]),
                           ),
@@ -98,7 +104,7 @@ Container videoTabModule(context, module) {
                                           overflow: TextOverflow.fade,
                                           textAlign: TextAlign.start,
                                           style: TextStyle(
-                                              fontSize: 19.5,
+                                              fontSize: 18,
                                               color: Colors.black))),
                                   Container(
                                     child: TextButton(
@@ -106,15 +112,15 @@ Container videoTabModule(context, module) {
                                         print("WLL");
                                       },
                                       child: Row(
-                                        // crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                        Icon(Icons.message_outlined,
-                                            size: 17, color: Colors.grey),
-                                        Text("10 commentaires",
-                                        textAlign: TextAlign.start,
-                                            style: TextStyle(
-                                                color: Colors.grey[700])),
-                                      ]),
+                                          // crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Icon(Icons.message_outlined,
+                                                size: 16, color: Colors.grey),
+                                            Text("10 commentaires",
+                                                textAlign: TextAlign.start,
+                                                style: TextStyle(
+                                                    color: Colors.grey[700])),
+                                          ]),
                                     ),
                                   )
                                 ]),
@@ -128,34 +134,70 @@ Container videoTabModule(context, module) {
                                   color: Colors.white,
                                   icon: Icon(Icons.more_vert,
                                       color: Colors.grey, size: 20),
-                                  itemBuilder: (context) => [
-                                        PopupMenuItem(
-                                            value: 1,
-                                            child: TextButton(
-                                                onPressed: () {},
-                                                child: Row(
-                                                  children: [
-                                                    Icon(Icons.edit,
-                                                        color: Colors.black),
-                                                    Text("Modifier",
-                                                        style: TextStyle(
-                                                            color:
-                                                                Colors.black)),
-                                                  ],
-                                                ))),
-                                        PopupMenuItem(
-                                            value: 2,
-                                            child: TextButton(
-                                              onPressed: () {},
-                                              child: Row(children: [
-                                                Icon(Icons.delete_outline,
-                                                    color: Colors.red),
-                                                Text("Supprimer",
-                                                    style: TextStyle(
-                                                        color: Colors.red)),
-                                              ]),
-                                            )),
-                                      ]))
+                                  itemBuilder: (context) => userController
+                                          .user.admin
+                                      ? [
+                                          /* PopupMenuItem(
+                                              value: 1,
+                                              child: TextButton(
+                                                  onPressed: () {},
+                                                  child: Row(
+                                                    children: [
+                                                      Icon(Icons.edit,
+                                                          color: Colors.black),
+                                                      Text("Modifier",
+                                                          style: TextStyle(
+                                                              color: Colors
+                                                                  .black)),
+                                                    ],
+                                                  ))),*/
+                                          PopupMenuItem(
+                                              value: 2,
+                                              child: TextButton(
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                  showDialog(
+                                                    context: context,
+                                                    builder: (BuildContext
+                                                            context) =>
+                                                        AlertDialog(
+                                                      title: const Text(
+                                                          "Suppression d'une vidéo"),
+                                                      content: const Text(
+                                                          'Voulez-vous vraiment supprimer cette vidéo ?'),
+                                                      actions: [
+                                                        TextButton(
+                                                          onPressed: () =>
+                                                              Navigator.pop(
+                                                                  context,
+                                                                  'Annuler'),
+                                                          child: const Text(
+                                                              'Annuler'),
+                                                        ),
+                                                        TextButton(
+                                                          onPressed: () {
+                                                            supprimerVideo(
+                                                                video.id,
+                                                                _btnController);
+                                                            Navigator.pop(
+                                                                context);
+                                                          },
+                                                          child: Text('OK'),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  );
+                                                },
+                                                child: Row(children: [
+                                                  Icon(Icons.delete_outline,
+                                                      color: Colors.red),
+                                                  Text("Supprimer",
+                                                      style: TextStyle(
+                                                          color: Colors.red)),
+                                                ]),
+                                              )),
+                                        ]
+                                      : []))
                         ])),
                 Divider()
               ])
