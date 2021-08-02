@@ -142,7 +142,7 @@ class _VideoScreenState extends State<VideoScreen> {
             child: Scaffold(
                 appBar: AppBar(
                   toolbarHeight: 45,
-                  backgroundColor: Colors.blue[400],
+                  backgroundColor: Colors.lightBlue[800],
                   title: Text('Lecture de vidéo',
                       style: TextStyle(
                           color: Colors.white,
@@ -269,19 +269,19 @@ class _VideoScreenState extends State<VideoScreen> {
                                         )
                                       ]),
                                 ),
-                                            Container(
-                                              margin: EdgeInsets.only(
-                                                  // top: MediaQuery.of(context).size.height * 0.08,
-                                                  // left: MediaQuery.of(context).size.width * 0.0,
-                                                  ),
-                                              child:IconButton(
-                                                      onPressed: null,
-                                                      icon: Icon(
-                                                        Icons.delete_sweep,
-                                                        size: 20,
-                                                        color: Colors.white,
-                                                      ),
-                                                    ))
+                                Container(
+                                    margin: EdgeInsets.only(
+                                        // top: MediaQuery.of(context).size.height * 0.08,
+                                        // left: MediaQuery.of(context).size.width * 0.0,
+                                        ),
+                                    child: IconButton(
+                                      onPressed: null,
+                                      icon: Icon(
+                                        Icons.delete_sweep,
+                                        size: 20,
+                                        color: Colors.white,
+                                      ),
+                                    ))
                               ])),
                       Divider(),
                       Container(

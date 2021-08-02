@@ -44,6 +44,7 @@ class MyApp extends StatelessWidget {
 
     return GetMaterialApp(
       theme: ThemeData(
+        primaryColor: Colors.lightBlue[800],
         primarySwatch: Colors.blue,
         fontFamily: "ProductSans",
       ),

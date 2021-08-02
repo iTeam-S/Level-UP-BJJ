@@ -12,14 +12,12 @@ import 'package:file_picker/file_picker.dart';
 import 'package:get/get.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 
-
 class HomeScreen extends StatefulWidget {
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-
   // Instance ana controlleur
   UserController userController = Get.put(UserController());
   ApiController apiController = Get.put(ApiController());
@@ -112,8 +110,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     DropdownButton(
                       value: uploadVideoDataController.moduleChoix,
                       icon: Icon(Icons.arrow_drop_down_circle),
-                      iconDisabledColor: Colors.blue[400],
-                      iconEnabledColor: Colors.blue[400],
+                      iconDisabledColor: Colors.lightBlue[800],
+                      iconEnabledColor: Colors.lightBlue[800],
                       iconSize: 25,
                       underline: SizedBox(),
                       hint: Text(uploadVideoDataController.moduleChoix,
@@ -141,7 +139,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     // vertical:MediaQuery.of(context).size.height*0.01
                   ),
                   child: RoundedLoadingButton(
-                    color: Colors.blue[400],
+                    color: Colors.lightBlue[800],
                     successColor: Colors.blue,
                     controller: _btnController,
                     onPressed: () {
@@ -267,7 +265,7 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Scaffold(
               appBar: AppBar(
                 toolbarHeight: 45,
-                backgroundColor: Colors.blue[400],
+                backgroundColor: Colors.lightBlue[800],
                 title: Text('BJJ-Library',
                     style: TextStyle(
                         color: Colors.white,
@@ -276,316 +274,293 @@ class _HomeScreenState extends State<HomeScreen> {
                 centerTitle: true,
                 actions: userController.user.admin
                     ? [
-                        Stack(
-                          children: [
-                            Container(
+                        Stack(children: [
+                          Container(
                               margin: EdgeInsets.only(
-                                top: MediaQuery.of(context).size.height * 0.005,
-                                right: MediaQuery.of(context).size.height * 0.006
-                              ),
+                                  top: MediaQuery.of(context).size.height *
+                                      0.005,
+                                  right: MediaQuery.of(context).size.height *
+                                      0.006),
                               child: PopupMenuButton(
-                                offset: Offset(
-                                  MediaQuery.of(context).size.width * 0, 
-                                  MediaQuery.of(context).size.height * 0.05
-                                ),
-                                color: Colors.white,
-                                icon: Icon(Icons.notifications_sharp,
-                                color: Colors.white, size: 20),
-                                itemBuilder: (context) => [
-                                  PopupMenuItem(
-                                    child: Column( 
-                                      children : [
-                                        Container(
-                              // height: MediaQuery.of(context).size.height * 0.1,
-                              margin: EdgeInsets.only(
-                                top: MediaQuery.of(context).size.height * 0.001,
-                                left: MediaQuery.of(context).size.width * 0.00,
-                              ),
-                              child: Row(
-                                  // crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Container(
-                                      alignment: Alignment.centerLeft,
-                                      margin: EdgeInsets.only(
-                                        // top: MediaQuery.of(context).size.height * 0.00,
-                                        left:
-                                            MediaQuery.of(context).size.width *
-                                                0.0,
-                                      ),
-                                      child: CircleAvatar(
-                                        radius: 20,
-                                        backgroundColor: Colors.orange[900],
-                                        child: Text('D'),
-                                      ),
-                                    ),
-                                    Container(
-                                        margin: EdgeInsets.only(
-                                          top: MediaQuery.of(context)
-                                                  .size
-                                                  .height *
-                                              0.01,
+                                  offset: Offset(
+                                      MediaQuery.of(context).size.width * 0,
+                                      MediaQuery.of(context).size.height *
+                                          0.05),
+                                  color: Colors.white,
+                                  icon: Icon(Icons.notifications_sharp,
+                                      color: Colors.white, size: 20),
+                                  itemBuilder: (context) => [
+                                        PopupMenuItem(
+                                          child: Column(children: [
+                                            Container(
+                                                // height: MediaQuery.of(context).size.height * 0.1,
+                                                margin: EdgeInsets.only(
+                                                  top: MediaQuery.of(context)
+                                                          .size
+                                                          .height *
+                                                      0.001,
+                                                  left: MediaQuery.of(context)
+                                                          .size
+                                                          .width *
+                                                      0.00,
+                                                ),
+                                                child: Row(
+                                                    // crossAxisAlignment: CrossAxisAlignment.start,
+                                                    children: [
+                                                      Container(
+                                                        alignment: Alignment
+                                                            .centerLeft,
+                                                        margin: EdgeInsets.only(
+                                                          // top: MediaQuery.of(context).size.height * 0.00,
+                                                          left: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width *
+                                                              0.0,
+                                                        ),
+                                                        child: CircleAvatar(
+                                                          radius: 20,
+                                                          backgroundColor:
+                                                              Colors
+                                                                  .orange[900],
+                                                          child: Text('D'),
+                                                        ),
+                                                      ),
+                                                      Container(
+                                                          margin:
+                                                              EdgeInsets.only(
+                                                            top: MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .height *
+                                                                0.01,
+                                                          ),
+                                                          child: Card(
+                                                              elevation: 0,
+                                                              child: Container(
+                                                                padding: EdgeInsets
+                                                                    .only(
+                                                                        right:
+                                                                            3),
+                                                                child: Column(
+                                                                    crossAxisAlignment:
+                                                                        CrossAxisAlignment
+                                                                            .start,
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .spaceAround,
+                                                                    children: [
+                                                                      Container(
+                                                                          width: MediaQuery.of(context).size.width *
+                                                                              0.5,
+                                                                          child: Text(
+                                                                              "gaetan.apsa@gmail.com",
+                                                                              softWrap: false,
+                                                                              overflow: TextOverflow.fade,
+                                                                              textAlign: TextAlign.start,
+                                                                              style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16, color: Colors.black))),
+                                                                      Container(
+                                                                          width: MediaQuery.of(context).size.width *
+                                                                              0.5,
+                                                                          child: Text(
+                                                                              "Cette vidéo est incroyable, la vitesse n'a jamais été mon truc mais là ça y est !",
+                                                                              softWrap: true,
+                                                                              textAlign: TextAlign.start,
+                                                                              style: TextStyle(fontSize: 15, color: Colors.black)))
+                                                                    ]),
+                                                              ))),
+                                                    ])),
+                                            Divider(),
+                                          ]),
                                         ),
-                                        child: Card(
-                                            elevation: 0,
-                                            child: Container(
-                                              padding: EdgeInsets.only(
-                                                right: 20
-                                              ),
-                                              child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceAround,
-                                                  children: [
-                                                    Container(
-                                                        width: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width *
-                                                            0.5,
-                                                        child: Text(
-                                                            "gaetan.apsa@gmail.com",
-                                                            softWrap: false,
-                                                            overflow:
-                                                                TextOverflow
-                                                                    .fade,
-                                                            textAlign:
-                                                                TextAlign.start,
-                                                            style: TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600,
-                                                                fontSize: 16,
-                                                                color: Colors
-                                                                    .black))),
-                                                    Container(
-                                                        width: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width *
-                                                            0.5,
-                                                        child: Text(
-                                                            "Cette vidéo est incroyable, la vitesse n'a jamais été mon truc mais là ça y est !",
-                                                            softWrap: true,
-                                                            textAlign:
-                                                                TextAlign.start,
-                                                            style: TextStyle(
-                                                                fontSize: 15,
-                                                                color: Colors
-                                                                    .black)))
-                                                  ]),
-                                            ))),
-                                  ])),
-                                  Divider(),
-                                  
-                                   ]),
-                                  ),
-                                  PopupMenuItem(
-                                                                        child: Column( 
-                                      children : [
-                                        Container(
-                              // height: MediaQuery.of(context).size.height * 0.1,
-                              margin: EdgeInsets.only(
-                                top: MediaQuery.of(context).size.height * 0.001,
-                                left: MediaQuery.of(context).size.width * 0.00,
-                              ),
-                              child: Row(
-                                  // crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Container(
-                                      alignment: Alignment.centerLeft,
-                                      margin: EdgeInsets.only(
-                                        // top: MediaQuery.of(context).size.height * 0.00,
-                                        left:
-                                            MediaQuery.of(context).size.width *
-                                                0.0,
-                                      ),
-                                      child: CircleAvatar(
-                                        radius: 20,
-                                        backgroundColor: Colors.orange[900],
-                                        child: Text('D'),
-                                      ),
-                                    ),
-                                    Container(
-                                        margin: EdgeInsets.only(
-                                          top: MediaQuery.of(context)
-                                                  .size
-                                                  .height *
-                                              0.01,
+                                        PopupMenuItem(
+                                          child: Column(children: [
+                                            Container(
+                                                // height: MediaQuery.of(context).size.height * 0.1,
+                                                margin: EdgeInsets.only(
+                                                  top: MediaQuery.of(context)
+                                                          .size
+                                                          .height *
+                                                      0.001,
+                                                  left: MediaQuery.of(context)
+                                                          .size
+                                                          .width *
+                                                      0.00,
+                                                ),
+                                                child: Row(
+                                                    // crossAxisAlignment: CrossAxisAlignment.start,
+                                                    children: [
+                                                      Container(
+                                                        alignment: Alignment
+                                                            .centerLeft,
+                                                        margin: EdgeInsets.only(
+                                                          // top: MediaQuery.of(context).size.height * 0.00,
+                                                          left: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width *
+                                                              0.0,
+                                                        ),
+                                                        child: CircleAvatar(
+                                                          radius: 20,
+                                                          backgroundColor:
+                                                              Colors
+                                                                  .orange[900],
+                                                          child: Text('D'),
+                                                        ),
+                                                      ),
+                                                      Container(
+                                                          margin:
+                                                              EdgeInsets.only(
+                                                            top: MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .height *
+                                                                0.01,
+                                                          ),
+                                                          child: Card(
+                                                              elevation: 0,
+                                                              child: Container(
+                                                                padding: EdgeInsets
+                                                                    .only(
+                                                                        right:
+                                                                            3),
+                                                                child: Column(
+                                                                    crossAxisAlignment:
+                                                                        CrossAxisAlignment
+                                                                            .start,
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .spaceAround,
+                                                                    children: [
+                                                                      Container(
+                                                                          width: MediaQuery.of(context).size.width *
+                                                                              0.5,
+                                                                          child: Text(
+                                                                              "gaetan.apsa@gmail.com",
+                                                                              softWrap: false,
+                                                                              overflow: TextOverflow.fade,
+                                                                              textAlign: TextAlign.start,
+                                                                              style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16, color: Colors.black))),
+                                                                      Container(
+                                                                          width: MediaQuery.of(context).size.width *
+                                                                              0.5,
+                                                                          child: Text(
+                                                                              "Cette vidéo est incroyable, la vitesse n'a jamais été mon truc mais là ça y est !",
+                                                                              softWrap: true,
+                                                                              textAlign: TextAlign.start,
+                                                                              style: TextStyle(fontSize: 15, color: Colors.black)))
+                                                                    ]),
+                                                              ))),
+                                                    ])),
+                                            Divider(),
+                                          ]),
                                         ),
-                                        child: Card(
-                                            elevation: 0,
-                                            child: Container(
-                                              padding: EdgeInsets.only(
-                                                right: 20
-                                              ),
-                                              child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceAround,
-                                                  children: [
-                                                    Container(
-                                                        width: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width *
-                                                            0.5,
-                                                        child: Text(
-                                                            "gaetan.apsa@gmail.com",
-                                                            softWrap: false,
-                                                            overflow:
-                                                                TextOverflow
-                                                                    .fade,
-                                                            textAlign:
-                                                                TextAlign.start,
-                                                            style: TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600,
-                                                                fontSize: 16,
-                                                                color: Colors
-                                                                    .black))),
-                                                    Container(
-                                                        width: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width *
-                                                            0.5,
-                                                        child: Text(
-                                                            "Cette vidéo est incroyable, la vitesse n'a jamais été mon truc mais là ça y est !",
-                                                            softWrap: true,
-                                                            textAlign:
-                                                                TextAlign.start,
-                                                            style: TextStyle(
-                                                                fontSize: 15,
-                                                                color: Colors
-                                                                    .black)))
-                                                  ]),
-                                            ))),
-                                  ])),
-                                  Divider(),
-                                  
-                                   ]),
-                                    ),
-
-                                    PopupMenuItem(
-                                                                        child: Column( 
-                                      children : [
-                                        Container(
-                              // height: MediaQuery.of(context).size.height * 0.1,
-                              margin: EdgeInsets.only(
-                                top: MediaQuery.of(context).size.height * 0.001,
-                                left: MediaQuery.of(context).size.width * 0.00,
-                              ),
-                              child: Row(
-                                  // crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Container(
-                                      alignment: Alignment.centerLeft,
-                                      margin: EdgeInsets.only(
-                                        // top: MediaQuery.of(context).size.height * 0.00,
-                                        left:
-                                            MediaQuery.of(context).size.width *
-                                                0.0,
-                                      ),
-                                      child: CircleAvatar(
-                                        radius: 20,
-                                        backgroundColor: Colors.orange[900],
-                                        child: Text('D'),
-                                      ),
-                                    ),
-                                    Container(
-                                        margin: EdgeInsets.only(
-                                          top: MediaQuery.of(context)
-                                                  .size
-                                                  .height *
-                                              0.01,
+                                        PopupMenuItem(
+                                          child: Column(children: [
+                                            Container(
+                                                // height: MediaQuery.of(context).size.height * 0.1,
+                                                margin: EdgeInsets.only(
+                                                  top: MediaQuery.of(context)
+                                                          .size
+                                                          .height *
+                                                      0.001,
+                                                  left: MediaQuery.of(context)
+                                                          .size
+                                                          .width *
+                                                      0.00,
+                                                ),
+                                                child: Row(
+                                                    // crossAxisAlignment: CrossAxisAlignment.start,
+                                                    children: [
+                                                      Container(
+                                                        alignment: Alignment
+                                                            .centerLeft,
+                                                        margin: EdgeInsets.only(
+                                                          // top: MediaQuery.of(context).size.height * 0.00,
+                                                          left: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width *
+                                                              0.0,
+                                                        ),
+                                                        child: CircleAvatar(
+                                                          radius: 20,
+                                                          backgroundColor:
+                                                              Colors
+                                                                  .orange[900],
+                                                          child: Text('D'),
+                                                        ),
+                                                      ),
+                                                      Container(
+                                                          margin:
+                                                              EdgeInsets.only(
+                                                            top: MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .height *
+                                                                0.01,
+                                                          ),
+                                                          child: Card(
+                                                              elevation: 0,
+                                                              child: Container(
+                                                                padding: EdgeInsets
+                                                                    .only(
+                                                                        right:
+                                                                            3),
+                                                                child: Column(
+                                                                    crossAxisAlignment:
+                                                                        CrossAxisAlignment
+                                                                            .start,
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .spaceAround,
+                                                                    children: [
+                                                                      Container(
+                                                                          width: MediaQuery.of(context).size.width *
+                                                                              0.5,
+                                                                          child: Text(
+                                                                              "gaetan.apsa@gmail.com",
+                                                                              softWrap: false,
+                                                                              overflow: TextOverflow.fade,
+                                                                              textAlign: TextAlign.start,
+                                                                              style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16, color: Colors.black))),
+                                                                      Container(
+                                                                          width: MediaQuery.of(context).size.width *
+                                                                              0.5,
+                                                                          child: Text(
+                                                                              "Cette vidéo est incroyable, la vitesse n'a jamais été mon truc mais là ça y est !",
+                                                                              softWrap: true,
+                                                                              textAlign: TextAlign.start,
+                                                                              style: TextStyle(fontSize: 15, color: Colors.black)))
+                                                                    ]),
+                                                              ))),
+                                                    ])),
+                                            Divider(),
+                                          ]),
                                         ),
-                                        child: Card(
-                                            elevation: 0,
-                                            child: Container(
-                                              padding: EdgeInsets.only(
-                                                right: 20
-                                              ),
-                                              child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceAround,
-                                                  children: [
-                                                    Container(
-                                                        width: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width *
-                                                            0.5,
-                                                        child: Text(
-                                                            "gaetan.apsa@gmail.com",
-                                                            softWrap: false,
-                                                            overflow:
-                                                                TextOverflow
-                                                                    .fade,
-                                                            textAlign:
-                                                                TextAlign.start,
-                                                            style: TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600,
-                                                                fontSize: 16,
-                                                                color: Colors
-                                                                    .black))),
-                                                    Container(
-                                                        width: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width *
-                                                            0.5,
-                                                        child: Text(
-                                                            "Cette vidéo est incroyable, la vitesse n'a jamais été mon truc mais là ça y est !",
-                                                            softWrap: true,
-                                                            textAlign:
-                                                                TextAlign.start,
-                                                            style: TextStyle(
-                                                                fontSize: 15,
-                                                                color: Colors
-                                                                    .black)))
-                                                  ]),
-                                            ))),
-                                  ])),
-                                  Divider(),
-                                  
-                                   ]),
-                                    ),
-
-                                  
-                                  PopupMenuItem(
-                                          child: Row(children: [
-                                            Text("Tout voir",
-                                                style: TextStyle(
-                                                    color: Colors.blue[400])),
-                                            Icon(Icons.chevron_right_outlined,
-                                                color: Colors.blue[400]),
-                                          ])
-                                  )
-                                  
-                                ]
-                              )
+                                        PopupMenuItem(
+                                            child: Row(children: [
+                                          Text("Tout voir",
+                                              style: TextStyle(
+                                                  color:
+                                                      Colors.lightBlue[800])),
+                                          Icon(Icons.chevron_right_outlined,
+                                              color: Colors.lightBlue[800]),
+                                        ]))
+                                      ])),
+                          Positioned(
+                            top: MediaQuery.of(context).size.height * 0.018,
+                            right: MediaQuery.of(context).size.height * 0.012,
+                            child: CircleAvatar(
+                              radius: 7.5,
+                              backgroundColor: Colors.red,
+                              child: Text('15',
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 10)),
                             ),
-                            Positioned(
-                              top: MediaQuery.of(context).size.height * 0.018,
-                              right: MediaQuery.of(context).size.height * 0.012,
-                              child: CircleAvatar(
-                                radius: 7.5,
-                                backgroundColor: Colors.red,
-                                child: Text('15', style: TextStyle(color: Colors.white, fontSize: 10)),
-                              ),
-                            )
-                          ]
-                        ),
+                          )
+                        ]),
                       ]
                     : null,
                 actionsIconTheme: IconThemeData(color: Colors.white, size: 21),
@@ -596,7 +571,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: TabBar(
                   isScrollable: true,
                   unselectedLabelColor: Colors.grey[800],
-                  labelColor: Colors.blue,
+                  labelColor: Colors.lightBlue[800],
                   indicatorSize: TabBarIndicatorSize.tab,
                   indicatorPadding: EdgeInsets.all(5.0),
                   indicatorColor: Colors.blue,
@@ -621,20 +596,10 @@ class _HomeScreenState extends State<HomeScreen> {
                         addVideo(context, appController.getmoduleList());
                       },
                       child: const Icon(Icons.add),
-                      backgroundColor: Colors.blue,
+                      backgroundColor: Colors.lightBlue[800],
                       elevation: 10,
                     )
                   : null,
             )));
   }
 }
-
-
-
-
-
-
-
-
-
-

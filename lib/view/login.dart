@@ -165,10 +165,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                               onSaved: (value) {
                                                 userController.email = value!;
                                               },
-                                              validator: (value) {
-                                                return userController
-                                                    .checkEmail(value!);
-                                              },
+                                              //validator: (value) {
+                                              //return userController
+                                              //  .checkEmail(value!);
+                                              // },
                                               style: TextStyle(
                                                   fontSize: 13,
                                                   color: Colors.grey[800]),
@@ -216,10 +216,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                                 userController.password =
                                                     value!;
                                               },
-                                              validator: (value) {
-                                                return userController
-                                                    .checkPassword(value!);
-                                              },
+                                              //validator: (value) {
+                                              // return userController
+                                              //    .checkPassword(value!);
+                                              // },
                                               style: TextStyle(
                                                   fontSize: 13,
                                                   color: Colors.grey[800]),

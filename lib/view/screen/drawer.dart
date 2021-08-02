@@ -102,8 +102,8 @@ class AppDrawer extends StatelessWidget {
                                 BorderRadius.all(Radius.circular(90.0)),
                             borderSide: BorderSide.none),
                         hintText: "Module",
-                        prefixIcon:
-                            Icon(Icons.edit_outlined, color: Colors.blue),
+                        prefixIcon: Icon(Icons.edit_outlined,
+                            color: Colors.lightBlue[800]),
                       ),
                     )),
                 Container(
@@ -111,7 +111,7 @@ class AppDrawer extends StatelessWidget {
                       horizontal: MediaQuery.of(context).size.width * 0.06,
                       vertical: MediaQuery.of(context).size.height * 0.01),
                   child: RoundedLoadingButton(
-                    color: Colors.blue[400],
+                    color: Colors.lightBlue[800],
                     successColor: Colors.blue,
                     controller: _btnController,
                     onPressed: () {
@@ -150,8 +150,8 @@ class AppDrawer extends StatelessWidget {
                       DropdownButton(
                         value: appController.choixModule,
                         icon: Icon(Icons.arrow_drop_down_circle),
-                        iconDisabledColor: Colors.blue[400],
-                        iconEnabledColor: Colors.blue[400],
+                        iconDisabledColor: Colors.lightBlue[800],
+                        iconEnabledColor: Colors.lightBlue[800],
                         iconSize: 20,
                         underline: SizedBox(),
                         hint: Text('Module', style: TextStyle(fontSize: 14)),
@@ -276,7 +276,7 @@ class AppDrawer extends StatelessWidget {
                       horizontal: MediaQuery.of(context).size.width * 0.06,
                       vertical: MediaQuery.of(context).size.height * 0.01),
                   child: RoundedLoadingButton(
-                    color: Colors.blue[400],
+                    color: Colors.lightBlue[800],
                     successColor: Colors.blue,
                     controller: _btnController,
                     onPressed: () {
@@ -400,7 +400,7 @@ class AppDrawer extends StatelessWidget {
                       horizontal: MediaQuery.of(context).size.width * 0.06,
                       vertical: MediaQuery.of(context).size.height * 0.01),
                   child: RoundedLoadingButton(
-                    color: Colors.blue[400],
+                    color: Colors.lightBlue[800],
                     successColor: Colors.blue,
                     controller: _btnController,
                     onPressed: () {
@@ -521,7 +521,7 @@ class AppDrawer extends StatelessWidget {
                             ? [
                                 ListTile(
                                   leading: Icon(Icons.video_collection_outlined,
-                                      color: Colors.blue[400]),
+                                      color: Colors.lightBlue[800]),
                                   title: Text("Vidéos"),
                                   onTap: () {
                                     Navigator.pop(context);
@@ -530,7 +530,7 @@ class AppDrawer extends StatelessWidget {
                                 Divider(),
                                 ListTile(
                                   leading: Icon(Icons.add_outlined,
-                                      color: Colors.blue[400]),
+                                      color: Colors.lightBlue[800]),
                                   title: Text("Ajouter un module"),
                                   onTap: () {
                                     Navigator.pop(context);
@@ -540,7 +540,7 @@ class AppDrawer extends StatelessWidget {
                                 Divider(),
                                 ListTile(
                                   leading: Icon(Icons.edit_outlined,
-                                      color: Colors.blue[400]),
+                                      color: Colors.lightBlue[800]),
                                   title: Text("Modifier un module"),
                                   onTap: () {
                                     Navigator.pop(context);
@@ -549,8 +549,8 @@ class AppDrawer extends StatelessWidget {
                                 ),
                                 Divider(),
                                 ListTile(
-                                  leading:
-                                      Icon(Icons.lock, color: Colors.blue[400]),
+                                  leading: Icon(Icons.lock,
+                                      color: Colors.lightBlue[800]),
                                   title: Text("Changer mot de passe"),
                                   onTap: () {
                                     Navigator.pop(context);
@@ -560,7 +560,7 @@ class AppDrawer extends StatelessWidget {
                                 Divider(),
                                 ListTile(
                                   leading: Icon(Icons.logout_outlined,
-                                      color: Colors.blue[400]),
+                                      color: Colors.lightBlue[800]),
                                   title: Text("Deconnexion"),
                                   onTap: () {
                                     Navigator.pop(context);
@@ -570,8 +570,8 @@ class AppDrawer extends StatelessWidget {
                               ]
                             : [
                                 ListTile(
-                                  leading:
-                                      Icon(Icons.lock, color: Colors.blue[400]),
+                                  leading: Icon(Icons.lock,
+                                      color: Colors.lightBlue[800]),
                                   title: Text("Changer mot de passe"),
                                   onTap: () {
                                     Navigator.pop(context);
@@ -581,7 +581,7 @@ class AppDrawer extends StatelessWidget {
                                 Divider(),
                                 ListTile(
                                   leading: Icon(Icons.logout_outlined,
-                                      color: Colors.blue[400]),
+                                      color: Colors.lightBlue[800]),
                                   title: Text("Deconnexion"),
                                   onTap: () {
                                     Navigator.pop(context);
