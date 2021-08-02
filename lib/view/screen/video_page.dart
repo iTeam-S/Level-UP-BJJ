@@ -264,7 +264,7 @@ Container videoAllModule(context, data) {
                                           onPressed: () {
                                             //appController.tabIndex =
                                             //dataVideo['module_id'];
-                                            appController.update();
+                                            //appController.update();
                                           },
                                           child: Row(children: [
                                             Text("Tout voir",

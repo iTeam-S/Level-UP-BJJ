@@ -1,6 +1,11 @@
+import 'dart:async';
+
 import 'package:bjj_library/controller/data.dart';
 import 'package:bjj_library/controller/users.dart';
+import 'package:bjj_library/model/module.dart';
+import 'package:bjj_library/model/video.dart';
 import 'package:bjj_library/service/api.dart';
+import 'package:bjj_library/view/screen/video_page.dart';
 import 'package:flutter/material.dart';
 import 'package:chewie/chewie.dart';
 import 'package:get/get.dart';
@@ -23,6 +28,8 @@ class _VideoScreenState extends State<VideoScreen> {
   CurrentVideoController currentVideoController =
       Get.put(CurrentVideoController());
   final box = GetStorage();
+  List<Module> modules = appController.getmoduleList();
+  bool efaVita = false;
 
   @override
   void initState() {
@@ -41,11 +48,27 @@ class _VideoScreenState extends State<VideoScreen> {
     _videoPlayerController = VideoPlayerController.network(
         "${apiController.url}/api/v1/get_video/${currentVideoController.video!.nom}?token=${userController.user.token}");
 
-    /*_videoPlayerController.addListener(() {
-      print("POSAIZA: ${userController.user.video}");
+    _videoPlayerController.addListener(() {
+      if (_videoPlayerController.value.duration ==
+          _videoPlayerController.value.position) {
+        //Debut algorithme.
+        bool efaIzy = false;
 
-      //userController.forceUpdate();
-    });*/
+        for (Module module in modules)
+          if (module.nom != 'Tous')
+            for (Video vid in module.videos) {
+              if (efaIzy && !efaVita) {
+                Timer(Duration(seconds: 1), () {
+                  currentVideoController.video = vid;
+                  Get.offNamed('/video', preventDuplicates: false);
+                });
+                efaVita = true;
+                return;
+              }
+              if (currentVideoController.video!.id == vid.id) efaIzy = true;
+            }
+      }
+    });
 
     await Future.wait([
       _videoPlayerController.initialize(),

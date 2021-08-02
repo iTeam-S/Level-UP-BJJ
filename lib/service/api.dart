@@ -51,7 +51,7 @@ class ApiController extends GetxController {
     try {
       var response = await client.post(
         "/api/v1/get_videos/",
-        data: {"user_id": userid, "token": token, "limit": 4},
+        data: {"user_id": userid, "token": token},
       );
       return [true, response.data];
     } on dio.DioError catch (err) {
