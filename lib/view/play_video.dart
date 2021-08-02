@@ -6,6 +6,7 @@ import 'package:bjj_library/model/module.dart';
 import 'package:bjj_library/model/video.dart';
 import 'package:bjj_library/service/api.dart';
 import 'package:bjj_library/view/screen/video_page.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:chewie/chewie.dart';
 import 'package:get/get.dart';
@@ -186,7 +187,7 @@ class _VideoScreenState extends State<VideoScreen> {
                     ),
                   ),
                   Container(
-                      height: MediaQuery.of(context).size.height * 0.1,
+                      height: MediaQuery.of(context).size.height * 0.12,
                       margin: EdgeInsets.only(
                         top: MediaQuery.of(context).size.height * 0.001,
                         left: MediaQuery.of(context).size.width * 0.05,
@@ -289,10 +290,12 @@ class _VideoScreenState extends State<VideoScreen> {
                                         ]))
                           ])),
                   Divider(),
+
+
                   Container(
                     height: MediaQuery.of(context).size.height * 0.40,
                     child: Card(
-                        color: Colors.grey[200],
+                        color: Colors.grey[50],
                         elevation: 0,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(13)),
@@ -914,6 +917,70 @@ class _VideoScreenState extends State<VideoScreen> {
                                   ])),
                         ])),
                   ),
+
+
+
+
+                Column(children: [
+                      Container(
+                          height: MediaQuery.of(context)
+                                  .size
+                                  .height *
+                              0.08,
+                          margin: EdgeInsets.symmetric(
+                              horizontal:
+                                  MediaQuery.of(context)
+                                          .size
+                                          .width *
+                                      0.06,
+                              vertical: MediaQuery.of(context)
+                                      .size
+                                      .height *
+                                  0.0113),
+                          child: TextField(
+                            style: TextStyle(
+                                fontSize: 13,
+                                color: Colors.grey[800]),
+                            decoration: InputDecoration(
+                              filled: true,
+                              fillColor: Colors.blue[50],
+                              floatingLabelBehavior: FloatingLabelBehavior.auto,
+                              border: UnderlineInputBorder(
+                                  borderSide:
+                                      BorderSide.none),
+                              focusedBorder:
+                                  UnderlineInputBorder(
+                                      borderSide:
+                                          BorderSide.none),
+                              hintText: "Entrer votre commentaire...",
+                              prefixIcon: Icon(Icons.message_outlined,
+                                  color: Colors.blue, size: 17.5,),
+                            ),
+                          ),
+                        ),
+
+                        ElevatedButton.icon(
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all(Colors.lightBlue[900]),
+                            foregroundColor: MaterialStateProperty.all(Colors.white),
+                            shape:MaterialStateProperty.all(RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(0))) ,
+                            padding: MaterialStateProperty.all(EdgeInsets.symmetric(
+                              vertical:13,
+                              horizontal: 20
+                              )
+                            ),
+                            elevation: MaterialStateProperty.all(0)
+                          ),
+                          onPressed: null, 
+                          icon: Icon(Icons.send),
+                          label: Text("Commenter"),
+                        )
+
+                ],)
+
+
+
                 ],
               ),
             ])));

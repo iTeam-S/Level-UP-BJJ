@@ -151,7 +151,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           uploadVideoDataController.moduleChoix == 'Tous') {
                         Get.snackbar(
                           "Erreur",
-                          "Champ manquante",
+                          "Données manquantes",
                           colorText: Colors.white,
                           backgroundColor: Colors.red,
                           snackPosition: SnackPosition.BOTTOM,

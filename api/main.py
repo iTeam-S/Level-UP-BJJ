@@ -1,8 +1,8 @@
 import os
-from flask import Flask , request, jsonify, flash, redirect, render_template, send_from_directory
+from flask import Flask , request, jsonify, render_template, send_from_directory
 from conf import *
 import mysql.connector, time
-from datetime import date, datetime, timedelta
+from datetime import datetime, timedelta
 import jwt
 from werkzeug.utils import secure_filename
 import cv2
@@ -27,8 +27,9 @@ def encode_auth_token(user_id):
 
 def verifToken(token):
 	try:
-		return jwt.decode(token, options={"verify_signature": False})
-	except:
+		return jwt.decode(token, "MOT_SECRET_DECRYPTE", algorithms='HS256', options={"verify_signature": True})
+	except Exception as err:
+		print(err)
 		return {"sub":0}
 
 def is_admin(user_id):
@@ -72,7 +73,7 @@ def extract(video_name):
 	cv2.destroyAllWindows()
 
 
-app.config['MAX_CONTENT_LENGTH'] = 100 * 1024 * 1024
+app.config['MAX_CONTENT_LENGTH'] = 1000 * 1024 * 1024
 
 path = os.getcwd()
 
@@ -324,19 +325,38 @@ def get_videos():
 	user_id = data.get("user_id")
 	limit =  data.get("limit")
 	token = data.get('token')
-	
+
+	def struct_coms(coms):
+		return {
+			'id': coms[0],
+			'date_post': coms[1],
+			'text': coms[2],
+			'user_id': coms[3],
+			'user_email': coms[4]
+		}
+
 	def struct_video(video):
+		cursor.execute("""
+			SELECT C.id, date_poste, text, user_id, U.mail 
+			FROM Commentaire C JOIN Utilisateur U on C.user_id = U.id
+			WHERE video_id = %s ORDER BY id 
+		""", (video[0],))
+		coms_data = cursor.fetchall()
 		return {
 			'id': video[0],
 			'titre': video[1],
 			'date_upload': video[2],
 			'nom': video[3],
-			'image': video[4]
+			'image': video[4],
+			'commentaire': list(map(struct_coms, coms_data))
 		}
 
 	if verifToken(token).get('sub') != user_id :
 		return {"status" : "Erreur Token"}, 403
 	
+	db = mysql.connector.connect(**database())
+	cursor = db.cursor()
+
 	resultat = []
 
 	if module_id :
@@ -346,7 +366,7 @@ def get_videos():
 		)
 	else:
 		cursor.execute("""
-			SELECT id, nom FROM Module ORDER BY id ASC
+			SELECT id, nom FROM Module ORDER BY id 
 		""")
 	
 	module_data = cursor.fetchall()
@@ -451,6 +471,36 @@ def get_video(video):
 		return {"status" : "Erreur Token"}, 403
 
 	return send_from_directory(directory='./data/videos/', path=video, as_attachment=True)
+
+
+@app.route('/api/v1/comment/', methods=['POST'])
+def comment():
+	# Recuperation des données envoyés
+	data = request.get_json()
+	video_id = data.get("video_id")
+	token = data.get("token")
+	user_id = data.get("user_id")
+	text = data.get("text")
+
+	if verifToken(token).get('sub') != user_id :
+		return {"status" : "Erreur Token"}, 403
+
+	# Initialisation du connecteur
+	db = mysql.connector.connect(**database())
+	cursor = db.cursor()
+
+	# Lancement des requetes
+	cursor.execute(
+		'INSERT INTO Commentaire(text, user_id, video_id) VALUES (%s, %s, %s)',
+		(text, user_id, video_id)	
+	)
+
+	# Sauvegarde des Transactions et Fermeture.
+	db.commit()
+	db.close()
+
+	return {"status" : "Commentaire enregistree"}, 201
+
 
 
 if __name__=="__main__":
