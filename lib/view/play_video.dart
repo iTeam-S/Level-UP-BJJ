@@ -293,7 +293,7 @@ class _VideoScreenState extends State<VideoScreen> {
 
 
                   Container(
-                    height: MediaQuery.of(context).size.height * 0.40,
+                    height: MediaQuery.of(context).size.height * 0.38,
                     child: Card(
                         color: Colors.grey[50],
                         elevation: 0,
@@ -385,43 +385,11 @@ class _VideoScreenState extends State<VideoScreen> {
                                             // top: MediaQuery.of(context).size.height * 0.08,
                                             // left: MediaQuery.of(context).size.width * 0.0,
                                             ),
-                                        child: PopupMenuButton(
-                                            color: Colors.white,
-                                            icon: Icon(Icons.more_vert,
-                                                color: Colors.grey, size: 20),
-                                            itemBuilder: (context) => [
-                                                  PopupMenuItem(
-                                                      value: 1,
-                                                      child: TextButton(
-                                                          onPressed: () {},
-                                                          child: Row(
-                                                            children: [
-                                                              Icon(Icons.edit,
-                                                                  color: Colors
-                                                                      .black),
-                                                              Text("Modifier",
-                                                                  style: TextStyle(
-                                                                      color: Colors
-                                                                          .black)),
-                                                            ],
-                                                          ))),
-                                                  PopupMenuItem(
-                                                      value: 2,
-                                                      child: TextButton(
-                                                        onPressed: () {},
-                                                        child: Row(children: [
-                                                          Icon(
-                                                              Icons
-                                                                  .delete_outline,
-                                                              color:
-                                                                  Colors.red),
-                                                          Text("Supprimer",
-                                                              style: TextStyle(
-                                                                  color: Colors
-                                                                      .red)),
-                                                        ]),
-                                                      )),
-                                                ]))
+                                        child: IconButton(
+                                          onPressed: null,
+                                          icon: Icon(Icons.delete_sweep, size: 20, color: Colors.grey[50],),
+                                        )
+                                      )
                                   ])),
                           Container(
                               // height: MediaQuery.of(context).size.height * 0.1,
@@ -503,48 +471,16 @@ class _VideoScreenState extends State<VideoScreen> {
                                                                     .black)))
                                                   ]),
                                             ))),
-                                    Container(
+                                             Container(
                                         margin: EdgeInsets.only(
                                             // top: MediaQuery.of(context).size.height * 0.08,
                                             // left: MediaQuery.of(context).size.width * 0.0,
                                             ),
-                                        child: PopupMenuButton(
-                                            color: Colors.white,
-                                            icon: Icon(Icons.more_vert,
-                                                color: Colors.grey, size: 20),
-                                            itemBuilder: (context) => [
-                                                  PopupMenuItem(
-                                                      value: 1,
-                                                      child: TextButton(
-                                                          onPressed: () {},
-                                                          child: Row(
-                                                            children: [
-                                                              Icon(Icons.edit,
-                                                                  color: Colors
-                                                                      .black),
-                                                              Text("Modifier",
-                                                                  style: TextStyle(
-                                                                      color: Colors
-                                                                          .black)),
-                                                            ],
-                                                          ))),
-                                                  PopupMenuItem(
-                                                      value: 2,
-                                                      child: TextButton(
-                                                        onPressed: () {},
-                                                        child: Row(children: [
-                                                          Icon(
-                                                              Icons
-                                                                  .delete_outline,
-                                                              color:
-                                                                  Colors.red),
-                                                          Text("Supprimer",
-                                                              style: TextStyle(
-                                                                  color: Colors
-                                                                      .red)),
-                                                        ]),
-                                                      )),
-                                                ]))
+                                        child: IconButton(
+                                          onPressed: null,
+                                          icon: Icon(Icons.delete_sweep, size: 20,),
+                                        )
+                                      )
                                   ])),
                           Container(
                               // height: MediaQuery.of(context).size.height * 0.1,
@@ -631,43 +567,11 @@ class _VideoScreenState extends State<VideoScreen> {
                                             // top: MediaQuery.of(context).size.height * 0.08,
                                             // left: MediaQuery.of(context).size.width * 0.0,
                                             ),
-                                        child: PopupMenuButton(
-                                            color: Colors.white,
-                                            icon: Icon(Icons.more_vert,
-                                                color: Colors.grey, size: 20),
-                                            itemBuilder: (context) => [
-                                                  PopupMenuItem(
-                                                      value: 1,
-                                                      child: TextButton(
-                                                          onPressed: () {},
-                                                          child: Row(
-                                                            children: [
-                                                              Icon(Icons.edit,
-                                                                  color: Colors
-                                                                      .black),
-                                                              Text("Modifier",
-                                                                  style: TextStyle(
-                                                                      color: Colors
-                                                                          .black)),
-                                                            ],
-                                                          ))),
-                                                  PopupMenuItem(
-                                                      value: 2,
-                                                      child: TextButton(
-                                                        onPressed: () {},
-                                                        child: Row(children: [
-                                                          Icon(
-                                                              Icons
-                                                                  .delete_outline,
-                                                              color:
-                                                                  Colors.red),
-                                                          Text("Supprimer",
-                                                              style: TextStyle(
-                                                                  color: Colors
-                                                                      .red)),
-                                                        ]),
-                                                      )),
-                                                ]))
+                                        child: IconButton(
+                                          onPressed: null,
+                                          icon: Icon(Icons.delete_sweep, size: 20, color: Colors.grey[50],),
+                                        )
+                                      )
                                   ])),
                           Container(
                               // height: MediaQuery.of(context).size.height * 0.1,
@@ -754,43 +658,11 @@ class _VideoScreenState extends State<VideoScreen> {
                                             // top: MediaQuery.of(context).size.height * 0.08,
                                             // left: MediaQuery.of(context).size.width * 0.0,
                                             ),
-                                        child: PopupMenuButton(
-                                            color: Colors.white,
-                                            icon: Icon(Icons.more_vert,
-                                                color: Colors.grey, size: 20),
-                                            itemBuilder: (context) => [
-                                                  PopupMenuItem(
-                                                      value: 1,
-                                                      child: TextButton(
-                                                          onPressed: () {},
-                                                          child: Row(
-                                                            children: [
-                                                              Icon(Icons.edit,
-                                                                  color: Colors
-                                                                      .black),
-                                                              Text("Modifier",
-                                                                  style: TextStyle(
-                                                                      color: Colors
-                                                                          .black)),
-                                                            ],
-                                                          ))),
-                                                  PopupMenuItem(
-                                                      value: 2,
-                                                      child: TextButton(
-                                                        onPressed: () {},
-                                                        child: Row(children: [
-                                                          Icon(
-                                                              Icons
-                                                                  .delete_outline,
-                                                              color:
-                                                                  Colors.red),
-                                                          Text("Supprimer",
-                                                              style: TextStyle(
-                                                                  color: Colors
-                                                                      .red)),
-                                                        ]),
-                                                      )),
-                                                ]))
+                                        child: IconButton(
+                                          onPressed: null,
+                                          icon: Icon(Icons.delete_sweep, size: 20, color: Colors.grey[50]),
+                                        )
+                                      )
                                   ])),
                           Container(
                               // height: MediaQuery.of(context).size.height * 0.1,
@@ -877,43 +749,11 @@ class _VideoScreenState extends State<VideoScreen> {
                                             // top: MediaQuery.of(context).size.height * 0.08,
                                             // left: MediaQuery.of(context).size.width * 0.0,
                                             ),
-                                        child: PopupMenuButton(
-                                            color: Colors.white,
-                                            icon: Icon(Icons.more_vert,
-                                                color: Colors.grey, size: 20),
-                                            itemBuilder: (context) => [
-                                                  PopupMenuItem(
-                                                      value: 1,
-                                                      child: TextButton(
-                                                          onPressed: () {},
-                                                          child: Row(
-                                                            children: [
-                                                              Icon(Icons.edit,
-                                                                  color: Colors
-                                                                      .black),
-                                                              Text("Modifier",
-                                                                  style: TextStyle(
-                                                                      color: Colors
-                                                                          .black)),
-                                                            ],
-                                                          ))),
-                                                  PopupMenuItem(
-                                                      value: 2,
-                                                      child: TextButton(
-                                                        onPressed: () {},
-                                                        child: Row(children: [
-                                                          Icon(
-                                                              Icons
-                                                                  .delete_outline,
-                                                              color:
-                                                                  Colors.red),
-                                                          Text("Supprimer",
-                                                              style: TextStyle(
-                                                                  color: Colors
-                                                                      .red)),
-                                                        ]),
-                                                      )),
-                                                ]))
+                                        child: IconButton(
+                                          onPressed: null,
+                                          icon: Icon(Icons.delete_sweep, size: 20, color: Colors.grey[50]),
+                                        )
+                                      )
                                   ])),
                         ])),
                   ),
@@ -921,18 +761,20 @@ class _VideoScreenState extends State<VideoScreen> {
 
 
 
-                Column(children: [
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
                       Container(
                           height: MediaQuery.of(context)
                                   .size
                                   .height *
-                              0.08,
+                              0.05,
+                              width: MediaQuery.of(context)
+                                  .size
+                                  .width *
+                              0.65,
+                              
                           margin: EdgeInsets.symmetric(
-                              horizontal:
-                                  MediaQuery.of(context)
-                                          .size
-                                          .width *
-                                      0.06,
                               vertical: MediaQuery.of(context)
                                       .size
                                       .height *
@@ -946,10 +788,18 @@ class _VideoScreenState extends State<VideoScreen> {
                               fillColor: Colors.blue[50],
                               floatingLabelBehavior: FloatingLabelBehavior.auto,
                               border: UnderlineInputBorder(
+                                                    borderRadius:
+                                                        BorderRadius.all(
+                                                            Radius.circular(
+                                                                90.0)),
                                   borderSide:
                                       BorderSide.none),
                               focusedBorder:
                                   UnderlineInputBorder(
+                                                                                        borderRadius:
+                                                        BorderRadius.all(
+                                                            Radius.circular(
+                                                                90.0)),
                                       borderSide:
                                           BorderSide.none),
                               hintText: "Entrer votre commentaire...",
@@ -964,10 +814,10 @@ class _VideoScreenState extends State<VideoScreen> {
                             backgroundColor: MaterialStateProperty.all(Colors.lightBlue[900]),
                             foregroundColor: MaterialStateProperty.all(Colors.white),
                             shape:MaterialStateProperty.all(RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(0))) ,
+                              borderRadius: BorderRadius.circular(50))) ,
                             padding: MaterialStateProperty.all(EdgeInsets.symmetric(
-                              vertical:13,
-                              horizontal: 20
+                              vertical: MediaQuery.of(context).size.height*0.005,
+                              horizontal:  MediaQuery.of(context).size.width*0.03,
                               )
                             ),
                             elevation: MaterialStateProperty.all(0)
