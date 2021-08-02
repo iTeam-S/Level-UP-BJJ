@@ -7,7 +7,11 @@ const String BaseUrl = "iteam-s.mg:4444";
 const String BaseUrlProtocol = 'http://' + BaseUrl;
 
 class ApiController extends GetxController {
-  var client = dio.Dio(dio.BaseOptions(baseUrl: "$BaseUrlProtocol"));
+  var client = dio.Dio(dio.BaseOptions(
+      baseUrl: "$BaseUrlProtocol",
+      sendTimeout: 300000,
+      receiveTimeout: 30000,
+      connectTimeout: 30000));
   UploadVideoDataController dataController =
       Get.put(UploadVideoDataController());
 

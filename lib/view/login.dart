@@ -192,9 +192,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                                                     90.0)),
                                                         borderSide:
                                                             BorderSide.none),
-                                                hintText: "Nom d'utilisateur",
+                                                hintText: "Email",
                                                 prefixIcon: Icon(Icons.person,
-                                                    color: Colors.blue),
+                                                    color:
+                                                        Colors.lightBlue[800]),
                                               ),
                                             ),
                                           ),
@@ -244,7 +245,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                                             BorderSide.none),
                                                 hintText: "Mot de passe",
                                                 prefixIcon: Icon(Icons.lock,
-                                                    color: Colors.blue),
+                                                    color:
+                                                        Colors.lightBlue[800]),
                                               ),
                                             ),
                                           ),
@@ -282,7 +284,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                                         .height *
                                                     0.03),
                                             child: RoundedLoadingButton(
-                                              color: Colors.blue[400],
+                                              color: Colors.lightBlue[800],
                                               successColor: Colors.blue,
                                               controller: _btnController,
                                               onPressed: () {

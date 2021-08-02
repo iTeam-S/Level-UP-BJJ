@@ -1,4 +1,4 @@
-package com.example.bjj_library
+package com.iteams.bjj_library
 
 import io.flutter.embedding.android.FlutterActivity
 
