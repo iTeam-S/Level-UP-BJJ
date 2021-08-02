@@ -180,4 +180,29 @@ class ApiController extends GetxController {
       return [false, "Verifier Votre Réseau"];
     }
   }
+
+  Future<List> comment(
+      int userid, String token, String text, int videoid) async {
+    try {
+      var response = await client.post(
+        "/api/v1/comment/",
+        data: {
+          "user_id": userid,
+          "token": token,
+          "video_id": videoid,
+          "text": text
+        },
+      );
+      return [true, response.data];
+    } on dio.DioError catch (err) {
+      if (err.response!.statusCode == 403) {
+        return [false, err.response!.data['status']];
+      } else {
+        return [false, err.response!.data['status']];
+      }
+    } catch (e) {
+      print("--: $e");
+      return [false, "Verifier Votre Réseau"];
+    }
+  }
 }
