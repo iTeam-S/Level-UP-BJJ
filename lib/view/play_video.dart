@@ -111,22 +111,19 @@ class _VideoScreenState extends State<VideoScreen> {
       userController.user.video['pos'] = _videoPlayerController.value.position;
     }
 
-    userController.user.video['pos'] = {
-      'minutes': userController.user.video['pos'].inMinutes,
-      'seconds': userController.user.video['pos'].inSeconds
-    };
     Map usrTmp = {
-      'email': userController.email,
+      'email': userController.user.email,
       'admin': userController.user.admin,
       'id': userController.user.id,
       'token': userController.user.token,
-      'video': userController.user.video
+      'video': {
+        'id': userController.user.video['id'],
+        'pos': userController.user.video['pos'].inSeconds
+      }
     };
-
     box.write('user', usrTmp);
-    userController.user.video['pos'] = Duration(
-        minutes: userController.user.video['pos']['minutes'],
-        seconds: userController.user.video['pos']['seconds']);
+    box.save();
+
     return true;
   }
 
@@ -206,8 +203,8 @@ class _VideoScreenState extends State<VideoScreen> {
                               ),
                               child: CircleAvatar(
                                 radius: 30,
-                                backgroundColor: Colors.pinkAccent[400],
-                                child: Text('L'),
+                                backgroundColor: Colors.blueGrey,
+                                child: Text('BJJ'),
                               ),
                             ),
                             Container(
@@ -224,13 +221,13 @@ class _VideoScreenState extends State<VideoScreen> {
                                             MediaQuery.of(context).size.height *
                                                 0.25,
                                         child: Text(
-                                            "Video de viteese maximale ?",
+                                            currentVideoController.video!.titre,
                                             softWrap: false,
                                             overflow: TextOverflow.fade,
                                             textAlign: TextAlign.start,
                                             style: TextStyle(
                                                 fontWeight: FontWeight.w500,
-                                                fontSize: 19.5,
+                                                fontSize: 18,
                                                 color: Colors.black))),
                                     Container(
                                       child: TextButton(

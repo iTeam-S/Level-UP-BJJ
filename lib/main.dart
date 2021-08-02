@@ -31,18 +31,17 @@ class MyApp extends StatelessWidget {
           token: usrTmp['token'],
         );
 
-        if (usrTmp['video'] != null) {
-          var vidtmp = usrTmp['video'];
+        var vidtmp = usrTmp['video'];
+        if (vidtmp != null) {
           userController.user.video['id'] = vidtmp['id'];
-          userController.user.video['pos'] = Duration(
-              minutes: vidtmp['pos']['minutes'],
-              seconds: vidtmp['pos']['seconds']);
+          userController.user.video['pos'] = Duration(seconds: vidtmp['pos']);
         }
         Get.offNamed('/home');
         return;
       }
       Get.offNamed('/login');
     });
+
     return GetMaterialApp(
       theme: ThemeData(
         primarySwatch: Colors.blue,
