@@ -135,7 +135,8 @@ Container videoTabModule(context, module) {
                                           children: [
                                             Icon(Icons.message_outlined,
                                                 size: 16, color: Colors.grey),
-                                            Text("10 commentaires",
+                                            Text(
+                                                "${video.commentaire.length} commentaires",
                                                 textAlign: TextAlign.start,
                                                 style: TextStyle(
                                                     color: Colors.grey[700])),
@@ -219,8 +220,10 @@ Container videoAllModule(context, data) {
   Divider tmpDivider = Divider();
   List dataVideos = [];
   for (var tmp in tmpdata) {
-    dataVideos.add(tmp);
-    dataVideos.add(tmpDivider);
+    if (tmp.nom != 'Tous') {
+      dataVideos.add(tmp);
+      dataVideos.add(tmpDivider);
+    }
   }
   return Container( child:
             SmartRefresher( 
@@ -255,7 +258,7 @@ Container videoAllModule(context, data) {
                                               0.005,
                                     ),
                                     child: Text(
-                                      "${dataVideo['nom']}",
+                                      "${dataVideo.nom}",
                                       style: TextStyle(
                                           fontSize: 23,
                                           fontWeight: FontWeight.bold,
@@ -291,7 +294,7 @@ Container videoAllModule(context, data) {
                                     scrollDirection: Axis.horizontal,
                                     child: Row(
                                       children: [
-                                        for (var video in dataVideo['videos'])
+                                        for (var video in dataVideo.videos)
                                           Stack(
                                               alignment: Alignment.center,
                                               children: [
@@ -317,7 +320,7 @@ Container videoAllModule(context, data) {
                                                             BorderRadius
                                                                 .circular(5),
                                                         child: Image.network(
-                                                            "${apiController.url}/api/v1/get_image/${video['image']}?token=${userController.user.token}",
+                                                            "${apiController.url}/api/v1/get_image/${video.image}?token=${userController.user.token}",
                                                             fit: BoxFit.cover),
                                                       )),
                                                 ),
@@ -343,13 +346,14 @@ Container videoAllModule(context, data) {
                                                         currentVideoController
                                                                 .video =
                                                             Video(
-                                                                id: video['id'],
-                                                                nom: video[
-                                                                    'nom'],
-                                                                titre: video[
-                                                                    'titre'],
-                                                                image: video[
-                                                                    'image']);
+                                                                id: video.id,
+                                                                nom: video.nom,
+                                                                titre:
+                                                                    video.titre,
+                                                                image:
+                                                                    video.image,
+                                                                commentaire: video
+                                                                    .commentaire);
                                                         Get.toNamed('/video');
                                                       },
                                                     )),
@@ -415,7 +419,7 @@ Container videoAllModule(context, data) {
                                                                                   ),
                                                                                   TextButton(
                                                                                     onPressed: () {
-                                                                                      supprimerVideo(video['id'], _btnController);
+                                                                                      supprimerVideo(video.id, _btnController);
                                                                                       Navigator.pop(context);
                                                                                     },
                                                                                     child: Text('OK'),

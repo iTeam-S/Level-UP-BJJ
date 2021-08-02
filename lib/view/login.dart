@@ -57,6 +57,7 @@ class _LoginScreenState extends State<LoginScreen> {
             'token': rep[1]['token']
           };
           box.write('user', usrTmp);
+          box.save();
 
           Timer(Duration(seconds: 1), () {
             Get.offNamed('/home');
@@ -135,7 +136,8 @@ class _LoginScreenState extends State<LoginScreen> {
                               height: MediaQuery.of(context).size.height * 0.50,
                               child: Card(
                                   elevation: 0.3,
-                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(13)),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(13)),
                                   child: Form(
                                       key: userController.loginFormkey,
                                       autovalidateMode:
