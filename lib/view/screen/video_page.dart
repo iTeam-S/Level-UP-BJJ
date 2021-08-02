@@ -82,7 +82,7 @@ Container videoTabModule(context, module) {
                                     child: ClipRRect(
                                       borderRadius: BorderRadius.circular(2),
                                       child: Image.network(
-                                          "${apiController.url}/api/v1/get_image/${video.image}?token=${userController.user.token}",
+                                          "$BaseUrlProtocol/api/v1/get_image/${video.image}?token=${userController.user.token}",
                                           fit: BoxFit.cover),
                                     )),
                               ),
@@ -320,7 +320,7 @@ Container videoAllModule(context, data) {
                                                             BorderRadius
                                                                 .circular(5),
                                                         child: Image.network(
-                                                            "${apiController.url}/api/v1/get_image/${video.image}?token=${userController.user.token}",
+                                                            "$BaseUrlProtocol/api/v1/get_image/${video.image}?token=${userController.user.token}",
                                                             fit: BoxFit.cover),
                                                       )),
                                                 ),

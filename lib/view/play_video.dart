@@ -54,7 +54,7 @@ class _VideoScreenState extends State<VideoScreen> {
 
   Future<void> initializePlayer() async {
     _videoPlayerController = VideoPlayerController.network(
-        "${apiController.url}/api/v1/get_video/${currentVideoController.video!.nom}?token=${userController.user.token}");
+        "$BaseUrlProtocol/api/v1/get_video/${currentVideoController.video!.nom}?token=${userController.user.token}");
 
     _videoPlayerController.addListener(() {
       if (_videoPlayerController.value.duration ==

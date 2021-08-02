@@ -3,9 +3,11 @@ import 'package:dio/dio.dart' as dio;
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 
+const String BaseUrl = "192.168.137.1:4444";
+const String BaseUrlProtocol = 'http://' + BaseUrl;
+
 class ApiController extends GetxController {
-  final String url = "http://192.168.137.1:4444";
-  var client = dio.Dio(dio.BaseOptions(baseUrl: "http://192.168.137.1:4444"));
+  var client = dio.Dio(dio.BaseOptions(baseUrl: "$BaseUrlProtocol"));
   UploadVideoDataController dataController =
       Get.put(UploadVideoDataController());
 
