@@ -137,20 +137,6 @@ Container videoTabModule(context, module) {
                                   itemBuilder: (context) => userController
                                           .user.admin
                                       ? [
-                                          /* PopupMenuItem(
-                                              value: 1,
-                                              child: TextButton(
-                                                  onPressed: () {},
-                                                  child: Row(
-                                                    children: [
-                                                      Icon(Icons.edit,
-                                                          color: Colors.black),
-                                                      Text("Modifier",
-                                                          style: TextStyle(
-                                                              color: Colors
-                                                                  .black)),
-                                                    ],
-                                                  ))),*/
                                           PopupMenuItem(
                                               value: 2,
                                               child: TextButton(
