@@ -1,4 +1,5 @@
 import 'package:bjj_library/controller/data.dart';
+import 'package:bjj_library/model/commentaire.dart';
 import 'package:bjj_library/model/module.dart';
 import 'package:bjj_library/model/video.dart';
 import 'package:bjj_library/service/api.dart';
@@ -17,6 +18,7 @@ class AppController extends GetxController {
   late TabController tabController;
   String choixModule = 'Tous';
   TextEditingController newNomModule = TextEditingController();
+  TextEditingController newComment = TextEditingController();
 
   void finish() {
     _videoList.clear();
@@ -43,7 +45,7 @@ class AppController extends GetxController {
     _modulePageList.clear();
     for (int i = 0; i < _moduleList.length; i++) {
       _modulePageList.add(i == 0
-          ? videoAllModule(context, _videoList)
+          ? videoAllModule(context, _moduleList)
           : videoTabModule(context, _moduleList[i]));
     }
 
@@ -100,12 +102,22 @@ class AppController extends GetxController {
         for (var mod in _videoList) {
           modTmp = Module(id: mod['module_id'], nom: mod['nom']);
           // Mise en place des videos de modules
-          for (var vid in mod['videos'])
+          List<Commentaire> coms;
+          for (var vid in mod['videos']) {
+            coms = <Commentaire>[];
+            for (var com in vid['commentaire'])
+              coms.add(Commentaire(
+                  id: com['id'],
+                  text: com['text'],
+                  userid: com['user_id'],
+                  email: com['user_email']));
             modTmp.videos.add(Video(
                 id: vid['id'],
                 nom: vid['nom'],
                 titre: vid['titre'],
-                image: vid['image']));
+                image: vid['image'],
+                commentaire: coms));
+          }
           _moduleList.add(modTmp);
         }
         update();
@@ -319,6 +331,46 @@ class AppController extends GetxController {
       int userid, String token, int moduleId, String nom) async {
     try {
       var res = await apiController.updatemodule(userid, token, moduleId, nom);
+      if (res[0]) {
+        return true;
+      } else {
+        print(res[1]);
+        Get.snackbar(
+          "Erreur",
+          "${res[1]}",
+          colorText: Colors.white,
+          backgroundColor: Colors.red,
+          snackPosition: SnackPosition.BOTTOM,
+          borderColor: Colors.red,
+          borderRadius: 10,
+          borderWidth: 2,
+          barBlur: 0,
+          duration: Duration(seconds: 2),
+        );
+        return false;
+      }
+    } catch (err) {
+      print(err);
+      Get.snackbar(
+        "Erreur",
+        "Vérfier votre connexion Internet.",
+        colorText: Colors.white,
+        backgroundColor: Colors.red,
+        snackPosition: SnackPosition.BOTTOM,
+        borderColor: Colors.red,
+        borderRadius: 10,
+        borderWidth: 2,
+        barBlur: 0,
+        duration: Duration(seconds: 2),
+      );
+      return false;
+    }
+  }
+
+  Future<bool> sendComment(
+      int userid, String token, String text, int videoid) async {
+    try {
+      var res = await apiController.comment(userid, token, text, videoid);
       if (res[0]) {
         return true;
       } else {
