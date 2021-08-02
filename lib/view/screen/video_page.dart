@@ -42,7 +42,7 @@ Container videoTabModule(context, module) {
                     margin: EdgeInsets.only(
                         top: MediaQuery.of(context).size.height * 0.001),
                     child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Container(
                             alignment: Alignment.centerLeft,
@@ -98,7 +98,7 @@ Container videoTabModule(context, module) {
                                   Container(
                                       width:
                                           MediaQuery.of(context).size.height *
-                                              0.25,
+                                              0.23,
                                       child: Text(video.titre,
                                           softWrap: false,
                                           overflow: TextOverflow.fade,
