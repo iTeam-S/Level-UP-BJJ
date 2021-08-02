@@ -12,14 +12,13 @@ import 'package:file_picker/file_picker.dart';
 import 'package:get/get.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 
+
 class HomeScreen extends StatefulWidget {
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  bool status1 = false;
-  bool isSwitched = false;
 
   // Instance ana controlleur
   UserController userController = Get.put(UserController());
@@ -343,8 +342,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                         width: MediaQuery.of(
                                                                     context)
                                                                 .size
-                                                                .height *
-                                                            0.25,
+                                                                .width *
+                                                            0.5,
                                                         child: Text(
                                                             "gaetan.apsa@gmail.com",
                                                             softWrap: false,
@@ -364,8 +363,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                         width: MediaQuery.of(
                                                                     context)
                                                                 .size
-                                                                .height *
-                                                            0.25,
+                                                                .width *
+                                                            0.5,
                                                         child: Text(
                                                             "Cette vidéo est incroyable, la vitesse n'a jamais été mon truc mais là ça y est !",
                                                             softWrap: true,
@@ -432,8 +431,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                         width: MediaQuery.of(
                                                                     context)
                                                                 .size
-                                                                .height *
-                                                            0.25,
+                                                                .width *
+                                                            0.5,
                                                         child: Text(
                                                             "gaetan.apsa@gmail.com",
                                                             softWrap: false,
@@ -453,8 +452,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                         width: MediaQuery.of(
                                                                     context)
                                                                 .size
-                                                                .height *
-                                                            0.25,
+                                                                .width *
+                                                            0.5,
                                                         child: Text(
                                                             "Cette vidéo est incroyable, la vitesse n'a jamais été mon truc mais là ça y est !",
                                                             softWrap: true,
@@ -522,8 +521,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                         width: MediaQuery.of(
                                                                     context)
                                                                 .size
-                                                                .height *
-                                                            0.25,
+                                                                .width *
+                                                            0.5,
                                                         child: Text(
                                                             "gaetan.apsa@gmail.com",
                                                             softWrap: false,
@@ -543,8 +542,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                         width: MediaQuery.of(
                                                                     context)
                                                                 .size
-                                                                .height *
-                                                            0.25,
+                                                                .width *
+                                                            0.5,
                                                         child: Text(
                                                             "Cette vidéo est incroyable, la vitesse n'a jamais été mon truc mais là ça y est !",
                                                             softWrap: true,
@@ -580,9 +579,9 @@ class _HomeScreenState extends State<HomeScreen> {
                               top: MediaQuery.of(context).size.height * 0.018,
                               right: MediaQuery.of(context).size.height * 0.012,
                               child: CircleAvatar(
-                                        radius: 7.5,
-                                        backgroundColor: Colors.red,
-                                        child: Text('15', style: TextStyle(color: Colors.white, fontSize: 10)),
+                                radius: 7.5,
+                                backgroundColor: Colors.red,
+                                child: Text('15', style: TextStyle(color: Colors.white, fontSize: 10)),
                               ),
                             )
                           ]
