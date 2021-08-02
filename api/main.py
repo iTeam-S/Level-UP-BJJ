@@ -7,8 +7,10 @@ import jwt
 from werkzeug.utils import secure_filename
 import cv2
 import time
+#from flask_socketio import SocketIO, emit, disconnect
 
 app = Flask(__name__)
+#socket_ = SocketIO(app, async_mode=None)
 
 db = mysql.connector.connect(**database())
 cursor = db.cursor()
@@ -89,6 +91,33 @@ ALLOWED_EXTENSIONS = set(['mp4', 'mkv', 'avi', 'webm'])
 def allowed_file(filename):
 	return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
+'''
+@socket_.on('my_event', namespace='/test')
+def test_message(message):
+    session['receive_count'] = session.get('receive_count', 0) + 1
+    emit('my_response',
+         {'data': message['data'], 'count': session['receive_count']})
+
+
+@socket_.on('my_broadcast_event', namespace='/test')
+def test_broadcast_message(message):
+    session['receive_count'] = session.get('receive_count', 0) + 1
+    emit('my_response',
+         {'data': message['data'], 'count': session['receive_count']},
+         broadcast=True)
+
+
+@socket_.on('disconnect_request', namespace='/test')
+def disconnect_request():
+    @copy_current_request_context
+    def can_disconnect():
+        disconnect()
+
+    session['receive_count'] = session.get('receive_count', 0) + 1
+    emit('my_response',
+         {'data': 'Disconnected!', 'count': session['receive_count']},
+         callback=can_disconnect)
+'''
 
 @app.route('/')
 def upload_form():
@@ -105,13 +134,16 @@ def login():
 	mail = data.get("mail")
 	password = data.get("password")
 
+	db = mysql.connector.connect(**database())
+	cursor = db.cursor()
+
 	cursor.execute("""
 		SELECT id, admin FROM Utilisateur WHERE mail = %s AND password = %s
 	""", (mail, password)
 	)
 
 	user_data = cursor.fetchone()
-
+	db.close()
 	if user_data is not None:
 		token = encode_auth_token(user_data[0])
 		return jsonify({
@@ -136,12 +168,15 @@ def get_all_modules():
 
 	if verifToken(token).get('sub') != user_id :
 		return {"status" : "Erreur Token"}, 403
+	db = mysql.connector.connect(**database())
+	cursor = db.cursor()
 
 	cursor.execute("""
 		SELECT id, nom FROM Module
 	""")
 
 	module_data = cursor.fetchall()
+	db.close()
 
 	if module_data is not None :
 		return jsonify({"data": module_data}), 200
@@ -169,17 +204,21 @@ def create_module():
 	if verifToken(token).get('sub') != user_id :
 		return {"status" : "Erreur Token"}, 403
 
+	db = mysql.connector.connect(**database())
+	cursor = db.cursor()
+
 	try : 
 		cursor.execute("""
 			INSERT INTO Module(nom) VALUES(%s)
 		""",(nom,)
 		)
 		db.commit()
-
+	
 	except Exception as err:
 		print(err)
+		db.close()
 		return jsonify({'status': 'Module existant !',}), 400
-
+	db.close()
 	return jsonify({'status': 'Création de module avec succès',}), 201
 
 
@@ -203,6 +242,9 @@ def update_module():
 	if verifToken(token).get('sub') != user_id :
 		return {"status" : "Erreur Token"}, 403
 
+	db = mysql.connector.connect(**database())
+	cursor = db.cursor()
+
 	try : 
 		cursor.execute("""
 			UPDATE Module SET nom = %s WHERE id = %s
@@ -211,8 +253,9 @@ def update_module():
 		db.commit()
 
 	except Exception:
+		db.close()
 		return jsonify({'status': 'Module existant !'}), 400
-
+	db.close()
 	return jsonify({'status': 'Module mis à jour avec succès'}), 204
 
 
@@ -234,7 +277,8 @@ def delete_module():
 
 	if verifToken(token).get('sub') != user_id :
 		return {"status" : "Erreur Token"}, 403
-
+	db = mysql.connector.connect(**database())
+	cursor = db.cursor()
 	try : 
 		cursor.execute("""
 			DELETE FROM Module WHERE id = %s
@@ -243,6 +287,7 @@ def delete_module():
 		db.commit()
 
 	except Exception:
+		db.close()
 		return jsonify({'status': "Ce module est en cours d'utilisation"}), 400
 
 	return jsonify({'status': 'Suppression de module avec succès'}), 204
@@ -266,6 +311,7 @@ def upload_video():
 	if verifToken(token).get('sub') != int(user_id):
 		return {"status" : "Erreur Token"}, 403
 
+
 	if 'file' not in request.files:
 		return jsonify({'status': 'No file selected'}), 400
 
@@ -279,12 +325,15 @@ def upload_video():
 		file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 		image_name = extract("./data/videos/"+filename)
 
+		db = mysql.connector.connect(**database())
+		cursor = db.cursor()
+	
 		cursor.execute("""
 			INSERT INTO Video(titre, nom, image, module_id) VALUES(%s, %s, %s, %s)
 		""",(titre_video, filename,  image_name, module_id)
 		)
 		db.commit()
-
+		db.close()
 		return jsonify({'status': 'Video uploaded successfully'}), 201
 
 	else:
@@ -303,6 +352,9 @@ def get_all_videos(limit):
 
 	if verifToken(token).get('sub') != user_id :
 		return {"status" : "Erreur Token"}, 403
+
+	db = mysql.connector.connect(**database())
+	cursor = db.cursor()
 	
 	cursor.execute("""
 		SELECT * FROM Video ORDER BY id DESC LIMIT %s
@@ -310,7 +362,7 @@ def get_all_videos(limit):
 	)
 
 	video_data = cursor.fetchall()
-
+	db.close()
 	return jsonify({"data": video_data}), 200
 
 
@@ -409,13 +461,15 @@ def update_video():
 
 	if verifToken(token).get('sub') != user_id :
 		return {"status" : "Erreur Token"}, 403
-
+	db = mysql.connector.connect(**database())
+	cursor = db.cursor()
+	
 	cursor.execute("""
 		UPDATE Video SET titre = %s WHERE id = %s
 	""",(titre, video_id)
 	)
 	db.commit()
-
+	db.close()
 	return jsonify({'status': 'Vidéo mise à jour avec succès'}), 204
 
 
@@ -437,13 +491,15 @@ def delete_video():
 
 	if verifToken(token).get('sub') != user_id :
 		return {"status" : "Erreur Token"}, 403
-
+	db = mysql.connector.connect(**database())
+	cursor = db.cursor()
+	
 	cursor.execute("""
 		DELETE FROM Video WHERE id = %s
 	""",(video_id,)
 	)
 	db.commit()
-
+	db.close()
 	return jsonify({'status': 'Suppression de la vidéo avec succès'}), 204
 
 
@@ -488,6 +544,7 @@ def comment():
 	# Initialisation du connecteur
 	db = mysql.connector.connect(**database())
 	cursor = db.cursor()
+	
 
 	# Lancement des requetes
 	cursor.execute(
