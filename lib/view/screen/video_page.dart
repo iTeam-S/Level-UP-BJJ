@@ -38,7 +38,7 @@ Container videoTabModule(context, module) {
             for (var video in module.videos)
               Column(children: [
                 Container(
-                    height: MediaQuery.of(context).size.height * 0.1,
+                    height: MediaQuery.of(context).size.height * 0.11,
                     margin: EdgeInsets.only(
                         top: MediaQuery.of(context).size.height * 0.001),
                     child: Row(
