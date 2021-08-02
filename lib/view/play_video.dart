@@ -269,45 +269,19 @@ class _VideoScreenState extends State<VideoScreen> {
                                         )
                                       ]),
                                 ),
-                                Container(
-                                    margin: EdgeInsets.only(
-                                        // top: MediaQuery.of(context).size.height * 0.08,
-                                        // left: MediaQuery.of(context).size.width * 0.0,
-                                        ),
-                                    child: PopupMenuButton(
-                                        color: Colors.white,
-                                        icon: Icon(Icons.more_vert,
-                                            color: Colors.grey, size: 20),
-                                        itemBuilder: (context) => [
-                                              PopupMenuItem(
-                                                  value: 1,
-                                                  child: TextButton(
-                                                      onPressed: () {},
-                                                      child: Row(
-                                                        children: [
-                                                          Icon(Icons.edit,
-                                                              color:
-                                                                  Colors.black),
-                                                          Text("Modifier",
-                                                              style: TextStyle(
-                                                                  color: Colors
-                                                                      .black)),
-                                                        ],
-                                                      ))),
-                                              PopupMenuItem(
-                                                  value: 2,
-                                                  child: TextButton(
-                                                    onPressed: () {},
-                                                    child: Row(children: [
-                                                      Icon(Icons.delete_outline,
-                                                          color: Colors.red),
-                                                      Text("Supprimer",
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.red)),
-                                                    ]),
-                                                  )),
-                                            ]))
+                                            Container(
+                                              margin: EdgeInsets.only(
+                                                  // top: MediaQuery.of(context).size.height * 0.08,
+                                                  // left: MediaQuery.of(context).size.width * 0.0,
+                                                  ),
+                                              child:IconButton(
+                                                      onPressed: null,
+                                                      icon: Icon(
+                                                        Icons.delete_sweep,
+                                                        size: 20,
+                                                        color: Colors.white,
+                                                      ),
+                                                    ))
                               ])),
                       Divider(),
                       Container(
@@ -373,8 +347,8 @@ class _VideoScreenState extends State<VideoScreen> {
                                                               width: MediaQuery.of(
                                                                           context)
                                                                       .size
-                                                                      .height *
-                                                                  0.25,
+                                                                      .width *
+                                                                  0.50,
                                                               child: Text(
                                                                   commentaire
                                                                       .email,
@@ -398,8 +372,8 @@ class _VideoScreenState extends State<VideoScreen> {
                                                               width: MediaQuery.of(
                                                                           context)
                                                                       .size
-                                                                      .height *
-                                                                  0.25,
+                                                                      .width *
+                                                                  0.50,
                                                               child: Text(
                                                                   commentaire
                                                                       .text,
