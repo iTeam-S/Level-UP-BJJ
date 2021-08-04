@@ -24,15 +24,14 @@ final CurrentVideoController currentVideoController =
 
 final AppController appController = Get.put(AppController());
 
-RefreshController _refreshController = RefreshController(initialRefresh: false);
+RefreshController _refreshControllerTab = RefreshController(initialRefresh: false);
 
-RefreshController _refreshControllerAll =
-    RefreshController(initialRefresh: false);
+RefreshController _refreshControllerAll = RefreshController(initialRefresh: false);
 
-void _onRefresh() async {
+void _onRefreshTab() async {
   // monitor network fetch
   appController.trtVideos(userController.user.id, userController.user.token);
-  _refreshController.refreshCompleted();
+  _refreshControllerTab.refreshCompleted();
 }
 
 void _onRefreshAll() async {
@@ -45,8 +44,8 @@ Container videoTabModule(context, module) {
   return Container(
     child: module.videos.length != 0
         ? SmartRefresher(
-            controller: _refreshController,
-            onRefresh: _onRefresh,
+            controller: _refreshControllerTab,
+            onRefresh: _onRefreshTab,
             enablePullDown: true,
             child: ListView(children: [
               Divider(),
@@ -258,14 +257,18 @@ Container videoAllModule(context, data) {
                                                   .height *
                                               0.005,
                                         ),
-                                        child: Text(
+                                        child: Container( 
+                                          width: MediaQuery.of(context).size.width * 0.75,
+                                          child:Text(
                                           "${dataVideo.nom}",
+                                          softWrap: false,
+                                          overflow: TextOverflow.fade,
                                           style: TextStyle(
                                               fontSize: 23,
                                               fontWeight: FontWeight.bold,
                                               color: Colors.grey[700]),
                                         ),
-                                      ),
+                                      )),
                                       Container(
                                           alignment: Alignment.centerRight,
                                           margin: EdgeInsets.only(

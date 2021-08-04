@@ -439,7 +439,7 @@ class _VideoScreenState extends State<VideoScreen> {
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(90.0)),
                                     borderSide: BorderSide.none),
-                                hintText: "Entrer votre commentaire...",
+                                hintText: "Votre commentaire...",
                                 prefixIcon: Icon(
                                   Icons.message_outlined,
                                   color: Colors.blue,
