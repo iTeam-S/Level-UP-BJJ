@@ -262,10 +262,9 @@ Container videoAllModule(context, data) {
                                           child:Text(
                                           "${dataVideo.nom}",
                                           softWrap: false,
-                                          overflow: TextOverflow.fade,
+                                          overflow: TextOverflow.ellipsis,
                                           style: TextStyle(
-                                              fontSize: 23,
-                                              fontWeight: FontWeight.bold,
+                                              fontSize: 19,
                                               color: Colors.grey[700]),
                                         ),
                                       )),
