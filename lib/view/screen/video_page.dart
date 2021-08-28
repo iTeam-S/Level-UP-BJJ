@@ -258,13 +258,13 @@ Container videoAllModule(context, data) {
                                               0.005,
                                         ),
                                         child: Container( 
-                                          width: MediaQuery.of(context).size.width * 0.75,
+                                          width: MediaQuery.of(context).size.width * 0.64,
                                           child:Text(
                                           "${dataVideo.nom}",
                                           softWrap: false,
                                           overflow: TextOverflow.ellipsis,
                                           style: TextStyle(
-                                              fontSize: 19,
+                                              fontSize: 16,
                                               color: Colors.grey[700]),
                                         ),
                                       )),
