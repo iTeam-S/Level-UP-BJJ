@@ -215,7 +215,7 @@ class _VideoScreenState extends State<VideoScreen> {
                                   child: CircleAvatar(
                                     radius: 30,
                                     backgroundColor: Colors.blueGrey,
-                                    child: Text('BJJ'),
+                                    child: Text('BJJ', style: TextStyle(color: Colors.white))
                                   ),
                                 ),
                                 Container(
@@ -363,9 +363,9 @@ class _VideoScreenState extends State<VideoScreen> {
                                                                   style: TextStyle(
                                                                       fontWeight:
                                                                           FontWeight
-                                                                              .w600,
+                                                                              .w500,
                                                                       fontSize:
-                                                                          18,
+                                                                          17,
                                                                       color: Colors
                                                                           .black))),
                                                           Container(
@@ -384,9 +384,9 @@ class _VideoScreenState extends State<VideoScreen> {
                                                                           .start,
                                                                   style: TextStyle(
                                                                       fontSize:
-                                                                          15,
+                                                                          14,
                                                                       color: Colors
-                                                                          .black)))
+                                                                          .grey[850])))
                                                         ]),
                                                   ))),
                                           Container(
@@ -413,12 +413,16 @@ class _VideoScreenState extends State<VideoScreen> {
                                         ])),
                             ])),
                       ),
+
+
+
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Container(
-                            height: MediaQuery.of(context).size.height * 0.05,
-                            width: MediaQuery.of(context).size.width * 0.65,
+                            height: MediaQuery.of(context).size.height * 0.07,
+                            width: MediaQuery.of(context).size.width * 0.6,
                             margin: EdgeInsets.symmetric(
                                 vertical: MediaQuery.of(context).size.height *
                                     0.0113),
@@ -461,9 +465,9 @@ class _VideoScreenState extends State<VideoScreen> {
                                 padding: MaterialStateProperty.all(
                                     EdgeInsets.symmetric(
                                   vertical: MediaQuery.of(context).size.height *
-                                      0.005,
+                                      0.025,
                                   horizontal:
-                                      MediaQuery.of(context).size.width * 0.03,
+                                      MediaQuery.of(context).size.width * 0.044,
                                 )),
                                 elevation: MaterialStateProperty.all(0)),
                             onPressed: () {
@@ -500,7 +504,6 @@ class _VideoScreenState extends State<VideoScreen> {
                                   currentVideoController.update();
                                 }
                               }
-
                               sendComment();
                             },
                             icon: Icon(Icons.send),
@@ -508,6 +511,11 @@ class _VideoScreenState extends State<VideoScreen> {
                           )
                         ],
                       )
+
+
+
+
+
                     ],
                   ),
                 ]))));

@@ -1,5 +1,6 @@
 import os
 from flask import Flask , request, jsonify, render_template, send_from_directory
+from flask_cors import CORS
 from conf import *
 import mysql.connector, time
 from datetime import datetime, timedelta
@@ -10,6 +11,7 @@ import time
 #from flask_socketio import SocketIO, emit, disconnect
 
 app = Flask(__name__)
+CORS(app)
 #socket_ = SocketIO(app, async_mode=None)
 
 db = mysql.connector.connect(**database())
@@ -23,13 +25,13 @@ def encode_auth_token(user_id):
 	}
 	return jwt.encode(
 		payload,
-		"MOT_SECRET_DECRYPTE",
+		os.environ.get('TOKEN_KEY'),
 		algorithm='HS256'
 	)
 
 def verifToken(token):
 	try:
-		return jwt.decode(token, "MOT_SECRET_DECRYPTE", algorithms='HS256', options={"verify_signature": True})
+		return jwt.decode(token, os.environ.get('TOKEN_KEY'), algorithms='HS256', options={"verify_signature": True})
 	except Exception as err:
 		print(err)
 		return {"sub":0}
