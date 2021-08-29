@@ -6,4 +6,5 @@ def database(**kwargs):
           'user' : env.get('ITEAMS_DB_USER'),
           'password': env.get('ITEAMS_DB_PASSWORD'),
           'database': 'BJJ',
-	     'charset': 'utf8mb4'
+	  'charset': 'utf8mb4'
+     }
