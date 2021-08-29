@@ -1,5 +1,6 @@
 import os
 from flask import Flask , request, jsonify, render_template, send_from_directory
+from flask_cors import CORS
 from conf import *
 import mysql.connector, time
 from datetime import datetime, timedelta
@@ -10,6 +11,7 @@ import time
 #from flask_socketio import SocketIO, emit, disconnect
 
 app = Flask(__name__)
+CORS(app)
 #socket_ = SocketIO(app, async_mode=None)
 
 
