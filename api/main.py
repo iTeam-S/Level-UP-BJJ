@@ -22,7 +22,7 @@ def encode_auth_token(user_id):
 	}
 	return jwt.encode(
 		payload,
-		os.environ.get('TOKEN_KEY')
+		os.environ.get('TOKEN_KEY'),
 		algorithm='HS256'
 	)
 
