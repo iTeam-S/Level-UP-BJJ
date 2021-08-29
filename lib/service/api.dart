@@ -3,7 +3,7 @@ import 'package:dio/dio.dart' as dio;
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 
-const String BaseUrl = "iteam-s.mg:4444";
+const String BaseUrl = "localhost:4444";
 const String BaseUrlProtocol = 'http://' + BaseUrl;
 
 class ApiController extends GetxController {
