@@ -20,13 +20,13 @@ def encode_auth_token(user_id):
 	}
 	return jwt.encode(
 		payload,
-		"MOT_SECRET_DECRYPTE",
+		os.environ.get('TOKEN_KEY')
 		algorithm='HS256'
 	)
 
 def verifToken(token):
 	try:
-		return jwt.decode(token, "MOT_SECRET_DECRYPTE", algorithms='HS256', options={"verify_signature": True})
+		return jwt.decode(token, os.environ.get('TOKEN_KEY'), algorithms='HS256', options={"verify_signature": True})
 	except Exception as err:
 		print(err)
 		return {"sub":0}
