@@ -12,6 +12,9 @@ import time
 app = Flask(__name__)
 #socket_ = SocketIO(app, async_mode=None)
 
+db = mysql.connector.connect(**database())
+cursor = db.cursor()
+
 
 def encode_auth_token(user_id):
 	payload = {
@@ -35,15 +38,11 @@ def is_admin(user_id):
 	"""
 		DESC : Fonction permettant de vérifier si un user est un administrateur ou pas
 	"""
-	db = mysql.connector.connect(**database())
-	cursor = db.cursor()
-
 	cursor.execute("""
 		SELECT admin FROM Utilisateur WHERE id = %s
 	""", (user_id,)
 	)
 	admin = cursor.fetchone()
-	db.close()
 	return admin[0]
 
 def extract(video_name):
