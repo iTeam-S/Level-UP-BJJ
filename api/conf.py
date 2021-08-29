@@ -1,8 +1,10 @@
+from os import environ as env
+
 def database(**kwargs):
-	return {
-	  'host' : 'localhost',
-          'user' : 'iteams',
-          'password': '__iteam-s__',
+     return {
+          'host' : 'localhost',
+          'user' : env.get('ITEAMS_DB_USER'),
+          'password': env.get('ITEAMS_DB_PASSWORD'),
           'database': 'BJJ',
-          'charset': 'utf8mb4'
-	}
+	  'charset': 'utf8mb4'
+     }
