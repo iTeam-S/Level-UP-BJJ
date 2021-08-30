@@ -1,6 +1,7 @@
 # For API
 __pycache__
-conf.py
+api/conf.py
+api/.env
 
 # Miscellaneous
 *.class
