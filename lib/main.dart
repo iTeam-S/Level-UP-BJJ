@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:bjj_library/view/splash.dart';
 import 'package:bjj_library/view/login.dart';
+import 'package:bjj_library/view/forgot_pass.dart';
 import 'package:bjj_library/view/home.dart';
 import 'package:get_storage/get_storage.dart';
 
@@ -39,7 +40,7 @@ class MyApp extends StatelessWidget {
         Get.offNamed('/home');
         return;
       }
-      Get.offNamed('/login');
+      Get.offNamed('/forgot');
     });
 
     return GetMaterialApp(
@@ -53,6 +54,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => SplashScreen(),
         '/login': (context) => LoginScreen(),
+        '/forgot': (context) => ForgotScreen(),
         '/home': (context) => HomeScreen(),
         '/video': (context) => VideoScreen()
       },

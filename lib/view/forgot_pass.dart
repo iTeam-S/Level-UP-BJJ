@@ -3,37 +3,17 @@ import 'package:bjj_library/controller/users.dart';
 import 'package:bjj_library/service/api.dart';
 import 'package:bjj_library/model/users.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 import 'package:get/get.dart';
 
-class LoginScreen extends StatefulWidget {
+class ForgotScreen extends StatefulWidget {
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  _ForgotScreenState createState() => _ForgotScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
-  Future<bool> _onWillPop() async {
-    return (await showDialog(
-          context: context,
-          builder: (context) => new AlertDialog(
-            title: new Text("Quitter l'application"),
-            content: new Text("Voulez-vous vraiment quitter l'application"),
-            actions: <Widget>[
-              TextButton(
-                onPressed: () => Navigator.of(context).pop(false),
-                child: new Text('Non'),
-              ),
-              TextButton(
-                onPressed: () => SystemNavigator.pop(),
-                child: new Text('Oui'),
-              ),
-            ],
-          ),
-        )) ??
-        false;
-  }
+class _ForgotScreenState extends State<ForgotScreen> {
+
 
   final RoundedLoadingButtonController _btnController =
       RoundedLoadingButtonController();
@@ -111,20 +91,33 @@ class _LoginScreenState extends State<LoginScreen> {
   final box = GetStorage();
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-        onWillPop: _onWillPop,
-        child: Scaffold(
+    return Scaffold(
           body: Container(
             alignment: Alignment.center,
             color: Color(0xffffffff),
             child: ListView(
               children: [
                 Container(
+                  // color: Color(0xffd52d),
+                  alignment: Alignment.center,
                   margin: EdgeInsets.only(
-                    top: MediaQuery.of(context).size.height * 0.15
+                      left: MediaQuery.of(context).size.width * 0.14,
+                      right: MediaQuery.of(context).size.width * 0.14,
+                      top: MediaQuery.of(context).size.width * 0.4,
                   ),
-                  height: MediaQuery.of(context).size.height * 0.28,
-                  child: Image.asset('assets/images/workout.jpg'),
+                  height: MediaQuery.of(context).size.height * 0.2,
+                  width: MediaQuery.of(context).size.width *0.1,
+
+                  child: Text(
+                    "Veuillez entrer votre adresse email pour recupérer votre compte !",
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                        color: Colors.grey,
+                        fontFamily: "ProductSans",
+                        fontSize: 20,
+                        fontWeight: FontWeight.normal
+                    ),
+                  ),
                 ),
                 Container(
                     alignment: Alignment.center,
@@ -140,7 +133,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(13)),
                                   child: Form(
-                                      //key: userController.loginFormkey,
+                                      key: userController.loginFormkey,
                                       autovalidateMode:
                                           AutovalidateMode.onUserInteraction,
                                       child: Column(
@@ -193,88 +186,12 @@ class _LoginScreenState extends State<LoginScreen> {
                                                                     90.0)),
                                                         borderSide:
                                                             BorderSide.none),
-                                                hintText: "Email",
+                                                hintText: "Votre adresse email",
                                                 prefixIcon: Icon(Icons.person,
                                                     color:
                                                         Colors.lightBlue[800]),
                                               ),
                                             ),
-                                          ),
-                                          Container(
-                                            margin: EdgeInsets.symmetric(
-                                                horizontal:
-                                                    MediaQuery.of(context)
-                                                            .size
-                                                            .width *
-                                                        0.06),
-                                            height: MediaQuery.of(context)
-                                                    .size
-                                                    .height *
-                                                0.08,
-                                            child: TextFormField(
-                                              controller: userController
-                                                  .passwordController,
-                                              onSaved: (value) {
-                                                userController.password =
-                                                    value!;
-                                              },
-                                              //validator: (value) {
-                                              // return userController
-                                              //    .checkPassword(value!);
-                                              // },
-                                              style: TextStyle(
-                                                  fontSize: 13,
-                                                  color: Colors.grey[800]),
-                                              obscureText: true,
-                                              decoration: InputDecoration(
-                                                filled: true,
-                                                fillColor: Colors.blue[50],
-                                                border: OutlineInputBorder(
-                                                    borderRadius:
-                                                        BorderRadius.all(
-                                                            Radius.circular(
-                                                                90.0)),
-                                                    borderSide:
-                                                        BorderSide.none),
-                                                focusedBorder:
-                                                    OutlineInputBorder(
-                                                        borderRadius:
-                                                            BorderRadius.all(
-                                                                Radius.circular(
-                                                                    90.0)),
-                                                        borderSide:
-                                                            BorderSide.none),
-                                                hintText: "Mot de passe",
-                                                prefixIcon: Icon(Icons.lock,
-                                                    color:
-                                                        Colors.lightBlue[800]),
-                                              ),
-                                            ),
-                                          ),
-                                          Container(
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.5,
-                                            margin: EdgeInsets.only(
-                                              top: MediaQuery.of(context)
-                                                      .size
-                                                      .height *
-                                                  0.02,
-                                            ),
-                                            child: TextButton(
-                                              onPressed : () {
-                                                Get.to('/forgot');
-                                              },
-                                              child : Text("Mot de passe oublié.",
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                  color: Colors.grey[400],
-                                                  fontFamily: "ProductSans",
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.normal
-                                              ),
-                                            )),
                                           ),
                                           Container(
                                             margin: EdgeInsets.symmetric(
@@ -297,10 +214,35 @@ class _LoginScreenState extends State<LoginScreen> {
                                               },
                                               valueColor: Colors.white,
                                               borderRadius: 90,
-                                              child: Text("SE CONNECTER",
+                                              child: Text("CONFIRMER",
                                                   style: TextStyle(
                                                       color: Colors.white)),
                                             ),
+                                          ),
+                                                                                    Container(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.5,
+                                            margin: EdgeInsets.only(
+                                              top: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  0.02,
+                                            ),
+                                            child: TextButton(
+                                              onPressed : () {
+                                                Get.offNamed('/login');
+                                              },
+                                              child : Text("Retourner à la page de connexion.",
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                  color: Colors.grey[400],
+                                                  fontFamily: "ProductSans",
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.normal
+                                              ),
+                                            )),
                                           ),
                                         ],
                                       )))),
@@ -308,6 +250,6 @@ class _LoginScreenState extends State<LoginScreen> {
               ],
             ),
           ),
-        ));
+        );
   }
 }
