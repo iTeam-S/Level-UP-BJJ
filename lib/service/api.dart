@@ -1,9 +1,11 @@
+import 'dart:async';
+
 import 'package:bjj_library/controller/data.dart';
 import 'package:dio/dio.dart' as dio;
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 
-const String BaseUrl = "localhost:4444";
+const String BaseUrl = "iteam-s.mg:4444";
 const String BaseUrlProtocol = 'http://' + BaseUrl;
 
 class ApiController extends GetxController {
@@ -62,6 +64,10 @@ class ApiController extends GetxController {
       return [true, response.data];
     } on dio.DioError catch (err) {
       if (err.response!.statusCode == 403) {
+        Timer(Duration(seconds: 2), () {
+          // Session expiré ==> reconnexion
+          Get.offNamed('/login');
+        });
         return [false, err.response!.data['status']];
       } else {
         return [false, err.response!.data['status']];
