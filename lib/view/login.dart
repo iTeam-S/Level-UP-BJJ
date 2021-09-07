@@ -264,7 +264,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                             ),
                                             child: TextButton(
                                               onPressed : () {
-                                                Get.to('/forgot');
+                                                Get.toNamed('/forgot');
                                               },
                                               child : Text("Mot de passe oublié.",
                                               textAlign: TextAlign.center,

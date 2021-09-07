@@ -89,6 +89,8 @@ class _ForgotScreenState extends State<ForgotScreen> {
   UserController userController = Get.put(UserController());
   ApiController apiController = Get.put(ApiController());
   final box = GetStorage();
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -103,7 +105,7 @@ class _ForgotScreenState extends State<ForgotScreen> {
                   margin: EdgeInsets.only(
                       left: MediaQuery.of(context).size.width * 0.14,
                       right: MediaQuery.of(context).size.width * 0.14,
-                      top: MediaQuery.of(context).size.width * 0.4,
+                      top: MediaQuery.of(context).size.height * 0.22,
                   ),
                   height: MediaQuery.of(context).size.height * 0.2,
                   width: MediaQuery.of(context).size.width *0.1,
@@ -133,7 +135,7 @@ class _ForgotScreenState extends State<ForgotScreen> {
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(13)),
                                   child: Form(
-                                      key: userController.loginFormkey,
+                                      // key: userController.loginFormkey,
                                       autovalidateMode:
                                           AutovalidateMode.onUserInteraction,
                                       child: Column(
@@ -219,7 +221,7 @@ class _ForgotScreenState extends State<ForgotScreen> {
                                                       color: Colors.white)),
                                             ),
                                           ),
-                                                                                    Container(
+                                          Container(
                                             width: MediaQuery.of(context)
                                                     .size
                                                     .width *

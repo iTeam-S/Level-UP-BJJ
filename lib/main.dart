@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
         Get.offNamed('/home');
         return;
       }
-      Get.offNamed('/forgot');
+      Get.offNamed('/login');
     });
 
     return GetMaterialApp(
