@@ -7,12 +7,12 @@ import 'package:get_storage/get_storage.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 import 'package:get/get.dart';
 
-class ForgotScreen extends StatefulWidget {
+class ConfirmScreen extends StatefulWidget {
   @override
-  _ForgotScreenState createState() => _ForgotScreenState();
+  _ConfirmScreenState createState() => _ConfirmScreenState();
 }
 
-class _ForgotScreenState extends State<ForgotScreen> {
+class _ConfirmScreenState extends State<ConfirmScreen> {
 
 
   final RoundedLoadingButtonController _btnController =
@@ -111,7 +111,7 @@ class _ForgotScreenState extends State<ForgotScreen> {
                   width: MediaQuery.of(context).size.width *0.1,
 
                   child: Text(
-                    "Veuillez entrer votre adresse email pour recupérer votre compte !",
+                    "Veuillez entrer le code de confirmation que nous vous avons envoyé via votre adresse email  !",
                     textAlign: TextAlign.left,
                     style: TextStyle(
                         color: Colors.grey,
@@ -188,7 +188,7 @@ class _ForgotScreenState extends State<ForgotScreen> {
                                                                     90.0)),
                                                         borderSide:
                                                             BorderSide.none),
-                                                hintText: "Votre adresse email",
+                                                hintText: "Code de confirmation",
                                                 prefixIcon: Icon(Icons.person,
                                                     color:
                                                         Colors.lightBlue[800]),
@@ -211,7 +211,8 @@ class _ForgotScreenState extends State<ForgotScreen> {
                                               successColor: Colors.blue,
                                               controller: _btnController,
                                               onPressed: () {
-                                                Get.to('/confirm_pass');
+                                                userController.checkLogin();
+                                                _doSomething(_btnController);
                                               },
                                               valueColor: Colors.white,
                                               borderRadius: 90,

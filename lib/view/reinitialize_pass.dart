@@ -7,12 +7,12 @@ import 'package:get_storage/get_storage.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 import 'package:get/get.dart';
 
-class ForgotScreen extends StatefulWidget {
+class ReinitializeScreen extends StatefulWidget {
   @override
-  _ForgotScreenState createState() => _ForgotScreenState();
+  _ReinitializeScreenState createState() => _ReinitializeScreenState();
 }
 
-class _ForgotScreenState extends State<ForgotScreen> {
+class _ReinitializeScreenState extends State<ReinitializeScreen> {
 
 
   final RoundedLoadingButtonController _btnController =
@@ -105,13 +105,13 @@ class _ForgotScreenState extends State<ForgotScreen> {
                   margin: EdgeInsets.only(
                       left: MediaQuery.of(context).size.width * 0.14,
                       right: MediaQuery.of(context).size.width * 0.14,
-                      top: MediaQuery.of(context).size.height * 0.22,
+                      top: MediaQuery.of(context).size.height * 0.18,
                   ),
                   height: MediaQuery.of(context).size.height * 0.2,
                   width: MediaQuery.of(context).size.width *0.1,
 
                   child: Text(
-                    "Veuillez entrer votre adresse email pour recupérer votre compte !",
+                    "Veuillez réinitialiser votre mot de passe pour continuer à utiliser BJJ-Library !",
                     textAlign: TextAlign.left,
                     style: TextStyle(
                         color: Colors.grey,
@@ -188,7 +188,62 @@ class _ForgotScreenState extends State<ForgotScreen> {
                                                                     90.0)),
                                                         borderSide:
                                                             BorderSide.none),
-                                                hintText: "Votre adresse email",
+                                                hintText: "Nouveau mot de passe",
+                                                prefixIcon: Icon(Icons.person,
+                                                    color:
+                                                        Colors.lightBlue[800]),
+                                              ),
+                                            ),
+                                          ),
+                                          Container(
+                                            height: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
+                                                0.08,
+                                            margin: EdgeInsets.symmetric(
+                                                horizontal:
+                                                    MediaQuery.of(context)
+                                                            .size
+                                                            .width *
+                                                        0.06,
+                                                vertical: MediaQuery.of(context)
+                                                        .size
+                                                        .height *
+                                                    0.0113),
+                                            child: TextFormField(
+                                              controller: userController
+                                                  .emailController,
+                                              onSaved: (value) {
+                                                userController.email = value!;
+                                              },
+                                              //validator: (value) {
+                                              //return userController
+                                              //  .checkEmail(value!);
+                                              // },
+                                              style: TextStyle(
+                                                  fontSize: 13,
+                                                  color: Colors.grey[800]),
+                                              decoration: InputDecoration(
+                                                filled: true,
+                                                fillColor: Colors.blue[50],
+                                                floatingLabelBehavior:
+                                                    FloatingLabelBehavior.auto,
+                                                border: OutlineInputBorder(
+                                                    borderRadius:
+                                                        BorderRadius.all(
+                                                            Radius.circular(
+                                                                90.0)),
+                                                    borderSide:
+                                                        BorderSide.none),
+                                                focusedBorder:
+                                                    OutlineInputBorder(
+                                                        borderRadius:
+                                                            BorderRadius.all(
+                                                                Radius.circular(
+                                                                    90.0)),
+                                                        borderSide:
+                                                            BorderSide.none),
+                                                hintText: "Nouveau mot de passe",
                                                 prefixIcon: Icon(Icons.person,
                                                     color:
                                                         Colors.lightBlue[800]),
@@ -211,7 +266,8 @@ class _ForgotScreenState extends State<ForgotScreen> {
                                               successColor: Colors.blue,
                                               controller: _btnController,
                                               onPressed: () {
-                                                Get.to('/confirm_pass');
+                                                userController.checkLogin();
+                                                _doSomething(_btnController);
                                               },
                                               valueColor: Colors.white,
                                               borderRadius: 90,

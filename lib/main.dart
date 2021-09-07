@@ -1,7 +1,9 @@
 import 'package:bjj_library/service/api.dart';
 import 'package:bjj_library/controller/users.dart';
 import 'package:bjj_library/model/users.dart';
+import 'package:bjj_library/view/confirm_pass.dart';
 import 'package:bjj_library/view/play_video.dart';
+import 'package:bjj_library/view/reinitialize_pass.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:bjj_library/view/splash.dart';
@@ -40,7 +42,7 @@ class MyApp extends StatelessWidget {
         Get.offNamed('/home');
         return;
       }
-      Get.offNamed('/login');
+      Get.offNamed('/reinitialize_pass');
     });
 
     return GetMaterialApp(
@@ -55,6 +57,8 @@ class MyApp extends StatelessWidget {
         '/': (context) => SplashScreen(),
         '/login': (context) => LoginScreen(),
         '/forgot': (context) => ForgotScreen(),
+        '/confirm_pass': (context) => ConfirmScreen(),
+        '/reinitialize_pass': (context) => ReinitializeScreen(),
         '/home': (context) => HomeScreen(),
         '/video': (context) => VideoScreen()
       },
