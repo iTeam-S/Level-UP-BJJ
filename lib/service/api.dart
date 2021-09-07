@@ -18,6 +18,7 @@ class ApiController extends GetxController {
       Get.put(UploadVideoDataController());
 
   Future<List> login(usr, passwd) async {
+    print("--> $usr $passwd");
     try {
       var response = await client.post(
         "/api/v1/login/",

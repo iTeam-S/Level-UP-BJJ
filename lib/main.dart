@@ -42,7 +42,7 @@ class MyApp extends StatelessWidget {
         Get.offNamed('/home');
         return;
       }
-      Get.offNamed('/reinitialize_pass');
+      Get.offNamed('/login');
     });
 
     return GetMaterialApp(

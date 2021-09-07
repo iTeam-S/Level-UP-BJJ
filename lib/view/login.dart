@@ -41,7 +41,7 @@ class _LoginScreenState extends State<LoginScreen> {
   void _doSomething(RoundedLoadingButtonController controller) async {
     //apiController.login("a", "b");
     try {
-      if (userController.valid) {
+      if (userController.valid || true) {
         List rep = await apiController.login(
             userController.email, userController.password);
         if (rep[0]) {
@@ -136,13 +136,13 @@ class _LoginScreenState extends State<LoginScreen> {
                           Container(
                               height: MediaQuery.of(context).size.height * 0.50,
                               child: Card(
-                                  elevation: 0.3,
+                                  elevation: 0.0,
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(13)),
                                   child: Form(
                                       //key: userController.loginFormkey,
-                                      autovalidateMode:
-                                          AutovalidateMode.onUserInteraction,
+                                      //autovalidateMode:
+                                          //AutovalidateMode.onUserInteraction,
                                       child: Column(
                                         children: [
                                           Container(

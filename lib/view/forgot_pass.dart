@@ -105,18 +105,38 @@ class _ForgotScreenState extends State<ForgotScreen> {
                   margin: EdgeInsets.only(
                       left: MediaQuery.of(context).size.width * 0.14,
                       right: MediaQuery.of(context).size.width * 0.14,
-                      top: MediaQuery.of(context).size.height * 0.22,
+                      top: MediaQuery.of(context).size.height * 0.24,
                   ),
-                  height: MediaQuery.of(context).size.height * 0.2,
+                  width: MediaQuery.of(context).size.width *0.1,
+                  child: Text(
+                    "Mot de passe oublié",
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                        color: Colors.grey[600],
+                        fontFamily: "ProductSans",
+                        fontSize: 30,
+                        fontWeight: FontWeight.normal
+                    ),
+                  ),
+                ),
+                Container(
+                  // color: Color(0xffd52d),
+                  alignment: Alignment.center,
+                  margin: EdgeInsets.only(
+                      left: MediaQuery.of(context).size.width * 0.14,
+                      right: MediaQuery.of(context).size.width * 0.14,
+                      top: MediaQuery.of(context).size.height * 0.03,
+                      bottom: MediaQuery.of(context).size.height * 0.03,
+                  ),
                   width: MediaQuery.of(context).size.width *0.1,
 
                   child: Text(
-                    "Veuillez entrer votre adresse email pour recupérer votre compte !",
+                    "Veuillez entrer votre adresse email pour recupérer votre compte.",
                     textAlign: TextAlign.left,
                     style: TextStyle(
                         color: Colors.grey,
                         fontFamily: "ProductSans",
-                        fontSize: 20,
+                        fontSize: 15,
                         fontWeight: FontWeight.normal
                     ),
                   ),
