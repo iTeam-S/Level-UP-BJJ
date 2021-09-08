@@ -41,7 +41,7 @@ class _LoginScreenState extends State<LoginScreen> {
   void _doSomething(RoundedLoadingButtonController controller) async {
     //apiController.login("a", "b");
     try {
-      if (userController.valid || true) {
+      if (userController.valid) {
         List rep = await apiController.login(
             userController.email, userController.password);
         if (rep[0]) {
@@ -121,8 +121,7 @@ class _LoginScreenState extends State<LoginScreen> {
               children: [
                 Container(
                   margin: EdgeInsets.only(
-                    top: MediaQuery.of(context).size.height * 0.15
-                  ),
+                      top: MediaQuery.of(context).size.height * 0.15),
                   height: MediaQuery.of(context).size.height * 0.28,
                   child: Image.asset('assets/images/workout.jpg'),
                 ),
@@ -140,9 +139,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(13)),
                                   child: Form(
-                                      //key: userController.loginFormkey,
-                                      //autovalidateMode:
-                                          //AutovalidateMode.onUserInteraction,
+                                      key: userController.loginFormkey,
+                                      // autovalidateMode:
+                                      //     AutovalidateMode.onUserInteraction,
                                       child: Column(
                                         children: [
                                           Container(
@@ -166,10 +165,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                               onSaved: (value) {
                                                 userController.email = value!;
                                               },
-                                              //validator: (value) {
-                                              //return userController
-                                              //  .checkEmail(value!);
-                                              // },
+                                              validator: (value) {
+                                                return userController
+                                                    .checkEmail(value!);
+                                              },
                                               style: TextStyle(
                                                   fontSize: 13,
                                                   color: Colors.grey[800]),
@@ -218,10 +217,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                                 userController.password =
                                                     value!;
                                               },
-                                              //validator: (value) {
-                                              // return userController
-                                              //    .checkPassword(value!);
-                                              // },
+                                              validator: (value) {
+                                                return userController
+                                                    .checkPassword(value!);
+                                              },
                                               style: TextStyle(
                                                   fontSize: 13,
                                                   color: Colors.grey[800]),
@@ -263,18 +262,19 @@ class _LoginScreenState extends State<LoginScreen> {
                                                   0.02,
                                             ),
                                             child: TextButton(
-                                              onPressed : () {
-                                                Get.toNamed('/forgot');
-                                              },
-                                              child : Text("Mot de passe oublié.",
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                  color: Colors.grey[400],
-                                                  fontFamily: "ProductSans",
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.normal
-                                              ),
-                                            )),
+                                                onPressed: () {
+                                                  Get.toNamed('/forgot');
+                                                },
+                                                child: Text(
+                                                  "Mot de passe oublié.",
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                      color: Colors.grey[400],
+                                                      fontFamily: "ProductSans",
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.normal),
+                                                )),
                                           ),
                                           Container(
                                             margin: EdgeInsets.symmetric(
