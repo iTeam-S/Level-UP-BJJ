@@ -216,7 +216,8 @@ Container videoTabModule(context, module) {
 
 Container videoAllModule(context, data) {
   return Container(
-    child: SmartRefresher(
+    child : Stack( children : [
+      SmartRefresher(
         controller: _refreshControllerAll,
         onRefresh: _onRefreshAll,
         enablePullDown: true,
@@ -225,22 +226,7 @@ Container videoAllModule(context, data) {
             Container(
                 alignment: Alignment.centerLeft,
                 margin: EdgeInsets.only(
-                  left: MediaQuery.of(context).size.width * 0.03,
-                  top: MediaQuery.of(context).size.height * 0.025,
-                ),
-                child: Container(
-                  width: MediaQuery.of(context).size.width * 0.9,
-                  child: Text(
-                    "TOUS LES MODULES DISPONIBLES",
-                    softWrap: false,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(fontSize: 16, color: Colors.grey[700]),
-                  ),
-                )),
-            Container(
-                alignment: Alignment.centerLeft,
-                margin: EdgeInsets.only(
-                  top: MediaQuery.of(context).size.height * 0.01,
+                  top: MediaQuery.of(context).size.height * 0.06,
                   left: MediaQuery.of(context).size.width * 0.02,
                 ),
                 child: Column(
@@ -1184,7 +1170,30 @@ Container videoAllModule(context, data) {
                 )),
           ])
         ])),
-  );
+
+      Container(
+        width: MediaQuery.of(context).size.width * 1,
+        color: Colors.white,
+        // alignment: Alignment.centerLeft,
+        padding: EdgeInsets.only(
+          left: MediaQuery.of(context).size.width * 0.03,
+          top: MediaQuery.of(context).size.height * 0.02,
+          bottom: MediaQuery.of(context).size.height * 0.01,
+        ),
+        margin: EdgeInsets.only(
+          left: MediaQuery.of(context).size.width * 0.00,
+          top: MediaQuery.of(context).size.height * 0.0,
+        ),
+        child: Text(
+          "TOUS LES MODULES DISPONIBLES",
+          softWrap: false,
+          overflow: TextOverflow.ellipsis,
+          style: TextStyle(fontSize: 16, color: Colors.grey[700]),
+        ),
+      ),
+
+
+    ]));
 }
 
 void supprimerVideo(
