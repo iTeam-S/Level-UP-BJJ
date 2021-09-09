@@ -398,25 +398,25 @@ class _HomeScreenState extends State<HomeScreen> {
                 actionsIconTheme: IconThemeData(color: Colors.white, size: 21),
               ),
               drawer: AppDrawer(),
-              bottomNavigationBar: Container(
-                color: Colors.black12,
-                child: TabBar(
-                  isScrollable: true,
-                  unselectedLabelColor: Colors.grey[800],
-                  labelColor: Colors.lightBlue[800],
-                  indicatorSize: TabBarIndicatorSize.tab,
-                  indicatorPadding: EdgeInsets.all(5.0),
-                  indicatorColor: Colors.blue,
-                  tabs: [
-                    for (Module module in appController.getmoduleList())
-                      Tab(
-                          text: module.nom,
-                          icon: module.nom == 'Tous'
-                              ? Icon(Icons.video_library_outlined, size: 20)
-                              : Icon(Icons.motion_photos_on, size: 20)),
-                  ],
-                ),
-              ),
+              // bottomNavigationBar: Container(
+              //   color: Colors.black12,
+              //   child: TabBar(
+              //     isScrollable: true,
+              //     unselectedLabelColor: Colors.grey[800],
+              //     labelColor: Colors.lightBlue[800],
+              //     indicatorSize: TabBarIndicatorSize.tab,
+              //     indicatorPadding: EdgeInsets.all(5.0),
+              //     indicatorColor: Colors.blue,
+              //     tabs: [
+              //       for (Module module in appController.getmoduleList())
+              //         Tab(
+              //             text: module.nom,
+              //             icon: module.nom == 'Tous'
+              //                 ? Icon(Icons.video_library_outlined, size: 20)
+              //                 : Icon(Icons.motion_photos_on, size: 20)),
+              //     ],
+              //   ),
+              // ),
               body: TabBarView(children: [
                 for (Container contentPage
                     in appController.getmodulePageList(context))
