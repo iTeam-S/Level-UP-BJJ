@@ -5,6 +5,7 @@ import 'package:bjj_library/model/module.dart';
 import 'package:bjj_library/service/api.dart';
 import 'package:bjj_library/controller/users.dart';
 import 'package:bjj_library/view/screen/drawer.dart';
+import 'package:bjj_library/view/screen/video_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get_storage/get_storage.dart';
@@ -417,11 +418,7 @@ class _HomeScreenState extends State<HomeScreen> {
               //     ],
               //   ),
               // ),
-              body: TabBarView(children: [
-                for (Container contentPage
-                    in appController.getmodulePageList(context))
-                  contentPage
-              ]),
+              body: videoAllModule(context, appController.getmoduleList()),
               floatingActionButton: userController.user.admin
                   ? FloatingActionButton(
                       onPressed: () {
