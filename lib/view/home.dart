@@ -262,7 +262,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return GetBuilder<AppController>(
         builder: (_) => DefaultTabController(
-            length: appController.moduleInit(context),
+            length: 1,
             child: Scaffold(
               appBar: AppBar(
                 toolbarHeight: 45,

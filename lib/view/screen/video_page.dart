@@ -45,7 +45,8 @@ void _onRefreshAll() async {
   _refreshControllerAll.refreshCompleted();
 }
 
-Container videoTabModule(context, module) {
+Container videoTabModule(context) {
+  Module module = appController.currModule;
   return Container(
     child: module.videos.length != 0
         ? SmartRefresher(
@@ -125,12 +126,16 @@ Container videoTabModule(context, module) {
                                             overflow: TextOverflow.fade,
                                             textAlign: TextAlign.start,
                                             style: TextStyle(
-                                                fontSize: 18,
+                                                fontSize: 15,
                                                 color: Colors.black))),
                                     Container(
+                                      width:
+                                          MediaQuery.of(context).size.height *
+                                              0.23,
                                       child: TextButton(
                                         onPressed: () {
-                                          print("WLL");
+                                          currentVideoController.video = video;
+                                          Get.toNamed('/video');
                                         },
                                         child: Row(
                                             // crossAxisAlignment: CrossAxisAlignment.start,
@@ -229,7 +234,7 @@ Container videoAllModule(context, data) {
             // for (int c=0; c<data.length; c++)
             Container(
               height: Get.height * 0.85,
-              alignment: Alignment.centerLeft,
+              alignment: Alignment.topCenter,
               margin: EdgeInsets.only(
                 top: MediaQuery.of(context).size.height * 0.06,
                 // left: MediaQuery.of(context).size.width * 0.02,
@@ -241,20 +246,27 @@ Container videoAllModule(context, data) {
                   controller: new ScrollController(keepScrollOffset: false),
                   shrinkWrap: true,
                   children: [
-                    for (int i = 0; i < 10; i++)
+                    for (Module module in data)
                       Stack(alignment: Alignment.topCenter, children: [
-                        Container(
-                          height: MediaQuery.of(context).size.height * 1,
-                          width: MediaQuery.of(context).size.width * 0.5,
-                          child: Card(
-                              elevation: 1,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10)),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(5),
-                                child: Image.asset('assets/images/cover.jpg',
-                                    fit: BoxFit.cover),
-                              )),
+                        GestureDetector(
+                          onTap: () {
+                            appController.currModule = module;
+                            appController.update();
+                            Get.toNamed('/videolist');
+                          },
+                          child: Container(
+                            height: MediaQuery.of(context).size.height * 1,
+                            width: MediaQuery.of(context).size.width * 0.5,
+                            child: Card(
+                                elevation: 1,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10)),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(5),
+                                  child: Image.asset('assets/images/cover.jpg',
+                                      fit: BoxFit.cover),
+                                )),
+                          ),
                         ),
                         Container(
                             margin: EdgeInsets.only(

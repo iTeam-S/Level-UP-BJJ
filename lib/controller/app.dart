@@ -20,6 +20,8 @@ class AppController extends GetxController {
   TextEditingController newNomModule = TextEditingController();
   TextEditingController newComment = TextEditingController();
 
+  late Module currModule;
+
   void finish() {
     _videoList.clear();
     _moduleList.clear();
@@ -40,17 +42,17 @@ class AppController extends GetxController {
     return _modulePageList;
   }
 
-  int moduleInit(BuildContext context) {
-    if (_moduleList.length == 0) _moduleList.add(Module(id: 0, nom: 'Tous'));
-    _modulePageList.clear();
-    for (int i = 0; i < _moduleList.length; i++) {
-      _modulePageList.add(i == 0
-          ? videoAllModule(context, _moduleList)
-          : videoTabModule(context, _moduleList[i]));
-    }
+  // int moduleInit(BuildContext context) {
+  //   if (_moduleList.length == 0) _moduleList.add(Module(id: 0, nom: 'Tous'));
+  //   _modulePageList.clear();
+  //   for (int i = 0; i < _moduleList.length; i++) {
+  //     _modulePageList.add(i == 0
+  //         ? videoAllModule(context, _moduleList)
+  //         : videoTabModule(context, _moduleList[i]));
+  //   }
 
-    return _moduleList.length;
-  }
+  //   return _moduleList.length;
+  // }
 
   void trtModules(int userid, String token) async {
     try {
