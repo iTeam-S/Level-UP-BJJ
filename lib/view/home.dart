@@ -295,22 +295,21 @@ class _HomeScreenState extends State<HomeScreen> {
                                           PopupMenuItem(
                                             child: Column(children: [
                                               Container(
+                                                  width: Get.width * .65,
                                                   // height: MediaQuery.of(context).size.height * 0.1,
                                                   margin: EdgeInsets.only(
                                                     top: MediaQuery.of(context)
                                                             .size
                                                             .height *
                                                         0.001,
-                                                    left: MediaQuery.of(context)
-                                                            .size
-                                                            .width *
-                                                        0.00,
                                                   ),
                                                   child: Row(
-                                                      // crossAxisAlignment: CrossAxisAlignment.start,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .center,
                                                       mainAxisAlignment:
                                                           MainAxisAlignment
-                                                              .spaceEvenly,
+                                                              .start,
                                                       children: [
                                                         Container(
                                                           alignment: Alignment
@@ -318,11 +317,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                                           margin:
                                                               EdgeInsets.only(
                                                             // top: MediaQuery.of(context).size.height * 0.00,
-                                                            left: MediaQuery.of(
+                                                            right: MediaQuery.of(
                                                                         context)
                                                                     .size
                                                                     .width *
-                                                                0.005,
+                                                                0.025,
                                                           ),
                                                           child: Icon(
                                                               Icons
@@ -353,19 +352,19 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                       children: [
                                                                         Container(
                                                                             width: MediaQuery.of(context).size.width *
-                                                                                0.23,
+                                                                                0.5,
                                                                             child: Text("gaetan.apsa@gmail.com",
                                                                                 softWrap: false,
-                                                                                overflow: TextOverflow.fade,
+                                                                                overflow: TextOverflow.clip,
                                                                                 textAlign: TextAlign.start,
                                                                                 style: TextStyle(fontWeight: FontWeight.w400, fontSize: 15, color: Colors.black))),
                                                                         Container(
                                                                             width: MediaQuery.of(context).size.width *
-                                                                                0.23,
+                                                                                0.5,
                                                                             child: Text("a commenté la video {VIDEO}",
                                                                                 softWrap: true,
                                                                                 textAlign: TextAlign.start,
-                                                                                style: TextStyle(fontSize: 14, color: Colors.black)))
+                                                                                style: TextStyle(fontSize: 13, color: Colors.black87)))
                                                                       ]),
                                                                 ))),
                                                       ])),
@@ -376,6 +375,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                             child: Row(children: [
                                           Text("Tout voir",
                                               style: TextStyle(
+                                                  fontSize: 13.5,
                                                   color:
                                                       Colors.lightBlue[800])),
                                           Icon(Icons.chevron_right_outlined,
