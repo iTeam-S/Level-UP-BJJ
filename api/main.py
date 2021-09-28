@@ -445,7 +445,6 @@ def get_videos():
 	
 	module_id = data.get("module_id")
 	user_id = data.get("user_id")
-	# limit =  data.get("limit")
 	token = data.get('token')
 
 	def struct_coms(coms):
@@ -499,7 +498,6 @@ def get_videos():
 			ORDER BY id DESC
 		''', (mdl[0],))
 
-		# video_data = cursor.fetchall()[:limit]
 		video_data = cursor.fetchall()
 
 		resultat.append(
