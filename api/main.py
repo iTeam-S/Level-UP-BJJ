@@ -618,7 +618,7 @@ def comment():
 	cursor = db.cursor()
 	
 
-	# Lancement des requetes
+	# Lancement des requêtes
 	cursor.execute(
 		'INSERT INTO Commentaire(text, user_id, video_id) VALUES (%s, %s, %s)',
 		(text, user_id, video_id)	
@@ -629,7 +629,6 @@ def comment():
 	db.close()
 
 	return {"status" : "Commentaire enregistree"}, 201
-
 
 
 if __name__=="__main__":
