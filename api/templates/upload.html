@@ -12,14 +12,15 @@
 {% endif %}
 {% endwith %}
 </p>
-<form method="post" action="/api/v1/upload_video/" enctype="multipart/form-data">
+<form method="post" action="/api/v2/create_module/" enctype="multipart/form-data">
 <dl>
 <p>
 <input type="file" name="file" autocomplete="off" required>
-<input type="text" placeholder="token" name="token" required>
+<!-- <input type="text" placeholder="token" name="token" required> -->
 <input type="text" placeholder='user_id' name="user_id" required>
-<input type="text" placeholder='module_id' name="module_id" autocomplete="off" required>
-<input type="text" placeholder='titre' name="titre_video"  required>
+<input type="text" placeholder='nom' name="nom" required>
+<!-- <input type="text" placeholder='module_id' name="module_id" autocomplete="off" required>
+<input type="text" placeholder='titre' name="titre_video"  required> -->
 </p>
 </dl>
 <p>
