@@ -49,7 +49,7 @@ def is_admin(user_id):
 
 def extract(video_name):
 	"""
-		DESC : Fonction permettant d'extraire l'image de la vidéo à la 20ème % de sa durée
+		DESC : Fonction permettant d'extraire un image de la vidéo à 20% de sa durée
 	"""
 	cam = cv2.VideoCapture(video_name)
 
@@ -86,12 +86,19 @@ if not os.path.isdir('data'):
 
 UPLOAD_FOLDER = os.path.join(path, 'data/videos')
 
+COVER_FOLDER = os.path.join(path, 'data/covers')
+
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-ALLOWED_EXTENSIONS = set(['mp4', 'mkv', 'avi', 'webm'])
+ALLOWED_EXTENSIONS_VIDEOS = set(['mp4', 'mkv', 'avi', 'webm'])
 
-def allowed_file(filename):
-	return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+ALLOWED_EXTENSIONS_IMAGES = set(['jpg', 'png', 'jpeg'])
+
+def allowed_file_video(filename):
+	return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS_VIDEOS
+
+def allowed_file_image(filename):
+	return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS_IMAGES
 
 '''
 @socket_.on('my_event', namespace='/test')
@@ -224,6 +231,66 @@ def create_module():
 	return jsonify({'status': 'Création de module avec succès',}), 201
 
 
+
+@app.route('/api/v2/create_module/', methods=['POST'])
+def create_module_v2():
+	"""
+		DESC : Fonction permettant de créer un module
+	"""
+	token = request.form.get('token')
+	user_id = request.form.get('user_id')
+	nom = request.form.get('nom')
+
+	user_admin = is_admin(user_id)
+
+	if user_admin != 1 :
+		return {"status" : "Vous n'avez pas assez de droit !"}, 403
+
+	if verifToken(token).get('sub') != int(user_id):
+		return {"status" : "Erreur Token"}, 403
+
+
+	if 'file' not in request.files:
+		return jsonify({'status': 'No file selected'}), 400
+
+	file = request.files['file']
+
+	if file.filename == '':
+		return jsonify({'status': 'No file selected'}), 400
+	
+	if file and allowed_file_image(file.filename):
+		filename = str(time.time()) + secure_filename(file.filename)
+		file.save(os.path.join(app.config['COVER_FOLDER'], filename))
+
+		db = mysql.connector.connect(**database())
+		cursor = db.cursor()
+	
+		cursor.execute("""
+			INSERT INTO Module(nom, couverture) VALUES(%s, %s)
+		""",(nom, filename)
+		)
+		db.commit()
+		db.close()
+		return jsonify({'status': 'Module created successfully'}), 201
+
+	else:
+		return jsonify({'status': 'Allowed file types are jpg, png, jpeg'}), 400
+
+
+
+@app.route('/api/v2/get_cover/<cover>', methods=['GET'])
+def get_cover(cover):
+	"""
+		DESC : Fonction permettant de récuperer la couverture d'un module
+	"""
+	token = request.args.get("token")
+
+	if verifToken(token).get('sub') == 0 :
+		return {"status" : "Erreur Token"}, 403
+
+	return send_from_directory(directory='./data/covers/', path=cover, as_attachment=True)
+
+
 @app.route("/api/v1/update_module/", methods=['POST'])
 def update_module():
 	"""
@@ -304,7 +371,7 @@ def upload_video():
 	user_id = request.form.get('user_id')
 	module_id = request.form.get('module_id')
 	titre_video = request.form.get('titre_video')
-	print(token, user_id)
+
 	user_admin = is_admin(user_id)
 
 	if user_admin != 1 :
@@ -322,7 +389,7 @@ def upload_video():
 	if file.filename == '':
 		return jsonify({'status': 'No file selected'}), 400
 	
-	if file and allowed_file(file.filename):
+	if file and allowed_file_video(file.filename):
 		filename = str(time.time()) + secure_filename(file.filename)
 		file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 		image_name = extract("./data/videos/"+filename)
