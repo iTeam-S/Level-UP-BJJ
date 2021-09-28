@@ -233,13 +233,12 @@ def create_module():
 	return jsonify({'status': 'Création de module avec succès',}), 201
 
 
-
 @app.route('/api/v2/create_module/', methods=['POST'])
 def create_module_v2():
 	"""
 		DESC : Fonction permettant de créer un module
 	"""
-	# token = request.form.get('token')
+	token = request.form.get('token')
 
 	user_id = request.form.get('user_id')
 	nom = request.form.get('nom')
@@ -249,8 +248,8 @@ def create_module_v2():
 	if user_admin != 1 :
 		return {"status" : "Vous n'avez pas assez de droit !"}, 403
 
-	# if verifToken(token).get('sub') != int(user_id):
-	# 	return {"status" : "Erreur Token"}, 403
+	if verifToken(token).get('sub') != int(user_id):
+		return {"status" : "Erreur Token"}, 403
 
 
 	if 'file' not in request.files:
@@ -278,7 +277,6 @@ def create_module_v2():
 
 	else:
 		return jsonify({'status': 'Allowed file types are jpg, png, jpeg'}), 400
-
 
 
 @app.route('/api/v2/get_cover/<cover>', methods=['GET'])
@@ -447,7 +445,7 @@ def get_videos():
 	
 	module_id = data.get("module_id")
 	user_id = data.get("user_id")
-	limit =  data.get("limit")
+	# limit =  data.get("limit")
 	token = data.get('token')
 
 	def struct_coms(coms):
@@ -485,12 +483,12 @@ def get_videos():
 
 	if module_id :
 		cursor.execute("""
-			SELECT id, nom FROM Module WHERE id = %s
+			SELECT id, nom, couverture FROM Module WHERE id = %s
 		""",(module_id,)
 		)
 	else:
 		cursor.execute("""
-			SELECT id, nom FROM Module ORDER BY id 
+			SELECT id, nom, couverture FROM Module ORDER BY id 
 		""")
 	
 	module_data = cursor.fetchall()
@@ -501,7 +499,8 @@ def get_videos():
 			ORDER BY id DESC
 		''', (mdl[0],))
 
-		video_data = cursor.fetchall()[:limit]
+		# video_data = cursor.fetchall()[:limit]
+		video_data = cursor.fetchall()
 
 		resultat.append(
 			{
