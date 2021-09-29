@@ -14,8 +14,7 @@ app = Flask(__name__)
 CORS(app)
 #socket_ = SocketIO(app, async_mode=None)
 
-db = mysql.connector.connect(**database())
-cursor = db.cursor()
+
 
 
 def encode_auth_token(user_id):
@@ -40,6 +39,8 @@ def is_admin(user_id):
 	"""
 		DESC : Fonction permettant de vérifier si un user est un administrateur ou pas
 	"""
+	db = mysql.connector.connect(**database())
+	cursor = db.cursor()
 	cursor.execute("""
 		SELECT admin FROM Utilisateur WHERE id = %s
 	""", (user_id,)
@@ -49,7 +50,7 @@ def is_admin(user_id):
 
 def extract(video_name):
 	"""
-		DESC : Fonction permettant d'extraire l'image de la vidéo à la 20ème % de sa durée
+		DESC : Fonction permettant d'extraire un image de la vidéo à 20% de sa durée
 	"""
 	cam = cv2.VideoCapture(video_name)
 
@@ -86,12 +87,21 @@ if not os.path.isdir('data'):
 
 UPLOAD_FOLDER = os.path.join(path, 'data/videos')
 
+COVER_FOLDER = os.path.join(path, 'data/covers')
+
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-ALLOWED_EXTENSIONS = set(['mp4', 'mkv', 'avi', 'webm'])
+app.config['COVER_FOLDER'] = COVER_FOLDER
 
-def allowed_file(filename):
-	return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+ALLOWED_EXTENSIONS_VIDEOS = set(['mp4', 'mkv', 'avi', 'webm'])
+
+ALLOWED_EXTENSIONS_IMAGES = set(['jpg', 'png', 'jpeg'])
+
+def allowed_file_video(filename):
+	return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS_VIDEOS
+
+def allowed_file_image(filename):
+	return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS_IMAGES
 
 '''
 @socket_.on('my_event', namespace='/test')
@@ -224,6 +234,65 @@ def create_module():
 	return jsonify({'status': 'Création de module avec succès',}), 201
 
 
+@app.route('/api/v2/create_module/', methods=['POST'])
+def create_module_v2():
+	"""
+		DESC : Fonction permettant de créer un module
+	"""
+	token = request.form.get('token')
+
+	user_id = request.form.get('user_id')
+	nom = request.form.get('nom')
+
+	user_admin = is_admin(user_id)
+
+	if user_admin != 1 :
+		return {"status" : "Vous n'avez pas assez de droit !"}, 403
+
+	if verifToken(token).get('sub') != int(user_id):
+		return {"status" : "Erreur Token"}, 403
+
+
+	if 'file' not in request.files:
+		return jsonify({'status': 'No file selected'}), 400
+
+	file = request.files['file']
+
+	if file.filename == '':
+		return jsonify({'status': 'No file selected'}), 400
+	
+	if file and allowed_file_image(file.filename):
+		filename = str(time.time()) + secure_filename(file.filename)
+		file.save(os.path.join(app.config['COVER_FOLDER'], filename))
+
+		db = mysql.connector.connect(**database())
+		cursor = db.cursor()
+	
+		cursor.execute("""
+			INSERT INTO Module(nom, couverture) VALUES(%s, %s)
+		""",(nom, filename)
+		)
+		db.commit()
+		db.close()
+		return jsonify({'status': 'Module created successfully'}), 201
+
+	else:
+		return jsonify({'status': 'Allowed file types are jpg, png, jpeg'}), 400
+
+
+@app.route('/api/v2/get_cover/<cover>', methods=['GET'])
+def get_cover(cover):
+	"""
+		DESC : Fonction permettant de récuperer la couverture d'un module
+	"""
+	token = request.args.get("token")
+
+	if verifToken(token).get('sub') == 0 :
+		return {"status" : "Erreur Token"}, 403
+
+	return send_from_directory(directory='./data/covers/', path=cover, as_attachment=True)
+
+
 @app.route("/api/v1/update_module/", methods=['POST'])
 def update_module():
 	"""
@@ -304,7 +373,7 @@ def upload_video():
 	user_id = request.form.get('user_id')
 	module_id = request.form.get('module_id')
 	titre_video = request.form.get('titre_video')
-	print(token, user_id)
+
 	user_admin = is_admin(user_id)
 
 	if user_admin != 1 :
@@ -322,7 +391,7 @@ def upload_video():
 	if file.filename == '':
 		return jsonify({'status': 'No file selected'}), 400
 	
-	if file and allowed_file(file.filename):
+	if file and allowed_file_video(file.filename):
 		filename = str(time.time()) + secure_filename(file.filename)
 		file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 		image_name = extract("./data/videos/"+filename)
@@ -377,7 +446,6 @@ def get_videos():
 	
 	module_id = data.get("module_id")
 	user_id = data.get("user_id")
-	limit =  data.get("limit")
 	token = data.get('token')
 
 	def struct_coms(coms):
@@ -415,12 +483,12 @@ def get_videos():
 
 	if module_id :
 		cursor.execute("""
-			SELECT id, nom FROM Module WHERE id = %s
+			SELECT id, nom, couverture FROM Module WHERE id = %s
 		""",(module_id,)
 		)
 	else:
 		cursor.execute("""
-			SELECT id, nom FROM Module ORDER BY id 
+			SELECT id, nom, couverture FROM Module ORDER BY id 
 		""")
 	
 	module_data = cursor.fetchall()
@@ -431,12 +499,13 @@ def get_videos():
 			ORDER BY id DESC
 		''', (mdl[0],))
 
-		video_data = cursor.fetchall()[:limit]
+		video_data = cursor.fetchall()
 
 		resultat.append(
 			{
 				'module_id': mdl[0],
 				'nom': mdl[1],
+				'cover': mdl[2],
 				'videos': list(map(struct_video, video_data))
 			}
 		)
@@ -548,7 +617,7 @@ def comment():
 	cursor = db.cursor()
 	
 
-	# Lancement des requetes
+	# Lancement des requêtes
 	cursor.execute(
 		'INSERT INTO Commentaire(text, user_id, video_id) VALUES (%s, %s, %s)',
 		(text, user_id, video_id)	
@@ -560,6 +629,74 @@ def comment():
 
 	return {"status" : "Commentaire enregistree"}, 201
 
+@app.route('/api/v1/get_notifications/', methods=['POST'])
+def get_notifs():
+	print('fa aona e ')
+	def struct_notifs(coms):
+		return {
+			'id': coms[0],
+			'mail': coms[1],
+			'titre': coms[2],
+			'video_id': coms[3]
+		}
+	# Recuperation des données envoyés
+	data = request.get_json()
+	token = data.get("token")
+	user_id = data.get("user_id")
+	if verifToken(token).get('sub') != user_id :
+		return {"status" : "Erreur Token"}, 403
+
+	user_admin = is_admin(user_id)
+	if user_admin != 1 :
+		return {"status" : "Vous n'avez pas assez de droit !"}, 403
+
+	# Initialisation du connecteur
+	db = mysql.connector.connect(**database())
+	cursor = db.cursor()
+	
+	# Lancement des requêtes
+	cursor.execute('''
+		SELECT C.id, U.mail, V.titre, V.id
+		FROM Commentaire C JOIN Utilisateur U ON C.user_id = U.id
+		JOIN Video V ON C.video_id = V.id
+		WHERE C.notif=0 AND U.id <> %s
+	''', (user_id,))
+	result = list(map(struct_notifs, cursor.fetchall()))
+
+	# Sauvegarde des Transactions et Fermeture.
+	db.commit()
+	db.close()
+
+	return  jsonify({'data': result}), 200
+
+@app.route('/api/v1/notif_view/', methods=['POST'])
+def notif_view():
+	"""
+		DESC : Fonction permettant de mettre a jour notif commentaire'
+	"""
+	data = request.get_json()
+	
+	com_id = data.get("com_id")
+	token = data.get("token")
+	user_id = data.get("user_id")
+
+	if verifToken(token).get('sub') != user_id:
+		return {"status" : "Erreur Token"}, 403
+
+	user_admin = is_admin(user_id)
+	if user_admin != 1 :
+		return {"status" : "Vous n'avez pas assez de droit !"}, 403
+
+	db = mysql.connector.connect(**database())
+	cursor = db.cursor()
+	
+	cursor.execute("""
+		UPDATE Commentaire set notif = 1 where id = %s
+	""",(com_id,)
+	)
+	db.commit()
+	db.close()
+	return jsonify({'status': 'Suppression de la vidéo avec succès'}), 204
 
 
 if __name__=="__main__":
