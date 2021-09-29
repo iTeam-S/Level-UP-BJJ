@@ -313,6 +313,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                                           if (vid.id ==
                                                               notif[
                                                                   'video_id']) {
+                                                            appController.viewNotif(
+                                                                userController
+                                                                    .user.id,
+                                                                userController
+                                                                    .user.token,
+                                                                notif['id']);
                                                             currentVideoController
                                                                 .video = vid;
                                                             Get.toNamed(
