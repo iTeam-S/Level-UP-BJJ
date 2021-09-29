@@ -14,8 +14,7 @@ app = Flask(__name__)
 CORS(app)
 #socket_ = SocketIO(app, async_mode=None)
 
-db = mysql.connector.connect(**database())
-cursor = db.cursor()
+
 
 
 def encode_auth_token(user_id):
@@ -40,6 +39,8 @@ def is_admin(user_id):
 	"""
 		DESC : Fonction permettant de vérifier si un user est un administrateur ou pas
 	"""
+	db = mysql.connector.connect(**database())
+	cursor = db.cursor()
 	cursor.execute("""
 		SELECT admin FROM Utilisateur WHERE id = %s
 	""", (user_id,)
@@ -627,6 +628,75 @@ def comment():
 	db.close()
 
 	return {"status" : "Commentaire enregistree"}, 201
+
+@app.route('/api/v1/get_notifications/', methods=['POST'])
+def get_notifs():
+	print('fa aona e ')
+	def struct_notifs(coms):
+		return {
+			'id': coms[0],
+			'mail': coms[1],
+			'titre': coms[2],
+			'video_id': coms[3]
+		}
+	# Recuperation des données envoyés
+	data = request.get_json()
+	token = data.get("token")
+	user_id = data.get("user_id")
+	if verifToken(token).get('sub') != user_id :
+		return {"status" : "Erreur Token"}, 403
+
+	user_admin = is_admin(user_id)
+	if user_admin != 1 :
+		return {"status" : "Vous n'avez pas assez de droit !"}, 403
+
+	# Initialisation du connecteur
+	db = mysql.connector.connect(**database())
+	cursor = db.cursor()
+	
+	# Lancement des requêtes
+	cursor.execute('''
+		SELECT C.id, U.mail, V.titre, V.id
+		FROM Commentaire C JOIN Utilisateur U ON C.user_id = U.id
+		JOIN Video V ON C.video_id = V.id
+		WHERE C.notif=0 AND U.id <> %s
+	''', (user_id,))
+	result = list(map(struct_notifs, cursor.fetchall()))
+
+	# Sauvegarde des Transactions et Fermeture.
+	db.commit()
+	db.close()
+
+	return  jsonify({'data': result}), 200
+
+@app.route('/api/v1/notif_view/', methods=['POST'])
+def notif_view():
+	"""
+		DESC : Fonction permettant de mettre a jour notif commentaire'
+	"""
+	data = request.get_json()
+	
+	com_id = data.get("com_id")
+	token = data.get("token")
+	user_id = data.get("user_id")
+
+	if verifToken(token).get('sub') != user_id:
+		return {"status" : "Erreur Token"}, 403
+
+	user_admin = is_admin(user_id)
+	if user_admin != 1 :
+		return {"status" : "Vous n'avez pas assez de droit !"}, 403
+
+	db = mysql.connector.connect(**database())
+	cursor = db.cursor()
+	
+	cursor.execute("""
+		UPDATE Commentaire set notif = 1 where id = %s
+	""",(com_id,)
+	)
+	db.commit()
+	db.close()
+	return jsonify({'status': 'Suppression de la vidéo avec succès'}), 204
 
 
 if __name__=="__main__":
