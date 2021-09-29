@@ -3,7 +3,6 @@ import 'package:bjj_library/model/commentaire.dart';
 import 'package:bjj_library/model/module.dart';
 import 'package:bjj_library/model/video.dart';
 import 'package:bjj_library/service/api.dart';
-import 'package:bjj_library/view/screen/video_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -21,6 +20,8 @@ class AppController extends GetxController {
   TextEditingController newComment = TextEditingController();
 
   late Module currModule;
+
+  var notifs = [];
 
   void finish() {
     _videoList.clear();
@@ -53,7 +54,7 @@ class AppController extends GetxController {
 
   //   return _moduleList.length;
   // }
-
+/*
   void trtModules(int userid, String token) async {
     try {
       var res = await apiController.getmodules(userid, token);
@@ -90,19 +91,20 @@ class AppController extends GetxController {
         duration: Duration(seconds: 2),
       );
     }
-  }
+  }*/
 
   void trtVideos(int userid, String token) async {
     try {
       var res = await apiController.getvideos(userid, token);
       if (res[0]) {
         finish();
-        _moduleList.add(Module(id: 0, nom: 'Tous'));
+        _moduleList.add(Module(id: 0, nom: 'Tous', cover: ''));
         _videoList = res[1]['data'];
         // Mettre en place les modules
         late Module modTmp;
         for (var mod in _videoList) {
-          modTmp = Module(id: mod['module_id'], nom: mod['nom']);
+          modTmp = Module(
+              id: mod['module_id'], nom: mod['nom'], cover: mod['cover']);
           // Mise en place des videos de modules
           List<Commentaire> coms;
           for (var vid in mod['videos']) {
@@ -154,9 +156,23 @@ class AppController extends GetxController {
     }
   }
 
-  Future<bool> addModule(int userid, String token, String module) async {
+  Future<bool> addModule(
+      int userid, String token, String module, String coverpath) async {
     try {
-      var res = await apiController.createmodule(userid, token, module);
+      dataController.uploadCover = 0;
+      Get.bottomSheet(GetBuilder<UploadVideoDataController>(
+          builder: (_) => Container(
+              margin: EdgeInsets.symmetric(
+                vertical: Get.height * 0.025,
+                horizontal: Get.width * 0.06,
+              ),
+              child: LinearProgressIndicator(
+                backgroundColor: Colors.grey,
+                value: dataController.uploadCover,
+              ))));
+      var res =
+          await apiController.createmodule(userid, token, module, coverpath);
+      Get.back();
       if (res[0]) {
         return true;
       } else {
@@ -176,6 +192,7 @@ class AppController extends GetxController {
         return false;
       }
     } catch (err) {
+      Get.back();
       print(err);
       Get.snackbar(
         "Erreur",
@@ -406,6 +423,44 @@ class AppController extends GetxController {
         duration: Duration(seconds: 2),
       );
       return false;
+    }
+  }
+
+  void trtNotifs(int id, String token) async {
+    try {
+      var res = await apiController.getnotifs(id, token);
+      if (res[0]) {
+        notifs = res[1]['data'];
+        update();
+      } else {
+        print(res[1]);
+        Get.snackbar(
+          "Erreur",
+          "${res[1]}",
+          colorText: Colors.white,
+          backgroundColor: Colors.red,
+          snackPosition: SnackPosition.BOTTOM,
+          borderColor: Colors.red,
+          borderRadius: 10,
+          borderWidth: 2,
+          barBlur: 0,
+          duration: Duration(seconds: 2),
+        );
+      }
+    } catch (err) {
+      print(err);
+      Get.snackbar(
+        "Erreur",
+        "Vérfier votre connexion Internet.",
+        colorText: Colors.white,
+        backgroundColor: Colors.red,
+        snackPosition: SnackPosition.BOTTOM,
+        borderColor: Colors.red,
+        borderRadius: 10,
+        borderWidth: 2,
+        barBlur: 0,
+        duration: Duration(seconds: 2),
+      );
     }
   }
 }

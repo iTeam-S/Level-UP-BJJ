@@ -78,11 +78,24 @@ class ApiController extends GetxController {
     }
   }
 
-  Future<List> createmodule(int userid, String token, String module) async {
+  Future<List> createmodule(
+      int userid, String token, String module, String coverpath) async {
     try {
+      List filetmp = coverpath.split('/');
+      String filename = filetmp[filetmp.length - 1];
+      var formData = dio.FormData.fromMap({
+        'user_id': userid,
+        'token': token,
+        'nom': module,
+        'file': await dio.MultipartFile.fromFile(coverpath, filename: filename),
+      });
       var response = await client.post(
-        "/api/v1/create_module/",
-        data: {"user_id": userid, "token": token, "nom": module},
+        '/api/v2/create_module/',
+        data: formData,
+        onSendProgress: (int sent, int total) {
+          dataController.uploadCover = sent / total;
+          dataController.update();
+        },
       );
       return [true, response.data];
     } on dio.DioError catch (err) {
@@ -215,6 +228,25 @@ class ApiController extends GetxController {
     } catch (e) {
       print("--: $e");
       return [false, "Verifier Votre Réseau"];
+    }
+  }
+
+  Future<List> getnotifs(int userid, String token) async {
+    try {
+      var response = await client.post(
+        "/api/v1/get_notifications/",
+        data: {"user_id": userid, "token": token},
+      );
+      return [true, response.data];
+    } on dio.DioError catch (err) {
+      if (err.response!.statusCode == 403) {
+        return [false, err.response!.data['status']];
+      } else {
+        return [false, err.response!.data['status']];
+      }
+    } catch (e) {
+      print(e);
+      return [false, "Impossible d'afficher les notifications"];
     }
   }
 }

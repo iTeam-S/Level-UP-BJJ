@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:bjj_library/controller/app.dart';
 import 'package:bjj_library/controller/data.dart';
 import 'package:bjj_library/model/module.dart';
+import 'package:bjj_library/model/video.dart';
 import 'package:bjj_library/service/api.dart';
 import 'package:bjj_library/controller/users.dart';
 import 'package:bjj_library/view/screen/drawer.dart';
@@ -243,6 +244,9 @@ class _HomeScreenState extends State<HomeScreen> {
     // appController.trtModules(userController.user.id, userController.user.token);
     // assemblé les données dans une seule requete.
     appController.trtVideos(userController.user.id, userController.user.token);
+    if (userController.user.admin)
+      appController.trtNotifs(
+          userController.user.id, userController.user.token);
     //tabController =
     //TabController(length: appController.moduleInit(context), vsync: this);
   }
@@ -291,108 +295,108 @@ class _HomeScreenState extends State<HomeScreen> {
                                   icon: Icon(Icons.notifications_sharp,
                                       color: Colors.white, size: 20),
                                   itemBuilder: (context) => [
-                                        for (int i = 0; i < 3; i++)
-                                          PopupMenuItem(
-                                            child: Column(children: [
-                                              Container(
-                                                  width: Get.width * .65,
-                                                  // height: MediaQuery.of(context).size.height * 0.1,
-                                                  margin: EdgeInsets.only(
-                                                    top: MediaQuery.of(context)
-                                                            .size
-                                                            .height *
-                                                        0.001,
-                                                  ),
-                                                  child: Row(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .start,
-                                                      children: [
+                                        PopupMenuItem(
+                                          child: Container(
+                                            height: Get.height * .33,
+                                            width: Get.width,
+                                            child: ListView(
+                                              children: [
+                                                for (var notif
+                                                    in appController.notifs)
+                                                  GestureDetector(
+                                                    onTap: () {
+                                                      for (Module mod
+                                                          in appController
+                                                              .getmoduleList())
+                                                        for (Video vid
+                                                            in mod.videos)
+                                                          if (vid.id ==
+                                                              notif[
+                                                                  'video_id']) {
+                                                            currentVideoController
+                                                                .video = vid;
+                                                            Get.toNamed(
+                                                                '/video');
+                                                          }
+                                                    },
+                                                    child: Container(
+                                                      child: Column(children: [
                                                         Container(
-                                                          alignment: Alignment
-                                                              .centerLeft,
-                                                          margin:
-                                                              EdgeInsets.only(
-                                                            // top: MediaQuery.of(context).size.height * 0.00,
-                                                            right: MediaQuery.of(
-                                                                        context)
-                                                                    .size
-                                                                    .width *
-                                                                0.025,
-                                                          ),
-                                                          child: Icon(
-                                                              Icons
-                                                                  .comment_sharp,
-                                                              color:
-                                                                  Colors.green),
-                                                        ),
-                                                        Container(
+                                                            width:
+                                                                Get.width * .65,
+                                                            // height: MediaQuery.of(context).size.height * 0.1,
                                                             margin:
                                                                 EdgeInsets.only(
                                                               top: MediaQuery.of(
                                                                           context)
                                                                       .size
                                                                       .height *
-                                                                  0.01,
+                                                                  0.001,
                                                             ),
-                                                            child: Card(
-                                                                elevation: 0,
-                                                                child:
-                                                                    Container(
-                                                                  child: Column(
-                                                                      crossAxisAlignment:
-                                                                          CrossAxisAlignment
-                                                                              .center,
-                                                                      mainAxisAlignment:
-                                                                          MainAxisAlignment
-                                                                              .spaceAround,
-                                                                      children: [
-                                                                        Container(
-                                                                            width: MediaQuery.of(context).size.width *
-                                                                                0.5,
-                                                                            child: Text("gaetan.apsa@gmail.com",
-                                                                                softWrap: false,
-                                                                                overflow: TextOverflow.clip,
-                                                                                textAlign: TextAlign.start,
-                                                                                style: TextStyle(fontWeight: FontWeight.w400, fontSize: 15, color: Colors.black))),
-                                                                        Container(
-                                                                            width: MediaQuery.of(context).size.width *
-                                                                                0.5,
-                                                                            child: Text("a commenté la video {VIDEO}",
-                                                                                softWrap: true,
-                                                                                textAlign: TextAlign.start,
-                                                                                style: TextStyle(fontSize: 13, color: Colors.black87)))
-                                                                      ]),
-                                                                ))),
-                                                      ])),
-                                              Divider(),
-                                            ]),
+                                                            child: Row(
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .center,
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .start,
+                                                                children: [
+                                                                  Container(
+                                                                    alignment:
+                                                                        Alignment
+                                                                            .centerLeft,
+                                                                    margin:
+                                                                        EdgeInsets
+                                                                            .only(
+                                                                      // top: MediaQuery.of(context).size.height * 0.00,
+                                                                      right: MediaQuery.of(context)
+                                                                              .size
+                                                                              .width *
+                                                                          0.025,
+                                                                    ),
+                                                                    child: Icon(
+                                                                        Icons
+                                                                            .comment_sharp,
+                                                                        color: Colors
+                                                                            .green),
+                                                                  ),
+                                                                  Container(
+                                                                      margin: EdgeInsets
+                                                                          .only(
+                                                                        top: MediaQuery.of(context).size.height *
+                                                                            0.01,
+                                                                      ),
+                                                                      child: Card(
+                                                                          elevation: 0,
+                                                                          child: Container(
+                                                                            child:
+                                                                                Column(crossAxisAlignment: CrossAxisAlignment.center, mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+                                                                              Container(width: MediaQuery.of(context).size.width * 0.5, child: Text("${notif['mail']}", softWrap: false, overflow: TextOverflow.clip, textAlign: TextAlign.start, style: TextStyle(fontWeight: FontWeight.w400, fontSize: 15, color: Colors.black))),
+                                                                              Container(width: MediaQuery.of(context).size.width * 0.5, child: Text("a commenté la video ${notif['titre']}", softWrap: true, textAlign: TextAlign.start, style: TextStyle(fontSize: 13, color: Colors.black87)))
+                                                                            ]),
+                                                                          ))),
+                                                                ])),
+                                                        Divider(),
+                                                      ]),
+                                                    ),
+                                                  ),
+                                              ],
+                                            ),
                                           ),
-                                        PopupMenuItem(
-                                            child: Row(children: [
-                                          Text("Tout voir",
-                                              style: TextStyle(
-                                                  fontSize: 13.5,
-                                                  color:
-                                                      Colors.lightBlue[800])),
-                                          Icon(Icons.chevron_right_outlined,
-                                              color: Colors.lightBlue[800]),
-                                        ]))
+                                        )
                                       ])),
-                          Positioned(
-                            top: MediaQuery.of(context).size.height * 0.018,
-                            right: MediaQuery.of(context).size.height * 0.012,
-                            child: CircleAvatar(
-                              radius: 7.5,
-                              backgroundColor: Colors.red,
-                              child: Text('15',
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 10)),
-                            ),
-                          )
+                          if (appController.notifs.length != 0)
+                            Positioned(
+                              top: MediaQuery.of(context).size.height * 0.018,
+                              right: MediaQuery.of(context).size.height * 0.012,
+                              child: CircleAvatar(
+                                radius: 7.5,
+                                backgroundColor: Colors.red,
+                                child: Text("${appController.notifs.length}",
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 10)),
+                              ),
+                            )
                         ]),
                       ]
                     : null,

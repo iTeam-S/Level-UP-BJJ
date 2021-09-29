@@ -26,6 +26,7 @@ var size = Get.size;
 /*24 is for notification bar on Android*/
 final double itemHeight = (size.height - kToolbarHeight - 24) / 5;
 final double itemWidth = size.width / 1.8;
+var tapPosition;
 
 RefreshController _refreshControllerTab =
     RefreshController(initialRefresh: false);
@@ -42,6 +43,8 @@ void _onRefreshTab() async {
 void _onRefreshAll() async {
   // monitor network fetch
   appController.trtVideos(userController.user.id, userController.user.token);
+  if (userController.user.admin)
+    appController.trtNotifs(userController.user.id, userController.user.token);
   _refreshControllerAll.refreshCompleted();
 }
 
@@ -254,8 +257,70 @@ Container videoAllModule(context, data) {
                             appController.update();
                             Get.toNamed('/videolist');
                           },
+                          onTapDown: _storePosition,
+                          onLongPress: () {
+                            Get.bottomSheet(
+                                Container(
+                                  height: Get.height * .15,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Column(
+                                      children: [
+                                        ListTile(
+                                          title: Text("Modifier"),
+                                          trailing: Icon(Icons.edit),
+                                        ),
+                                        ListTile(
+                                          title: Text(
+                                            "Supprimer",
+                                            style: TextStyle(color: Colors.red),
+                                          ),
+                                          trailing: Icon(
+                                            Icons.delete_outline,
+                                            color: Colors.red,
+                                          ),
+                                          onTap: () {
+                                            Navigator.pop(context);
+                                            showDialog(
+                                              context: context,
+                                              builder: (BuildContext context) =>
+                                                  AlertDialog(
+                                                title: const Text(
+                                                    "Suppression d'une vidéo"),
+                                                content: const Text(
+                                                    'Voulez-vous vraiment supprimer cette vidéo ?'),
+                                                actions: [
+                                                  TextButton(
+                                                    onPressed: () =>
+                                                        Navigator.pop(
+                                                            context, 'Annuler'),
+                                                    child:
+                                                        const Text('Annuler'),
+                                                  ),
+                                                  TextButton(
+                                                    onPressed: () {},
+                                                    child: Text('OK'),
+                                                  ),
+                                                ],
+                                              ),
+                                            );
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                elevation: 20.0,
+                                enableDrag: false,
+                                backgroundColor: Colors.white,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(30.0),
+                                  topRight: Radius.circular(30.0),
+                                )));
+                          },
                           child: Container(
-                            height: MediaQuery.of(context).size.height * 1,
+                            height: MediaQuery.of(context).size.height,
                             width: MediaQuery.of(context).size.width * 0.5,
                             child: Card(
                                 elevation: 1,
@@ -263,81 +328,17 @@ Container videoAllModule(context, data) {
                                     borderRadius: BorderRadius.circular(10)),
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(5),
-                                  child: Image.asset('assets/images/cover.jpg',
-                                      fit: BoxFit.cover),
+                                  child: module.cover == ''
+                                      ? Image.asset(
+                                          'assets/images/cover.jpg',
+                                          fit: BoxFit.cover,
+                                        )
+                                      : Image.network(
+                                          "$BaseUrlProtocol/api/v2/get_cover/${module.cover}?token=${userController.user.token}",
+                                          fit: BoxFit.cover),
                                 )),
                           ),
                         ),
-                        Container(
-                            margin: EdgeInsets.only(
-                              top: Get.width < 500
-                                  ? Get.height * 0.12
-                                  : Get.height * 0.0,
-                              left: MediaQuery.of(context).size.width * 0.36,
-                            ),
-                            child: PopupMenuButton(
-                                color: Colors.white,
-                                icon: Icon(Icons.more_horiz,
-                                    color: Colors.white, size: 18),
-                                itemBuilder: (context) => [
-                                      /*PopupMenuItem(
-                                                                      value:
-                                                                          1,
-                                                                      child: TextButton(
-                                                                          onPressed: () {},
-                                                                          child: Row(
-                                                                            children: [
-                                                                              Icon(Icons.edit, color: Colors.black),
-                                                                              TextButton(
-                                                                                onPressed: () {
-                                                                                  //sModifierVideo();
-                                                                                },
-                                                                                child: Text(
-                                                                                  "Modifier",
-                                                                                  style: TextStyle(color: Colors.black),
-                                                                                ),
-                                                                              )
-                                                                            ],
-                                                                          ))),*/
-                                      PopupMenuItem(
-                                          value: 2,
-                                          child: TextButton(
-                                            onPressed: () {
-                                              Navigator.pop(context);
-                                              showDialog(
-                                                context: context,
-                                                builder:
-                                                    (BuildContext context) =>
-                                                        AlertDialog(
-                                                  title: const Text(
-                                                      "Suppression d'une vidéo"),
-                                                  content: const Text(
-                                                      'Voulez-vous vraiment supprimer cette vidéo ?'),
-                                                  actions: [
-                                                    TextButton(
-                                                      onPressed: () =>
-                                                          Navigator.pop(context,
-                                                              'Annuler'),
-                                                      child:
-                                                          const Text('Annuler'),
-                                                    ),
-                                                    TextButton(
-                                                      onPressed: () {},
-                                                      child: Text('OK'),
-                                                    ),
-                                                  ],
-                                                ),
-                                              );
-                                            },
-                                            child: Row(children: [
-                                              Icon(Icons.delete_outline,
-                                                  color: Colors.red),
-                                              Text("Supprimer",
-                                                  style: TextStyle(
-                                                      color: Colors.red)),
-                                            ]),
-                                          )),
-                                    ]))
                       ]),
                   ],
                 );
@@ -387,4 +388,8 @@ void supprimerVideo(
       duration: Duration(seconds: 2),
     );
   }
+}
+
+void _storePosition(TapDownDetails details) {
+  tapPosition = details.globalPosition;
 }
