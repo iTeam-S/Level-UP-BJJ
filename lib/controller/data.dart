@@ -9,6 +9,12 @@ class UploadVideoDataController extends GetxController {
   String videopath = '';
   TextEditingController videotitle = TextEditingController();
   TextEditingController titre = TextEditingController();
+
+  double uploadCover = 0.0;
+  String moduleCoverpath = '';
+  bool isLoadingPath = false;
+  TextEditingController moduleCovertitre = TextEditingController();
+
   void forceUpdate() {
     update();
   }

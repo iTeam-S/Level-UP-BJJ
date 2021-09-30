@@ -149,24 +149,6 @@ class _VideoScreenState extends State<VideoScreen> {
                           fontFamily: "ProductSans",
                           fontSize: 17)),
                   centerTitle: true,
-                  actions: [
-                    Stack(children: [
-                      Container(
-                        margin: EdgeInsets.only(
-                            top: MediaQuery.of(context).size.height * 0.017,
-                            right: MediaQuery.of(context).size.height * 0.02),
-                        child: Icon(Icons.notifications_sharp),
-                      ),
-                      Positioned(
-                        top: MediaQuery.of(context).size.height * 0.018,
-                        right: MediaQuery.of(context).size.height * 0.02,
-                        child: Icon(Icons.brightness_1,
-                            size: 10, color: Colors.red),
-                      )
-                    ]),
-                  ],
-                  actionsIconTheme:
-                      IconThemeData(color: Colors.white, size: 21),
                 ),
                 body: ListView(children: [
                   Column(
@@ -213,10 +195,11 @@ class _VideoScreenState extends State<VideoScreen> {
                                         MediaQuery.of(context).size.width * 0.0,
                                   ),
                                   child: CircleAvatar(
-                                    radius: 30,
-                                    backgroundColor: Colors.blueGrey,
-                                    child: Text('BJJ', style: TextStyle(color: Colors.white))
-                                  ),
+                                      radius: 30,
+                                      backgroundColor: Colors.blueGrey,
+                                      child: Text('BJJ',
+                                          style:
+                                              TextStyle(color: Colors.white))),
                                 ),
                                 Container(
                                   margin: EdgeInsets.only(
@@ -386,7 +369,8 @@ class _VideoScreenState extends State<VideoScreen> {
                                                                       fontSize:
                                                                           14,
                                                                       color: Colors
-                                                                          .grey[850])))
+                                                                              .grey[
+                                                                          850])))
                                                         ]),
                                                   ))),
                                           Container(
@@ -413,9 +397,6 @@ class _VideoScreenState extends State<VideoScreen> {
                                         ])),
                             ])),
                       ),
-
-
-
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -504,6 +485,7 @@ class _VideoScreenState extends State<VideoScreen> {
                                   currentVideoController.update();
                                 }
                               }
+
                               sendComment();
                             },
                             icon: Icon(Icons.send),
@@ -511,11 +493,6 @@ class _VideoScreenState extends State<VideoScreen> {
                           )
                         ],
                       )
-
-
-
-
-
                     ],
                   ),
                 ]))));

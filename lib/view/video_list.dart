@@ -1,5 +1,4 @@
 import 'package:bjj_library/controller/app.dart';
-import 'package:bjj_library/controller/users.dart';
 
 import 'package:bjj_library/view/screen/video_page.dart';
 import 'package:flutter/material.dart';

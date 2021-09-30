@@ -1,9 +1,11 @@
 import 'dart:async';
 
 import 'package:bjj_library/controller/app.dart';
+import 'package:bjj_library/controller/data.dart';
 import 'package:bjj_library/controller/users.dart';
-import 'package:bjj_library/model/module.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
@@ -11,11 +13,15 @@ import 'package:rounded_loading_button/rounded_loading_button.dart';
 class AppDrawer extends StatelessWidget {
   final UserController userController = Get.put(UserController());
   final AppController appController = Get.put(AppController());
-
+  final UploadVideoDataController dataController =
+      Get.put(UploadVideoDataController());
+  final bool isLoadingPath = false;
   final RoundedLoadingButtonController _btnController =
       RoundedLoadingButtonController();
 
   final TextEditingController moduleAddController = TextEditingController();
+
+  final FocusNode focus = FocusNode();
 
   // stockena donnee ilaina apres fermeture application
   final box = GetStorage();
@@ -24,6 +30,27 @@ class AppDrawer extends StatelessWidget {
     Timer(Duration(seconds: 2), () {
       controller.success();
     });
+  }
+
+  dynamic _openFileExplorer() async {
+    dataController.isLoadingPath = true;
+    dataController.update();
+    try {
+      FilePickerResult? result = await FilePicker.platform.pickFiles(
+        type: FileType.custom,
+        allowedExtensions: ['png', 'svg', 'jpg', 'jpeg'],
+      );
+      if (result != null) {
+        PlatformFile file = result.files.first;
+        dataController.moduleCoverpath = file.path.toString();
+        dataController.moduleCovertitre.text = file.name;
+        dataController.forceUpdate();
+      } else {
+        print("Annuler");
+      }
+    } on PlatformException catch (e) {
+      print("Unsupported operation" + e.toString());
+    }
   }
 
   void ajoutModule(context) {
@@ -46,8 +73,8 @@ class AppDrawer extends StatelessWidget {
         );
         return controller.error();
       }
-      bool res = await appController.addModule(
-          userController.user.id, userController.user.token, module);
+      bool res = await appController.addModule(userController.user.id,
+          userController.user.token, module, dataController.moduleCoverpath);
       if (res) {
         Timer(Duration(seconds: 2), () {
           controller.reset();
@@ -107,6 +134,32 @@ class AppDrawer extends StatelessWidget {
                       ),
                     )),
                 Container(
+                    height: MediaQuery.of(context).size.height * 0.08,
+                    margin: EdgeInsets.symmetric(
+                      horizontal: MediaQuery.of(context).size.width * 0.06,
+                      // vertical: MediaQuery.of(context).size.height*0.0110
+                    ),
+                    child: TextField(
+                      controller: dataController.moduleCovertitre,
+                      focusNode: focus,
+                      style: TextStyle(fontSize: 13, color: Colors.grey[800]),
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Colors.blue[50],
+                        border: OutlineInputBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(90.0)),
+                            borderSide: BorderSide.none),
+                        focusedBorder: UnderlineInputBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(90.0)),
+                            borderSide: BorderSide.none),
+                        hintText: "Image de couverture",
+                        prefixIcon:
+                            Icon(Icons.image_search, color: Colors.blue),
+                      ),
+                    )),
+                Container(
                   margin: EdgeInsets.symmetric(
                       horizontal: MediaQuery.of(context).size.width * 0.06,
                       vertical: MediaQuery.of(context).size.height * 0.01),
@@ -124,219 +177,6 @@ class AppDrawer extends StatelessWidget {
                     borderRadius: 90,
                     child:
                         Text("AJOUTER", style: TextStyle(color: Colors.white)),
-                  ),
-                ),
-              ],
-            ));
-  }
-
-  void modifModule(context) {
-    showDialog(
-        context: context,
-        builder: (BuildContext context) => SimpleDialog(
-              title: Text(
-                "Modifier un module",
-              ),
-              children: [
-                // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                Row(children: [
-                  Container(
-                    height: MediaQuery.of(context).size.height * 0.06,
-                    margin: EdgeInsets.symmetric(
-                      horizontal: MediaQuery.of(context).size.width * 0.09,
-                      vertical: MediaQuery.of(context).size.height * 0.0115,
-                    ),
-                    child: Row(children: [
-                      DropdownButton(
-                        value: appController.choixModule,
-                        icon: Icon(Icons.arrow_drop_down_circle),
-                        iconDisabledColor: Colors.lightBlue[800],
-                        iconEnabledColor: Colors.lightBlue[800],
-                        iconSize: 20,
-                        underline: SizedBox(),
-                        hint: Text('Module', style: TextStyle(fontSize: 14)),
-                        items: [
-                          for (Module mod in appController.getmoduleList())
-                            DropdownMenuItem(
-                              child: Text(mod.nom),
-                              value: mod.nom,
-                            ),
-                        ],
-                        onChanged: (value) {
-                          appController.choixModule = value.toString();
-                          //dataController.forceUpdate();
-                          Navigator.pop(context);
-                          modifModule(context);
-                          //addVideo(context, moduleList);
-                        },
-                      )
-                    ]),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(
-                        // left: MediaQuery.of(context).size.width*0.15,
-                        ),
-                    child: IconButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                        if (appController.choixModule == 'Tous')
-                          return Get.snackbar(
-                            "Erreur",
-                            "Choisir un module",
-                            colorText: Colors.white,
-                            backgroundColor: Colors.red,
-                            snackPosition: SnackPosition.BOTTOM,
-                            borderColor: Colors.red,
-                            borderRadius: 10,
-                            borderWidth: 2,
-                            barBlur: 0,
-                            duration: Duration(seconds: 2),
-                          );
-
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) => AlertDialog(
-                            title: const Text("Suppression d'un module"),
-                            content: const Text(
-                                'Voulez-vous vraiment supprimer ce module ?'),
-                            actions: [
-                              TextButton(
-                                onPressed: () =>
-                                    Navigator.pop(context, 'Annuler'),
-                                child: const Text('Annuler'),
-                              ),
-                              TextButton(
-                                onPressed: () {
-                                  void supprModule() async {
-                                    bool res = await appController.delModule(
-                                        userController.user.id,
-                                        userController.user.token,
-                                        appController.getModuleId(
-                                            appController.choixModule));
-
-                                    if (res) {
-                                      appController.trtVideos(
-                                          userController.user.id,
-                                          userController.user.token);
-                                      Get.snackbar(
-                                        "Suppression",
-                                        "Le module a été supprimé.",
-                                        backgroundColor: Colors.grey,
-                                        snackPosition: SnackPosition.BOTTOM,
-                                        borderColor: Colors.grey,
-                                        borderRadius: 10,
-                                        borderWidth: 2,
-                                        barBlur: 0,
-                                        duration: Duration(seconds: 2),
-                                      );
-                                      appController.choixModule = 'Tous';
-                                    }
-                                  }
-
-                                  supprModule();
-                                  Navigator.pop(context);
-                                },
-                                child: Text('OK'),
-                              ),
-                            ],
-                          ),
-                        );
-                      },
-                      icon:
-                          Icon(Icons.delete, color: Colors.red[400], size: 22),
-                    ),
-                  ),
-                ]),
-                Container(
-                    height: MediaQuery.of(context).size.height * 0.08,
-                    margin: EdgeInsets.symmetric(
-                      horizontal: MediaQuery.of(context).size.width * 0.06,
-                    ),
-                    child: TextField(
-                      controller: appController.newNomModule,
-                      style: TextStyle(fontSize: 13, color: Colors.grey[800]),
-                      decoration: InputDecoration(
-                        filled: true,
-                        fillColor: Colors.blue[50],
-                        border: OutlineInputBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(90.0)),
-                            borderSide: BorderSide.none),
-                        focusedBorder: UnderlineInputBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(90.0)),
-                            borderSide: BorderSide.none),
-                        hintText: "Nouveau nom de module",
-                        prefixIcon:
-                            Icon(Icons.edit_outlined, color: Colors.blue),
-                      ),
-                    )),
-                Container(
-                  margin: EdgeInsets.symmetric(
-                      horizontal: MediaQuery.of(context).size.width * 0.06,
-                      vertical: MediaQuery.of(context).size.height * 0.01),
-                  child: RoundedLoadingButton(
-                    color: Colors.lightBlue[800],
-                    successColor: Colors.blue,
-                    controller: _btnController,
-                    onPressed: () {
-                      if (appController.newNomModule.text.trim() == '')
-                        return Get.snackbar(
-                          "Erreur",
-                          "Entrer un nom valide.",
-                          colorText: Colors.white,
-                          backgroundColor: Colors.red,
-                          snackPosition: SnackPosition.BOTTOM,
-                          borderColor: Colors.red,
-                          borderRadius: 10,
-                          borderWidth: 2,
-                          barBlur: 0,
-                          duration: Duration(seconds: 2),
-                        );
-                      //_doSomething(_btnController);
-                      void modifModule() async {
-                        bool res = await appController.modifModule(
-                            userController.user.id,
-                            userController.user.token,
-                            appController
-                                .getModuleId(appController.choixModule),
-                            appController.newNomModule.text);
-
-                        if (res) {
-                          appController.choixModule = 'Tous';
-                          appController.trtVideos(userController.user.id,
-                              userController.user.token);
-                          _btnController.success();
-                          Get.snackbar(
-                            "Modification",
-                            "Le nom de module a été modifié",
-                            backgroundColor: Colors.grey,
-                            snackPosition: SnackPosition.BOTTOM,
-                            borderColor: Colors.grey,
-                            borderRadius: 10,
-                            borderWidth: 2,
-                            barBlur: 0,
-                            duration: Duration(seconds: 2),
-                          );
-                          Timer(Duration(seconds: 2), () {
-                            _btnController.reset();
-                            Get.back();
-                          });
-                        } else {
-                          _btnController.error();
-
-                          Timer(Duration(seconds: 2), () {
-                            _btnController.reset();
-                          });
-                        }
-                      }
-
-                      modifModule();
-                    },
-                    valueColor: Colors.white,
-                    borderRadius: 90,
-                    child: Text("ENREGISTRER",
-                        style: TextStyle(color: Colors.white)),
                   ),
                 ),
               ],
@@ -452,8 +292,14 @@ class AppDrawer extends StatelessWidget {
     );
   }
 
+  void _onFocusChange() {
+    debugPrint("Focus: " + focus.hasFocus.toString());
+    if (focus.hasFocus) _openFileExplorer();
+  }
+
   @override
   Widget build(BuildContext context) {
+    focus.addListener(_onFocusChange);
     return Drawer(
       child: ListView(
         // Important: Remove any padding from the ListView.
@@ -519,6 +365,7 @@ class AppDrawer extends StatelessWidget {
                     Column(
                         children: userController.user.admin
                             ? [
+                                /*
                                 ListTile(
                                   leading: Icon(Icons.video_collection_outlined,
                                       color: Colors.lightBlue[800]),
@@ -527,7 +374,7 @@ class AppDrawer extends StatelessWidget {
                                     Navigator.pop(context);
                                   },
                                 ),
-                                Divider(),
+                                Divider(),*/
                                 ListTile(
                                   leading: Icon(Icons.add_outlined,
                                       color: Colors.lightBlue[800]),
@@ -535,16 +382,6 @@ class AppDrawer extends StatelessWidget {
                                   onTap: () {
                                     Navigator.pop(context);
                                     ajoutModule(context);
-                                  },
-                                ),
-                                Divider(),
-                                ListTile(
-                                  leading: Icon(Icons.edit_outlined,
-                                      color: Colors.lightBlue[800]),
-                                  title: Text("Modifier un module"),
-                                  onTap: () {
-                                    Navigator.pop(context);
-                                    modifModule(context);
                                   },
                                 ),
                                 Divider(),
