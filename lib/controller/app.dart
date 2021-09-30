@@ -311,6 +311,19 @@ class AppController extends GetxController {
     try {
       var res = await apiController.deletemodule(userid, token, moduleId);
       if (res[0]) {
+        trtVideos(userid, token);
+        Get.snackbar(
+          "Succes",
+          "Module supprimé",
+          colorText: Colors.green,
+          backgroundColor: Colors.white,
+          snackPosition: SnackPosition.BOTTOM,
+          borderColor: Colors.white,
+          borderRadius: 10,
+          borderWidth: 2,
+          barBlur: 0,
+          duration: Duration(seconds: 2),
+        );
         return true;
       } else {
         print(res[1]);

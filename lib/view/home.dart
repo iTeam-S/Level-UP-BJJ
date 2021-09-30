@@ -265,9 +265,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<AppController>(
-        builder: (_) => DefaultTabController(
-            length: 1,
-            child: Scaffold(
+        builder: (_) => Scaffold(
               appBar: AppBar(
                 toolbarHeight: 45,
                 backgroundColor: Colors.lightBlue[800],
@@ -439,6 +437,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       elevation: 10,
                     )
                   : null,
-            )));
+            ));
   }
 }
