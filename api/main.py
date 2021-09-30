@@ -467,7 +467,7 @@ def get_videos():
 		return {
 			'id': video[0],
 			'titre': video[1],
-			'date_upload': video[2].strftime('d %b %Y'),
+			'date_upload': video[2].strftime('%d %b %Y'),
 			'nom': video[3],
 			'image': video[4],
 			'commentaire': list(map(struct_coms, coms_data))
