@@ -311,6 +311,19 @@ class AppController extends GetxController {
     try {
       var res = await apiController.deletemodule(userid, token, moduleId);
       if (res[0]) {
+        trtVideos(userid, token);
+        Get.snackbar(
+          "Succes",
+          "Module supprimé",
+          colorText: Colors.green,
+          backgroundColor: Colors.white,
+          snackPosition: SnackPosition.BOTTOM,
+          borderColor: Colors.white,
+          borderRadius: 10,
+          borderWidth: 2,
+          barBlur: 0,
+          duration: Duration(seconds: 2),
+        );
         return true;
       } else {
         print(res[1]);
@@ -461,6 +474,46 @@ class AppController extends GetxController {
         barBlur: 0,
         duration: Duration(seconds: 2),
       );
+    }
+  }
+
+  Future<bool> viewNotif(int userid, String token, int id) async {
+    try {
+      var res = await apiController.viewnotif(userid, token, id);
+      if (res[0]) {
+        trtNotifs(userid, token);
+        return true;
+      } else {
+        print(res[1]);
+        Get.snackbar(
+          "Erreur",
+          "${res[1]}",
+          colorText: Colors.white,
+          backgroundColor: Colors.red,
+          snackPosition: SnackPosition.BOTTOM,
+          borderColor: Colors.red,
+          borderRadius: 10,
+          borderWidth: 2,
+          barBlur: 0,
+          duration: Duration(seconds: 2),
+        );
+        return false;
+      }
+    } catch (err) {
+      print(err);
+      Get.snackbar(
+        "Erreur",
+        "Vérfier votre connexion Internet.",
+        colorText: Colors.white,
+        backgroundColor: Colors.red,
+        snackPosition: SnackPosition.BOTTOM,
+        borderColor: Colors.red,
+        borderRadius: 10,
+        borderWidth: 2,
+        barBlur: 0,
+        duration: Duration(seconds: 2),
+      );
+      return false;
     }
   }
 }

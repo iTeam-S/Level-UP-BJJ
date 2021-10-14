@@ -265,9 +265,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<AppController>(
-        builder: (_) => DefaultTabController(
-            length: 1,
-            child: Scaffold(
+        builder: (_) => Scaffold(
               appBar: AppBar(
                 toolbarHeight: 45,
                 backgroundColor: Colors.lightBlue[800],
@@ -313,6 +311,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                                           if (vid.id ==
                                                               notif[
                                                                   'video_id']) {
+                                                            appController.viewNotif(
+                                                                userController
+                                                                    .user.id,
+                                                                userController
+                                                                    .user.token,
+                                                                notif['id']);
                                                             currentVideoController
                                                                 .video = vid;
                                                             Get.toNamed(
@@ -433,6 +437,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       elevation: 10,
                     )
                   : null,
-            )));
+            ));
   }
 }

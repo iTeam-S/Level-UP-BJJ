@@ -249,4 +249,27 @@ class ApiController extends GetxController {
       return [false, "Impossible d'afficher les notifications"];
     }
   }
+
+  Future<List> viewnotif(int userid, String token, int comID) async {
+    try {
+      var response = await client.post(
+        "/api/v1/notif_view/",
+        data: {
+          "user_id": userid,
+          "token": token,
+          "com_id": comID,
+        },
+      );
+      return [true, response.data];
+    } on dio.DioError catch (err) {
+      if (err.response!.statusCode == 403) {
+        return [false, err.response!.data['status']];
+      } else {
+        return [false, err.response!.data['status']];
+      }
+    } catch (e) {
+      print("--: $e");
+      return [false, "..."];
+    }
+  }
 }
