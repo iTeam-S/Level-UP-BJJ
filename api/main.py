@@ -1,20 +1,20 @@
 import os
 from flask import Flask , request, jsonify, render_template, send_from_directory
 from flask_cors import CORS
-from conf import *
+from conf import database
 import mysql.connector, time
 from datetime import datetime, timedelta
 import jwt
 from werkzeug.utils import secure_filename
 import cv2
 import time
+from random import randrange
+from send_code import send_mail
 #from flask_socketio import SocketIO, emit, disconnect
 
 app = Flask(__name__)
 CORS(app)
 #socket_ = SocketIO(app, async_mode=None)
-
-
 
 
 def encode_auth_token(user_id):
@@ -35,6 +35,7 @@ def verifToken(token):
 		print(err)
 		return {"sub":0}
 
+
 def is_admin(user_id):
 	"""
 		DESC : Fonction permettant de vérifier si un user est un administrateur ou pas
@@ -47,6 +48,7 @@ def is_admin(user_id):
 	)
 	admin = cursor.fetchone()
 	return admin[0]
+
 
 def extract(video_name):
 	"""
@@ -97,8 +99,10 @@ ALLOWED_EXTENSIONS_VIDEOS = set(['mp4', 'mkv', 'avi', 'webm'])
 
 ALLOWED_EXTENSIONS_IMAGES = set(['jpg', 'png', 'jpeg'])
 
+
 def allowed_file_video(filename):
 	return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS_VIDEOS
+
 
 def allowed_file_image(filename):
 	return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS_IMAGES
@@ -167,6 +171,42 @@ def login():
 		return jsonify({'status': 'Adresse email ou mot de passe incorrect',}), 403
 
 
+@app.route("/api/v1/forgot_password/", methods=['POST'])
+def forgot():
+	"""
+		DESC : Fonction permettant de signaler un mot de passe oublié
+	"""
+	data = request.get_json()
+
+	token = data.get("token")
+	user_id = data.get("user_id")
+	mail = data.get("mail")
+
+	code = randrange(111111, 999999)
+
+	if verifToken(token).get('sub') != user_id :
+		return {"status" : "Erreur Token"}, 403
+
+	db = mysql.connector.connect(**database())
+	cursor = db.cursor()
+
+	try:
+		cursor.execute("""
+			UPDATE Utilisateur SET code = %s WHERE mail = %s
+		""",(code, mail)
+		)
+		db.commit()
+		db.close()
+
+		send_mail("Votre code de confirmation est : " + str(code), "Code de confirmation", mail)
+
+		return {"status" : "Code de confirmation envoyé avec succès"}, 200
+	
+	except Exception as e:
+		print(e)
+		return jsonify({'status': "Cette adresse email n'est pas associé à un compte",}), 400
+
+
 @app.route("/api/v1/get_all_modules/", methods=['POST'])
 def get_all_modules():
 	"""
@@ -180,6 +220,7 @@ def get_all_modules():
 
 	if verifToken(token).get('sub') != user_id :
 		return {"status" : "Erreur Token"}, 403
+
 	db = mysql.connector.connect(**database())
 	cursor = db.cursor()
 
@@ -629,9 +670,9 @@ def comment():
 
 	return {"status" : "Commentaire enregistree"}, 201
 
+
 @app.route('/api/v1/get_notifications/', methods=['POST'])
 def get_notifs():
-	print('fa aona e ')
 	def struct_notifs(coms):
 		return {
 			'id': coms[0],
@@ -668,6 +709,7 @@ def get_notifs():
 	db.close()
 
 	return  jsonify({'data': result}), 200
+
 
 @app.route('/api/v1/notif_view/', methods=['POST'])
 def notif_view():

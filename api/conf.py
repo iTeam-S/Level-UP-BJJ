@@ -5,7 +5,7 @@ load_dotenv()
 
 def database(**kwargs):
      return {
-          'host' : 'localhost',
+          'host' : "iteam-s.mg",
           'user' : env.get('ITEAMS_DB_USER'),
           'password': env.get('ITEAMS_DB_PASSWORD'),
           'database': 'BJJ',
