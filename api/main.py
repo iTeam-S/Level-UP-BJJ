@@ -204,9 +204,44 @@ def forgot():
 	
 	except Exception as e:
 		print(e)
-		return jsonify({'status': "Cette adresse email n'est pas associé à un compte",}), 400
+		return jsonify({'status': "Cette adresse email n'est pas associée à un compte",}), 400
 
 
+@app.route("/api/v1/code_confirmation/", methods=['POST'])
+def confirmation():
+	"""
+		DESC : Fonction permettant vérifier le code de confirmation
+	"""
+	data = request.get_json()
+
+	token = data.get("token")
+
+	user_id = data.get("user_id")
+	mail = data.get("mail")
+	send_code = data.get("code")
+
+	if verifToken(token).get('sub') != user_id :
+		return {"status" : "Erreur Token"}, 403
+
+	db = mysql.connector.connect(**database())
+	cursor = db.cursor()
+
+	cursor.execute("""
+		SELECT code FROM Utilisateur WHERE mail = %s
+	""", (mail,)
+	)
+	
+	base_code = cursor.fetchone()[0]
+
+	db.close()
+
+	if send_code == str(base_code):
+		return jsonify({'status': 'Code de confirmation reconnu',}), 200
+	
+	else:
+		return jsonify({'status': 'Code de confirmation non reconnu',}), 400
+	
+	
 @app.route("/api/v1/get_all_modules/", methods=['POST'])
 def get_all_modules():
 	"""
