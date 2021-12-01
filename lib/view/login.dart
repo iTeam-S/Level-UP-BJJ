@@ -121,7 +121,7 @@ class _LoginScreenState extends State<LoginScreen> {
               children: [
                 Container(
                   margin: EdgeInsets.only(
-                      top: MediaQuery.of(context).size.height * 0.15),
+                      top: MediaQuery.of(context).size.height * 0.14),
                   height: MediaQuery.of(context).size.height * 0.28,
                   child: Image.asset('assets/images/workout.jpg'),
                 ),
@@ -262,19 +262,20 @@ class _LoginScreenState extends State<LoginScreen> {
                                                   0.02,
                                             ),
                                             child: TextButton(
-                                                onPressed: () {
-                                                  Get.toNamed('/forgot');
-                                                },
-                                                child: Text(
-                                                  "Mot de passe oublié.",
-                                                  textAlign: TextAlign.center,
-                                                  style: TextStyle(
-                                                      color: Colors.grey[400],
-                                                      fontFamily: "ProductSans",
-                                                      fontSize: 14,
-                                                      fontWeight:
-                                                          FontWeight.normal),
-                                                )),
+                                              onPressed: () {
+                                                Get.toNamed('/forgot');
+                                              },
+                                              child: Text(
+                                                "Mot de passe oublié.",
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                    color: Colors.grey[400],
+                                                    fontFamily: "ProductSans",
+                                                    fontSize: 14,
+                                                    fontWeight:
+                                                        FontWeight.normal),
+                                              )
+                                            ),
                                           ),
                                           Container(
                                             margin: EdgeInsets.symmetric(
@@ -300,6 +301,33 @@ class _LoginScreenState extends State<LoginScreen> {
                                               child: Text("SE CONNECTER",
                                                   style: TextStyle(
                                                       color: Colors.white)),
+                                            ),
+                                          ),
+                                          Container(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.5,
+                                            margin: EdgeInsets.only(
+                                              top: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  0.00,
+                                            ),
+                                            child: TextButton(
+                                              onPressed: () {
+                                                Get.toNamed('/signup');
+                                              },
+                                              child: Text(
+                                                "S'inscrire",
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                    color: Colors.lightBlue[800],
+                                                    fontFamily: "ProductSans",
+                                                    fontSize: 17,
+                                                    fontWeight:
+                                                        FontWeight.normal),
+                                              )
                                             ),
                                           ),
                                         ],

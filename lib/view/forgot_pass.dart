@@ -59,7 +59,7 @@ class _ForgotScreenState extends State<ForgotScreen> {
 
               child: Text(
                 "Veuillez entrer votre adresse email pour recupérer votre compte.",
-                textAlign: TextAlign.left,
+                textAlign: TextAlign.center,
                 style: TextStyle(
                     color: Colors.grey,
                     fontFamily: "ProductSans",
@@ -81,7 +81,6 @@ class _ForgotScreenState extends State<ForgotScreen> {
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(13)),
                               child: Form(
-                                  // key: userController.loginFormkey,
                                   autovalidateMode:
                                       AutovalidateMode.onUserInteraction,
                                   child: Column(

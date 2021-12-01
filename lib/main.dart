@@ -4,6 +4,7 @@ import 'package:bjj_library/model/users.dart';
 import 'package:bjj_library/view/confirm_pass.dart';
 import 'package:bjj_library/view/play_video.dart';
 import 'package:bjj_library/view/reinitialize_pass.dart';
+import 'package:bjj_library/view/signup.dart';
 import 'package:bjj_library/view/video_list.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -26,23 +27,23 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Future.delayed(const Duration(milliseconds: 2000), () {
-      if (box.hasData('user')) {
-        Map usrTmp = box.read('user');
-        userController.user = User(
-          email: usrTmp['email'],
-          admin: usrTmp['admin'],
-          id: usrTmp['id'],
-          token: usrTmp['token'],
-        );
+      // if (box.hasData('user')) {
+      //   Map usrTmp = box.read('user');
+      //   userController.user = User(
+      //     email: usrTmp['email'],
+      //     admin: usrTmp['admin'],
+      //     id: usrTmp['id'],
+      //     token: usrTmp['token'],
+      //   );
 
-        var vidtmp = usrTmp['video'];
-        if (vidtmp != null) {
-          userController.user.video['id'] = vidtmp['id'];
-          userController.user.video['pos'] = Duration(seconds: vidtmp['pos']);
-        }
-        Get.offNamed('/home');
-        return;
-      }
+      //   var vidtmp = usrTmp['video'];
+      //   if (vidtmp != null) {
+      //     userController.user.video['id'] = vidtmp['id'];
+      //     userController.user.video['pos'] = Duration(seconds: vidtmp['pos']);
+      //   }
+      //   Get.offNamed('/home');
+      //   return;
+      // }
       Get.offNamed('/login');
     });
 
@@ -57,6 +58,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => SplashScreen(),
         '/login': (context) => LoginScreen(),
+        '/signup': (context) => SignScreen(),
         '/forgot': (context) => ForgotScreen(),
         '/confirm_pass': (context) => ConfirmScreen(),
         '/reinitialize_pass': (context) => ReinitializeScreen(),

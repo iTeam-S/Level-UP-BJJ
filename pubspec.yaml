@@ -106,3 +106,7 @@ flutter:
     - assets/images/avatar.jpg
     - assets/images/video_logo.jpg
     - assets/images/work.png
+    - assets/images/stripe.jpg
+    - assets/images/paypal.jpg
+    - assets/images/visa.jpg
+
