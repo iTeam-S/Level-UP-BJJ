@@ -1,0 +1,14 @@
+[Unit]
+Description=Gunicorn instance to serve bjj application
+After=network.target
+
+[Service]
+User=root
+Group=dev
+Restart=always
+RestartSec=10
+WorkingDirectory=/opt/bjj/api
+ExecStart=/usr/local/bin/gunicorn --workers 3  --bind 127.0.0.1:4444 wsgi
+
+[Install]
+WantedBy=multi-user.target
