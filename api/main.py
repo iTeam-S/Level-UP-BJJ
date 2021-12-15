@@ -9,7 +9,7 @@ from werkzeug.utils import secure_filename
 import cv2
 import time
 from random import randrange
-from send_code import send_mail
+# from send_code import send_mail
 #from flask_socketio import SocketIO, emit, disconnect
 
 app = Flask(__name__)
@@ -198,7 +198,7 @@ def forgot():
 		db.commit()
 		db.close()
 
-		send_mail("Votre code de confirmation est : " + str(code), "Code de confirmation", mail)
+		# send_mail("Votre code de confirmation est : " + str(code), "Code de confirmation", mail)
 
 		return {"status" : "Code de confirmation envoyé avec succès"}, 200
 	
