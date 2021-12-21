@@ -7,6 +7,13 @@
 ## Descriptions 
 BJJ-Library est une application Mobile Android pour visionner des vidéos d'art martiaux.
 
+[![forthebadge](https://forthebadge.com/images/badges/built-by-developers.svg)](https://forthebadge.com)
+
+[![forthebadge](https://forthebadge.com/images/badges/its-not-a-lie-if-you-believe-it.svg)](https://forthebadge.com)
+
+[![forthebadge](https://forthebadge.com/images/badges/makes-people-smile.svg)](https://forthebadge.com)
+
+[![forthebadge](https://forthebadge.com/images/badges/open-source.svg)](https://forthebadge.com)
 
  ## Contributeurs
 ![Image des contributeurs GitHub](https://contrib.rocks/image?repo=iTeam-S/BJJ-Library)
