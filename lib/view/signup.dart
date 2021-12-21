@@ -1,10 +1,7 @@
-import 'dart:async';
 import 'package:bjj_library/controller/users.dart';
 import 'package:bjj_library/service/api.dart';
-import 'package:bjj_library/model/users.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:rounded_loading_button/rounded_loading_button.dart';
 import 'package:get/get.dart';
 
 class SignScreen extends StatefulWidget {
@@ -14,75 +11,6 @@ class SignScreen extends StatefulWidget {
 
 class _SignScreenState extends State<SignScreen> {
 
-
-  final RoundedLoadingButtonController _btnController =
-      RoundedLoadingButtonController();
-
-  void _doSomething(RoundedLoadingButtonController controller) async {
-    try {
-      // if (userController.valid) {
-      //   List rep = await apiController.login(
-      //       userController.email, userController.password);
-      //   if (rep[0]) {
-      //     userController.user = User(
-      //         email: userController.email,
-      //         admin: rep[1]['admin'] == 1 ? true : false,
-      //         id: rep[1]['id'],
-      //         token: rep[1]['token']);
-      //     Map usrTmp = {
-      //       'email': userController.email,
-      //       'admin': rep[1]['admin'] == 1 ? true : false,
-      //       'id': rep[1]['id'],
-      //       'token': rep[1]['token']
-      //     };
-      //     box.write('user', usrTmp);
-      //     box.save();
-
-      //     Timer(Duration(seconds: 1), () {
-      //       Get.offNamed('/home');
-      //     });
-      //     controller.success();
-      //     return;
-      //   } else {
-      //     Get.snackbar(
-      //       "Erreur",
-      //       "${rep[1]}",
-      //       colorText: Colors.white,
-      //       backgroundColor: Colors.red,
-      //       snackPosition: SnackPosition.BOTTOM,
-      //       borderColor: Colors.red,
-      //       borderRadius: 10,
-      //       borderWidth: 2,
-      //       barBlur: 0,
-      //       duration: Duration(seconds: 2),
-      //     );
-      //     controller.reset();
-      //     return;
-      //   }
-      // }
-    } catch (e) {
-      print(e);
-      Get.snackbar(
-        "Erreur",
-        "Verifier votre réseau",
-        colorText: Colors.white,
-        backgroundColor: Colors.red,
-        snackPosition: SnackPosition.BOTTOM,
-        borderColor: Colors.red,
-        borderRadius: 10,
-        borderWidth: 2,
-        barBlur: 0,
-        duration: Duration(seconds: 2),
-      );
-      controller.reset();
-      return;
-    }
-    Timer(Duration(seconds: 2), () {
-      //
-      controller.reset();
-    });
-    controller.error();
-  }
 
   // Instance ana controlleur
   UserController userController = Get.put(UserController());

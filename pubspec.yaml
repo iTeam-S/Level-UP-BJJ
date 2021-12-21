@@ -43,6 +43,8 @@ dependencies:
   video_player: ^2.1.12
   pull_to_refresh: ^2.0.0
   web_socket_channel: ^2.1.0
+  http: ^0.13.3
+  http_auth: ^1.0.1
 
 dev_dependencies:
   flutter_test:

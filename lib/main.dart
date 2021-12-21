@@ -1,6 +1,5 @@
 import 'package:bjj_library/service/api.dart';
 import 'package:bjj_library/controller/users.dart';
-import 'package:bjj_library/model/users.dart';
 import 'package:bjj_library/view/confirm_pass.dart';
 import 'package:bjj_library/view/play_video.dart';
 import 'package:bjj_library/view/reinitialize_pass.dart';
