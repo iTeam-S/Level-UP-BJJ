@@ -24,16 +24,11 @@ dependencies:
   flutter:
     sdk: flutter
   
-  shimmer: ^2.0.0
-
-  bottom_bar_with_sheet: ^2.0.0
-
-
+ 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   get: ^4.1.4
-  get_storage:
   progress_state_button: ^1.0.3
   rounded_loading_button: ^2.0.5
   file_picker: ^3.0.3
@@ -45,6 +40,11 @@ dependencies:
   web_socket_channel: ^2.1.0
   http: ^0.13.3
   http_auth: ^1.0.1
+  flutter_dotenv: ^5.0.2
+  webview_flutter: ^2.0.12
+  shimmer: ^2.0.0
+  bottom_bar_with_sheet: ^2.0.0
+  get_storage: ^2.0.3
 
 dev_dependencies:
   flutter_test:
@@ -111,4 +111,5 @@ flutter:
     - assets/images/stripe.jpg
     - assets/images/paypal.jpg
     - assets/images/visa.jpg
+    - .env
 

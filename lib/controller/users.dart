@@ -5,7 +5,7 @@ import 'package:get/get_state_manager/get_state_manager.dart';
 
 class UserController extends GetxController {
   final GlobalKey<FormState> loginFormkey = GlobalKey<FormState>();
-  late TextEditingController emailController, passwordController;
+  late TextEditingController emailController, passwordController, emailAccountController;
   String email = '';
   String password = '';
   bool valid = false;
@@ -16,6 +16,7 @@ class UserController extends GetxController {
     super.onInit();
     emailController = TextEditingController();
     passwordController = TextEditingController();
+    emailAccountController = TextEditingController();
   }
 
   String? checkEmail(String value) {

@@ -1,5 +1,5 @@
 import 'package:bjj_library/controller/users.dart';
-import 'package:bjj_library/service/api.dart';
+import 'package:bjj_library/view/payement.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:get/get.dart';
@@ -14,7 +14,6 @@ class _SignScreenState extends State<SignScreen> {
 
   // Instance ana controlleur
   UserController userController = Get.put(UserController());
-  ApiController apiController = Get.put(ApiController());
   final box = GetStorage();
   @override
   Widget build(BuildContext context) {
@@ -83,126 +82,168 @@ class _SignScreenState extends State<SignScreen> {
                                   elevation: 0.0,
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(13)),
-                                  child: Form(
-                                      child: Column(
-                                        children: [
-                                          Container(
-                                            height: MediaQuery.of(context)
+                                  child: Column(
+                                    children: [
+                                      Container(
+                                        height: MediaQuery.of(context)
+                                                .size
+                                                .height *
+                                            0.08,
+                                        margin: EdgeInsets.symmetric(
+                                            horizontal:
+                                                MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.06,
+                                            vertical: MediaQuery.of(context)
                                                     .size
                                                     .height *
-                                                0.08,
-                                            margin: EdgeInsets.symmetric(
-                                                horizontal:
-                                                    MediaQuery.of(context)
-                                                            .size
-                                                            .width *
-                                                        0.06,
-                                                vertical: MediaQuery.of(context)
-                                                        .size
-                                                        .height *
-                                                    0.0113),
-                                            child: TextFormField(
-                                              controller: userController
-                                                  .emailController,
-                                              onSaved: (value) {
-                                                userController.email = value!;
-                                              },
-                                              validator: (value) {
-                                                return userController
-                                                    .checkEmail(value!);
-                                              },
-                                              style: TextStyle(
-                                                  fontSize: 13,
-                                                  color: Colors.grey[800]),
-                                              decoration: InputDecoration(
-                                                filled: true,
-                                                fillColor: Colors.blue[50],
-                                                floatingLabelBehavior:
-                                                    FloatingLabelBehavior.auto,
-                                                border: OutlineInputBorder(
+                                                0.0113),
+                                        child: TextFormField(
+                                          controller: userController
+                                              .emailAccountController,
+                                          style: TextStyle(
+                                              fontSize: 13,
+                                              color: Colors.grey[800]),
+                                          decoration: InputDecoration(
+                                            filled: true,
+                                            fillColor: Colors.blue[50],
+                                            floatingLabelBehavior:
+                                                FloatingLabelBehavior.auto,
+                                            border: OutlineInputBorder(
+                                                borderRadius:
+                                                    BorderRadius.all(
+                                                        Radius.circular(
+                                                            90.0)),
+                                                borderSide:
+                                                    BorderSide.none),
+                                            focusedBorder:
+                                                OutlineInputBorder(
                                                     borderRadius:
                                                         BorderRadius.all(
                                                             Radius.circular(
                                                                 90.0)),
                                                     borderSide:
                                                         BorderSide.none),
-                                                focusedBorder:
-                                                    OutlineInputBorder(
-                                                        borderRadius:
-                                                            BorderRadius.all(
-                                                                Radius.circular(
-                                                                    90.0)),
-                                                        borderSide:
-                                                            BorderSide.none),
-                                                hintText: "Email",
-                                                prefixIcon: Icon(Icons.mail,
-                                                    color:
-                                                        Colors.lightBlue[800]),
+                                            hintText: "Email",
+                                            prefixIcon: Icon(Icons.mail,
+                                                color:
+                                                    Colors.lightBlue[800]),
+                                          ),
+                                        ),
+                                      ),
+                                      Container(
+                                        margin: EdgeInsets.symmetric(
+                                            horizontal:
+                                                MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.06,
+                                            vertical: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
+                                                0.01),
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            InkWell(
+                                              onTap: () {
+                                                if (userController.checkEmail(userController.emailAccountController.text) != null)
+                                                Get.snackbar(
+                                                  "Erreur",
+                                                  "L'adresse mail doit être remplis et correcte.",
+                                                  colorText: Colors.white,
+                                                  backgroundColor: Colors.red,
+                                                  snackPosition: SnackPosition.BOTTOM,
+                                                  borderColor: Colors.red,
+                                                  borderRadius: 10,
+                                                  borderWidth: 2,
+                                                  barBlur: 0,
+                                                  duration: Duration(seconds: 2),
+                                                );
+                                                else
+                                                Get.defaultDialog(
+                                                    title: "Confirmation",
+                                                    middleText: "Le mail est correcte:  ${userController.emailAccountController.text}",
+                                                    backgroundColor:  Colors.white,
+                                                    titleStyle: TextStyle(color: Colors.lightBlue[800]),
+                                                    middleTextStyle: TextStyle(color: Colors.black),
+                                                    cancel: TextButton(onPressed: (){Get.back();}, child: Text('Annuler')),
+                                                    confirm: TextButton(
+                                                      onPressed: (){
+                                                        Get.to( 
+                                                          () => PaypalPayment(
+                                                            onFinish: (number) async {
+                                                              // payment done
+                                                              print('PAYEMENT_SUCCESS');
+                                                              print('order id: ' + number);
+                                                            }
+                                                          )                     
+                                                        );
+                                                      },
+                                                      child: Text('Valider'))
+                                                  );
+
+                                              },
+                                              child: Container(
+                                                margin: EdgeInsets.only(
+                                                    top: MediaQuery.of(context).size.height * 0.00),
+                                                height: MediaQuery.of(context).size.height * 0.06,
+                                                child: Image.asset('assets/images/paypal.jpg'),
                                               ),
                                             ),
-                                          ),
-                                          Container(
-                                            margin: EdgeInsets.symmetric(
-                                                horizontal:
-                                                    MediaQuery.of(context)
-                                                            .size
-                                                            .width *
-                                                        0.06,
-                                                vertical: MediaQuery.of(context)
+                                            InkWell(
+                                              onTap: () {
+                                                  Get.defaultDialog(
+                                                    title: "Bientôt",
+                                                    middleText: "Pas encore disponible!",
+                                                    backgroundColor: Colors.lightBlue[700],
+                                                    titleStyle: TextStyle(color: Colors.white),
+                                                    middleTextStyle: TextStyle(color: Colors.white)
+                                                  );
+                                              },
+                                              child: Container(
+                                                margin: EdgeInsets.only(
+                                                    top: MediaQuery.of(context).size.height * 0.00),
+                                                height: MediaQuery.of(context).size.height * 0.10,
+                                                child: Image.asset('assets/images/stripe.jpg'),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      Container(
+                                        margin: EdgeInsets.symmetric(
+                                            horizontal:
+                                                MediaQuery.of(context)
                                                         .size
-                                                        .height *
-                                                    0.01),
-                                            child: Row(
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              children: [
-                                                InkWell(
-                                                  onTap: () {
-                                                  },
-                                                  child: Container(
-                                                    margin: EdgeInsets.only(
-                                                        top: MediaQuery.of(context).size.height * 0.00),
-                                                    height: MediaQuery.of(context).size.height * 0.06,
-                                                    child: Image.asset('assets/images/paypal.jpg'),
-                                                  ),
-                                                ),
-                                                InkWell(
-                                                  onTap: () {
-                                                  },
-                                                  child: Container(
-                                                    margin: EdgeInsets.only(
-                                                        top: MediaQuery.of(context).size.height * 0.00),
-                                                    height: MediaQuery.of(context).size.height * 0.10,
-                                                    child: Image.asset('assets/images/stripe.jpg'),
-                                                  ),
-                                                ),
-                                              ],
+                                                        .width *
+                                                    0.06,
+                                            vertical: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
+                                                0.01),
+                                        child: 
+                                          InkWell(
+                                            onTap: () {
+                                                Get.defaultDialog(
+                                                  title: "Bientôt",
+                                                  middleText: "Pas encore disponible!",
+                                                  backgroundColor: Colors.lightBlue[700],
+                                                  titleStyle: TextStyle(color: Colors.white),
+                                                  middleTextStyle: TextStyle(color: Colors.white)
+                                                );
+                                            },
+                                            child: Container(
+                                              margin: EdgeInsets.only(
+                                                  top: MediaQuery.of(context).size.height * 0.00),
+                                              height: MediaQuery.of(context).size.height * 0.06,
+                                              child: Image.asset('assets/images/visa.jpg'),
                                             ),
                                           ),
-                                          Container(
-                                            margin: EdgeInsets.symmetric(
-                                                horizontal:
-                                                    MediaQuery.of(context)
-                                                            .size
-                                                            .width *
-                                                        0.06,
-                                                vertical: MediaQuery.of(context)
-                                                        .size
-                                                        .height *
-                                                    0.01),
-                                            child: 
-                                              InkWell(
-                                                onTap: () {
-                                                },
-                                                child: Container(
-                                                  margin: EdgeInsets.only(
-                                                      top: MediaQuery.of(context).size.height * 0.00),
-                                                  height: MediaQuery.of(context).size.height * 0.06,
-                                                  child: Image.asset('assets/images/visa.jpg'),
-                                                ),
-                                              ),
-                                          ),
-                                        ],
-                                      )))),
+                                      ),
+                                    ],
+                                  ))),
                         ]))
               ],
             ),

@@ -2,14 +2,15 @@ import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert' as convert;
 import 'package:http_auth/http_auth.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class PaypalServices {
   String domain = "https://api.sandbox.paypal.com"; // for sandbox mode
-//  String domain = "https://api.paypal.com"; // for production mode
+  //  String domain = "https://api.paypal.com"; // for production mode
 
   // change clientId and secret with your own, provided by paypal
-  String clientId = '';
-  String secret = '';
+  String clientId = dotenv.env['PAYPAL_CLIENT_ID']!;
+  String secret = dotenv.env['PAYPAL_SECRET']!; 
 
   // for getting the access token from Paypal
   Future<String> getAccessToken() async {
@@ -39,6 +40,7 @@ class PaypalServices {
           });
 
       final body = convert.jsonDecode(response.body);
+      print(body);
       if (response.statusCode == 201) {
         if (body["links"] != null && body["links"].length > 0) {
           List links = body["links"];
@@ -69,7 +71,8 @@ class PaypalServices {
   // for executing the payment transaction
   Future<String> executePayment(url, payerId, accessToken) async {
     try {
-      var response = await http.post(url,
+      print(url);
+      var response = await http.post(Uri.parse(url),
           body: convert.jsonEncode({"payer_id": payerId}),
           headers: {
             "content-type": "application/json",

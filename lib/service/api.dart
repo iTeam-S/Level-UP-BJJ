@@ -1,16 +1,16 @@
 import 'dart:async';
-
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:bjj_library/controller/data.dart';
 import 'package:dio/dio.dart' as dio;
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 
-const String BaseUrl = "iteam-s.mg:4444";
-const String BaseUrlProtocol = 'http://' + BaseUrl;
+String baseUrl = dotenv.env['API_URL']!; 
+String baseUrlProtocol = 'http://' + baseUrl;
 
 class ApiController extends GetxController {
   var client = dio.Dio(dio.BaseOptions(
-      baseUrl: "$BaseUrlProtocol",
+      baseUrl: "$baseUrlProtocol",
       sendTimeout: 300000,
       receiveTimeout: 30000,
       connectTimeout: 30000));

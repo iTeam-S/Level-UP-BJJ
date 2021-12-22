@@ -99,8 +99,8 @@ void modifModule(context) {
                   child: IconButton(
                     onPressed: () {
                       Navigator.pop(context);
-                      if (appController.choixModule == 'Tous')
-                        return Get.snackbar(
+                      if (appController.choixModule == 'Tous') { 
+                        Get.snackbar(
                           "Erreur",
                           "Choisir un module",
                           colorText: Colors.white,
@@ -112,6 +112,7 @@ void modifModule(context) {
                           barBlur: 0,
                           duration: Duration(seconds: 2),
                         );
+                        return ;}
 
                       showDialog(
                         context: context,
@@ -196,8 +197,8 @@ void modifModule(context) {
                   successColor: Colors.blue,
                   controller: _btnController,
                   onPressed: () {
-                    if (appController.newNomModule.text.trim() == '')
-                      return Get.snackbar(
+                    if (appController.newNomModule.text.trim() == '') { 
+                        Get.snackbar(
                         "Erreur",
                         "Entrer un nom valide.",
                         colorText: Colors.white,
@@ -208,7 +209,8 @@ void modifModule(context) {
                         borderWidth: 2,
                         barBlur: 0,
                         duration: Duration(seconds: 2),
-                      );
+                      ); 
+                    return ;}
                     //_doSomething(_btnController);
                     void modifModule() async {
                       bool res = await appController.modifModule(
@@ -298,7 +300,7 @@ Container videoTabModule(context) {
                                       child: ClipRRect(
                                         borderRadius: BorderRadius.circular(2),
                                         child: Image.network(
-                                            "$BaseUrlProtocol/api/v1/get_image/${video.image}?token=${userController.user.token}",
+                                            "$baseUrlProtocol/api/v1/get_image/${video.image}?token=${userController.user.token}",
                                             fit: BoxFit.cover),
                                       )),
                                 ),
@@ -569,7 +571,7 @@ Container videoAllModule(context, data) {
                                             fit: BoxFit.cover,
                                           )
                                         : Image.network(
-                                            "$BaseUrlProtocol/api/v2/get_cover/${module.cover}?token=${userController.user.token}",
+                                            "$baseUrlProtocol/api/v2/get_cover/${module.cover}?token=${userController.user.token}",
                                             fit: BoxFit.cover),
                                   )),
                             ),

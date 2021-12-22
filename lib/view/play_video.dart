@@ -54,26 +54,26 @@ class _VideoScreenState extends State<VideoScreen> {
 
   Future<void> initializePlayer() async {
     _videoPlayerController = VideoPlayerController.network(
-        "$BaseUrlProtocol/api/v1/get_video/${currentVideoController.video!.nom}?token=${userController.user.token}");
+        "$baseUrlProtocol/api/v1/get_video/${currentVideoController.video!.nom}?token=${userController.user.token}");
 
     _videoPlayerController.addListener(() {
-      if (_videoPlayerController.value.duration ==
-          _videoPlayerController.value.position) {
-        //Debut algorithme.
-        bool efaIzy = false;
+    if (_videoPlayerController.value.duration ==
+      _videoPlayerController.value.position) {
+      //Debut algorithme.
+      bool efaIzy = false;
 
-        for (Module module in modules)
-          if (module.nom != 'Tous')
-            for (Video vid in module.videos) {
-              if (efaIzy && !efaVita) {
-                Timer(Duration(seconds: 1), () {
-                  currentVideoController.video = vid;
-                  Get.offNamed('/video', preventDuplicates: false);
-                });
-                efaVita = true;
-                return;
-              }
-              if (currentVideoController.video!.id == vid.id) efaIzy = true;
+      for (Module module in modules)
+        if (module.nom != 'Tous')
+          for (Video vid in module.videos) {
+            if (efaIzy && !efaVita) {
+              Timer(Duration(seconds: 1), () {
+                currentVideoController.video = vid;
+                Get.offNamed('/video', preventDuplicates: false);
+              });
+              efaVita = true;
+              return;
+            }
+            if (currentVideoController.video!.id == vid.id) efaIzy = true;
             }
       }
     });
