@@ -23,10 +23,10 @@ class PaypalPaymentState extends State<PaypalPayment> {
 
   // you can change default currency according to your need
   Map<dynamic, dynamic> defaultCurrency = {
-    "symbol": "USD ",
+    "symbol": "EUR ",
     "decimalDigits": 2,
     "symbolBeforeTheNumber": true,
-    "currency": "USD"
+    "currency": "EUR"
   };
 
   bool isEnableShipping = false;
@@ -163,8 +163,8 @@ class PaypalPaymentState extends State<PaypalPayment> {
                     .then((id) {
                   widget.onFinish(id);
                   Navigator.of(context).pop();
+                  // ATO MANOMBOKA NY TRAITEMENT APRES PAYEMENT
                 });
-                print('Haahhaha, akato va?');
               } else {
                 Navigator.of(context).pop();
               }
