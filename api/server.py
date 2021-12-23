@@ -1,7 +1,7 @@
 import os
 from flask import Flask , request, jsonify, render_template, send_from_directory
 from flask_cors import CORS
-from conf import database
+from conf import database, TOKEN_PAYEMENT
 import mysql.connector, time
 from datetime import datetime, timedelta
 import jwt
@@ -771,6 +771,32 @@ def check_mail():
 	db.close()
 	return jsonify({'data': verif}), 200
 
+
+@webserver.route('/api/v1/create_account', methods=['POST'])
+def create_account():
+	"""
+		DESC : Fonction permettant de créer un compte'
+	"""
+	data = request.get_json()
+	
+	mail = data.get("mail")
+	
+	if data.get("token") != TOKEN_PAYEMENT:
+		return {"status" : "Erreur Token"}, 403
+
+	db = mysql.connector.connect(**database())
+	cursor = db.cursor()
+
+	cursor.execute("""
+		INSERT INTO Utilisateur(mail) VALUES(%s)
+	""",(mail,)
+	)
+	user_id = cursor.lastrowid
+
+	db.commit()
+	db.close()
+
+	return jsonify({'status': 'Création de compte avec succès', 'data': user_id}), 201
 
 
 

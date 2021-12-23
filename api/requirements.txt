@@ -1,5 +1,4 @@
 Flask >= 2.0.1
-jwt == 1.2.0
 PyJWT
 mysql_connector >= 2.2.9
 opencv-python

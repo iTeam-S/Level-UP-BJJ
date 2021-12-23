@@ -3,6 +3,8 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+TOKEN_PAYEMENT = env.get('TOKEN_PAYEMENT')
+
 def database(**kwargs):
      return {
           'host' : "iteam-s.mg",
