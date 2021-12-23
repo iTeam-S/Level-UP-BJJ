@@ -4,3 +4,4 @@ PyJWT
 mysql_connector >= 2.2.9
 opencv-python
 flask-cors
+python-dotenv

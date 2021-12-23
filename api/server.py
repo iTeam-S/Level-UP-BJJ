@@ -12,8 +12,8 @@ from random import randrange
 # from send_code import send_mail
 #from flask_socketio import SocketIO, emit, disconnect
 
-app = Flask(__name__)
-CORS(app)
+webserver = Flask(__name__)
+CORS(webserver)
 #socket_ = SocketIO(app, async_mode=None)
 
 
@@ -80,7 +80,7 @@ def extract(video_name):
 	cv2.destroyAllWindows()
 
 
-app.config['MAX_CONTENT_LENGTH'] = 1000 * 1024 * 1024
+webserver.config['MAX_CONTENT_LENGTH'] = 1000 * 1024 * 1024
 
 path = os.getcwd()
 
@@ -91,9 +91,9 @@ UPLOAD_FOLDER = os.path.join(path, 'data/videos')
 
 COVER_FOLDER = os.path.join(path, 'data/covers')
 
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+webserver.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-app.config['COVER_FOLDER'] = COVER_FOLDER
+webserver.config['COVER_FOLDER'] = COVER_FOLDER
 
 ALLOWED_EXTENSIONS_VIDEOS = set(['mp4', 'mkv', 'avi', 'webm'])
 
@@ -107,40 +107,13 @@ def allowed_file_video(filename):
 def allowed_file_image(filename):
 	return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS_IMAGES
 
-'''
-@socket_.on('my_event', namespace='/test')
-def test_message(message):
-    session['receive_count'] = session.get('receive_count', 0) + 1
-    emit('my_response',
-         {'data': message['data'], 'count': session['receive_count']})
 
-
-@socket_.on('my_broadcast_event', namespace='/test')
-def test_broadcast_message(message):
-    session['receive_count'] = session.get('receive_count', 0) + 1
-    emit('my_response',
-         {'data': message['data'], 'count': session['receive_count']},
-         broadcast=True)
-
-
-@socket_.on('disconnect_request', namespace='/test')
-def disconnect_request():
-    @copy_current_request_context
-    def can_disconnect():
-        disconnect()
-
-    session['receive_count'] = session.get('receive_count', 0) + 1
-    emit('my_response',
-         {'data': 'Disconnected!', 'count': session['receive_count']},
-         callback=can_disconnect)
-'''
-
-@app.route('/')
+@webserver.route('/')
 def upload_form():
 	return render_template('upload.html')
 
 
-@app.route("/api/v1/login/", methods=['POST'])
+@webserver.route("/api/v1/login/", methods=['POST'])
 def login():
 	"""
 		DESC : Fonction permettant l'authentification d'un utilisateur
@@ -171,7 +144,7 @@ def login():
 		return jsonify({'status': 'Adresse email ou mot de passe incorrect',}), 403
 
 
-@app.route("/api/v1/forgot_password/", methods=['POST'])
+@webserver.route("/api/v1/forgot_password/", methods=['POST'])
 def forgot():
 	"""
 		DESC : Fonction permettant de signaler un mot de passe oublié
@@ -207,7 +180,7 @@ def forgot():
 		return jsonify({'status': "Cette adresse email n'est pas associée à un compte",}), 400
 
 
-@app.route("/api/v1/code_confirmation/", methods=['POST'])
+@webserver.route("/api/v1/code_confirmation/", methods=['POST'])
 def confirmation():
 	"""
 		DESC : Fonction permettant vérifier le code de confirmation
@@ -242,7 +215,7 @@ def confirmation():
 		return jsonify({'status': 'Code de confirmation non reconnu',}), 400
 	
 	
-@app.route("/api/v1/get_all_modules/", methods=['POST'])
+@webserver.route("/api/v1/get_all_modules/", methods=['POST'])
 def get_all_modules():
 	"""
 		DESC : Fonction permettant de récuperer tous les modules
@@ -273,7 +246,7 @@ def get_all_modules():
 		return jsonify({'status': 'Bad request',}), 400
 
 
-@app.route("/api/v1/create_module/", methods=['POST'])
+@webserver.route("/api/v1/create_module/", methods=['POST'])
 def create_module():
 	"""
 		DESC : Fonction permettant de créer un module'
@@ -310,7 +283,7 @@ def create_module():
 	return jsonify({'status': 'Création de module avec succès',}), 201
 
 
-@app.route('/api/v2/create_module/', methods=['POST'])
+@webserver.route('/api/v2/create_module/', methods=['POST'])
 def create_module_v2():
 	"""
 		DESC : Fonction permettant de créer un module
@@ -339,7 +312,7 @@ def create_module_v2():
 	
 	if file and allowed_file_image(file.filename):
 		filename = str(time.time()) + secure_filename(file.filename)
-		file.save(os.path.join(app.config['COVER_FOLDER'], filename))
+		file.save(os.path.join(webserver.config['COVER_FOLDER'], filename))
 
 		db = mysql.connector.connect(**database())
 		cursor = db.cursor()
@@ -356,7 +329,7 @@ def create_module_v2():
 		return jsonify({'status': 'Allowed file types are jpg, png, jpeg'}), 400
 
 
-@app.route('/api/v2/get_cover/<cover>', methods=['GET'])
+@webserver.route('/api/v2/get_cover/<cover>', methods=['GET'])
 def get_cover(cover):
 	"""
 		DESC : Fonction permettant de récuperer la couverture d'un module
@@ -369,7 +342,7 @@ def get_cover(cover):
 	return send_from_directory(directory='./data/covers/', path=cover, as_attachment=True)
 
 
-@app.route("/api/v1/update_module/", methods=['POST'])
+@webserver.route("/api/v1/update_module/", methods=['POST'])
 def update_module():
 	"""
 		DESC : Fonction permettant de modifier un module'
@@ -406,7 +379,7 @@ def update_module():
 	return jsonify({'status': 'Module mis à jour avec succès'}), 204
 
 
-@app.route("/api/v1/delete_module/", methods=['DELETE'])
+@webserver.route("/api/v1/delete_module/", methods=['DELETE'])
 def delete_module():
 	"""
 		DESC : Fonction permettant de supprimer un module'
@@ -440,7 +413,7 @@ def delete_module():
 	return jsonify({'status': 'Suppression de module avec succès'}), 204
 
 
-@app.route('/api/v1/upload_video/', methods=['POST'])
+@webserver.route('/api/v1/upload_video/', methods=['POST'])
 def upload_video():
 	"""
 		DESC : Fonction permettant d'uploader un vidéo
@@ -469,7 +442,7 @@ def upload_video():
 	
 	if file and allowed_file_video(file.filename):
 		filename = str(time.time()) + secure_filename(file.filename)
-		file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+		file.save(os.path.join(webserver.config['UPLOAD_FOLDER'], filename))
 		image_name = extract("./data/videos/"+filename)
 
 		db = mysql.connector.connect(**database())
@@ -487,7 +460,7 @@ def upload_video():
 		return jsonify({'status': 'Allowed file types are mp4, mkv, avi, webm'}), 400
 	
 
-@app.route('/api/v1/get_all_videos/<int:limit>', methods=['GET'])
+@webserver.route('/api/v1/get_all_videos/<int:limit>', methods=['GET'])
 def get_all_videos(limit):
 	"""
 		DESC : Fonction permettant de récuperer tous les vidéos
@@ -513,7 +486,7 @@ def get_all_videos(limit):
 	return jsonify({"data": video_data}), 200
 
 
-@app.route('/api/v1/get_videos/', methods=['POST'])
+@webserver.route('/api/v1/get_videos/', methods=['POST'])
 def get_videos():
 	"""
 		DESC : Fonction permettant de récuperer les vidéos
@@ -589,7 +562,7 @@ def get_videos():
 	return  jsonify({'data': resultat}), 200
 
 
-@app.route("/api/v1/update_video/", methods=['POST'])
+@webserver.route("/api/v1/update_video/", methods=['POST'])
 def update_video():
 	"""
 		DESC : Fonction permettant de modifier une vidéo'
@@ -620,7 +593,7 @@ def update_video():
 	return jsonify({'status': 'Vidéo mise à jour avec succès'}), 204
 
 
-@app.route("/api/v1/delete_video/", methods=['POST'])
+@webserver.route("/api/v1/delete_video/", methods=['POST'])
 def delete_video():
 	"""
 		DESC : Fonction permettant de supprimer une vidéo'
@@ -650,7 +623,7 @@ def delete_video():
 	return jsonify({'status': 'Suppression de la vidéo avec succès'}), 204
 
 
-@app.route('/api/v1/get_image/<image>', methods=['GET'])
+@webserver.route('/api/v1/get_image/<image>', methods=['GET'])
 def get_image(image):
 	"""
 		DESC : Fonction permettant de récuperer l'image d'une vidéo
@@ -663,7 +636,7 @@ def get_image(image):
 	return send_from_directory(directory='./data/images/', path=image, as_attachment=True)
 
 
-@app.route('/api/v1/get_video/<video>', methods=['GET'])
+@webserver.route('/api/v1/get_video/<video>', methods=['GET'])
 def get_video(video):
 	"""
 		DESC : Fonction permettant de récuperer la video d'une vidéo
@@ -676,7 +649,7 @@ def get_video(video):
 	return send_from_directory(directory='./data/videos/', path=video, as_attachment=True)
 
 
-@app.route('/api/v1/comment/', methods=['POST'])
+@webserver.route('/api/v1/comment/', methods=['POST'])
 def comment():
 	# Recuperation des données envoyés
 	data = request.get_json()
@@ -706,7 +679,7 @@ def comment():
 	return {"status" : "Commentaire enregistree"}, 201
 
 
-@app.route('/api/v1/get_notifications/', methods=['POST'])
+@webserver.route('/api/v1/get_notifications/', methods=['POST'])
 def get_notifs():
 	def struct_notifs(coms):
 		return {
@@ -746,7 +719,7 @@ def get_notifs():
 	return  jsonify({'data': result}), 200
 
 
-@app.route('/api/v1/notif_view/', methods=['POST'])
+@webserver.route('/api/v1/notif_view/', methods=['POST'])
 def notif_view():
 	"""
 		DESC : Fonction permettant de mettre a jour notif commentaire'
@@ -776,5 +749,30 @@ def notif_view():
 	return jsonify({'status': 'Suppression de la vidéo avec succès'}), 204
 
 
+@webserver.route('/api/v1/check_mail', methods=['POST'])
+def check_mail():
+	"""
+		DESC : Fonction permettant de vérifier la presence du mail dans la base'
+	"""
+	data = request.get_json()
+	if not data:
+		return jsonify({'status': 'Aucune donnée envoyé'}), 400
+	mail = data.get("mail", '')
+
+	db = mysql.connector.connect(**database())
+	cursor = db.cursor()
+	
+	cursor.execute("""
+		SELECT COUNT(*) FROM Utilisateur WHERE mail = %s
+	""",(mail,)
+	)
+	verif = cursor.fetchone()[0]
+	db.commit()
+	db.close()
+	return jsonify({'data': verif}), 200
+
+
+
+
 if __name__=="__main__":
-	app.run(host=os.getenv('IP', '0.0.0.0'), port=int(os.getenv('PORT', 4444)))
+	webserver.run(host=os.getenv('IP', '0.0.0.0'), port=int(os.getenv('PORT', 4444)))
