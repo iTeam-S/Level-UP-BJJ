@@ -272,4 +272,26 @@ class ApiController extends GetxController {
       return [false, "..."];
     }
   }
+
+  Future<List> checkmail(String mail) async {
+    try {
+      var response = await client.post(
+        "/api/v1/check_mail",
+        data: {
+          "mail": mail,
+        },
+      );
+      return [true, response.data];
+    } on dio.DioError catch (err) {
+      if (err.response!.statusCode == 403) {
+        return [false, err.response!.data['status']];
+      } else {
+        return [false, err.response!.data['status']];
+      }
+    } catch (e) {
+      print("--: $e");
+      return [false, "..."];
+    }
+  }
+
 }

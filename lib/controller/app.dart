@@ -516,4 +516,43 @@ class AppController extends GetxController {
       return false;
     }
   }
+
+   Future<bool> checkMail(String mail) async {
+    try {
+      var res = await apiController.checkmail(mail);
+      if (res[0]) {
+        return res[1]['data'] == 0;
+      } else {
+        print(res[1]);
+        Get.snackbar(
+          "Erreur",
+          "${res[1]}",
+          colorText: Colors.white,
+          backgroundColor: Colors.red,
+          snackPosition: SnackPosition.BOTTOM,
+          borderColor: Colors.red,
+          borderRadius: 10,
+          borderWidth: 2,
+          barBlur: 0,
+          duration: Duration(seconds: 2),
+        );
+        return false;
+      }
+    } catch (err) {
+      print(err);
+      Get.snackbar(
+        "Erreur",
+        "Une erreur s'est produite",
+        colorText: Colors.white,
+        backgroundColor: Colors.red,
+        snackPosition: SnackPosition.BOTTOM,
+        borderColor: Colors.red,
+        borderRadius: 10,
+        borderWidth: 2,
+        barBlur: 0,
+        duration: Duration(seconds: 2),
+      );
+      return false;
+    }
+  }
 }

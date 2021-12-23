@@ -1,5 +1,6 @@
 import 'package:bjj_library/controller/users.dart';
 import 'package:bjj_library/view/payement.dart';
+import 'package:bjj_library/view/screen/video_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:get/get.dart';
@@ -163,23 +164,56 @@ class _SignScreenState extends State<SignScreen> {
                                                 );
                                                 else
                                                 Get.defaultDialog(
-                                                    title: "Confirmation",
-                                                    middleText: "Le mail est correcte:  ${userController.emailAccountController.text}",
+                                                    title: "Confirmation mail",
+                                                    middleText:  "${userController.emailAccountController.text}",
                                                     backgroundColor:  Colors.white,
                                                     titleStyle: TextStyle(color: Colors.lightBlue[800]),
                                                     middleTextStyle: TextStyle(color: Colors.black),
                                                     cancel: TextButton(onPressed: (){Get.back();}, child: Text('Annuler')),
                                                     confirm: TextButton(
                                                       onPressed: (){
-                                                        Get.to( 
-                                                          () => PaypalPayment(
-                                                            onFinish: (number) async {
-                                                              // payment done
-                                                              print('PAYEMENT_SUCCESS');
-                                                              print('order id: ' + number);
-                                                            }
-                                                          )                     
+                                                        void  makePayement(){
+                                                          Get.to( 
+                                                            () => PaypalPayment(
+                                                              onFinish: (number) async {
+                                                                // payment done
+                                                                print('PAYEMENT_SUCCESS');
+                                                                print('order id: ' + number);
+                                                              }
+                                                            )                     
+                                                          );
+                                                        }
+                                                        void verifMail() async {
+                                                            var res = await appController.checkMail(userController.emailAccountController.text);
+                                                            Get.back();
+                                                            if (res == true)
+                                                              makePayement();
+                                                            else
+                                                              Get.snackbar(
+                                                                "Erreur",
+                                                                "L'adresse mail est déjà utilisé.",
+                                                                colorText: Colors.white,
+                                                                backgroundColor: Colors.red,
+                                                                snackPosition: SnackPosition.BOTTOM,
+                                                                borderColor: Colors.red,
+                                                                borderRadius: 10,
+                                                                borderWidth: 2,
+                                                                barBlur: 0,
+                                                                duration: Duration(seconds: 2),
+                                                              );
+                                                        }
+                                                        Get.bottomSheet(
+                                                          Container(
+                                                            margin: EdgeInsets.symmetric(
+                                                              vertical: Get.height * 0.025,
+                                                              horizontal: Get.width * 0.06,
+                                                            ),
+                                                            child: LinearProgressIndicator(
+                                                              backgroundColor: Colors.grey,
+                                                            )
+                                                          )
                                                         );
+                                                        verifMail();
                                                       },
                                                       child: Text('Valider'))
                                                   );
@@ -212,7 +246,7 @@ class _SignScreenState extends State<SignScreen> {
                                           ],
                                         ),
                                       ),
-                                      Container(
+                                      /*Container(
                                         margin: EdgeInsets.symmetric(
                                             horizontal:
                                                 MediaQuery.of(context)
@@ -241,7 +275,7 @@ class _SignScreenState extends State<SignScreen> {
                                               child: Image.asset('assets/images/visa.jpg'),
                                             ),
                                           ),
-                                      ),
+                                      ),*/
                                     ],
                                   ))),
                         ]))
