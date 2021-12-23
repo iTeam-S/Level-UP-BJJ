@@ -796,7 +796,13 @@ def create_account():
 	db.commit()
 	db.close()
 
-	return jsonify({'status': 'Création de compte avec succès', 'data': user_id}), 201
+	return jsonify(
+		{ 
+			'status': 'Création de compte avec succès',
+			'user_id': user_id,
+			'token': encode_auth_token(user_id)
+		}
+	), 201
 
 
 
