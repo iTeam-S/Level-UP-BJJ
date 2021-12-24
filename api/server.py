@@ -780,21 +780,31 @@ def create_account():
 	data = request.get_json()
 	
 	mail = data.get("mail")
+	payement_id = data.get("payement_id")
 	
 	if data.get("token") != TOKEN_PAYEMENT:
 		return {"status" : "Erreur Token"}, 403
 
 	db = mysql.connector.connect(**database())
 	cursor = db.cursor()
+	try:
+		cursor.execute("""
+			INSERT INTO Utilisateur(mail, exp) VALUES(%s, NOW() + INTERVAL 1 MONTH)
+		""",(mail,)
+		)
+		user_id = cursor.lastrowid
 
-	cursor.execute("""
-		INSERT INTO Utilisateur(mail) VALUES(%s)
-	""",(mail,)
-	)
-	user_id = cursor.lastrowid
+		cursor.execute("""
+			INSERT INTO Payement(order_id, id_user, motif) VALUES (%s, %s, %s)
+		""", (payement_id, user_id, 'INSCRIPTION'))
 
-	db.commit()
-	db.close()
+		db.commit()
+		db.close()
+	except Exception as err:
+		print(err)
+		db.rollback()
+		db.close()
+		return {"status" : "Erreur Interne"}, 500
 
 	return jsonify(
 		{ 
