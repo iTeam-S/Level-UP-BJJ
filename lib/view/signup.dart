@@ -150,18 +150,7 @@ class _SignScreenState extends State<SignScreen> {
                                             InkWell(
                                               onTap: () {
                                                 if (userController.checkEmail(userController.emailAccountController.text) != null)
-                                                Get.snackbar(
-                                                  "Erreur",
-                                                  "L'adresse mail doit être remplis et correcte.",
-                                                  colorText: Colors.white,
-                                                  backgroundColor: Colors.red,
-                                                  snackPosition: SnackPosition.BOTTOM,
-                                                  borderColor: Colors.red,
-                                                  borderRadius: 10,
-                                                  borderWidth: 2,
-                                                  barBlur: 0,
-                                                  duration: Duration(seconds: 2),
-                                                );
+                                                  appController.errorSnack("L'adresse mail doit être remplis et correcte.");
                                                 else
                                                 Get.defaultDialog(
                                                     title: "Confirmation mail",
@@ -172,36 +161,37 @@ class _SignScreenState extends State<SignScreen> {
                                                     cancel: TextButton(onPressed: (){Get.back();}, child: Text('Annuler')),
                                                     confirm: TextButton(
                                                       onPressed: (){
+                                                        
                                                         void  makePayement(){
                                                           Get.to( 
                                                             () => PaypalPayment(
-                                                              onFinish: (number) async {
-                                                                // payment done
-                                                                print('PAYEMENT_SUCCESS');
-                                                                print('order id: ' + number);
+                                                              onFinish: (payemntID) async {
+                                                                print('order id: ' + payemntID);
+                                                                var res = await appController.createAccount(userController.emailAccountController.text, payemntID);
+                                                                if (res == true){
+                                                                  // compte créee avec succes
+                                                                  // redirection vers la page de modification de mot de passe.
+                                                                }
                                                               }
-                                                            )                     
+                                                            )
                                                           );
                                                         }
+
                                                         void verifMail() async {
+                                                            // envoie de la requete de la demande.
                                                             var res = await appController.checkMail(userController.emailAccountController.text);
+                                                            // arrete le chargement lancé avant lancement du verification mail
                                                             Get.back();
+
                                                             if (res == true)
+                                                              // si mail non existant, lance la page de payement
                                                               makePayement();
                                                             else
-                                                              Get.snackbar(
-                                                                "Erreur",
-                                                                "L'adresse mail est déjà utilisé.",
-                                                                colorText: Colors.white,
-                                                                backgroundColor: Colors.red,
-                                                                snackPosition: SnackPosition.BOTTOM,
-                                                                borderColor: Colors.red,
-                                                                borderRadius: 10,
-                                                                borderWidth: 2,
-                                                                barBlur: 0,
-                                                                duration: Duration(seconds: 2),
-                                                              );
+                                                              // renvoie une alerte que mail deja existant
+                                                              appController.errorSnack("L'adresse mail est déjà utilisé.");
                                                         }
+
+                                                        // Mettre un chargement sur la partie bottom avant de lancer l'execution du verif_mail
                                                         Get.bottomSheet(
                                                           Container(
                                                             margin: EdgeInsets.symmetric(
@@ -213,6 +203,7 @@ class _SignScreenState extends State<SignScreen> {
                                                             )
                                                           )
                                                         );
+                                                        // lancement de le procedure du verification de l existance du mail
                                                         verifMail();
                                                       },
                                                       child: Text('Valider'))

@@ -10,4 +10,19 @@ class User {
       required this.email,
       required this.token,
       required this.admin});
+
+  User.fromJson(Map<String, dynamic> json): 
+    id = json['user_id'],
+    email = json['mail'],
+    token = json['token'],
+    admin = json['admin'];
+
+  Map<String, dynamic> toJson() => {
+    'user_id': id,
+    'email': email,
+    'token': token,
+    'admin': admin
+  };
+
+
 }

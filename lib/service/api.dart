@@ -294,4 +294,23 @@ class ApiController extends GetxController {
     }
   }
 
+  Future<List> createaccount(String mail, String payementId) async {
+    try {
+      var response = await client.post(
+        "/api/v1/create_account",
+        data: {
+          "mail": mail,
+          "payement_id": payementId,
+          "token": dotenv.env['TOKEN_PAYEMENT']!
+        },
+      );
+      return [true, response.data];
+    } on dio.DioError catch (err) {
+      return [false, err.response!.data['status']];
+    } catch (e) {
+      print("--: $e");
+      return [false, "..."];
+    }
+  }
+
 }

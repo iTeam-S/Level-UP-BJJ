@@ -1,8 +1,10 @@
 import 'package:bjj_library/controller/data.dart';
 import 'package:bjj_library/model/commentaire.dart';
 import 'package:bjj_library/model/module.dart';
+import 'package:bjj_library/model/users.dart';
 import 'package:bjj_library/model/video.dart';
 import 'package:bjj_library/service/api.dart';
+import 'package:bjj_library/view/screen/video_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -41,6 +43,36 @@ class AppController extends GetxController {
 
   List<Container> getmodulePageList(BuildContext context) {
     return _modulePageList;
+  }
+
+  void errorSnack(String text){
+    Get.snackbar(
+      "Erreur",
+      "$text",
+      colorText: Colors.white,
+      backgroundColor: Colors.red,
+      snackPosition: SnackPosition.BOTTOM,
+      borderColor: Colors.red,
+      borderRadius: 10,
+      borderWidth: 2,
+      barBlur: 0,
+      duration: Duration(seconds: 2),
+    );
+  }
+
+  void succesSnack(String text){
+    Get.snackbar(
+      "Succes",
+      "$text",
+      colorText: Colors.white,
+      backgroundColor: Colors.red,
+      snackPosition: SnackPosition.BOTTOM,
+      borderColor: Colors.red,
+      borderRadius: 10,
+      borderWidth: 2,
+      barBlur: 0,
+      duration: Duration(seconds: 2),
+    );
   }
 
   // int moduleInit(BuildContext context) {
@@ -126,33 +158,11 @@ class AppController extends GetxController {
         }
         update();
       } else {
-        Get.snackbar(
-          "Erreur",
-          "${res[1]}",
-          colorText: Colors.white,
-          backgroundColor: Colors.red,
-          snackPosition: SnackPosition.BOTTOM,
-          borderColor: Colors.red,
-          borderRadius: 10,
-          borderWidth: 2,
-          barBlur: 0,
-          duration: Duration(seconds: 2),
-        );
+        errorSnack("${res[1]}");
       }
     } catch (err) {
       print(err);
-      Get.snackbar(
-        "Erreur",
-        "Vérfier votre connexion Internet.",
-        colorText: Colors.white,
-        backgroundColor: Colors.red,
-        snackPosition: SnackPosition.BOTTOM,
-        borderColor: Colors.red,
-        borderRadius: 10,
-        borderWidth: 2,
-        barBlur: 0,
-        duration: Duration(seconds: 2),
-      );
+      errorSnack("Vérfier votre connexion Internet.");
     }
   }
 
@@ -177,35 +187,13 @@ class AppController extends GetxController {
         return true;
       } else {
         print(res[1]);
-        Get.snackbar(
-          "Erreur",
-          "${res[1]}",
-          colorText: Colors.white,
-          backgroundColor: Colors.red,
-          snackPosition: SnackPosition.BOTTOM,
-          borderColor: Colors.red,
-          borderRadius: 10,
-          borderWidth: 2,
-          barBlur: 0,
-          duration: Duration(seconds: 2),
-        );
+        errorSnack("${res[1]}");
         return false;
       }
     } catch (err) {
       Get.back();
       print(err);
-      Get.snackbar(
-        "Erreur",
-        "Vérfier votre connexion Internet.",
-        colorText: Colors.white,
-        backgroundColor: Colors.red,
-        snackPosition: SnackPosition.BOTTOM,
-        borderColor: Colors.red,
-        borderRadius: 10,
-        borderWidth: 2,
-        barBlur: 0,
-        duration: Duration(seconds: 2),
-      );
+      errorSnack("Vérfier votre connexion Internet.");
       return false;
     }
   }
@@ -235,35 +223,13 @@ class AppController extends GetxController {
         return true;
       } else {
         print(res[1]);
-        Get.snackbar(
-          "Erreur",
-          "${res[1]}",
-          colorText: Colors.white,
-          backgroundColor: Colors.red,
-          snackPosition: SnackPosition.BOTTOM,
-          borderColor: Colors.red,
-          borderRadius: 10,
-          borderWidth: 2,
-          barBlur: 0,
-          duration: Duration(seconds: 2),
-        );
+        errorSnack("${res[1]}");
         return false;
       }
     } catch (err) {
       print(err);
       Get.back();
-      Get.snackbar(
-        "Erreur",
-        "Vérfier votre connexion Internet.",
-        colorText: Colors.white,
-        backgroundColor: Colors.red,
-        snackPosition: SnackPosition.BOTTOM,
-        borderColor: Colors.red,
-        borderRadius: 10,
-        borderWidth: 2,
-        barBlur: 0,
-        duration: Duration(seconds: 2),
-      );
+      errorSnack("Vérfier votre connexion Internet.");
       return false;
     }
   }
@@ -275,34 +241,12 @@ class AppController extends GetxController {
         return true;
       } else {
         print(res[1]);
-        Get.snackbar(
-          "Erreur",
-          "${res[1]}",
-          colorText: Colors.white,
-          backgroundColor: Colors.red,
-          snackPosition: SnackPosition.BOTTOM,
-          borderColor: Colors.red,
-          borderRadius: 10,
-          borderWidth: 2,
-          barBlur: 0,
-          duration: Duration(seconds: 2),
-        );
+        errorSnack("${res[1]}");
         return false;
       }
     } catch (err) {
       print(err);
-      Get.snackbar(
-        "Erreur",
-        "Vérfier votre connexion Internet.",
-        colorText: Colors.white,
-        backgroundColor: Colors.red,
-        snackPosition: SnackPosition.BOTTOM,
-        borderColor: Colors.red,
-        borderRadius: 10,
-        borderWidth: 2,
-        barBlur: 0,
-        duration: Duration(seconds: 2),
-      );
+      errorSnack("Vérfier votre connexion Internet.");
       return false;
     }
   }
@@ -312,49 +256,15 @@ class AppController extends GetxController {
       var res = await apiController.deletemodule(userid, token, moduleId);
       if (res[0]) {
         trtVideos(userid, token);
-        Get.snackbar(
-          "Succes",
-          "Module supprimé",
-          colorText: Colors.green,
-          backgroundColor: Colors.white,
-          snackPosition: SnackPosition.BOTTOM,
-          borderColor: Colors.white,
-          borderRadius: 10,
-          borderWidth: 2,
-          barBlur: 0,
-          duration: Duration(seconds: 2),
-        );
+        succesSnack("Module supprimé");
         return true;
       } else {
-        print(res[1]);
-        Get.snackbar(
-          "Erreur",
-          "${res[1]}",
-          colorText: Colors.white,
-          backgroundColor: Colors.red,
-          snackPosition: SnackPosition.BOTTOM,
-          borderColor: Colors.red,
-          borderRadius: 10,
-          borderWidth: 2,
-          barBlur: 0,
-          duration: Duration(seconds: 2),
-        );
+        errorSnack("${res[1]}");
         return false;
       }
     } catch (err) {
       print(err);
-      Get.snackbar(
-        "Erreur",
-        "Vérfier votre connexion Internet.",
-        colorText: Colors.white,
-        backgroundColor: Colors.red,
-        snackPosition: SnackPosition.BOTTOM,
-        borderColor: Colors.red,
-        borderRadius: 10,
-        borderWidth: 2,
-        barBlur: 0,
-        duration: Duration(seconds: 2),
-      );
+      errorSnack("Vérfier votre connexion Internet.");
       return false;
     }
   }
@@ -367,34 +277,12 @@ class AppController extends GetxController {
         return true;
       } else {
         print(res[1]);
-        Get.snackbar(
-          "Erreur",
-          "${res[1]}",
-          colorText: Colors.white,
-          backgroundColor: Colors.red,
-          snackPosition: SnackPosition.BOTTOM,
-          borderColor: Colors.red,
-          borderRadius: 10,
-          borderWidth: 2,
-          barBlur: 0,
-          duration: Duration(seconds: 2),
-        );
+        errorSnack("${res[1]}");
         return false;
       }
     } catch (err) {
       print(err);
-      Get.snackbar(
-        "Erreur",
-        "Vérfier votre connexion Internet.",
-        colorText: Colors.white,
-        backgroundColor: Colors.red,
-        snackPosition: SnackPosition.BOTTOM,
-        borderColor: Colors.red,
-        borderRadius: 10,
-        borderWidth: 2,
-        barBlur: 0,
-        duration: Duration(seconds: 2),
-      );
+      errorSnack("Vérfier votre connexion Internet.");
       return false;
     }
   }
@@ -407,34 +295,12 @@ class AppController extends GetxController {
         return true;
       } else {
         print(res[1]);
-        Get.snackbar(
-          "Erreur",
-          "${res[1]}",
-          colorText: Colors.white,
-          backgroundColor: Colors.red,
-          snackPosition: SnackPosition.BOTTOM,
-          borderColor: Colors.red,
-          borderRadius: 10,
-          borderWidth: 2,
-          barBlur: 0,
-          duration: Duration(seconds: 2),
-        );
+        errorSnack("${res[1]}");
         return false;
       }
     } catch (err) {
       print(err);
-      Get.snackbar(
-        "Erreur",
-        "Vérfier votre connexion Internet.",
-        colorText: Colors.white,
-        backgroundColor: Colors.red,
-        snackPosition: SnackPosition.BOTTOM,
-        borderColor: Colors.red,
-        borderRadius: 10,
-        borderWidth: 2,
-        barBlur: 0,
-        duration: Duration(seconds: 2),
-      );
+      errorSnack("Vérfier votre connexion Internet.");
       return false;
     }
   }
@@ -462,18 +328,7 @@ class AppController extends GetxController {
       }
     } catch (err) {
       print(err);
-      Get.snackbar(
-        "Erreur",
-        "Vérfier votre connexion Internet.",
-        colorText: Colors.white,
-        backgroundColor: Colors.red,
-        snackPosition: SnackPosition.BOTTOM,
-        borderColor: Colors.red,
-        borderRadius: 10,
-        borderWidth: 2,
-        barBlur: 0,
-        duration: Duration(seconds: 2),
-      );
+      errorSnack("Vérfier votre connexion Internet.");
     }
   }
 
@@ -485,34 +340,12 @@ class AppController extends GetxController {
         return true;
       } else {
         print(res[1]);
-        Get.snackbar(
-          "Erreur",
-          "${res[1]}",
-          colorText: Colors.white,
-          backgroundColor: Colors.red,
-          snackPosition: SnackPosition.BOTTOM,
-          borderColor: Colors.red,
-          borderRadius: 10,
-          borderWidth: 2,
-          barBlur: 0,
-          duration: Duration(seconds: 2),
-        );
+        errorSnack("${res[1]}");
         return false;
       }
     } catch (err) {
       print(err);
-      Get.snackbar(
-        "Erreur",
-        "Vérfier votre connexion Internet.",
-        colorText: Colors.white,
-        backgroundColor: Colors.red,
-        snackPosition: SnackPosition.BOTTOM,
-        borderColor: Colors.red,
-        borderRadius: 10,
-        borderWidth: 2,
-        barBlur: 0,
-        duration: Duration(seconds: 2),
-      );
+      errorSnack("Vérfier votre connexion Internet.");
       return false;
     }
   }
@@ -523,35 +356,30 @@ class AppController extends GetxController {
       if (res[0]) {
         return res[1]['data'] == 0;
       } else {
-        print(res[1]);
-        Get.snackbar(
-          "Erreur",
-          "${res[1]}",
-          colorText: Colors.white,
-          backgroundColor: Colors.red,
-          snackPosition: SnackPosition.BOTTOM,
-          borderColor: Colors.red,
-          borderRadius: 10,
-          borderWidth: 2,
-          barBlur: 0,
-          duration: Duration(seconds: 2),
-        );
+        errorSnack("${res[1]}");
         return false;
       }
     } catch (err) {
       print(err);
-      Get.snackbar(
-        "Erreur",
-        "Une erreur s'est produite",
-        colorText: Colors.white,
-        backgroundColor: Colors.red,
-        snackPosition: SnackPosition.BOTTOM,
-        borderColor: Colors.red,
-        borderRadius: 10,
-        borderWidth: 2,
-        barBlur: 0,
-        duration: Duration(seconds: 2),
-      );
+      errorSnack("Une erreur s'est produite");
+      return false;
+    }
+  }
+
+   Future<bool> createAccount(String mail, String payemntID) async {
+    try {
+      var res = await apiController.createaccount(mail, payemntID);
+      if (res[0]) {
+        userController.user = User.fromJson(res[1]);
+        print(userController.user.toJson()); 
+        return true;
+      } else {
+        errorSnack("${res[1]}");
+        return false;
+      }
+    } catch (err) {
+      print(err);
+      errorSnack("Une erreur s'est produite");
       return false;
     }
   }
