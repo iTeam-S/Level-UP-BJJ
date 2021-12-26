@@ -783,7 +783,7 @@ def create_account():
 	payement_id = data.get("payement_id")
 	
 	if data.get("token") != TOKEN_PAYEMENT:
-		return {"status" : "Erreur Token"}, 403
+		return jsonify({"status" : "Erreur Token"}), 403
 
 	db = mysql.connector.connect(**database())
 	cursor = db.cursor()
@@ -804,13 +804,15 @@ def create_account():
 		print(err)
 		db.rollback()
 		db.close()
-		return {"status" : "Erreur Interne"}, 500
+		return jsonify({"status" : "Erreur Interne"}), 500
 
 	return jsonify(
 		{ 
 			'status': 'Création de compte avec succès',
 			'user_id': user_id,
-			'token': encode_auth_token(user_id)
+			'token': encode_auth_token(user_id),
+			'mail': mail,
+			'admin': 0
 		}
 	), 201
 
