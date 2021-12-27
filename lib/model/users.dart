@@ -21,7 +21,7 @@ class User {
     'user_id': id,
     'email': email,
     'token': token,
-    'admin': admin
+    'admin': admin 
   };
 
 

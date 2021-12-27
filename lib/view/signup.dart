@@ -170,7 +170,17 @@ class _SignScreenState extends State<SignScreen> {
                                                                 var res = await appController.createAccount(userController.emailAccountController.text, payemntID);
                                                                 if (res == true){
                                                                   // compte créee avec succes
-                                                                  // redirection vers la page de modification de mot de passe.
+                                                                  // fermeture du popup
+                                                                  Get.back();
+                                                                  // ouverture du nouveau dialog
+                                                                  Get.defaultDialog(
+                                                                    title: 'Information',
+                                                                    middleText: "Votre mot de passe a été envoyé via mail.",
+                                                                     backgroundColor:  Colors.white,
+                                                                    titleStyle: TextStyle(color: Colors.lightBlue[800]),
+                                                                    middleTextStyle: TextStyle(color: Colors.black),
+                                                                    confirm: TextButton(onPressed: (){Get.offNamed('/home');}, child: Text('OK')),
+                                                                  );
                                                                 }
                                                               }
                                                             )

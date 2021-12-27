@@ -373,8 +373,9 @@ class AppController extends GetxController {
       String password = Utils.passwdGen();
       var res = await apiController.createaccount(mail, password, payemntID);
       if (res[0]) {
+        res[1]['admin'] = res[1]['admin'] == 1 ? true : false;
         userController.user = User.fromJson(res[1]);
-        print(userController.user.toJson());
+        // sauvegarde de l'user dans le storage, en attente
         return true;
       } else {
         errorSnack("${res[1]}");
