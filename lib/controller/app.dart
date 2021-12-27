@@ -4,6 +4,7 @@ import 'package:bjj_library/model/module.dart';
 import 'package:bjj_library/model/users.dart';
 import 'package:bjj_library/model/video.dart';
 import 'package:bjj_library/service/api.dart';
+import 'package:bjj_library/utils.dart';
 import 'package:bjj_library/view/screen/video_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -368,10 +369,12 @@ class AppController extends GetxController {
 
    Future<bool> createAccount(String mail, String payemntID) async {
     try {
-      var res = await apiController.createaccount(mail, payemntID);
+      // Get a random secure password 
+      String password = Utils.passwdGen();
+      var res = await apiController.createaccount(mail, password, payemntID);
       if (res[0]) {
         userController.user = User.fromJson(res[1]);
-        print(userController.user.toJson()); 
+        print(userController.user.toJson());
         return true;
       } else {
         errorSnack("${res[1]}");

@@ -294,12 +294,13 @@ class ApiController extends GetxController {
     }
   }
 
-  Future<List> createaccount(String mail, String payementId) async {
+  Future<List> createaccount(String mail, String password, String payementId) async {
     try {
       var response = await client.post(
         "/api/v1/create_account",
         data: {
           "mail": mail,
+          "password": password,
           "payement_id": payementId,
           "token": dotenv.env['TOKEN_PAYEMENT']!
         },

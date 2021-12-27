@@ -1,4 +1,5 @@
 import 'package:bjj_library/service/api.dart';
+import 'package:bjj_library/model/users.dart';
 import 'package:bjj_library/controller/users.dart';
 import 'package:bjj_library/view/confirm_pass.dart';
 import 'package:bjj_library/view/play_video.dart';
@@ -28,23 +29,17 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Future.delayed(const Duration(milliseconds: 2000), () {
-      // if (box.hasData('user')) {
-      //   Map usrTmp = box.read('user');
-      //   userController.user = User(
-      //     email: usrTmp['email'],
-      //     admin: usrTmp['admin'],
-      //     id: usrTmp['id'],
-      //     token: usrTmp['token'],
-      //   );
-
-      //   var vidtmp = usrTmp['video'];
-      //   if (vidtmp != null) {
-      //     userController.user.video['id'] = vidtmp['id'];
-      //     userController.user.video['pos'] = Duration(seconds: vidtmp['pos']);
-      //   }
-      //   Get.offNamed('/home');
-      //   return;
-      // }
+      if (box.hasData('user')) {
+        Map usrTmp = box.read('user');
+        userController.user = User.fromJson(usrTmp);
+        var vidtmp = usrTmp['video'];
+        if (vidtmp != null) {
+          userController.user.video['id'] = vidtmp['id'];
+          userController.user.video['pos'] = Duration(seconds: vidtmp['pos']);
+        }
+        Get.offNamed('/home');
+        return;
+      }
       Get.offNamed('/login');
     });
 

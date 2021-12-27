@@ -9,6 +9,9 @@ from werkzeug.utils import secure_filename
 import cv2
 import time
 from random import randrange
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
 # from send_code import send_mail
 #from flask_socketio import SocketIO, emit, disconnect
 
@@ -48,6 +51,39 @@ def is_admin(user_id):
 	)
 	admin = cursor.fetchone()
 	return admin[0]
+
+
+def send_mail(mail, content, objet):
+	'''
+		Fonction d'envoi de mail
+	'''
+	msg = MIMEMultipart('alternative')
+
+	msg['Subject'] = objet
+	msg['FROM'] = os.environ.get('MAIL_SENDER')
+	msg['TO'] = mail
+
+	message = MIMEText("@BJJ")
+
+	html = MIMEText(f"""\
+		<html>
+			<body>
+			  <div style="font-size:20">
+				  <h3 style="color:blue"> BJJ Library ! </h3>
+				  <br/>
+				  {content}
+			  </div>
+			</body>
+		</html>
+	""", 'html')
+
+	msg.attach(message)
+	msg.attach(html)
+
+	server = smtplib.SMTP_SSL('smtp.ionos.fr', 465)
+	server.login(os.environ.get('MAIL_SENDER'), os.environ.get('MAIL_PASSWD'))
+	server.sendmail(os.environ.get('MAIL_SENDER'), mail, msg.as_string())
+	server.quit()
 
 
 def extract(video_name):
@@ -780,6 +816,7 @@ def create_account():
 	data = request.get_json()
 	
 	mail = data.get("mail")
+	password = data.get('password')
 	payement_id = data.get("payement_id")
 	
 	if data.get("token") != TOKEN_PAYEMENT:
@@ -789,8 +826,8 @@ def create_account():
 	cursor = db.cursor()
 	try:
 		cursor.execute("""
-			INSERT INTO Utilisateur(mail, exp) VALUES(%s, NOW() + INTERVAL 1 MONTH)
-		""",(mail,)
+			INSERT INTO Utilisateur(mail, password, exp) VALUES(%s, SHA2(%s, 224), NOW() + INTERVAL 1 MONTH)
+		""",(mail,password)
 		)
 		user_id = cursor.lastrowid
 
@@ -815,7 +852,6 @@ def create_account():
 			'admin': 0
 		}
 	), 201
-
 
 
 if __name__=="__main__":

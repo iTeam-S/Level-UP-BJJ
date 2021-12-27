@@ -11,7 +11,7 @@ class User {
       required this.token,
       required this.admin});
 
-  User.fromJson(Map<String, dynamic> json): 
+  User.fromJson(Map<dynamic, dynamic> json): 
     id = json['user_id'],
     email = json['mail'],
     token = json['token'],
