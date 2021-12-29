@@ -3,7 +3,6 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:bjj_library/controller/data.dart';
 import 'package:dio/dio.dart' as dio;
 import 'package:get/get.dart';
-import 'package:get/get_state_manager/get_state_manager.dart';
 
 String baseUrl = dotenv.env['API_URL']!; 
 String baseUrlProtocol = 'http://' + baseUrl;

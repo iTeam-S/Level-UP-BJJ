@@ -83,19 +83,19 @@ class PaypalPaymentState extends State<PaypalPayment> {
       }
     ];
 
-    // checkout invoice details
+    // detail de la personne de destination
     String totalAmount = '19.0';
     String subTotalAmount = '19.0';
     String shippingCost = '0';
     int shippingDiscountCost = 0;
-    String userFirstName = 'Gulshan';
-    String userLastName = 'Yadav';
-    String addressCity = 'Delhi';
-    String addressStreet = 'Mathura Road';
-    String addressZipCode = '110014';
-    String addressCountry = 'India';
-    String addressState = 'Delhi';
-    String addressPhoneNumber = '+919990119091';
+    String userFirstName = 'Mojahed';
+    String userLastName = 'Naïm';
+    String addressCity = 'Nivelles';
+    String addressStreet = 'Chaussée de Bruxelles';
+    String addressZipCode = '1400';
+    String addressCountry = 'Belgique';
+    String addressState = 'Brabant wallon ';
+    String addressPhoneNumber = '+32471343165';
 
     Map<String, dynamic> temp = {
       "intent": "sale",
@@ -131,7 +131,7 @@ class PaypalPaymentState extends State<PaypalPayment> {
           }
         }
       ],
-      "note_to_payer": "Contact us for any questions on your order.",
+      "note_to_payer": "Après le payement, votre compte sera crée automatiquement, et votre mot de passe sera envoyer par mail.",
       "redirect_urls": {"return_url": returnURL, "cancel_url": cancelURL}
     };
     return temp;

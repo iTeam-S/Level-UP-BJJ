@@ -13,7 +13,7 @@ class User {
 
   User.fromJson(Map<dynamic, dynamic> json): 
     id = json['user_id'],
-    email = json['mail'],
+    email = json['email'],
     token = json['token'],
     admin = json['admin'];
 

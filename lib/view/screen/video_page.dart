@@ -6,7 +6,6 @@ import 'package:bjj_library/controller/data.dart';
 import 'package:bjj_library/controller/users.dart';
 import 'package:bjj_library/model/module.dart';
 import 'package:bjj_library/service/api.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';

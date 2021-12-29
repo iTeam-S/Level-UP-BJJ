@@ -79,11 +79,14 @@ def send_mail(mail, content, objet):
 
 	msg.attach(message)
 	msg.attach(html)
-
-	server = smtplib.SMTP_SSL('smtp.ionos.fr', 465)
-	server.login(os.environ.get('MAIL_SENDER'), os.environ.get('MAIL_PASSWD'))
-	server.sendmail(os.environ.get('MAIL_SENDER'), mail, msg.as_string())
-	server.quit()
+	try:
+		server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
+		server.login(os.environ.get('MAIL_SENDER'), os.environ.get('MAIL_PASSWD'))
+		server.sendmail(os.environ.get('MAIL_SENDER'), mail, msg.as_string())
+		server.quit()
+		return 0
+	except:
+		return 1
 
 
 def extract(video_name):
@@ -163,7 +166,7 @@ def login():
 	cursor = db.cursor()
 
 	cursor.execute("""
-		SELECT id, admin FROM Utilisateur WHERE mail = %s AND password = %s
+		SELECT id, admin FROM Utilisateur WHERE mail = %s AND password = SHA2(%s, 224)
 	""", (mail, password)
 	)
 
@@ -837,18 +840,24 @@ def create_account():
 
 		db.commit()
 		db.close()
+
 	except Exception as err:
 		print(err)
 		db.rollback()
 		db.close()
 		return jsonify({"status" : "Erreur Interne"}), 500
-
+	
+	send_mail(
+		mail,
+		f"Votre mot de passe sur l'application BJJ est: <b>{password}</b>",
+		'INSCRIPTION BJJ'
+	)
 	return jsonify(
 		{ 
 			'status': 'Création de compte avec succès',
 			'user_id': user_id,
 			'token': encode_auth_token(user_id),
-			'mail': mail,
+			'email': mail,
 			'admin': 0
 		}
 	), 201

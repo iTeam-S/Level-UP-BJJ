@@ -1,16 +1,18 @@
 import 'package:bjj_library/controller/data.dart';
+import 'package:bjj_library/controller/users.dart';
 import 'package:bjj_library/model/commentaire.dart';
 import 'package:bjj_library/model/module.dart';
-import 'package:bjj_library/model/users.dart';
 import 'package:bjj_library/model/video.dart';
+import 'package:bjj_library/model/users.dart';
 import 'package:bjj_library/service/api.dart';
 import 'package:bjj_library/utils.dart';
-import 'package:bjj_library/view/screen/video_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 class AppController extends GetxController {
   final ApiController apiController = Get.put(ApiController());
+  final UserController userController = Get.put(UserController());
   List<Module> _moduleList = <Module>[];
   List<Container> _modulePageList = <Container>[];
   List _videoList = [];
@@ -23,7 +25,7 @@ class AppController extends GetxController {
   TextEditingController newComment = TextEditingController();
 
   late Module currModule;
-
+  final box = GetStorage();
   var notifs = [];
 
   void finish() {
@@ -370,12 +372,14 @@ class AppController extends GetxController {
    Future<bool> createAccount(String mail, String payemntID) async {
     try {
       // Get a random secure password 
-      String password = Utils.passwdGen();
+      String password = Utils.passwdGen(6);
       var res = await apiController.createaccount(mail, password, payemntID);
       if (res[0]) {
         res[1]['admin'] = res[1]['admin'] == 1 ? true : false;
         userController.user = User.fromJson(res[1]);
-        // sauvegarde de l'user dans le storage, en attente
+        // sauvegarde de l'user dans le storage
+        box.write('user', userController.user.toJson());
+        box.save(); 
         return true;
       } else {
         errorSnack("${res[1]}");

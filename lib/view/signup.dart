@@ -4,6 +4,7 @@ import 'package:bjj_library/view/screen/video_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:get/get.dart';
+import 'package:restart_app/restart_app.dart';
 
 class SignScreen extends StatefulWidget {
   @override
@@ -167,6 +168,18 @@ class _SignScreenState extends State<SignScreen> {
                                                             () => PaypalPayment(
                                                               onFinish: (payemntID) async {
                                                                 print('order id: ' + payemntID);
+                                                                Get.back();
+                                                                Get.bottomSheet(
+                                                                  Container(
+                                                                    margin: EdgeInsets.symmetric(
+                                                                      vertical: Get.height * 0.025,
+                                                                      horizontal: Get.width * 0.06,
+                                                                    ),
+                                                                    child: LinearProgressIndicator(
+                                                                      backgroundColor: Colors.grey,
+                                                                    )
+                                                                  )
+                                                                );
                                                                 var res = await appController.createAccount(userController.emailAccountController.text, payemntID);
                                                                 if (res == true){
                                                                   // compte créee avec succes
@@ -179,7 +192,7 @@ class _SignScreenState extends State<SignScreen> {
                                                                      backgroundColor:  Colors.white,
                                                                     titleStyle: TextStyle(color: Colors.lightBlue[800]),
                                                                     middleTextStyle: TextStyle(color: Colors.black),
-                                                                    confirm: TextButton(onPressed: (){Get.offNamed('/home');}, child: Text('OK')),
+                                                                    confirm: TextButton(onPressed: () {  Restart.restartApp(webOrigin: '/');}, child: Text('OK')),
                                                                   );
                                                                 }
                                                               }

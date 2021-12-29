@@ -7,7 +7,6 @@ import 'package:bjj_library/model/module.dart';
 import 'package:bjj_library/model/video.dart';
 import 'package:bjj_library/service/api.dart';
 import 'package:bjj_library/view/screen/video_page.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:chewie/chewie.dart';
 import 'package:get/get.dart';
