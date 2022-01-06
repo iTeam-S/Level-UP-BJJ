@@ -896,6 +896,41 @@ def verif_exp():
 	return jsonify({'data': verif}), 200
 
 
+@webserver.route('/api/v1/upgrade', methods=['POST'])
+def upgrade():
+	"""
+		DESC : Fonction permettant de faire une renouvellement d'abonnement.'
+	"""
+	data = request.get_json()
+	if not data:
+		return jsonify({'status': 'Aucune donnée envoyé'}), 400
+	
+	user_id = data.get("user_id")
+	token = data.get("token")
+	payement_id = data.get("payement_id")
+
+	if verifToken(token).get('sub') != user_id :
+		return {"status" : "Erreur Token"}, 403
+
+	db = mysql.connector.connect(**database())
+	cursor = db.cursor()
+	
+	cursor.execute("""
+		INSERT INTO Payement(order_id, id_user, motif) VALUES (%s, %s, %s)
+	""",(payement_id, user_id, 'RENOUVELLEMENT')
+	)
+
+	cursor.execute("""
+		UPDATE Utilisateur
+			SET exp = exp + INTERVAL 1 MONTH 
+		WHERE id = %s
+	""",(user_id,)
+	)
+	db.commit()
+	db.close()
+	return jsonify({'data': 'ok'}), 202
+
+
 
 if __name__=="__main__":
 	webserver.run(host=os.getenv('IP', '0.0.0.0'), port=int(os.getenv('PORT', 4444)))
