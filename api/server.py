@@ -863,5 +863,39 @@ def create_account():
 	), 201
 
 
+@webserver.route('/api/v1/verif_expiration', methods=['POST'])
+def verif_exp():
+	"""
+		DESC : Fonction permettant de vérifier la date d'expiration d'un utilisateur.'
+	"""
+	data = request.get_json()
+	if not data:
+		return jsonify({'status': 'Aucune donnée envoyé'}), 400
+	
+	user_id = data.get("user_id")
+	token = data.get("token")
+
+	if verifToken(token).get('sub') != user_id :
+		return {"status" : "Erreur Token"}, 403
+
+	db = mysql.connector.connect(**database())
+	cursor = db.cursor()
+	
+	cursor.execute("""
+		SELECT 
+			CASE 
+				WHEN exp > NOW() THEN True
+				ELSE False
+			END 
+		FROM Utilisateur WHERE id = %s
+	""",(user_id,)
+	)
+	verif = cursor.fetchone()[0]
+	db.commit()
+	db.close()
+	return jsonify({'data': verif}), 200
+
+
+
 if __name__=="__main__":
 	webserver.run(host=os.getenv('IP', '0.0.0.0'), port=int(os.getenv('PORT', 4444)))
