@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bjj_library/controller/data.dart';
 import 'package:bjj_library/controller/users.dart';
 import 'package:bjj_library/model/commentaire.dart';
@@ -75,6 +77,20 @@ class AppController extends GetxController {
       borderWidth: 2,
       barBlur: 0,
       duration: Duration(seconds: 2),
+    );
+  }
+
+  void chargement(){
+    Get.bottomSheet(
+      Container(
+        margin: EdgeInsets.symmetric(
+          vertical: Get.height * 0.025,
+          horizontal: Get.width * 0.06,
+        ),
+        child: LinearProgressIndicator(
+          backgroundColor: Colors.grey,
+        )
+      )
     );
   }
 
@@ -316,18 +332,7 @@ class AppController extends GetxController {
         update();
       } else {
         print(res[1]);
-        Get.snackbar(
-          "Erreur",
-          "${res[1]}",
-          colorText: Colors.white,
-          backgroundColor: Colors.red,
-          snackPosition: SnackPosition.BOTTOM,
-          borderColor: Colors.red,
-          borderRadius: 10,
-          borderWidth: 2,
-          barBlur: 0,
-          duration: Duration(seconds: 2),
-        );
+        errorSnack("${res[1]}");
       }
     } catch (err) {
       print(err);
@@ -391,4 +396,39 @@ class AppController extends GetxController {
       return false;
     }
   }
+
+  Future<bool> upgradeAccount(User user, String payemntID) async{
+    try {
+      var res = await apiController.upgradeAccount(user.id, user.token, payemntID);
+      if (res[0]) {
+        return true;
+      } else {
+        errorSnack("${res[1]}");
+        return false;
+      }
+    } catch (err) {
+      print(err);
+      errorSnack("Une erreur s'est produite");
+      return false;
+    }
+
+  }
+
+  void verifexp(User user) async {
+     try {
+      var res = await apiController.verifexp(user.id, user.token);
+      if (res[0]) {
+        if  (res[1]['data'] != 1)
+          Timer(Duration(seconds: 2), () {
+            Get.offNamed('/renew');
+          });
+      } else {
+        errorSnack("${res[1]}");
+      }
+    } catch (err) {
+      print(err);
+      errorSnack("Vérfier votre connexion Internet.");
+    }
+  }
+
 }

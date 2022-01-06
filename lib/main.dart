@@ -4,6 +4,7 @@ import 'package:bjj_library/controller/users.dart';
 import 'package:bjj_library/view/confirm_pass.dart';
 import 'package:bjj_library/view/play_video.dart';
 import 'package:bjj_library/view/reinitialize_pass.dart';
+import 'package:bjj_library/view/renew.dart';
 import 'package:bjj_library/view/signup.dart';
 import 'package:bjj_library/view/video_list.dart';
 import 'package:flutter/material.dart';
@@ -60,7 +61,8 @@ class MyApp extends StatelessWidget {
         '/reinitialize_pass': (context) => ReinitializeScreen(),
         '/home': (context) => HomeScreen(),
         '/video': (context) => VideoScreen(),
-        '/videolist': (context) => VideoListScreen()
+        '/videolist': (context) => VideoListScreen(),
+        '/renew': (context) => Renew()
       },
     );
   }

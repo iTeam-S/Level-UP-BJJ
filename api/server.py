@@ -855,7 +855,7 @@ def create_account():
 	return jsonify(
 		{ 
 			'status': 'Création de compte avec succès',
-			'user_id': user_id,
+			'id': user_id,
 			'token': encode_auth_token(user_id),
 			'email': mail,
 			'admin': 0
@@ -922,7 +922,7 @@ def upgrade():
 
 	cursor.execute("""
 		UPDATE Utilisateur
-			SET exp = exp + INTERVAL 1 MONTH 
+			SET exp = NOW() + INTERVAL 1 MONTH 
 		WHERE id = %s
 	""",(user_id,)
 	)

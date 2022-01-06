@@ -313,4 +313,42 @@ class ApiController extends GetxController {
     }
   }
 
+  Future<List> upgradeAccount(int userid, String token, String payemntID) async {
+    try {
+      var response = await client.post(
+        "/api/v1/upgrade",
+        data: {
+          "user_id": userid,
+          "payement_id": payemntID,
+          "token": token
+        },
+      );
+      return [true, response.data];
+    } on dio.DioError catch (err) {
+      return [false, err.response!.data['status']];
+    } catch (e) {
+      print("--: $e");
+      return [false, "..."];
+    }
+  }
+
+  Future<List> verifexp(int userid, String token) async{
+     try {
+      var response = await client.post(
+        "/api/v1/verif_expiration",
+        data: {
+          "user_id": userid,
+          "token": token
+        },
+      );
+      return [true, response.data];
+    } on dio.DioError catch (err) {
+      return [false, err.response!.data['status']];
+    } catch (e) {
+      print("--: $e");
+      return [false, "..."];
+    }
+  }
+
+
 }

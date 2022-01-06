@@ -249,6 +249,7 @@ class _HomeScreenState extends State<HomeScreen> {
           userController.user.id, userController.user.token);
     //tabController =
     //TabController(length: appController.moduleInit(context), vsync: this);
+    appController.verifexp(userController.user);
   }
 
   @override
