@@ -8,6 +8,7 @@ import 'package:bjj_library/view/renew.dart';
 import 'package:bjj_library/view/signup.dart';
 import 'package:bjj_library/view/video_list.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:get/get.dart';
 import 'package:bjj_library/view/splash.dart';
 import 'package:bjj_library/view/login.dart';
@@ -19,6 +20,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 void main() async {
   await GetStorage.init();
   await dotenv.load();
+  Stripe.publishableKey = dotenv.env['STRIPE_PUBLISH_KEY']!;
   runApp(MyApp());
 }
 

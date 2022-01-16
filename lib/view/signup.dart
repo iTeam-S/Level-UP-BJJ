@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:get/get.dart';
 import 'package:restart_app/restart_app.dart';
+import 'package:bjj_library/service/stripe.dart';
+
 
 class SignScreen extends StatefulWidget {
   @override
@@ -17,6 +19,9 @@ class _SignScreenState extends State<SignScreen> {
   // Instance ana controlleur
   UserController userController = Get.put(UserController());
   final box = GetStorage();
+  // instance du service stripe
+  StripeService stripeService = StripeService();
+
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
@@ -215,17 +220,7 @@ class _SignScreenState extends State<SignScreen> {
                                                         }
 
                                                         // Mettre un chargement sur la partie bottom avant de lancer l'execution du verif_mail
-                                                        Get.bottomSheet(
-                                                          Container(
-                                                            margin: EdgeInsets.symmetric(
-                                                              vertical: Get.height * 0.025,
-                                                              horizontal: Get.width * 0.06,
-                                                            ),
-                                                            child: LinearProgressIndicator(
-                                                              backgroundColor: Colors.grey,
-                                                            )
-                                                          )
-                                                        );
+                                                        appController.chargement();
                                                         // lancement de le procedure du verification de l existance du mail
                                                         verifMail();
                                                       },
@@ -242,13 +237,29 @@ class _SignScreenState extends State<SignScreen> {
                                             ),
                                             InkWell(
                                               onTap: () {
-                                                  Get.defaultDialog(
-                                                    title: "Bientôt",
-                                                    middleText: "Pas encore disponible!",
-                                                    backgroundColor: Colors.lightBlue[700],
-                                                    titleStyle: TextStyle(color: Colors.white),
-                                                    middleTextStyle: TextStyle(color: Colors.white)
-                                                  );
+                                                void verifMail() async {
+                                                  // envoie de la requete de la demande.
+                                                  var res = await appController.checkMail(userController.emailAccountController.text);
+                                                  // arrete le chargement lancé avant lancement du verification mail
+                                                  Get.back();
+
+                                                  if (res == true){
+                                                    // si mail non existant, lance la page de payement
+                                                    stripeService.makepayement();
+                                                  }
+                                                  else
+                                                    // renvoie une alerte que mail deja existant
+                                                    appController.errorSnack("L'adresse mail est déjà utilisé.");
+                                                }
+
+
+                                                if (userController.checkEmail(userController.emailAccountController.text) != null)
+                                                  return appController.errorSnack("L'adresse mail doit être remplis et correcte."); 
+
+                                                // Mettre un chargement sur la partie bottom avant de lancer l'execution du verif_mail
+                                                appController.chargement();
+                                                // lancement de le procedure du verification de l existance du mail
+                                                verifMail();
                                               },
                                               child: Container(
                                                 margin: EdgeInsets.only(

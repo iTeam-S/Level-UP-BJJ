@@ -43,7 +43,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   FocusNode focus = FocusNode();
 
-  late TabController tabController;
 
   void addVideo(context, moduleList) {
     showDialog(
@@ -247,14 +246,11 @@ class _HomeScreenState extends State<HomeScreen> {
     if (userController.user.admin)
       appController.trtNotifs(
           userController.user.id, userController.user.token);
-    //tabController =
-    //TabController(length: appController.moduleInit(context), vsync: this);
     appController.verifexp(userController.user);
   }
 
   @override
   void dispose() {
-    tabController.dispose();
     super.dispose();
   }
 

@@ -70,9 +70,9 @@ class AppController extends GetxController {
       "Succes",
       "$text",
       colorText: Colors.white,
-      backgroundColor: Colors.red,
+      backgroundColor: Colors.green,
       snackPosition: SnackPosition.BOTTOM,
-      borderColor: Colors.red,
+      borderColor: Colors.green,
       borderRadius: 10,
       borderWidth: 2,
       barBlur: 0,
@@ -177,7 +177,9 @@ class AppController extends GetxController {
         }
         update();
       } else {
-        errorSnack("${res[1]}");
+        // errorSnack("${res[1]}");
+        errorSnack('Session Expiré');
+        box.remove('user');
       }
     } catch (err) {
       print(err);
