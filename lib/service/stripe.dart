@@ -42,7 +42,7 @@ class StripeService{
   }
 
 
-  Future<void> makepayement() async {
+  Future<void> makepayement(bool renew) async {
     try {
        Map payementDataIntent = await createPayementIntent(19, 'EUR');
        await Stripe.instance.initPaymentSheet(
@@ -56,7 +56,7 @@ class StripeService{
               merchantDisplayName: 'Mojahed Naïm')).then((value){
       });
       // print(payementDataIntent['client_secret']);
-      displayPaymentSheet(payementDataIntent);
+      displayPaymentSheet(payementDataIntent, renew);
 
     }catch (err){
       print("ERREUR: $err");
@@ -66,7 +66,7 @@ class StripeService{
    
   }
 
-  displayPaymentSheet(payementDataIntent) async {
+  displayPaymentSheet(payementDataIntent, bool renew) async {
       await Stripe.instance.presentPaymentSheet(
           parameters: PresentPaymentSheetParameters(
             clientSecret: payementDataIntent['client_secret'],
@@ -76,8 +76,25 @@ class StripeService{
         appController.succesSnack("Payement avec succès");
         // lance le chargement
         appController.chargement();
-        var res = await appController.createAccount(userController.emailAccountController.text, payementDataIntent['id']);
-        if (res == true){
+
+        if (renew == true){
+          var res = await appController.upgradeAccount(userController.user, payementDataIntent['id']);
+          if (res == true){
+            // compte créee avec succes
+            // ouverture du nouveau dialog
+            Get.defaultDialog(
+              title: 'Information',
+              middleText: "Votre compte a été bien renouveller.",
+                backgroundColor:  Colors.white,
+              titleStyle: TextStyle(color: Colors.lightBlue[800]),
+              middleTextStyle: TextStyle(color: Colors.black),
+              confirm: TextButton(onPressed: () {  Restart.restartApp(webOrigin: '/');}, child: Text('OK')),
+            );
+          }
+          
+        }else {
+          var res = await appController.createAccount(userController.emailAccountController.text, payementDataIntent['id']);
+          if (res == true){
           // compte créee avec succes
           // ouverture du nouveau dialog
           Get.defaultDialog(
@@ -89,6 +106,8 @@ class StripeService{
             confirm: TextButton(onPressed: () {  Restart.restartApp(webOrigin: '/');}, child: Text('OK')),
           );
           }
+        }
+        
       });/*.onError((error, stackTrace){
         print('Exception/DISPLAYPAYMENTSHEET0==> $error $stackTrace');
       });

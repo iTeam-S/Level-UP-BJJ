@@ -18,7 +18,7 @@ class User {
     admin = json['admin'];
 
   Map<String, dynamic> toJson() => {
-    'user_id': id,
+    'id': id,
     'email': email,
     'token': token,
     'admin': admin 

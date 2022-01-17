@@ -237,29 +237,44 @@ class _SignScreenState extends State<SignScreen> {
                                             ),
                                             InkWell(
                                               onTap: () {
-                                                void verifMail() async {
-                                                  // envoie de la requete de la demande.
-                                                  var res = await appController.checkMail(userController.emailAccountController.text);
-                                                  // arrete le chargement lancé avant lancement du verification mail
-                                                  Get.back();
-
-                                                  if (res == true){
-                                                    // si mail non existant, lance la page de payement
-                                                    stripeService.makepayement();
-                                                  }
-                                                  else
-                                                    // renvoie une alerte que mail deja existant
-                                                    appController.errorSnack("L'adresse mail est déjà utilisé.");
-                                                }
-
-
+                                              
                                                 if (userController.checkEmail(userController.emailAccountController.text) != null)
-                                                  return appController.errorSnack("L'adresse mail doit être remplis et correcte."); 
+                                                  appController.errorSnack("L'adresse mail doit être remplis et correcte."); 
+                                                else 
+                                                   Get.defaultDialog(
+                                                    title: "Confirmation mail",
+                                                    middleText:  "${userController.emailAccountController.text}",
+                                                    backgroundColor:  Colors.white,
+                                                    titleStyle: TextStyle(color: Colors.lightBlue[800]),
+                                                    middleTextStyle: TextStyle(color: Colors.black),
+                                                    cancel: TextButton(onPressed: (){Get.back();}, child: Text('Annuler')),
+                                                    confirm: TextButton(
+                                                      onPressed: (){
+                                                        void verifMail() async {
+                                                          // envoie de la requete de la demande.
+                                                          var res = await appController.checkMail(userController.emailAccountController.text);
+                                                          // arrete le chargement lancé avant lancement du verification mail
+                                                          Get.back();
 
-                                                // Mettre un chargement sur la partie bottom avant de lancer l'execution du verif_mail
-                                                appController.chargement();
-                                                // lancement de le procedure du verification de l existance du mail
-                                                verifMail();
+                                                          if (res == true){
+                                                            // si mail non existant, lance la page de payement
+                                                            stripeService.makepayement(false);
+                                                          }
+                                                          else
+                                                            // renvoie une alerte que mail deja existant
+                                                            appController.errorSnack("L'adresse mail est déjà utilisé.");
+                                                        }
+
+                                                        // Mettre un chargement sur la partie bottom avant de lancer l'execution du verif_mail
+                                                        appController.chargement();
+                                                        // lancement de le procedure du verification de l existance du mail
+                                                        verifMail();
+
+                                                      },
+                                                      child: Text('Valider')
+                                                    )
+                                                  );
+
                                               },
                                               child: Container(
                                                 margin: EdgeInsets.only(

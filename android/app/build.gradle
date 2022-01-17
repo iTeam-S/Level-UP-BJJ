@@ -13,7 +13,7 @@ if (flutterRoot == null) {
 
 def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
 if (flutterVersionCode == null) {
-    flutterVersionCode = '2'
+    flutterVersionCode = '3'
 }
 
 def flutterVersionName = localProperties.getProperty('flutter.versionName')
@@ -38,7 +38,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 31
         versionCode flutterVersionCode.toInteger()
-        versionName '0.5.0'
+        versionName '0.6.0'
     }
 
     buildTypes {

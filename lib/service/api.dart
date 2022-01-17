@@ -4,8 +4,8 @@ import 'package:bjj_library/controller/data.dart';
 import 'package:dio/dio.dart' as dio;
 import 'package:get/get.dart';
 
-String baseUrl = dotenv.env['API_URL']!; 
-String baseUrlProtocol = 'http://' + baseUrl;
+// String baseUrl = dotenv.env['API_URL']!; 
+String baseUrlProtocol =  dotenv.env['API_URL']!;
 
 class ApiController extends GetxController {
   var client = dio.Dio(dio.BaseOptions(

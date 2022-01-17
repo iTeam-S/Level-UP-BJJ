@@ -1,4 +1,5 @@
 import 'package:bjj_library/controller/users.dart';
+import 'package:bjj_library/service/stripe.dart';
 import 'package:bjj_library/view/payement.dart';
 import 'package:bjj_library/view/screen/video_page.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +18,10 @@ class _Renew extends State<Renew> {
   // Instance ana controlleur
   UserController userController = Get.put(UserController());
   final box = GetStorage();
+  // instance du service stripe
+  StripeService stripeService = StripeService();
+
+
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
@@ -138,13 +143,11 @@ class _Renew extends State<Renew> {
                                             ),
                                             InkWell(
                                               onTap: () {
-                                                  Get.defaultDialog(
-                                                    title: "Bientôt",
-                                                    middleText: "Pas encore disponible!",
-                                                    backgroundColor: Colors.lightBlue[700],
-                                                    titleStyle: TextStyle(color: Colors.white),
-                                                    middleTextStyle: TextStyle(color: Colors.white)
-                                                  );
+                                                
+                                                appController.chargement();
+                                                // lancement de le procedure du verification de l existance du mail
+                                                stripeService.makepayement(true);
+                                                
                                               },
                                               child: Container(
                                                 margin: EdgeInsets.only(
