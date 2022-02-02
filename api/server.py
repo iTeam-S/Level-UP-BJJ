@@ -931,6 +931,34 @@ def upgrade():
 	return jsonify({'data': 'ok'}), 202
 
 
+@webserver.route('/api/v1/change_password', methods=['POST'])
+def change_password():
+	'''
+		Route pour changer de mot de passe
+	'''
+	data = request.get_json()
+
+	old_password = data.get("old_password")
+	new_password = data.get("new_password")
+	token = data.get("token")
+	user_id = data.get("user_id")
+
+	if verifToken(token).get('sub') != user_id :
+		return {"status" : "Erreur Token"}, 403
+
+	db = mysql.connector.connect(**database())
+	cursor = db.cursor()
+
+	cursor.execute('''
+		UPDATE Utilisateur SET password = SHA2(%s, 224)
+		WHERE id = %s and password = SHA2(%s, 224)
+	''', (new_password, user_id, old_password))
+
+	row_account = cursor.rowcount
+	db.commit()
+	db.close()
+	return jsonify({'data': row_account!=0}), 200
+
 
 if __name__=="__main__":
 	webserver.run(host=os.getenv('IP', '0.0.0.0'), port=int(os.getenv('PORT', 4444)))
