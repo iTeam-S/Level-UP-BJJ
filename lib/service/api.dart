@@ -350,5 +350,25 @@ class ApiController extends GetxController {
     }
   }
 
+  Future<List> changePassword(String oldPass, String newPass, int userid, String token) async{
+     try {
+      var response = await client.post(
+        "/api/v1/change_password",
+        data: {
+          "old_password": oldPass,
+          "new_password": newPass,
+          "user_id": userid,
+          "token": token
+        },
+      );
+      return [true, response.data];
+    } on dio.DioError catch (err) {
+      return [false, err.response!.data['status']];
+    } catch (e) {
+      print("--: $e");
+      return [false, "..."];
+    }
+  }
+
 
 }

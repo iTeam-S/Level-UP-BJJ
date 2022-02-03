@@ -954,10 +954,10 @@ def change_password():
 		WHERE id = %s and password = SHA2(%s, 224)
 	''', (new_password, user_id, old_password))
 
-	row_account = cursor.rowcount
+	rowcount = cursor.rowcount
 	db.commit()
 	db.close()
-	return jsonify({'data': row_account!=0}), 200
+	return jsonify({'data': rowcount!=0}), 200
 
 
 if __name__=="__main__":

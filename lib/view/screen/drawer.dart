@@ -26,10 +26,34 @@ class AppDrawer extends StatelessWidget {
   // stockena donnee ilaina apres fermeture application
   final box = GetStorage();
 
-  void _doSomething(RoundedLoadingButtonController controller) async {
-    Timer(Duration(seconds: 2), () {
-      controller.success();
-    });
+  void _changepasswd(RoundedLoadingButtonController controller) async {
+    if (userController.oldPassController.text.trim() == '' || userController.newPassController.text.trim() == ''){
+      appController.errorSnack('Les champs doivent être remplis.');
+      controller.reset();
+    }
+    else if(userController.oldPassController.text == userController.newPassController.text){
+      appController.errorSnack('Les champs doivent être différents.');
+      controller.reset();
+    }
+    else {
+      var res = await appController.changepassword(userController.user, userController.oldPassController.text, userController.newPassController.text);
+      if (res == true){
+        controller.success();
+        Timer(Duration(seconds: 2), () {
+          controller.reset();
+          Get.back();
+          appController.succesSnack('Mot de passe mise à jour');
+        });
+      }
+      else{
+        appController.errorSnack("Ancien mot de passe incorrecte");
+        controller.error();
+        Timer(Duration(seconds: 2), () {
+          controller.reset();
+        });
+      }
+    }
+
   }
 
   dynamic _openFileExplorer() async {
@@ -197,7 +221,9 @@ class AppDrawer extends StatelessWidget {
                         horizontal: MediaQuery.of(context).size.width * 0.06,
                         vertical: MediaQuery.of(context).size.height * 0.0113),
                     child: TextField(
+                      controller: userController.oldPassController,
                       style: TextStyle(fontSize: 13, color: Colors.grey[800]),
+                      obscureText: true,
                       decoration: InputDecoration(
                         filled: true,
                         fillColor: Colors.blue[50],
@@ -219,7 +245,9 @@ class AppDrawer extends StatelessWidget {
                       horizontal: MediaQuery.of(context).size.width * 0.06,
                     ),
                     child: TextField(
+                      controller: userController.newPassController,
                       style: TextStyle(fontSize: 13, color: Colors.grey[800]),
+                      obscureText: true,
                       decoration: InputDecoration(
                         filled: true,
                         fillColor: Colors.blue[50],
@@ -244,19 +272,7 @@ class AppDrawer extends StatelessWidget {
                     successColor: Colors.blue,
                     controller: _btnController,
                     onPressed: () {
-                      _doSomething(_btnController);
-                      Navigator.pop(context);
-                      Get.snackbar(
-                        "Modification",
-                        "Votre mot de passe a été modifié.",
-                        backgroundColor: Colors.grey,
-                        snackPosition: SnackPosition.BOTTOM,
-                        borderColor: Colors.grey,
-                        borderRadius: 10,
-                        borderWidth: 2,
-                        barBlur: 0,
-                        duration: Duration(seconds: 2),
-                      );
+                      _changepasswd(_btnController);
                     },
                     valueColor: Colors.white,
                     borderRadius: 90,

@@ -433,4 +433,23 @@ class AppController extends GetxController {
     }
   }
 
+  Future<bool> changepassword(User user, String oldPass, String newPass) async {
+     try {
+      var res = await apiController.changePassword(oldPass, newPass, user.id, user.token);
+      if (res[0]) {
+        print(res);
+        return res[1]['data'];
+      } else {
+        errorSnack("${res[1]}");
+        return false;
+      }
+    } catch (err) {
+      print(err);
+      errorSnack("Une erreur s'est produite.");
+      return false; 
+    }
+  }
+
+
+
 }
