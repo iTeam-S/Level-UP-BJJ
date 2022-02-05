@@ -437,7 +437,6 @@ class AppController extends GetxController {
      try {
       var res = await apiController.changePassword(oldPass, newPass, user.id, user.token);
       if (res[0]) {
-        print(res);
         return res[1]['data'];
       } else {
         errorSnack("${res[1]}");
@@ -450,6 +449,38 @@ class AppController extends GetxController {
     }
   }
 
+  Future<bool> sendCodeConfirmation(String mail) async{
+     try {
+      var res = await apiController.sendCode(mail);
+      if (res[0]) {
+        return true;
+      } else {
+        errorSnack("${res[1]}");
+        return false;
+      }
+    } catch (err) {
+      print(err);
+      errorSnack("Une erreur s'est produite.");
+      return false; 
+    }
+  }
 
+  Future<bool> verifCodeConfirmation(String mail, String code) async {
+    try {
+      var res = await apiController.verifCode(mail, code);
+      if (res[0]) {
+        userController.user = User.fromJson(res[1]);
+        return true;
+      } 
+      else {
+        errorSnack("${res[1]}");
+        return false;
+      }
+    } catch (err) {
+      print(err);
+      errorSnack("Une erreur s'est produite.");
+      return false; 
+    }
+  }
 
 }

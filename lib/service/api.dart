@@ -370,5 +370,40 @@ class ApiController extends GetxController {
     }
   }
 
+  Future<List> sendCode(String mail) async {
+    try {
+      var response = await client.post(
+        "/api/v1/forgot_password/",
+        data: {
+          "mail": mail
+        },
+      );
+      return [true, response.data];
+    } on dio.DioError catch (err) {
+      return [false, err.response!.data['status']];
+    } catch (e) {
+      print("--: $e");
+      return [false, "..."];
+    }
+  }
+
+  Future<List>verifCode(String mail, String code) async {
+    try {
+      var response = await client.post(
+        "/api/v1/verif_code/",
+        data: {
+          "code": code,
+          "mail": mail
+        },
+      );
+      return [true, response.data];
+    } on dio.DioError catch (err) {
+      return [false, err.response!.data['status']];
+    } catch (e) {
+      print("--: $e");
+      return [false, "..."];
+    }
+  }
+
 
 }

@@ -19,6 +19,25 @@ webserver = Flask(__name__)
 CORS(webserver)
 #socket_ = SocketIO(app, async_mode=None)
 
+webserver.config['MAX_CONTENT_LENGTH'] = 1000 * 1024 * 1024
+
+path = os.getcwd()
+
+if not os.path.isdir('data'):
+	os.makedirs('data/videos')
+
+UPLOAD_FOLDER = os.path.join(path, 'data/videos')
+
+COVER_FOLDER = os.path.join(path, 'data/covers')
+
+webserver.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+webserver.config['COVER_FOLDER'] = COVER_FOLDER
+
+ALLOWED_EXTENSIONS_VIDEOS = set(['mp4', 'mkv', 'avi', 'webm'])
+
+ALLOWED_EXTENSIONS_IMAGES = set(['jpg', 'png', 'jpeg'])
+
 
 def encode_auth_token(user_id):
 	payload = {
@@ -120,26 +139,6 @@ def extract(video_name):
 	cv2.destroyAllWindows()
 
 
-webserver.config['MAX_CONTENT_LENGTH'] = 1000 * 1024 * 1024
-
-path = os.getcwd()
-
-if not os.path.isdir('data'):
-	os.makedirs('data/videos')
-
-UPLOAD_FOLDER = os.path.join(path, 'data/videos')
-
-COVER_FOLDER = os.path.join(path, 'data/covers')
-
-webserver.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-
-webserver.config['COVER_FOLDER'] = COVER_FOLDER
-
-ALLOWED_EXTENSIONS_VIDEOS = set(['mp4', 'mkv', 'avi', 'webm'])
-
-ALLOWED_EXTENSIONS_IMAGES = set(['jpg', 'png', 'jpeg'])
-
-
 def allowed_file_video(filename):
 	return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS_VIDEOS
 
@@ -207,7 +206,6 @@ def forgot():
 		if rowcount == 0:
 			raise Exception("Adresse Mail non trouvé")
 		send_mail("Votre code de confirmation est : " + str(code), "Code de confirmation", mail)
-
 		return {"status" : "Code de confirmation envoyé avec succès"}, 200
 	
 	except Exception as e:
@@ -229,15 +227,29 @@ def confirmation():
 	cursor = db.cursor()
 
 	cursor.execute("""
-		UPDATE Utilisateur SET code = NULL 
+		UPDATE Utilisateur SET code = NULL, password = SHA2('', 224 )
 		WHERE mail = %s AND code = SHA2(%s, 224) """
 	, (mail, send_code))
 	
 	rowcount = cursor.rowcount
-	db.commit()
-	db.close()
+	db.commit() 
 
-	return jsonify({'data': rowcount==1}), 200
+	if rowcount == 1:
+		cursor.execute("""
+			SELECT id, admin FROM Utilisateur WHERE mail = %s
+		""", (mail,)
+		)
+		user_data = cursor.fetchone()
+		db.close()
+		token = encode_auth_token(user_data[0])
+		return jsonify({
+			'email': mail,
+			'token': token,
+			'id': user_data[0],
+			'admin': user_data[1] == True
+		}), 200
+	db.close()
+	return jsonify({'status': 'Code incorrecte.'}), 403
 	
 	
 @webserver.route("/api/v1/get_all_modules/", methods=['POST'])

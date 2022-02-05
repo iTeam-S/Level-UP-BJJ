@@ -1,9 +1,10 @@
 import 'dart:async';
+
 import 'package:bjj_library/controller/users.dart';
-import 'package:bjj_library/service/api.dart';
-import 'package:bjj_library/model/users.dart';
+import 'package:bjj_library/controller/app.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:restart_app/restart_app.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 import 'package:get/get.dart';
 
@@ -14,82 +15,124 @@ class ConfirmScreen extends StatefulWidget {
 
 class _ConfirmScreenState extends State<ConfirmScreen> {
 
-
+  int bruteForce = 0;
   final RoundedLoadingButtonController _btnController =
       RoundedLoadingButtonController();
 
-  void _doSomething(RoundedLoadingButtonController controller) async {
-    //apiController.login("a", "b");
-    try {
-      if (userController.valid) {
-        List rep = await apiController.login(
-            userController.email, userController.password);
-        if (rep[0]) {
-          userController.user = User(
-              email: userController.email,
-              admin: rep[1]['admin'] == 1 ? true : false,
-              id: rep[1]['id'],
-              token: rep[1]['token']);
-          Map usrTmp = {
-            'email': userController.email,
-            'admin': rep[1]['admin'] == 1 ? true : false,
-            'id': rep[1]['id'],
-            'token': rep[1]['token']
-          };
-          box.write('user', usrTmp);
-          box.save();
-
-          Timer(Duration(seconds: 1), () {
-            Get.offNamed('/home');
-          });
-          controller.success();
-          return;
-        } else {
-          Get.snackbar(
-            "Erreur",
-            "${rep[1]}",
-            colorText: Colors.white,
-            backgroundColor: Colors.red,
-            snackPosition: SnackPosition.BOTTOM,
-            borderColor: Colors.red,
-            borderRadius: 10,
-            borderWidth: 2,
-            barBlur: 0,
-            duration: Duration(seconds: 2),
-          );
-          controller.reset();
-          return;
-        }
-      }
-    } catch (e) {
-      print(e);
-      Get.snackbar(
-        "Erreur",
-        "Verifier votre réseau",
-        colorText: Colors.white,
-        backgroundColor: Colors.red,
-        snackPosition: SnackPosition.BOTTOM,
-        borderColor: Colors.red,
-        borderRadius: 10,
-        borderWidth: 2,
-        barBlur: 0,
-        duration: Duration(seconds: 2),
-      );
-      controller.reset();
-      return;
-    }
-    Timer(Duration(seconds: 2), () {
-      //
-      controller.reset();
-    });
-    controller.error();
-  }
-
   // Instance ana controlleur
   UserController userController = Get.put(UserController());
-  ApiController apiController = Get.put(ApiController());
+  AppController appController = Get.put(AppController());
   final box = GetStorage();
 
+  void _changepasswd(RoundedLoadingButtonController controller) async {
+    if (userController.oldPassController.text.trim() == '' || userController.newPassController.text.trim() == ''){
+      appController.errorSnack('Les champs doivent être remplis.');
+      controller.reset();
+    }
+    else if(userController.oldPassController.text != userController.newPassController.text){
+      appController.errorSnack('Le mot de passe ne correspond pas.');
+      controller.reset();
+    }
+    else {
+      var res = await appController.changepassword(userController.user, '', userController.newPassController.text);
+      if (res == true){
+        controller.success();
+        Timer(Duration(seconds: 2), () {
+          controller.reset();
+          Get.back();
+          appController.succesSnack('Mot de passe mise à jour');
+          box.write('user', userController.user.toJson());
+          box.save();
+          Restart.restartApp(webOrigin: '/');
+        });
+      }
+      else{
+        appController.errorSnack("Ancien mot de passe incorrecte");
+        controller.error();
+        Timer(Duration(seconds: 2), () {
+          controller.reset();
+        });
+      }
+    }
+
+  }
+
+  void changePassword(context) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) => SimpleDialog(
+              title: Text(
+                "Changement de mot de passe",
+              ),
+              children: [
+                Container(
+                    height: MediaQuery.of(context).size.height * 0.08,
+                    margin: EdgeInsets.symmetric(
+                        horizontal: MediaQuery.of(context).size.width * 0.06,
+                        vertical: MediaQuery.of(context).size.height * 0.0113),
+                    child: TextField(
+                      controller: userController.oldPassController,
+                      style: TextStyle(fontSize: 13, color: Colors.grey[800]),
+                      obscureText: true,
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Colors.blue[50],
+                        border: OutlineInputBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(90.0)),
+                            borderSide: BorderSide.none),
+                        focusedBorder: UnderlineInputBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(90.0)),
+                            borderSide: BorderSide.none),
+                        hintText: "Nouveau mot de passe",
+                        prefixIcon: Icon(Icons.lock, color: Colors.blue),
+                      ),
+                    )),
+                Container(
+                    height: MediaQuery.of(context).size.height * 0.08,
+                    margin: EdgeInsets.symmetric(
+                      horizontal: MediaQuery.of(context).size.width * 0.06,
+                    ),
+                    child: TextField(
+                      controller: userController.newPassController,
+                      style: TextStyle(fontSize: 13, color: Colors.grey[800]),
+                      obscureText: true,
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Colors.blue[50],
+                        border: OutlineInputBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(90.0)),
+                            borderSide: BorderSide.none),
+                        focusedBorder: UnderlineInputBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(90.0)),
+                            borderSide: BorderSide.none),
+                        hintText: "Retaper le mot de passe",
+                        prefixIcon: Icon(Icons.lock, color: Colors.blue),
+                      ),
+                    )),
+                Container(
+                  margin: EdgeInsets.symmetric(
+                      horizontal: MediaQuery.of(context).size.width * 0.06,
+                      vertical: MediaQuery.of(context).size.height * 0.01),
+                  child: RoundedLoadingButton(
+                    color: Colors.lightBlue[800],
+                    successColor: Colors.blue,
+                    controller: _btnController,
+                    onPressed: () {
+                      _changepasswd(_btnController);
+                    },
+                    valueColor: Colors.white,
+                    borderRadius: 90,
+                    child: Text("ENREGISTRER",
+                        style: TextStyle(color: Colors.white)),
+                  ),
+                ),
+              ],
+            ));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -175,8 +218,7 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
                                                         .height *
                                                     0.0113),
                                             child: TextFormField(
-                                              controller: userController
-                                                  .emailController,
+                                              controller: userController.codeController,
                                               onSaved: (value) {
                                                 userController.email = value!;
                                               },
@@ -229,9 +271,20 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
                                               color: Colors.lightBlue[800],
                                               successColor: Colors.blue,
                                               controller: _btnController,
-                                              onPressed: () {
-                                                //userController.checkLogin();
-                                                _doSomething(_btnController);
+                                              onPressed: () async {
+                                                if (bruteForce>=3){
+                                                  Restart.restartApp(webOrigin: '/');
+                                                }
+                                                var res = await appController.verifCodeConfirmation(
+                                                  userController.emailAccountController.text,
+                                                  userController.codeController.text
+                                                );
+                                                if (res == true) changePassword(context);
+                                                else {
+                                                  appController.errorSnack("Code de confirmation incorrecte");
+                                                  bruteForce++;
+                                                }
+                                                _btnController.reset();
                                               },
                                               valueColor: Colors.white,
                                               borderRadius: 90,
@@ -252,10 +305,15 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
                                                   0.02,
                                             ),
                                             child: TextButton(
-                                              onPressed : () {
-                                                Get.offNamed('/login');
+                                              onPressed : () async{
+                                                var res = await appController.sendCodeConfirmation(userController.emailAccountController.text);
+                                                if (res == true){
+                                                  Get.toNamed('/confirm_pass');
+                                                }else {
+                                                  _btnController.error();
+                                                }
                                               },
-                                              child : Text("Retourner à la page de connexion.",
+                                              child : Text("Réenvoyer le code",
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
                                                   color: Colors.grey[400],

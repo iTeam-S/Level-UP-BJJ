@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:bjj_library/controller/users.dart';
 import 'package:bjj_library/service/api.dart';
+import 'package:bjj_library/view/screen/video_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:restart_app/restart_app.dart';
@@ -145,8 +148,17 @@ class _ForgotScreenState extends State<ForgotScreen> {
                                           color: Colors.lightBlue[800],
                                           successColor: Colors.blue,
                                           controller: _btnController,
-                                          onPressed: () {
-                                            Get.toNamed('/confirm_pass');
+                                          onPressed: () async {
+                                            var res = await appController.sendCodeConfirmation(userController.emailAccountController.text);
+                                            if (res == true){
+                                               Get.toNamed('/confirm_pass');
+                                            }else {
+                                              _btnController.error();
+                                            }
+                                            Timer(Duration(seconds: 2), () {
+                                                _btnController.reset();
+                                            });
+                                           
                                           },
                                           valueColor: Colors.white,
                                           borderRadius: 90,
