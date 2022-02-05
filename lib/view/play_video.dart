@@ -167,14 +167,18 @@ class _VideoScreenState extends State<VideoScreen> {
                                       child: Chewie(
                                         controller: _chewieController!,
                                       )))
-                              : Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: const [
-                                    CircularProgressIndicator(),
-                                    SizedBox(height: 20),
-                                    Text('Loading'),
-                                  ],
-                                ),
+                              : Container(
+                                height:
+                                      MediaQuery.of(context).size.height * 0.31,
+                                child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: const [
+                                      CircularProgressIndicator(),
+                                      SizedBox(height: 20),
+                                      Text('Loading'),
+                                    ],
+                                  ),
+                              ),
                         ),
                       ),
                       Container(
@@ -397,12 +401,12 @@ class _VideoScreenState extends State<VideoScreen> {
                             ])),
                       ),
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Container(
                             height: MediaQuery.of(context).size.height * 0.07,
-                            width: MediaQuery.of(context).size.width * 0.6,
+                            width: MediaQuery.of(context).size.width * 0.85,
                             margin: EdgeInsets.symmetric(
                                 vertical: MediaQuery.of(context).size.height *
                                     0.0113),
@@ -432,25 +436,11 @@ class _VideoScreenState extends State<VideoScreen> {
                               ),
                             ),
                           ),
-                          ElevatedButton.icon(
-                            style: ButtonStyle(
-                                backgroundColor: MaterialStateProperty.all(
-                                    Colors.lightBlue[900]),
-                                foregroundColor:
-                                    MaterialStateProperty.all(Colors.white),
-                                shape: MaterialStateProperty.all(
-                                    RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(50))),
-                                padding: MaterialStateProperty.all(
-                                    EdgeInsets.symmetric(
-                                  vertical: MediaQuery.of(context).size.height *
-                                      0.025,
-                                  horizontal:
-                                      MediaQuery.of(context).size.width * 0.044,
-                                )),
-                                elevation: MaterialStateProperty.all(0)),
-                            onPressed: () {
+                          Container(
+                            height: MediaQuery.of(context).size.height * 0.07,
+                            padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0.01),
+                            child: IconButton(
+                              onPressed: () {
                               if (appController.newComment.text.trim() == '')
                                 return;
                               void sendComment() async {
@@ -487,8 +477,8 @@ class _VideoScreenState extends State<VideoScreen> {
 
                               sendComment();
                             },
-                            icon: Icon(Icons.send),
-                            label: Text("Commenter"),
+                            icon: Icon(Icons.send, color: Colors.blue[700]),
+                            )
                           )
                         ],
                       )
