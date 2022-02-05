@@ -85,7 +85,8 @@ def send_mail(mail, content, objet):
 		server.sendmail(os.environ.get('MAIL_SENDER'), mail, msg.as_string())
 		server.quit()
 		return 0
-	except:
+	except Exception as err:
+		print("Fa aona e", err)
 		return 1
 
 
@@ -190,27 +191,22 @@ def forgot():
 	"""
 	data = request.get_json()
 
-	token = data.get("token")
-	user_id = data.get("user_id")
 	mail = data.get("mail")
-
 	code = randrange(111111, 999999)
-
-	if verifToken(token).get('sub') != user_id :
-		return {"status" : "Erreur Token"}, 403
-
 	db = mysql.connector.connect(**database())
 	cursor = db.cursor()
 
 	try:
 		cursor.execute("""
-			UPDATE Utilisateur SET code = %s WHERE mail = %s
+			UPDATE Utilisateur SET code = SHA2(%s, 224) WHERE mail = %s
 		""",(code, mail)
 		)
+		rowcount = cursor.rowcount
 		db.commit()
 		db.close()
-
-		# send_mail("Votre code de confirmation est : " + str(code), "Code de confirmation", mail)
+		if rowcount == 0:
+			raise Exception("Adresse Mail non trouvé")
+		send_mail("Votre code de confirmation est : " + str(code), "Code de confirmation", mail)
 
 		return {"status" : "Code de confirmation envoyé avec succès"}, 200
 	
@@ -219,39 +215,29 @@ def forgot():
 		return jsonify({'status': "Cette adresse email n'est pas associée à un compte",}), 400
 
 
-@webserver.route("/api/v1/code_confirmation/", methods=['POST'])
+@webserver.route("/api/v1/verif_code/", methods=['POST'])
 def confirmation():
 	"""
 		DESC : Fonction permettant vérifier le code de confirmation
 	"""
 	data = request.get_json()
 
-	token = data.get("token")
-
-	user_id = data.get("user_id")
 	mail = data.get("mail")
 	send_code = data.get("code")
-
-	if verifToken(token).get('sub') != user_id :
-		return {"status" : "Erreur Token"}, 403
 
 	db = mysql.connector.connect(**database())
 	cursor = db.cursor()
 
 	cursor.execute("""
-		SELECT code FROM Utilisateur WHERE mail = %s
-	""", (mail,)
-	)
+		UPDATE Utilisateur SET code = NULL 
+		WHERE mail = %s AND code = SHA2(%s, 224) """
+	, (mail, send_code))
 	
-	base_code = cursor.fetchone()[0]
-
+	rowcount = cursor.rowcount
+	db.commit()
 	db.close()
 
-	if send_code == str(base_code):
-		return jsonify({'status': 'Code de confirmation reconnu',}), 200
-	
-	else:
-		return jsonify({'status': 'Code de confirmation non reconnu',}), 400
+	return jsonify({'data': rowcount==1}), 200
 	
 	
 @webserver.route("/api/v1/get_all_modules/", methods=['POST'])

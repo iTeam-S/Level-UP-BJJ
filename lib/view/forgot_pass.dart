@@ -2,6 +2,7 @@ import 'package:bjj_library/controller/users.dart';
 import 'package:bjj_library/service/api.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:restart_app/restart_app.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 import 'package:get/get.dart';
 
@@ -99,15 +100,15 @@ class _ForgotScreenState extends State<ForgotScreen> {
                                                     .height *
                                                 0.0113),
                                         child: TextFormField(
-                                          controller:
-                                              userController.emailController,
+                                           controller: userController
+                                              .emailAccountController,
                                           onSaved: (value) {
                                             userController.email = value!;
                                           },
-                                          //validator: (value) {
-                                          //return userController
-                                          //  .checkEmail(value!);
-                                          // },
+                                          validator: (value) {
+                                          return userController
+                                           .checkEmail(value!);
+                                          },
                                           style: TextStyle(
                                               fontSize: 13,
                                               color: Colors.grey[800]),
@@ -145,7 +146,7 @@ class _ForgotScreenState extends State<ForgotScreen> {
                                           successColor: Colors.blue,
                                           controller: _btnController,
                                           onPressed: () {
-                                            Get.to('/confirm_pass');
+                                            Get.toNamed('/confirm_pass');
                                           },
                                           valueColor: Colors.white,
                                           borderRadius: 90,
@@ -166,7 +167,7 @@ class _ForgotScreenState extends State<ForgotScreen> {
                                         ),
                                         child: TextButton(
                                             onPressed: () {
-                                              Get.offNamed('/login');
+                                               Restart.restartApp(webOrigin: '/');
                                             },
                                             child: Text(
                                               "Retourner à la page de connexion.",
