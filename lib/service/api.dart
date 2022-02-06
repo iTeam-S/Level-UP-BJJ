@@ -78,14 +78,13 @@ class ApiController extends GetxController {
   }
 
   Future<List> createmodule(
-      int userid, String token, String module, String coverpath, String niveau) async {
+      int userid, String token, String module, String coverpath) async {
     try {
       List filetmp = coverpath.split('/');
       String filename = filetmp[filetmp.length - 1];
       var formData = dio.FormData.fromMap({
         'user_id': userid,
         'token': token,
-        'niveau': niveau,
         'nom': module,
         'file': await dio.MultipartFile.fromFile(coverpath, filename: filename),
       });
@@ -111,7 +110,7 @@ class ApiController extends GetxController {
   }
 
   Future<List> uploadVideo(int userid, String token, int moduleid, String titre,
-      String videopath) async {
+      String videopath, String niveau) async {
     try {
       List filetmp = videopath.split('/');
       String filename = filetmp[filetmp.length - 1];
@@ -120,6 +119,7 @@ class ApiController extends GetxController {
         'token': token,
         'module_id': moduleid,
         'titre_video': titre,
+        'niveau': niveau,
         'file': await dio.MultipartFile.fromFile(videopath, filename: filename),
       });
       var response = await client.post(

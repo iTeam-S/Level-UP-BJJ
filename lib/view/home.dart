@@ -37,6 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
   bool isLoadingPath = false;
   bool isMultiPick = false;
   late FileType fileType;
+  String modulNiveauController = '0';
 
   final RoundedLoadingButtonController _btnController =
       RoundedLoadingButtonController();
@@ -103,38 +104,84 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     )),
                 Container(
+                      alignment: Alignment.center,
+                      width: 200,
+                      padding: EdgeInsets.only(left: 5),
+                      height: MediaQuery.of(context).size.height * 0.08,
+                      margin: EdgeInsets.symmetric(
+                        horizontal: MediaQuery.of(context).size.width * 0.06,
+                        // vertical: MediaQuery.of(context).size.height*0.0110
+                      ),
+                      child: DropdownButtonHideUnderline(
+                        child: ButtonTheme(
+                          alignedDropdown: true,
+                          child: DropdownButton(
+                            value: modulNiveauController,
+                            icon: Icon(Icons.arrow_drop_down_circle),
+                            iconDisabledColor: Colors.lightBlue[800],
+                            iconEnabledColor: Colors.lightBlue[800],
+                            iconSize: 25,
+                            underline: SizedBox(),
+                            hint: Text("Niveau",
+                                style: TextStyle(fontSize: 14)),
+                            items: [
+                                DropdownMenuItem(
+                                  child: Text("Niveau"),
+                                  value: '0',
+                                ),
+                                DropdownMenuItem(
+                                  child: Text("Débutant"),
+                                  value: '1',
+                                ),
+                                DropdownMenuItem(
+                                  child: Text("Avancé"),
+                                  value: '2',
+                                ),    
+                            ],
+                            onChanged: (value) {
+                              modulNiveauController =
+                                  value.toString();
+                              //dataController.forceUpdate();
+                              Navigator.pop(context);
+                              addVideo(context, moduleList);
+                            },
+                          ),
+                        ),
+                      ),
+                    ),
+                 Container(
+                  alignment: Alignment.center,
                   height: MediaQuery.of(context).size.height * 0.06,
                   margin: EdgeInsets.symmetric(
                     horizontal: MediaQuery.of(context).size.width * 0.09,
-                    // vertical: MediaQuery.of(context).size.height*0.0110,
+                    vertical: MediaQuery.of(context).size.height*0.0110,
                   ),
-                  child: Row(children: [
-                    DropdownButton(
-                      value: uploadVideoDataController.moduleChoix,
-                      icon: Icon(Icons.arrow_drop_down_circle),
-                      iconDisabledColor: Colors.lightBlue[800],
-                      iconEnabledColor: Colors.lightBlue[800],
-                      iconSize: 25,
-                      underline: SizedBox(),
-                      hint: Text(uploadVideoDataController.moduleChoix,
-                          style: TextStyle(fontSize: 14)),
-                      items: [
-                        for (Module mod in moduleList)
-                          DropdownMenuItem(
-                            child: Text(mod.nom),
-                            value: mod.nom,
-                          ),
-                      ],
-                      onChanged: (value) {
-                        uploadVideoDataController.moduleChoix =
-                            value.toString();
-                        //dataController.forceUpdate();
-                        Navigator.pop(context);
-                        addVideo(context, moduleList);
-                      },
-                    )
-                  ]),
+                  child: DropdownButton(
+                    value: uploadVideoDataController.moduleChoix,
+                    icon: Icon(Icons.arrow_drop_down_circle),
+                    iconDisabledColor: Colors.lightBlue[800],
+                    iconEnabledColor: Colors.lightBlue[800],
+                    iconSize: 25,
+                    underline: SizedBox(),
+                    hint: Text(uploadVideoDataController.moduleChoix,
+                        style: TextStyle(fontSize: 14)),
+                    items: [
+                      for (Module mod in moduleList)
+                        DropdownMenuItem(
+                          child: Text(mod.nom),
+                          value: mod.nom,
+                        ),
+                    ],
+                    onChanged: (value) {
+                      uploadVideoDataController.moduleChoix =
+                          value.toString();
+                      //dataController.forceUpdate();
+                      Navigator.pop(context);
+                      addVideo(context, moduleList);
+                    },
+                  ),
                 ),
+               
                 Container(
                   margin: EdgeInsets.symmetric(
                     horizontal: MediaQuery.of(context).size.width * 0.06,
@@ -147,7 +194,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     onPressed: () {
                       if (uploadVideoDataController.titre.text.trim() == '' ||
                           uploadVideoDataController.videopath.trim() == '' ||
-                          uploadVideoDataController.moduleChoix == 'Tous') {
+                          uploadVideoDataController.moduleChoix == 'Tous' || 
+                          modulNiveauController == "0") {
                         Get.snackbar(
                           "Erreur",
                           "Données manquantes",
@@ -174,7 +222,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             appController.getModuleId(
                                 uploadVideoDataController.moduleChoix),
                             uploadVideoDataController.titre.text,
-                            uploadVideoDataController.videopath);
+                            uploadVideoDataController.videopath,
+                            modulNiveauController);
 
                         if (res) {
                           uploadVideoDataController.videopath = '';

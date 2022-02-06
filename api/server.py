@@ -327,7 +327,6 @@ def create_module_v2():
 		DESC : Fonction permettant de créer un module
 	"""
 	token = request.form.get('token')
-	niveau = request.form.get('niveau', 1)
 	user_id = request.form.get('user_id')
 	nom = request.form.get('nom')
 
@@ -356,8 +355,8 @@ def create_module_v2():
 		cursor = db.cursor()
 	
 		cursor.execute("""
-			INSERT INTO Module(nom, couverture, niveau) VALUES (%s, %s, %s)
-		""",(nom, filename, niveau)
+			INSERT INTO Module(nom, couverture, niveau) VALUES (%s, %s)
+		""",(nom, filename)
 		)
 		db.commit()
 		db.close()
@@ -459,6 +458,7 @@ def upload_video():
 	token = request.form.get('token')
 	user_id = request.form.get('user_id')
 	module_id = request.form.get('module_id')
+	niveau = request.form.get('niveau', 1)
 	titre_video = request.form.get('titre_video')
 
 	user_admin = is_admin(user_id)
@@ -487,8 +487,8 @@ def upload_video():
 		cursor = db.cursor()
 	
 		cursor.execute("""
-			INSERT INTO Video(titre, nom, image, module_id) VALUES(%s, %s, %s, %s)
-		""",(titre_video, filename,  image_name, module_id)
+			INSERT INTO Video(titre, nom, image, module_id, niveau) VALUES(%s, %s, %s, %s, %s)
+		""",(titre_video, filename,  image_name, module_id, niveau)
 		)
 		db.commit()
 		db.close()
