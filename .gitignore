@@ -53,3 +53,6 @@ app.*.map.json
 
 # environnement variable
 *.env
+
+# dossier de fichier
+data/

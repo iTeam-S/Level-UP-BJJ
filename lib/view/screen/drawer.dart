@@ -10,6 +10,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 
+// ignore: must_be_immutable
 class AppDrawer extends StatelessWidget {
   final UserController userController = Get.put(UserController());
   final AppController appController = Get.put(AppController());
@@ -20,6 +21,7 @@ class AppDrawer extends StatelessWidget {
       RoundedLoadingButtonController();
 
   final TextEditingController moduleAddController = TextEditingController();
+  String modulNiveauController = '0';
 
   final FocusNode focus = FocusNode();
 
@@ -98,7 +100,7 @@ class AppDrawer extends StatelessWidget {
         return controller.error();
       }
       bool res = await appController.addModule(userController.user.id,
-          userController.user.token, module, dataController.moduleCoverpath);
+          userController.user.token, module, dataController.moduleCoverpath, modulNiveauController);
       if (res) {
         Timer(Duration(seconds: 2), () {
           controller.reset();
@@ -165,6 +167,7 @@ class AppDrawer extends StatelessWidget {
                     ),
                     child: TextField(
                       controller: dataController.moduleCovertitre,
+                      keyboardType: TextInputType.none,
                       focusNode: focus,
                       style: TextStyle(fontSize: 13, color: Colors.grey[800]),
                       decoration: InputDecoration(
@@ -183,6 +186,45 @@ class AppDrawer extends StatelessWidget {
                             Icon(Icons.image_search, color: Colors.blue),
                       ),
                     )),
+                    Container(
+                       padding: EdgeInsets.only(left: 5),
+                       height: MediaQuery.of(context).size.height * 0.08,
+                        margin: EdgeInsets.symmetric(
+                          horizontal: MediaQuery.of(context).size.width * 0.06,
+                          // vertical: MediaQuery.of(context).size.height*0.0110
+                        ),
+                      child:  DropdownButton(
+                        value: modulNiveauController,
+                        icon: Icon(Icons.arrow_drop_down_circle),
+                        iconDisabledColor: Colors.lightBlue[800],
+                        iconEnabledColor: Colors.lightBlue[800],
+                        iconSize: 25,
+                        underline: SizedBox(),
+                        hint: Text("Niveau",
+                            style: TextStyle(fontSize: 14)),
+                        items: [
+                            DropdownMenuItem(
+                              child: Text("Niveau"),
+                              value: '0',
+                            ),
+                            DropdownMenuItem(
+                              child: Text("Débutant"),
+                              value: '1',
+                            ),
+                            DropdownMenuItem(
+                              child: Text("Avancé"),
+                              value: '2',
+                            ),    
+                        ],
+                        onChanged: (value) {
+                          modulNiveauController =
+                              value.toString();
+                          //dataController.forceUpdate();
+                          Navigator.pop(context);
+                          ajoutModule(context);
+                        },
+                      ),
+                    ),
                 Container(
                   margin: EdgeInsets.symmetric(
                       horizontal: MediaQuery.of(context).size.width * 0.06,
@@ -193,6 +235,15 @@ class AppDrawer extends StatelessWidget {
                     controller: _btnController,
                     onPressed: () {
                       // _doSomething(_btnController);
+                      if (modulNiveauController == "0"){
+                        _btnController.reset();
+                        return appController.errorSnack("Niveau doit être choisi.");
+                      }
+                      if (moduleAddController.text.trim() == ""){
+                        _btnController.reset();
+                        return appController.errorSnack("Le Nom ne doit pas être vide.");
+                      }
+                     
                       var res =
                           traitement(moduleAddController.text, _btnController);
                       if (res == 'GG') Navigator.of(context).pop();

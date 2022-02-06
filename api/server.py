@@ -25,6 +25,7 @@ path = os.getcwd()
 
 if not os.path.isdir('data'):
 	os.makedirs('data/videos')
+	os.makedirs('data/covers')
 
 UPLOAD_FOLDER = os.path.join(path, 'data/videos')
 
@@ -293,7 +294,7 @@ def create_module():
 	nom = data.get("nom")
 	token = data.get("token")
 	user_id = data.get("user_id")
-
+	
 	user_admin = is_admin(user_id)
 
 	if user_admin != 1 :
@@ -326,7 +327,7 @@ def create_module_v2():
 		DESC : Fonction permettant de créer un module
 	"""
 	token = request.form.get('token')
-
+	niveau = request.form.get('niveau', 1)
 	user_id = request.form.get('user_id')
 	nom = request.form.get('nom')
 
@@ -355,8 +356,8 @@ def create_module_v2():
 		cursor = db.cursor()
 	
 		cursor.execute("""
-			INSERT INTO Module(nom, couverture) VALUES(%s, %s)
-		""",(nom, filename)
+			INSERT INTO Module(nom, couverture, niveau) VALUES (%s, %s, %s)
+		""",(nom, filename, niveau)
 		)
 		db.commit()
 		db.close()

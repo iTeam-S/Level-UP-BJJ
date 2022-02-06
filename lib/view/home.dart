@@ -84,6 +84,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: TextField(
                       controller: uploadVideoDataController.videotitle,
                       focusNode: focus,
+                      keyboardType: TextInputType.none,
                       style: TextStyle(fontSize: 13, color: Colors.grey[800]),
                       decoration: InputDecoration(
                         filled: true,

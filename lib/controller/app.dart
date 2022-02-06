@@ -188,7 +188,7 @@ class AppController extends GetxController {
   }
 
   Future<bool> addModule(
-      int userid, String token, String module, String coverpath) async {
+      int userid, String token, String module, String coverpath, String niveau) async {
     try {
       dataController.uploadCover = 0;
       Get.bottomSheet(GetBuilder<UploadVideoDataController>(
@@ -202,7 +202,7 @@ class AppController extends GetxController {
                 value: dataController.uploadCover,
               ))));
       var res =
-          await apiController.createmodule(userid, token, module, coverpath);
+          await apiController.createmodule(userid, token, module, coverpath, niveau);
       Get.back();
       if (res[0]) {
         return true;

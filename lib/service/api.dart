@@ -78,13 +78,14 @@ class ApiController extends GetxController {
   }
 
   Future<List> createmodule(
-      int userid, String token, String module, String coverpath) async {
+      int userid, String token, String module, String coverpath, String niveau) async {
     try {
       List filetmp = coverpath.split('/');
       String filename = filetmp[filetmp.length - 1];
       var formData = dio.FormData.fromMap({
         'user_id': userid,
         'token': token,
+        'niveau': niveau,
         'nom': module,
         'file': await dio.MultipartFile.fromFile(coverpath, filename: filename),
       });
