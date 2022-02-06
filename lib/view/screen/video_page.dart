@@ -32,6 +32,8 @@ var tapPosition;
 RefreshController _refreshControllerTab =
     RefreshController(initialRefresh: false);
 
+List<RefreshController> _refreshControllerTabList = <RefreshController>[ RefreshController(initialRefresh: false),  RefreshController(initialRefresh: false)];
+
 RefreshController _refreshControllerAll =
     RefreshController(initialRefresh: false);
 
@@ -259,17 +261,18 @@ void modifModule(context) {
           ));
 }
 
-Container videoTabModule(context) {
+Container videoTabModule(context, int tab) {
   Module module = appController.currModule;
   return Container(
     child: module.videos.length != 0
         ? SmartRefresher(
-            controller: _refreshControllerTab,
+            controller: _refreshControllerTabList[tab],
             onRefresh: _onRefreshTab,
             enablePullDown: true,
             child: ListView(children: [
               Divider(),
               for (var video in module.videos)
+                if (video.niveau == tab+1)
                 Column(children: [
                   Container(
                       height: MediaQuery.of(context).size.height * 0.11,

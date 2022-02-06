@@ -166,12 +166,16 @@ class AppController extends GetxController {
                   text: com['text'],
                   userid: com['user_id'],
                   email: com['user_email']));
-            modTmp.videos.add(Video(
+            modTmp.videos.add(
+              Video(
                 id: vid['id'],
                 nom: vid['nom'],
                 titre: vid['titre'],
                 image: vid['image'],
-                commentaire: coms));
+                commentaire: coms,
+                niveau: vid['niveau']
+              ),
+            );
           }
           _moduleList.add(modTmp);
         }

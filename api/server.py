@@ -557,7 +557,8 @@ def get_videos():
 			'date_upload': video[2].strftime('%d %b %Y'),
 			'nom': video[3],
 			'image': video[4],
-			'commentaire': list(map(struct_coms, coms_data))
+			'commentaire': list(map(struct_coms, coms_data)),
+			'niveau': video[6]
 		}
 
 	if verifToken(token).get('sub') != user_id :
