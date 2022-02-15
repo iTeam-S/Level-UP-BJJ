@@ -2,7 +2,7 @@
     package="com.iteams.bjj_library">
     <uses-permission android:name="android.permission.INTERNET"/>
    <application
-        android:label="BJJ Library"
+        android:label="Level up BJJ"
         android:usesCleartextTraffic="true"
         android:icon="@mipmap/launcher_icon">
         <activity

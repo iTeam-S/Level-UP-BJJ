@@ -473,7 +473,9 @@ class _HomeScreenState extends State<HomeScreen> {
               //     ],
               //   ),
               // ),
-              body: videoAllModule(context, appController.getmoduleList()),
+              body: Container(
+                color: Colors.lightBlue[100],
+                child: videoAllModule(context, appController.getmoduleList())),
               floatingActionButton: userController.user.admin
                   ? FloatingActionButton(
                       onPressed: () {

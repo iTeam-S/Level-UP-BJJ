@@ -57,8 +57,14 @@ class _VideoListScreen extends State<VideoListScreen> {
             ),
             body: TabBarView(
               children: [
-                videoTabModule(context, 0),
-                videoTabModule(context, 1)
+                Container(
+                  color: Colors.lightBlue[100],
+                  child: videoTabModule(context, 0)
+                ),
+                Container(
+                  color: Colors.lightBlue[100],
+                  child: videoTabModule(context, 1)
+                )
               ],
             ),
         )

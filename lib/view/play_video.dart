@@ -149,341 +149,345 @@ class _VideoScreenState extends State<VideoScreen> {
                           fontSize: 17)),
                   centerTitle: true,
                 ),
-                body: ListView(children: [
-                  Column(
-                    children: <Widget>[
-                      Container(
-                        child: Center(
-                          child: _chewieController != null &&
-                                  _chewieController!
-                                      .videoPlayerController.value.isInitialized
-                              ? Container(
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.31,
-                                  child: Theme(
-                                      data: ThemeData.light().copyWith(
-                                        platform: TargetPlatform.iOS,
-                                      ),
-                                      child: Chewie(
-                                        controller: _chewieController!,
-                                      )))
-                              : Container(
-                                height:
-                                      MediaQuery.of(context).size.height * 0.31,
-                                child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: const [
-                                      CircularProgressIndicator(),
-                                      SizedBox(height: 20),
-                                      Text('Loading'),
-                                    ],
-                                  ),
-                              ),
-                        ),
-                      ),
-                      Container(
-                          height: MediaQuery.of(context).size.height * 0.12,
-                          margin: EdgeInsets.only(
-                            top: MediaQuery.of(context).size.height * 0.001,
-                            left: MediaQuery.of(context).size.width * 0.05,
-                          ),
-                          child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Container(
-                                  alignment: Alignment.centerLeft,
-                                  margin: EdgeInsets.only(
-                                    // top: MediaQuery.of(context).size.height * 0.00,
-                                    left:
-                                        MediaQuery.of(context).size.width * 0.0,
-                                  ),
-                                  child: CircleAvatar(
-                                      radius: 30,
-                                      backgroundColor: Colors.blueGrey,
-                                      child: Text('BJJ',
-                                          style:
-                                              TextStyle(color: Colors.white))),
-                                ),
-                                Container(
-                                  margin: EdgeInsets.only(
-                                    top: MediaQuery.of(context).size.height *
-                                        0.02,
-                                  ),
-                                  child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceAround,
-                                      children: [
-                                        Container(
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .height *
-                                                0.25,
-                                            child: Text(
-                                                currentVideoController
-                                                    .video!.titre,
-                                                softWrap: false,
-                                                overflow: TextOverflow.fade,
-                                                textAlign: TextAlign.start,
-                                                style: TextStyle(
-                                                    fontWeight: FontWeight.w500,
-                                                    fontSize: 18,
-                                                    color: Colors.black))),
-                                        Container(
-                                          child: TextButton(
-                                            onPressed: () {
-                                              print("WLL");
-                                            },
-                                            child: Row(
-                                                // crossAxisAlignment: CrossAxisAlignment.start,
-                                                children: [
-                                                  Icon(
-                                                      Icons
-                                                          .calendar_today_outlined,
-                                                      size: 18,
-                                                      color: Colors.grey),
-                                                  Text(
-                                                      "Il y 6 mois | ${currentVideoController.video!.commentaire.length} commentaires",
-                                                      textAlign:
-                                                          TextAlign.start,
-                                                      style: TextStyle(
-                                                          color: Colors
-                                                              .grey[700])),
-                                                ]),
-                                          ),
-                                        )
-                                      ]),
-                                ),
-                                Container(
-                                    margin: EdgeInsets.only(
-                                        // top: MediaQuery.of(context).size.height * 0.08,
-                                        // left: MediaQuery.of(context).size.width * 0.0,
+                body: Container(
+                  color: Colors.lightBlue[100],
+                  child: ListView(children: [
+                    Column(
+                      children: <Widget>[
+                        Container(
+                          child: Center(
+                            child: _chewieController != null &&
+                                    _chewieController!
+                                        .videoPlayerController.value.isInitialized
+                                ? Container(
+                                    height:
+                                        MediaQuery.of(context).size.height * 0.31,
+                                    child: Theme(
+                                        data: ThemeData.light().copyWith(
+                                          platform: TargetPlatform.iOS,
                                         ),
-                                    child: IconButton(
-                                      onPressed: null,
-                                      icon: Icon(
-                                        Icons.delete_sweep,
-                                        size: 20,
-                                        color: Colors.white,
-                                      ),
-                                    ))
-                              ])),
-                      Divider(),
-                      Container(
-                        height: MediaQuery.of(context).size.height * 0.38,
-                        child: Card(
-                            color: Colors.grey[50],
-                            elevation: 0,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(13)),
-                            child: ListView(children: [
-                              for (Commentaire commentaire
-                                  in currentVideoController.video!.commentaire)
-                                Container(
-                                    // height: MediaQuery.of(context).size.height * 0.1,
+                                        child: Chewie(
+                                          controller: _chewieController!,
+                                        )))
+                                : Container(
+                                  height:
+                                        MediaQuery.of(context).size.height * 0.31,
+                                  child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: const [
+                                        CircularProgressIndicator(),
+                                        SizedBox(height: 20),
+                                        Text('Loading'),
+                                      ],
+                                    ),
+                                ),
+                          ),
+                        ),
+                        Container(
+                            height: MediaQuery.of(context).size.height * 0.12,
+                            margin: EdgeInsets.only(
+                              top: MediaQuery.of(context).size.height * 0.001,
+                              left: MediaQuery.of(context).size.width * 0.05,
+                            ),
+                            child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Container(
+                                    alignment: Alignment.centerLeft,
+                                    margin: EdgeInsets.only(
+                                      // top: MediaQuery.of(context).size.height * 0.00,
+                                      left:
+                                          MediaQuery.of(context).size.width * 0.0,
+                                    ),
+                                    child: CircleAvatar(
+                                        radius: 30,
+                                        backgroundColor: Colors.blueGrey,
+                                        child: Text('BJJ',
+                                            style:
+                                                TextStyle(color: Colors.white))),
+                                  ),
+                                  Container(
                                     margin: EdgeInsets.only(
                                       top: MediaQuery.of(context).size.height *
-                                          0.001,
-                                      left: MediaQuery.of(context).size.width *
-                                          0.08,
+                                          0.02,
                                     ),
-                                    child: Row(
+                                    child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
+                                            MainAxisAlignment.spaceAround,
                                         children: [
                                           Container(
-                                            alignment: Alignment.centerLeft,
-                                            margin: EdgeInsets.only(
-                                              // top: MediaQuery.of(context).size.height * 0.00,
-                                              left: MediaQuery.of(context)
+                                              width: MediaQuery.of(context)
                                                       .size
-                                                      .width *
-                                                  0.0,
+                                                      .height *
+                                                  0.25,
+                                              child: Text(
+                                                  currentVideoController
+                                                      .video!.titre,
+                                                  softWrap: false,
+                                                  overflow: TextOverflow.fade,
+                                                  textAlign: TextAlign.start,
+                                                  style: TextStyle(
+                                                      fontWeight: FontWeight.w500,
+                                                      fontSize: 18,
+                                                      color: Colors.black))),
+                                          Container(
+                                            child: TextButton(
+                                              onPressed: () {
+                                                print("WLL");
+                                              },
+                                              child: Row(
+                                                  // crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                                    Icon(
+                                                        Icons
+                                                            .calendar_today_outlined,
+                                                        size: 18,
+                                                        color: Colors.grey),
+                                                    Text(
+                                                        "${currentVideoController.video!.commentaire.length} commentaires",
+                                                        textAlign:
+                                                            TextAlign.start,
+                                                        style: TextStyle(
+                                                            color: Colors
+                                                                .grey[700])),
+                                                  ]),
                                             ),
-                                            child: CircleAvatar(
-                                              radius: 20,
-                                              backgroundColor: colorAvatar[
-                                                  commentaire.userid %
-                                                      colorAvatar.length],
-                                              child: Text(commentaire.email[0]
-                                                  .toUpperCase()),
-                                            ),
+                                          )
+                                        ]),
+                                  ),
+                                  Container(
+                                      margin: EdgeInsets.only(
+                                          // top: MediaQuery.of(context).size.height * 0.08,
+                                          // left: MediaQuery.of(context).size.width * 0.0,
                                           ),
-                                          Container(
+                                      child: IconButton(
+                                        onPressed: null,
+                                        icon: Icon(
+                                          Icons.delete_sweep,
+                                          size: 20,
+                                          color: Colors.lightBlue[100],
+                                        ),
+                                      ))
+                                ])),
+                        Divider(),
+                        Container(
+                          height: MediaQuery.of(context).size.height * 0.38,
+                          child: Card(
+                              color: Colors.lightBlue[100],
+                              elevation: 0,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(13)),
+                              child: ListView(children: [
+                                for (Commentaire commentaire
+                                    in currentVideoController.video!.commentaire)
+                                  Container(
+                                      // height: MediaQuery.of(context).size.height * 0.1,
+                                      margin: EdgeInsets.only(
+                                        top: MediaQuery.of(context).size.height *
+                                            0.001,
+                                        left: MediaQuery.of(context).size.width *
+                                            0.08,
+                                      ),
+                                      child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Container(
+                                              alignment: Alignment.centerLeft,
                                               margin: EdgeInsets.only(
-                                                top: MediaQuery.of(context)
+                                                // top: MediaQuery.of(context).size.height * 0.00,
+                                                left: MediaQuery.of(context)
                                                         .size
-                                                        .height *
-                                                    0.01,
+                                                        .width *
+                                                    0.0,
                                               ),
-                                              child: Card(
-                                                  elevation: 0,
-                                                  child: Container(
-                                                    padding: EdgeInsets.all(14),
-                                                    child: Column(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .spaceAround,
-                                                        children: [
-                                                          Container(
-                                                              width: MediaQuery.of(
-                                                                          context)
-                                                                      .size
-                                                                      .width *
-                                                                  0.50,
-                                                              child: Text(
-                                                                  commentaire
-                                                                      .email,
-                                                                  softWrap:
-                                                                      true,
-                                                                  overflow:
-                                                                      TextOverflow
-                                                                          .fade,
-                                                                  textAlign:
-                                                                      TextAlign
-                                                                          .start,
-                                                                  style: TextStyle(
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w500,
-                                                                      fontSize:
-                                                                          17,
-                                                                      color: Colors
-                                                                          .black))),
-                                                          Container(
-                                                              width: MediaQuery.of(
-                                                                          context)
-                                                                      .size
-                                                                      .width *
-                                                                  0.50,
-                                                              child: Text(
-                                                                  commentaire
-                                                                      .text,
-                                                                  softWrap:
-                                                                      true,
-                                                                  textAlign:
-                                                                      TextAlign
-                                                                          .start,
-                                                                  style: TextStyle(
-                                                                      fontSize:
-                                                                          14,
-                                                                      color: Colors
-                                                                              .grey[
-                                                                          850])))
-                                                        ]),
-                                                  ))),
-                                          Container(
-                                              margin: EdgeInsets.only(
-                                                  // top: MediaQuery.of(context).size.height * 0.08,
-                                                  // left: MediaQuery.of(context).size.width * 0.0,
-                                                  ),
-                                              child: userController.user.admin
-                                                  ? IconButton(
-                                                      onPressed: null,
-                                                      icon: Icon(
-                                                        Icons.delete_sweep,
-                                                        size: 20,
-                                                      ),
-                                                    )
-                                                  : IconButton(
-                                                      onPressed: null,
-                                                      icon: Icon(
-                                                        Icons.delete_sweep,
-                                                        size: 20,
-                                                        color: Colors.grey[50],
-                                                      ),
-                                                    ))
-                                        ])),
-                            ])),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Container(
-                            height: MediaQuery.of(context).size.height * 0.07,
-                            width: MediaQuery.of(context).size.width * 0.85,
-                            margin: EdgeInsets.symmetric(
-                                vertical: MediaQuery.of(context).size.height *
-                                    0.0113),
-                            child: TextField(
-                              controller: appController.newComment,
-                              style: TextStyle(
-                                  fontSize: 13, color: Colors.grey[800]),
-                              decoration: InputDecoration(
-                                filled: true,
-                                fillColor: Colors.blue[50],
-                                floatingLabelBehavior:
-                                    FloatingLabelBehavior.auto,
-                                border: UnderlineInputBorder(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(90.0)),
-                                    borderSide: BorderSide.none),
-                                focusedBorder: UnderlineInputBorder(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(90.0)),
-                                    borderSide: BorderSide.none),
-                                hintText: "Votre commentaire...",
-                                prefixIcon: Icon(
-                                  Icons.message_outlined,
-                                  color: Colors.blue,
-                                  size: 17.5,
+                                              child: CircleAvatar(
+                                                radius: 20,
+                                                backgroundColor: colorAvatar[
+                                                    commentaire.userid %
+                                                        colorAvatar.length],
+                                                child: Text(commentaire.email[0]
+                                                    .toUpperCase()),
+                                              ),
+                                            ),
+                                            Container(
+                                                margin: EdgeInsets.only(
+                                                  top: MediaQuery.of(context)
+                                                          .size
+                                                          .height *
+                                                      0.01,
+                                                ),
+                                                child: Card(
+                                                    color: Colors.blue[50],
+                                                    elevation: 0,
+                                                    child: Container(
+                                                      padding: EdgeInsets.all(14),
+                                                      child: Column(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceAround,
+                                                          children: [
+                                                            Container(
+                                                                width: MediaQuery.of(
+                                                                            context)
+                                                                        .size
+                                                                        .width *
+                                                                    0.50,
+                                                                child: Text(
+                                                                    commentaire
+                                                                        .email,
+                                                                    softWrap:
+                                                                        true,
+                                                                    overflow:
+                                                                        TextOverflow
+                                                                            .fade,
+                                                                    textAlign:
+                                                                        TextAlign
+                                                                            .start,
+                                                                    style: TextStyle(
+                                                                        fontWeight:
+                                                                            FontWeight
+                                                                                .w500,
+                                                                        fontSize:
+                                                                            17,
+                                                                        color: Colors
+                                                                            .black))),
+                                                            Container(
+                                                                width: MediaQuery.of(
+                                                                            context)
+                                                                        .size
+                                                                        .width *
+                                                                    0.50,
+                                                                child: Text(
+                                                                    commentaire
+                                                                        .text,
+                                                                    softWrap:
+                                                                        true,
+                                                                    textAlign:
+                                                                        TextAlign
+                                                                            .start,
+                                                                    style: TextStyle(
+                                                                        fontSize:
+                                                                            14,
+                                                                        color: Colors
+                                                                                .grey[
+                                                                            850])))
+                                                          ]),
+                                                    ))),
+                                            Container(
+                                                margin: EdgeInsets.only(
+                                                    // top: MediaQuery.of(context).size.height * 0.08,
+                                                    // left: MediaQuery.of(context).size.width * 0.0,
+                                                    ),
+                                                child: userController.user.admin
+                                                    ? IconButton(
+                                                        onPressed: null,
+                                                        icon: Icon(
+                                                          Icons.delete_sweep,
+                                                          size: 20,
+                                                        ),
+                                                      )
+                                                    : IconButton(
+                                                        onPressed: null,
+                                                        icon: Icon(
+                                                          Icons.delete_sweep,
+                                                          size: 20,
+                                                          color: Colors.grey[50],
+                                                        ),
+                                                      ))
+                                          ])),
+                              ])),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Container(
+                              height: MediaQuery.of(context).size.height * 0.07,
+                              width: MediaQuery.of(context).size.width * 0.85,
+                              margin: EdgeInsets.symmetric(
+                                  vertical: MediaQuery.of(context).size.height *
+                                      0.0113),
+                              child: TextField(
+                                controller: appController.newComment,
+                                style: TextStyle(
+                                    fontSize: 13, color: Colors.grey[800]),
+                                decoration: InputDecoration(
+                                  filled: true,
+                                  fillColor: Colors.blue[50],
+                                  floatingLabelBehavior:
+                                      FloatingLabelBehavior.auto,
+                                  border: UnderlineInputBorder(
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(90.0)),
+                                      borderSide: BorderSide.none),
+                                  focusedBorder: UnderlineInputBorder(
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(90.0)),
+                                      borderSide: BorderSide.none),
+                                  hintText: "Votre commentaire...",
+                                  prefixIcon: Icon(
+                                    Icons.message_outlined,
+                                    color: Colors.blue,
+                                    size: 17.5,
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                          Container(
-                            height: MediaQuery.of(context).size.height * 0.07,
-                            padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0.01),
-                            child: IconButton(
-                              onPressed: () {
-                              if (appController.newComment.text.trim() == '')
-                                return;
-                              void sendComment() async {
-                                //String textsave = appController.newComment.text;
+                            Container(
+                              height: MediaQuery.of(context).size.height * 0.07,
+                              padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0.01),
+                              child: IconButton(
+                                onPressed: () {
+                                if (appController.newComment.text.trim() == '')
+                                  return;
+                                void sendComment() async {
+                                  //String textsave = appController.newComment.text;
 
-                                bool res = await appController.sendComment(
-                                    userController.user.id,
-                                    userController.user.token,
-                                    appController.newComment.text,
-                                    currentVideoController.video!.id);
+                                  bool res = await appController.sendComment(
+                                      userController.user.id,
+                                      userController.user.token,
+                                      appController.newComment.text,
+                                      currentVideoController.video!.id);
 
-                                if (res) {
-                                  currentVideoController.video!.commentaire.add(
-                                      Commentaire(
-                                          id: 0,
-                                          text: appController.newComment.text,
-                                          userid: userController.user.id,
-                                          email: userController.user.email));
-                                  appController.newComment.text = '';
-                                  Get.snackbar(
-                                    "Succes",
-                                    "Votre Commentaire a été ajouté.",
-                                    backgroundColor: Colors.grey,
-                                    snackPosition: SnackPosition.BOTTOM,
-                                    borderColor: Colors.grey,
-                                    borderRadius: 10,
-                                    borderWidth: 2,
-                                    barBlur: 0,
-                                    duration: Duration(seconds: 2),
-                                  );
-                                  currentVideoController.update();
+                                  if (res) {
+                                    currentVideoController.video!.commentaire.add(
+                                        Commentaire(
+                                            id: 0,
+                                            text: appController.newComment.text,
+                                            userid: userController.user.id,
+                                            email: userController.user.email));
+                                    appController.newComment.text = '';
+                                    Get.snackbar(
+                                      "Succes",
+                                      "Votre Commentaire a été ajouté.",
+                                      backgroundColor: Colors.grey,
+                                      snackPosition: SnackPosition.BOTTOM,
+                                      borderColor: Colors.grey,
+                                      borderRadius: 10,
+                                      borderWidth: 2,
+                                      barBlur: 0,
+                                      duration: Duration(seconds: 2),
+                                    );
+                                    currentVideoController.update();
+                                  }
                                 }
-                              }
 
-                              sendComment();
-                            },
-                            icon: Icon(Icons.send, color: Colors.blue[700]),
+                                sendComment();
+                              },
+                              icon: Icon(Icons.send, color: Colors.blue[700]),
+                              )
                             )
-                          )
-                        ],
-                      )
-                    ],
-                  ),
-                ]))));
+                          ],
+                        )
+                      ],
+                    ),
+                  ]),
+                ))));
   }
 }
