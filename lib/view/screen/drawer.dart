@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:bjj_library/controller/app.dart';
 import 'package:bjj_library/controller/data.dart';
 import 'package:bjj_library/controller/users.dart';
@@ -408,6 +407,16 @@ class AppDrawer extends StatelessWidget {
                                 ),
                                 Divider(),
                                 ListTile(
+                                  leading: Icon(Icons.home,
+                                      color: Colors.lightBlue[800]),
+                                  title: Text(""),
+                                  onTap: () {
+                                    Navigator.pop(context);
+                                    // Get.toNamed('/live');
+                                  },
+                                ),
+                                Divider(),
+                                ListTile(
                                   leading: Icon(Icons.lock,
                                       color: Colors.lightBlue[800]),
                                   title: Text("Changer mot de passe"),
@@ -460,4 +469,5 @@ class AppDrawer extends StatelessWidget {
       ),
     );
   }
+
 }
