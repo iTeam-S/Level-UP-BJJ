@@ -960,5 +960,54 @@ def change_password():
 	return jsonify({'data': rowcount!=0}), 200
 
 
+@webserver.route('/api/v1/create_post', methods=['POST'])
+def create_post():
+	"""
+		DESC : Fonction permettant de mettre a jour notif commentaire'
+	"""
+	data = request.get_json()
+	
+	token = data.get("token")
+	user_id = data.get("user_id")
+	actu = data.get('post')
+
+	if verifToken(token).get('sub') != user_id:
+		return {"status" : "Erreur Token"}, 403
+
+	user_admin = is_admin(user_id)
+	if user_admin != 1 :
+		return {"status" : "Vous n'avez pas assez de droit !"}, 403
+
+	db = mysql.connector.connect(**database())
+	cursor = db.cursor()
+
+	if actu.get('type') == 'SONDAGE':
+
+		cursor.execute("""
+			INSERT INTO Actualite(text, contenue, id_user)
+			VALUES (%s, %s, %s)
+		""", (actu['text'], 1, user_id))
+	
+		actu_id = cursor.lastrowid
+		for choix in actu.get('data'):
+			cursor.execute("""
+				INSERT INTO Sondage(actualite_id, choix)
+				VALUES (%s, %s)
+				""", 
+				(actu_id, choix)
+			)
+	else:
+		cursor.execute("""
+			INSERT INTO Actualite(text, contenue, id_user)
+			VALUES (%s, %s, %s)
+			""", 
+			(actu['text'], 0, user_id)
+		)
+
+	db.commit()
+	db.close()
+	return jsonify({'status': 'Création de post avec succes'}), 202
+
+
 if __name__=="__main__":
 	webserver.run(host=os.getenv('IP', '0.0.0.0'), port=int(os.getenv('PORT', 4444)))
