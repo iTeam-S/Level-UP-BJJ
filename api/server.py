@@ -963,7 +963,7 @@ def change_password():
 @webserver.route('/api/v1/create_post', methods=['POST'])
 def create_post():
 	"""
-		DESC : Fonction permettant de mettre a jour notif commentaire'
+		DESC : Fonction permettant de créer une publication'
 	"""
 	data = request.get_json()
 	
@@ -1007,6 +1007,32 @@ def create_post():
 	db.commit()
 	db.close()
 	return jsonify({'status': 'Création de post avec succes'}), 202
+
+
+@webserver.route('/api/v1/vote', methods=['POST'])
+def vote_sondage():
+	"""
+		Fonction permettant de choisir dans un sondage.
+	"""
+	data = request.get_json()
+	
+	token = data.get("token")
+	user_id = data.get("user_id")
+	sondage = data.get('sondage_id')
+
+	if verifToken(token).get('sub') != user_id:
+		return {"status" : "Erreur Token"}, 403
+
+	db = mysql.connector.connect(**database())
+	cursor = db.cursor()
+	cursor.execute("""
+		INSERT INTO Sondage_utilisateur (user_id, sondage_id)
+		VALUES (%s, %s)
+	""", (user_id, sondage))
+
+	db.commit()
+	db.close()
+	return jsonify({'status': 'Vote faite avec succès'}), 202
 
 
 if __name__=="__main__":
