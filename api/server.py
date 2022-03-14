@@ -1087,6 +1087,81 @@ def delete_post():
 	return jsonify({'status': 'Post supprimé'}), 200
 
 
+@webserver.route('/api/v1/posts', methods=['POST'])
+def get_post():
+	"""
+		Recupere la liste des actaulités
+	"""
+
+	def struct(s_id, s_lib):
+		cursor.execute(
+			'''
+				SELECT 
+					s.user_id, u.mail
+				FROM Sondage_utilisateur s 
+				JOIN Utilisateur u 
+				ON s.user_id = u.id 
+				WHERE s.sondage_id = %s
+			''', (s_id, )
+		)
+		tmp = cursor.fetchall()
+		return {
+			'sondage_id': s_id,
+			'sondage': s_lib,
+			'users': [ {'user_id': u[0], 'user_mail': u[1]} for u in tmp ] 
+		}
+
+	data = request.get_json()
+	
+	token = data.get("token")
+	user_id = data.get("user_id")
+
+	db = mysql.connector.connect(**database())
+	cursor = db.cursor()
+
+	cursor.execute("""
+		SELECT a.id, text, contenue, id_user, u.mail
+		FROM Actualite a JOIN Utilisateur u 
+		ON a.id_user = u.id """
+	)
+	res = []
+	actus = cursor.fetchall()
+
+	for actu in actus:
+		res.append(
+				{
+					'actu_id': actu[0],
+					'text': actu[1],
+					'user_id': actu[3],
+					'user_mail': actu[4]
+				}
+			)
+		if actu[2] != 0:
+			cursor.execute(
+				'''
+					SELECT 
+						id, choix
+					FROM Sondage
+					WHERE actualite_id = %s
+				''', (actu[0], )
+			)
+			tmp = cursor.fetchall()
+			res[-1]['data'] = [ struct(c[0], c[1]) for c in tmp]
+	db.commit()
+	db.close()
+	return {'status': 'ok', 'data': res}
+
+
+
+
+
+		
+		
+
+
+	if verifToken(token).get('sub') != user_id:
+		return {"status" : "Erreur Token"}, 403
+
 
 if __name__=="__main__":
 	webserver.run(host=os.getenv('IP', '0.0.0.0'), port=int(os.getenv('PORT', 4444)))
