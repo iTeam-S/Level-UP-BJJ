@@ -1034,6 +1034,7 @@ def vote_sondage():
 	db.close()
 	return jsonify({'status': 'Vote faite avec succès'}), 202
 
+
 @webserver.route('/api/v1/unvote', methods=['POST'])
 def unvote_sondage():
 	"""
@@ -1057,7 +1058,34 @@ def unvote_sondage():
 
 	db.commit()
 	db.close()
-	return jsonify({'status': 'Vote supprimé'}), 204
+	return jsonify({'status': 'Vote supprimé'}), 200
+
+
+@webserver.route('/api/v1/delete_post', methods=['POST'])
+def delete_post():
+	"""
+		Recupere la liste des actaulités
+	"""
+	data = request.get_json()
+	
+	token = data.get("token")
+	user_id = data.get("user_id")
+	actu = data.get("actualite_id")
+
+	if verifToken(token).get('sub') != user_id:
+		return {"status" : "Erreur Token"}, 403
+
+	db = mysql.connector.connect(**database())
+	cursor = db.cursor()
+	cursor.execute("""
+		DELETE FROM Actualite
+		WHERE id = %s
+		""", (actu, )
+	)
+	db.commit()
+	db.close()
+	return jsonify({'status': 'Post supprimé'}), 200
+
 
 
 if __name__=="__main__":
