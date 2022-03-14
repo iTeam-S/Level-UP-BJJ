@@ -1034,6 +1034,31 @@ def vote_sondage():
 	db.close()
 	return jsonify({'status': 'Vote faite avec succès'}), 202
 
+@webserver.route('/api/v1/unvote', methods=['POST'])
+def unvote_sondage():
+	"""
+		Fonction permettant d'effacer le vote dans un sondage.
+	"""
+	data = request.get_json()
+	
+	token = data.get("token")
+	user_id = data.get("user_id")
+	sondage = data.get('sondage_id')
+
+	if verifToken(token).get('sub') != user_id:
+		return {"status" : "Erreur Token"}, 403
+
+	db = mysql.connector.connect(**database())
+	cursor = db.cursor()
+	cursor.execute("""
+		DELETE FROM Sondage_utilisateur
+		WHERE user_id = %s AND sondage_id = %s
+	""", (user_id, sondage))
+
+	db.commit()
+	db.close()
+	return jsonify({'status': 'Vote supprimé'}), 204
+
 
 if __name__=="__main__":
 	webserver.run(host=os.getenv('IP', '0.0.0.0'), port=int(os.getenv('PORT', 4444)))
