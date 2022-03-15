@@ -59,7 +59,45 @@ class _SondageState extends State<Sondage> {
                     )*/
                     InkWell(
                       onTap: () {
-                        sondage();
+                         showDialog(
+        context: context,
+        builder: (context) {
+          return 
+          BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 1.5, sigmaY: 1.5),
+            child: SimpleDialog(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20)),
+              backgroundColor: Colors.white,
+              title: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Créer un sondage',
+                    style: TextStyle(color: primaire),
+                  ),
+                  IconButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      icon: Icon(
+                        Icons.close,
+                        color: Colors.redAccent,
+                      )),
+                ],
+              ),
+              children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      TextButton(onPressed: (){ addContent(context); }, child: Text('Annonces', style: TextStyle(fontSize: 21),)),
+                      TextButton(onPressed: (){ sondage(); }, child: Text('Sondage', style: TextStyle(fontSize: 21),)),
+                    ],)
+              ],
+            ),
+          );
+        });
+ 
                       },
                       child: Container(
                         width: 45,
@@ -139,42 +177,39 @@ class _SondageState extends State<Sondage> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text("La nuit s'allumera",
-                                      style: TextStyle(fontSize: 25)),
+                                      style: TextStyle(fontSize: 20)),
                                   SizedBox(
                                     height: 5,
                                   ),
                                   index % 2 == 0 ? 
                                     Text(lorem,
-                                      maxLines: 5,
                                       overflow: TextOverflow.ellipsis,
                                       textAlign: TextAlign.justify,
-                                      style: TextStyle(fontSize: 17)
+                                      style: TextStyle(fontSize: 17),
+                                      maxLines: 6,
                                     ) :
                                     Container(
-                                      height: Get.height,
+                                      height: 150,
                                       width: Get.width,
                                       child: ListView(
                                         scrollDirection: Axis.vertical,
                                         children: [
-                                          for (int i=0; i<3; i++)
+                                          for (int i=0; i<10; i++)
                                           Container(
-                                              margin: EdgeInsets.symmetric(vertical: 3),
-                                              height: 30,
+                                              margin: EdgeInsets.symmetric(vertical: 1),
                                               width: Get.width,
                                               child: Row(
                                                 mainAxisAlignment:
                                                     MainAxisAlignment.spaceBetween,
                                                 children: [
-                                                  Expanded(
-                                                    child: Text("Egalité pour tous",
-                                                        overflow: TextOverflow.ellipsis,
-                                                        maxLines: 1,
-                                                        style: TextStyle(
-                                                          color: Colors.black,
-                                                          fontSize: 16,
-                                                          fontWeight: FontWeight.normal,
-                                                        )),
-                                                  ),
+                                                  Text("Egalité pour tous",
+                                                      overflow: TextOverflow.ellipsis,
+                                                      maxLines: 1,
+                                                      style: TextStyle(
+                                                        color: Colors.black,
+                                                        fontSize: 16,
+                                                        fontWeight: FontWeight.normal,
+                                                      )),
                                                   IconButton(
                                                   iconSize: 16,
                                                     onPressed: () {
