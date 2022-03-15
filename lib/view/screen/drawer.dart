@@ -386,7 +386,16 @@ class AppDrawer extends StatelessWidget {
                     Column(
                         children: userController.user.admin
                             ? [
-                                /*
+                                ListTile(
+                                  leading: Icon(Icons.home,
+                                      color: Colors.lightBlue[800]),
+                                  title: Text("Annonces"),
+                                  onTap: () {
+                                    Navigator.pop(context);
+                                    Get.toNamed('/new');
+                                  },
+                                ),
+                                Divider(),
                                 ListTile(
                                   leading: Icon(Icons.video_collection_outlined,
                                       color: Colors.lightBlue[800]),
@@ -395,7 +404,7 @@ class AppDrawer extends StatelessWidget {
                                     Navigator.pop(context);
                                   },
                                 ),
-                                Divider(),*/
+                                Divider(),
                                 ListTile(
                                   leading: Icon(Icons.add_outlined,
                                       color: Colors.lightBlue[800]),

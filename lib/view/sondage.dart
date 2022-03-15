@@ -24,7 +24,7 @@ class _SondageState extends State<Sondage> {
     return Scaffold(
       backgroundColor: background,
       appBar: AppBar(
-        title: Text("TEST"),
+        title: Text("Annonces"),
         backgroundColor: primaire,
       ),
       body: SizedBox(
@@ -77,130 +77,20 @@ class _SondageState extends State<Sondage> {
                   ],
                 ),
               ),
-              SizedBox(
-                height: 200,
-                child: ListView.builder(
-                    itemCount: 3,
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, int index) {
-                      return Container(
-                        width: 340,
-                        margin:
-                            EdgeInsets.symmetric(vertical: 5, horizontal: 15),
-                        //padding: EdgeInsets.symmetric(vertical: 5, horizontal: 15),
-                        decoration: BoxDecoration(
-                            boxShadow: [
-                              BoxShadow(
-                                  color: Colors.black26,
-                                  blurRadius: 10,
-                                  spreadRadius: 5,
-                                  offset: Offset(2, 3))
-                            ],
-                            color: primaire,
-                            borderRadius: BorderRadius.circular(15)),
-                        child: Column(
-                          children: [
-                            Container(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 15, vertical: 5),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  CircleAvatar(
-                                    backgroundColor: Colors.white,
-                                    child: Text("M"),
-                                    radius: 25,
-                                  ),
-                                  SizedBox(
-                                    width: 15,
-                                  ),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text("Jaden Smith",
-                                          style: TextStyle(fontSize: 25)),
-                                      Text("il y a 45 minutes",
-                                          style: TextStyle(
-                                              fontSize: 15,
-                                              color: Colors.white54)),
-                                    ],
-                                  )
-                                ],
-                              ),
-                            ),
-                            Container(
-                              height: 130,
-                              width: Get.width,
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.only(
-                                      bottomLeft: Radius.circular(15),
-                                      bottomRight: Radius.circular(15),
-                                      topLeft: Radius.circular(10),
-                                      topRight: Radius.circular(10))),
-                              padding: EdgeInsets.symmetric(
-                                  vertical: 5, horizontal: 15),
-                              child: ListView.builder(
-                                  itemCount: 4,
-                                  itemBuilder:
-                                      (BuildContext context, int index) {
-                                    return Container(
-                                      margin: EdgeInsets.symmetric(vertical: 5),
-                                      height: 30,
-                                      width: Get.width,
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Expanded(
-                                            child: Text("Egalité pour tous",
-                                                overflow: TextOverflow.ellipsis,
-                                                maxLines: 1,
-                                                style: TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize: 18,
-                                                  fontWeight: FontWeight.normal,
-                                                )),
-                                          ),
-                                          IconButton(
-                                            onPressed: () {
-                                              setState(() {
-                                                isChecked = !isChecked;
-                                              });
-                                            },
-                                            icon: Icon(
-                                              !isChecked
-                                                  ? Icons
-                                                      .check_box_outline_blank
-                                                  : Icons.check_box,
-                                            ),
-                                            color: primaire,
-                                          )
-                                        ],
-                                      ),
-                                    );
-                                  }),
-                            ),
-                          ],
-                        ),
-                      );
-                    }),
-              ),
               Container(
                 width: Get.width,
                 margin: EdgeInsets.symmetric(horizontal: 15, vertical: 7),
               ),
               SizedBox(
                 width: Get.width,
-                height: Get.height * .6,
+                height: Get.height * .8,
                 child: ListView.builder(
-                    itemCount: 3,
+                    itemCount: 6,
                     scrollDirection: Axis.vertical,
                     itemBuilder: (context, int index) {
                       return Container(
-                        height: 240,
                         width: Get.width,
+                        height: 300,
                         margin:
                             EdgeInsets.symmetric(vertical: 10, horizontal: 15),
                         padding: EdgeInsets.all(20),
@@ -253,11 +143,59 @@ class _SondageState extends State<Sondage> {
                                   SizedBox(
                                     height: 5,
                                   ),
-                                  Text(lorem,
+                                  index % 2 == 0 ? 
+                                    Text(lorem,
                                       maxLines: 5,
                                       overflow: TextOverflow.ellipsis,
                                       textAlign: TextAlign.justify,
-                                      style: TextStyle(fontSize: 17)),
+                                      style: TextStyle(fontSize: 17)
+                                    ) :
+                                    Container(
+                                      height: Get.height,
+                                      width: Get.width,
+                                      child: ListView(
+                                        scrollDirection: Axis.vertical,
+                                        children: [
+                                          for (int i=0; i<3; i++)
+                                          Container(
+                                              margin: EdgeInsets.symmetric(vertical: 3),
+                                              height: 30,
+                                              width: Get.width,
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.spaceBetween,
+                                                children: [
+                                                  Expanded(
+                                                    child: Text("Egalité pour tous",
+                                                        overflow: TextOverflow.ellipsis,
+                                                        maxLines: 1,
+                                                        style: TextStyle(
+                                                          color: Colors.black,
+                                                          fontSize: 16,
+                                                          fontWeight: FontWeight.normal,
+                                                        )),
+                                                  ),
+                                                  IconButton(
+                                                  iconSize: 16,
+                                                    onPressed: () {
+                                                      setState(() {
+                                                        isChecked = !isChecked;
+                                                      });
+                                                    },
+                                                    icon: Icon(
+                                                      !isChecked
+                                                          ? Icons
+                                                              .check_box_outline_blank
+                                                          : Icons.check_box,
+                                                    ),
+                                                    color: primaire,
+                                                  )
+                                                ],
+                                              ),
+                                            )
+                                        ],
+                                      ),
+                                    ),
                                 ],
                               ),
                             )
