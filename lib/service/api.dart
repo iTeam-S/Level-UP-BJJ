@@ -443,5 +443,24 @@ class ApiController extends GetxController {
     }
   }
 
+  Future<List> unvote(int userid, String token, int sondage) async{
+     try {
+      var response = await client.post(
+        "/api/v1/unvote",
+        data: {
+          "user_id": userid,
+          "token": token,
+          "sondage_id": sondage
+        },
+      );
+      return [true, response.data];
+    } on dio.DioError catch (err) {
+      return [false, err.response!.data['status']];
+    } catch (e) {
+      print("--: $e");
+      return [false, "..."];
+    }
+  }
+
 
 }

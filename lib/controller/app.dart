@@ -529,4 +529,21 @@ class AppController extends GetxController {
     }
   }
 
+  Future<bool> unVoteSondage(User user, int sondage) async {
+    try {
+      var res = await apiController.unvote(user.id, user.token, sondage);
+      if (res[0]) {
+        return true;
+      } 
+      else {
+        errorSnack("${res[1]}");
+        return false;
+      }
+    } catch (err) {
+      print(err);
+      errorSnack("Une erreur s'est produite.");
+      return false; 
+    }
+  }
+
 }

@@ -292,6 +292,8 @@ class _SondageState extends State<Sondage> {
     appController.update();
     if (value)
       appController.voteSondage(userController.user, sondage);
+    else
+      appController.unVoteSondage(userController.user, sondage);
   }
 
   void addContent(BuildContext context) {
