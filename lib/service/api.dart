@@ -406,5 +406,23 @@ class ApiController extends GetxController {
     }
   }
 
+    Future<List> getPosts(int userid, String token) async{
+     try {
+      var response = await client.post(
+        "/api/v1/posts",
+        data: {
+          "user_id": userid,
+          "token": token
+        },
+      );
+      return [true, response.data];
+    } on dio.DioError catch (err) {
+      return [false, err.response!.data['status']];
+    } catch (e) {
+      print("--: $e");
+      return [false, "..."];
+    }
+  }
+
 
 }

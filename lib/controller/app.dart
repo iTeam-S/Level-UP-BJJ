@@ -26,6 +26,9 @@ class AppController extends GetxController {
   TextEditingController newNomModule = TextEditingController();
   TextEditingController newComment = TextEditingController();
 
+  // variable istocker donnée ana actualités
+  late List<dynamic> actualite = [];
+
   late Module currModule;
   final box = GetStorage();
   var notifs = [];
@@ -474,6 +477,26 @@ class AppController extends GetxController {
       var res = await apiController.verifCode(mail, code);
       if (res[0]) {
         userController.user = User.fromJson(res[1]);
+        return true;
+      } 
+      else {
+        errorSnack("${res[1]}");
+        return false;
+      }
+    } catch (err) {
+      print(err);
+      errorSnack("Une erreur s'est produite.");
+      return false; 
+    }
+  }
+
+  Future<bool> getPosts(User user) async {
+    try {
+      var res = await apiController.getPosts(user.id, user.token);
+      if (res[0]) {
+        actualite = res[1]['data'];
+        print(actualite);
+        update();
         return true;
       } 
       else {

@@ -1120,7 +1120,7 @@ def get_post():
 	cursor = db.cursor()
 
 	cursor.execute("""
-		SELECT a.id, text, contenue, id_user, u.mail
+		SELECT a.id, text, contenue, id_user, u.mail, DATE_FORMAT(date_pub, '%d-%m-%Y')
 		FROM Actualite a JOIN Utilisateur u 
 		ON a.id_user = u.id """
 	)
@@ -1133,7 +1133,8 @@ def get_post():
 					'actu_id': actu[0],
 					'text': actu[1],
 					'user_id': actu[3],
-					'user_mail': actu[4]
+					'user_mail': actu[4],
+					'date_pub': actu[5]
 				}
 			)
 		if actu[2] != 0:
@@ -1147,20 +1148,11 @@ def get_post():
 			)
 			tmp = cursor.fetchall()
 			res[-1]['data'] = [ struct(c[0], c[1]) for c in tmp]
+		else:
+			res[-1]['data'] = []
 	db.commit()
 	db.close()
 	return {'status': 'ok', 'data': res}
-
-
-
-
-
-		
-		
-
-
-	if verifToken(token).get('sub') != user_id:
-		return {"status" : "Erreur Token"}, 403
 
 
 if __name__=="__main__":

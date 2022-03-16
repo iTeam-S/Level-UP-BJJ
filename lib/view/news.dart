@@ -2,6 +2,8 @@
 
 import 'dart:ui';
 
+import 'package:bjj_library/controller/app.dart';
+import 'package:bjj_library/controller/users.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -18,7 +20,18 @@ class Sondage extends StatefulWidget {
 }
 
 class _SondageState extends State<Sondage> {
+
+  UserController userController = Get.put(UserController());
+  AppController appController = Get.put(AppController());
+  
+
+  @override
+  void initState() {
+    super.initState();
+    appController.getPosts(userController.user);
+  }
   bool isChecked = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,6 +46,7 @@ class _SondageState extends State<Sondage> {
         child: SingleChildScrollView(
           child: Column(
             children: [
+              userController.user.admin ? 
               Container(
                 width: Get.width,
                 height: 70,
@@ -114,7 +128,9 @@ class _SondageState extends State<Sondage> {
                     )
                   ],
                 ),
-              ),
+              )
+              : Divider(),
+
               Container(
                 width: Get.width,
                 margin: EdgeInsets.symmetric(horizontal: 15, vertical: 7),
@@ -122,122 +138,123 @@ class _SondageState extends State<Sondage> {
               SizedBox(
                 width: Get.width,
                 height: Get.height * .8,
-                child: ListView.builder(
-                    itemCount: 6,
-                    scrollDirection: Axis.vertical,
-                    itemBuilder: (context, int index) {
-                      return Container(
-                        width: Get.width,
-                        height: 300,
-                        margin:
-                            EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-                        padding: EdgeInsets.all(20),
-                        decoration: BoxDecoration(
-                            boxShadow: [
-                              BoxShadow(
-                                  color: Colors.black26,
-                                  blurRadius: 10,
-                                  spreadRadius: 1,
-                                  offset: Offset(2, 3))
-                            ],
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(15)),
-                        child: Column(
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                CircleAvatar(
-                                  backgroundColor: primaire,
-                                  child: Text("M"),
-                                  radius: 25,
-                                ),
-                                SizedBox(
-                                  width: 15,
-                                ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text("Will Smith",
-                                        style: TextStyle(fontSize: 25)),
-                                    Text("il y a 15 minutes",
-                                        style: TextStyle(
-                                            fontSize: 15,
-                                            color: Colors.black45)),
-                                  ],
-                                )
-                              ],
-                            ),
-                            SizedBox(
-                              height: 15,
-                            ),
+                child: GetBuilder<AppController>(
+                  builder: (_) {
+                    return 
+                    ListView(
+                        children: [ 
+                            for (var actualite in appController.actualite)
                             Container(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text("La nuit s'allumera",
-                                      style: TextStyle(fontSize: 20)),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  index % 2 == 0 ? 
-                                    Text(lorem,
-                                      overflow: TextOverflow.ellipsis,
-                                      textAlign: TextAlign.justify,
-                                      style: TextStyle(fontSize: 17),
-                                      maxLines: 6,
-                                    ) :
+                                  width: Get.width,
+                                  margin:
+                                      EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                                  padding: EdgeInsets.all(20),
+                                  decoration: BoxDecoration(
+                                      boxShadow: [
+                                        BoxShadow(
+                                            color: Colors.black26,
+                                            blurRadius: 10,
+                                            spreadRadius: 1,
+                                            offset: Offset(2, 3))
+                                      ],
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(15)),
+                                  child: Column(
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: [
+                                        CircleAvatar(
+                                          backgroundColor: primaire,
+                                          child: Text(actualite['user_mail'][0].toUpperCase()),
+                                          radius: 25,
+                                        ),
+                                        SizedBox(
+                                          width: 15,
+                                        ),
+                                        Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text(actualite['user_mail'],
+                                                style: TextStyle(fontSize: 25)),
+                                            Text("${actualite['date_pub']}",
+                                                style: TextStyle(
+                                                    fontSize: 15,
+                                                    color: Colors.black45)),
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: 15,
+                                    ),
                                     Container(
-                                      height: 150,
-                                      width: Get.width,
-                                      child: ListView(
-                                        scrollDirection: Axis.vertical,
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
-                                          for (int i=0; i<10; i++)
-                                          Container(
-                                              margin: EdgeInsets.symmetric(vertical: 1),
+                                          Text(actualite['text'],
+                                              overflow: TextOverflow.ellipsis,
+                                              textAlign: TextAlign.justify,
+                                              maxLines: 6,
+                                              style: TextStyle(fontSize: 18)),
+                                          SizedBox(
+                                            height: 5,
+                                          ),
+                                          if (actualite['data'].length != 0) 
+                                            Container(
+                                              height: 150,
                                               width: Get.width,
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.spaceBetween,
+                                              child: ListView(
+                                                scrollDirection: Axis.vertical,
                                                 children: [
-                                                  Text("Egalité pour tous",
-                                                      overflow: TextOverflow.ellipsis,
-                                                      maxLines: 1,
-                                                      style: TextStyle(
-                                                        color: Colors.black,
-                                                        fontSize: 16,
-                                                        fontWeight: FontWeight.normal,
-                                                      )),
-                                                  IconButton(
-                                                  iconSize: 16,
-                                                    onPressed: () {
-                                                      setState(() {
-                                                        isChecked = !isChecked;
-                                                      });
-                                                    },
-                                                    icon: Icon(
-                                                      !isChecked
-                                                          ? Icons
-                                                              .check_box_outline_blank
-                                                          : Icons.check_box,
-                                                    ),
-                                                    color: primaire,
-                                                  )
+                                                  for (var sond in actualite['data'])
+                                                  Container(
+                                                      margin: EdgeInsets.symmetric(vertical: 1),
+                                                      width: Get.width,
+                                                      child: Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment.spaceBetween,
+                                                        children: [
+                                                          Text(sond['sondage'],
+                                                              overflow: TextOverflow.ellipsis,
+                                                              maxLines: 1,
+                                                              style: TextStyle(
+                                                                color: Colors.black,
+                                                                fontSize: 18,
+                                                                fontWeight: FontWeight.normal,
+                                                              )),
+                                                          IconButton(
+                                                          iconSize: 16,
+                                                            onPressed: () {
+                                                              setState(() {
+                                                                isChecked = !isChecked;
+                                                              });
+                                                            },
+                                                            icon: Icon(
+                                                              !isChecked
+                                                                  ? Icons
+                                                                      .check_box_outline_blank
+                                                                  : Icons.check_box,
+                                                            ),
+                                                            color: primaire,
+                                                          )
+                                                        ],
+                                                      ),
+                                                    )
                                                 ],
                                               ),
-                                            )
+                                            ),
                                         ],
                                       ),
-                                    ),
-                                ],
-                              ),
-                            )
-                          ],
-                        ),
+                                    )
+                                  ],
+                                ),
+                              )
+                          ]
                       );
-                    }),
+                  }
+                ),
               )
             ],
           ),

@@ -437,6 +437,15 @@ class AppDrawer extends StatelessWidget {
                               ]
                             : [
                                 ListTile(
+                                  leading: Icon(Icons.home,
+                                      color: Colors.lightBlue[800]),
+                                  title: Text("Annonces"),
+                                  onTap: () {
+                                    Navigator.pop(context);
+                                    Get.toNamed('/new');
+                                  },
+                                ),
+                                ListTile(
                                   leading: Icon(Icons.lock,
                                       color: Colors.lightBlue[800]),
                                   title: Text("Changer mot de passe"),
