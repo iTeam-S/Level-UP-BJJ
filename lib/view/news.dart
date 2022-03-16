@@ -4,6 +4,7 @@ import 'dart:ui';
 
 import 'package:bjj_library/controller/app.dart';
 import 'package:bjj_library/controller/users.dart';
+import 'package:bjj_library/model/users.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -30,7 +31,7 @@ class _SondageState extends State<Sondage> {
     super.initState();
     appController.getPosts(userController.user);
   }
-  bool isChecked = false;
+  
 
   @override
   Widget build(BuildContext context) {
@@ -227,15 +228,12 @@ class _SondageState extends State<Sondage> {
                                                           IconButton(
                                                           iconSize: 16,
                                                             onPressed: () {
-                                                              setState(() {
-                                                                isChecked = !isChecked;
-                                                              });
+                                                              setSondage(actualite['actu_id'], sond['sondage_id'], !verifSondage(sond, userController.user));
                                                             },
                                                             icon: Icon(
-                                                              !isChecked
-                                                                  ? Icons
-                                                                      .check_box_outline_blank
-                                                                  : Icons.check_box,
+                                                              verifSondage(sond, userController.user)
+                                                              ? Icons.check_box
+                                                              : Icons.check_box_outline_blank
                                                             ),
                                                             color: primaire,
                                                           )
@@ -264,8 +262,37 @@ class _SondageState extends State<Sondage> {
     );
   }
 
-  String lorem =
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam. Maecenas ligula massa, varius a, semper congue, euismod non, mi. Proin porttitor, orci nec nonummy molestie, enim est eleifend mi, non fermentum diam nisl sit amet erat. Duis semper. Duis arcu massa, scelerisque vitae, consequat in, pretium a, enim. Pellentesque congue. Ut in risus volutpat libero pharetra tempor. Cras vestibulum bibendum augue. ";
+  bool verifSondage(var sondage, User user){
+    bool res = false; 
+    for (var usr in sondage['users'])
+      if (usr['user_id'] == user.id)
+        res = true;
+    return res;
+  }
+
+                                                              
+  void setSondage(int actu, int sondage, bool value){
+    for (int i=0; i<appController.actualite.length; i++)
+      if (appController.actualite[i]['actu_id'] == actu)
+        for (int j=0; j<appController.actualite[i]['data'].length; j++)
+          if (appController.actualite[i]['data'][j]['sondage_id'] == sondage)
+            if (value){
+              // suprression des autres choix
+              for (int jj=0; jj<appController.actualite[i]['data'].length; jj++)
+                for (int kk=0; kk<appController.actualite[i]['data'][jj]['users'].length; kk++)
+                  if (appController.actualite[i]['data'][jj]['users'][kk]['user_id'] == userController.user.id)
+                  appController.actualite[i]['data'][jj]['users'].removeAt(kk);
+              // ajout du nouveau choix
+              appController.actualite[i]['data'][j]['users'].add({'user_id': userController.user.id, 'user_mail': userController.user.email});
+            }
+            else
+              for (int k=0; k<appController.actualite[i]['data'][j]['users'].length; k++)
+                if (appController.actualite[i]['data'][j]['users'][k]['user_id'] == userController.user.id)
+                  appController.actualite[i]['data'][j]['users'].removeAt(k);
+    appController.update();
+    if (value)
+      appController.voteSondage(userController.user, sondage);
+  }
 
   void addContent(BuildContext context) {
     showDialog(

@@ -26,8 +26,10 @@ class AppController extends GetxController {
   TextEditingController newNomModule = TextEditingController();
   TextEditingController newComment = TextEditingController();
 
-  // variable istocker donnée ana actualités
+  // variable actualités
   late List<dynamic> actualite = [];
+
+  // *********************
 
   late Module currModule;
   final box = GetStorage();
@@ -497,6 +499,23 @@ class AppController extends GetxController {
         actualite = res[1]['data'];
         print(actualite);
         update();
+        return true;
+      } 
+      else {
+        errorSnack("${res[1]}");
+        return false;
+      }
+    } catch (err) {
+      print(err);
+      errorSnack("Une erreur s'est produite.");
+      return false; 
+    }
+  }
+
+  Future<bool> voteSondage(User user, int sondage) async {
+    try {
+      var res = await apiController.vote(user.id, user.token, sondage);
+      if (res[0]) {
         return true;
       } 
       else {

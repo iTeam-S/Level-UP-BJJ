@@ -1026,6 +1026,10 @@ def vote_sondage():
 	db = mysql.connector.connect(**database())
 	cursor = db.cursor()
 	cursor.execute("""
+		DELETE Sondage_utilisateur FROM Sondage_utilisateur JOIN Sondage ON Sondage.id = Sondage_utilisateur.sondage_id
+		WHERE Sondage_utilisateur.user_id = %s AND Sondage.actualite_id = ( SELECT actualite_id FROM Sondage WHERE id = %s )
+	""", (user_id, sondage))
+	cursor.execute("""
 		INSERT INTO Sondage_utilisateur (user_id, sondage_id)
 		VALUES (%s, %s)
 	""", (user_id, sondage))
