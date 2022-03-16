@@ -1126,7 +1126,7 @@ def get_post():
 	cursor.execute("""
 		SELECT a.id, text, contenue, id_user, u.mail, DATE_FORMAT(date_pub, '%d-%m-%Y')
 		FROM Actualite a JOIN Utilisateur u 
-		ON a.id_user = u.id """
+		ON a.id_user = u.id order by date_pub desc"""
 	)
 	res = []
 	actus = cursor.fetchall()

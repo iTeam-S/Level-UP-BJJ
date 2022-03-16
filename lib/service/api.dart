@@ -406,13 +406,32 @@ class ApiController extends GetxController {
     }
   }
 
-    Future<List> getPosts(int userid, String token) async{
+  Future<List> getPosts(int userid, String token) async{
      try {
       var response = await client.post(
         "/api/v1/posts",
         data: {
           "user_id": userid,
           "token": token
+        },
+      );
+      return [true, response.data];
+    } on dio.DioError catch (err) {
+      return [false, err.response!.data['status']];
+    } catch (e) {
+      print("--: $e");
+      return [false, "..."];
+    }
+  }
+
+  Future<List> createPost(int userid, String token, Map post) async{
+     try {
+      var response = await client.post(
+        "/api/v1/create_post",
+        data: {
+          "user_id": userid,
+          "token": token,
+          "post": post
         },
       );
       return [true, response.data];

@@ -28,7 +28,7 @@ class AppController extends GetxController {
 
   // variable actualités
   late List<dynamic> actualite = [];
-
+  TextEditingController textActu = TextEditingController();
   // *********************
 
   late Module currModule;
@@ -499,6 +499,24 @@ class AppController extends GetxController {
         actualite = res[1]['data'];
         print(actualite);
         update();
+        return true;
+      } 
+      else {
+        errorSnack("${res[1]}");
+        return false;
+      }
+    } catch (err) {
+      print(err);
+      errorSnack("Une erreur s'est produite.");
+      return false; 
+    }
+  }
+
+  Future<bool> createPost(User user, Map post) async {
+    try {
+      var res = await apiController.createPost(user.id, user.token, post);
+      if (res[0]) {
+        await getPosts(user);
         return true;
       } 
       else {

@@ -7,6 +7,7 @@ import 'package:bjj_library/controller/users.dart';
 import 'package:bjj_library/model/users.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:rounded_loading_button/rounded_loading_button.dart';
 
 Color primaire = Colors.lightBlue.shade800;
 Color background = Colors.lightBlue.shade100;
@@ -24,6 +25,8 @@ class _SondageState extends State<Sondage> {
 
   UserController userController = Get.put(UserController());
   AppController appController = Get.put(AppController());
+  final RoundedLoadingButtonController _btnController =
+      RoundedLoadingButtonController();
   
 
   @override
@@ -310,40 +313,8 @@ class _SondageState extends State<Sondage> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Container(
-                      alignment: Alignment.center,
-                      margin: EdgeInsets.symmetric(horizontal: 15),
-                      padding: EdgeInsets.symmetric(horizontal: 20.0),
-                      //height: 50,
-                      width: Get.width * .8,
-                      decoration: BoxDecoration(
-                          color: Colors.transparent,
-                          borderRadius: BorderRadius.circular(15),
-                          border: Border.all(
-                            width: 2,
-                            color: primaire,
-                          )),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          Expanded(
-                            child: TextFormField(
-                              style: TextStyle(color: Colors.black),
-                              decoration: InputDecoration(
-                                hintText: " Titre",
-                                hintStyle: TextStyle(
-                                  color: Colors.black.withOpacity(.5),
-                                ),
-                                enabledBorder: InputBorder.none,
-                                focusedBorder: InputBorder.none,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
                     SizedBox(
-                      height: 15,
+                      height: 10,
                     ),
                     Container(
                       alignment: Alignment.center,
@@ -364,9 +335,10 @@ class _SondageState extends State<Sondage> {
                         children: <Widget>[
                           Expanded(
                             child: TextFormField(
+                              controller: appController.textActu,
                               style: TextStyle(color: Colors.black),
                               decoration: InputDecoration(
-                                hintText: "Description",
+                                hintText: "Texte",
                                 hintStyle: TextStyle(
                                   color: Colors.black.withOpacity(.5),
                                 ),
@@ -383,20 +355,31 @@ class _SondageState extends State<Sondage> {
                     ),
 
                     /**------------------------------ */
-                    MaterialButton(
-                      height: 50,
-                      minWidth: 150,
-                      textColor: Colors.white,
-                      child: Text(
-                        "Publier",
-                        style: TextStyle(fontSize: 25),
-                      ),
-                      splashColor: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(50.0),
-                      ),
-                      onPressed: () {},
-                      color: primaire,
+                   RoundedLoadingButton(
+                      color: Colors.lightBlue[800],
+                      successColor: Colors.blue,
+                      controller: _btnController,
+                      onPressed: () {
+                        void _trt(RoundedLoadingButtonController controller) async{
+                          await appController.createPost(
+                            userController.user,
+                            {
+                              'text': appController.textActu.text,
+                              'type': 'texte',
+                              'data': []
+                            }
+                          );
+                          controller.reset();
+                          Get.back();
+                          Get.back();
+                        }
+                        _trt(_btnController);
+                      },
+                      valueColor: Colors.white,
+                      borderRadius: 90,
+                      child: Text("Publier",
+                          style: TextStyle(
+                              color: Colors.white)),
                     ),
                   ],
                 ),
