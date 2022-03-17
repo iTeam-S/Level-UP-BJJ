@@ -27,6 +27,9 @@ class _SondageState extends State<Sondage> {
   AppController appController = Get.put(AppController());
   final RoundedLoadingButtonController _btnController =
       RoundedLoadingButtonController();
+
+  // liste des choix de sondage à creer
+  List<ListTile> sondageActu = <ListTile>[];
   
 
   @override
@@ -105,6 +108,7 @@ class _SondageState extends State<Sondage> {
                 ],
               ),
               children: [
+                
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
@@ -166,16 +170,18 @@ class _SondageState extends State<Sondage> {
                                   child: Column(
                                   children: [
                                     Row(
-                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      mainAxisAlignment: userController.user.admin 
+                                        ? MainAxisAlignment.spaceBetween : MainAxisAlignment.start,
                                       children: [
                                         CircleAvatar(
                                           backgroundColor: primaire,
                                           child: Text(actualite['user_mail'][0].toUpperCase()),
                                           radius: 25,
                                         ),
-                                        SizedBox(
-                                          width: 15,
-                                        ),
+                                        if ( !userController.user.admin )
+                                          SizedBox(
+                                            width: 15,
+                                          ),
                                         Column(
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
@@ -186,7 +192,20 @@ class _SondageState extends State<Sondage> {
                                                     fontSize: 15,
                                                     color: Colors.black45)),
                                           ],
-                                        )
+                                        ),
+                                        if (userController.user.admin)
+                                          IconButton(
+                                            onPressed: (){
+                                              for (int i=0; i<appController.actualite.length; i++)
+                                                if (appController.actualite[i]['actu_id'] == actualite['actu_id']){
+                                                  appController.actualite.removeAt(i);
+                                                }
+                                              appController.update();
+                                              appController.deletePost(userController.user, actualite['actu_id']);
+                                            
+                                            },
+                                            icon: Icon(Icons.delete_outline_outlined)
+                                          )
                                       ],
                                     ),
                                     SizedBox(
@@ -220,14 +239,27 @@ class _SondageState extends State<Sondage> {
                                                         mainAxisAlignment:
                                                             MainAxisAlignment.spaceBetween,
                                                         children: [
-                                                          Text(sond['sondage'],
-                                                              overflow: TextOverflow.ellipsis,
-                                                              maxLines: 1,
+                                                          RichText(
+                                                            text: TextSpan(
+                                                              text: sond['sondage'],
                                                               style: TextStyle(
-                                                                color: Colors.black,
-                                                                fontSize: 18,
-                                                                fontWeight: FontWeight.normal,
-                                                              )),
+                                                                  color: Colors.black,
+                                                                  fontSize: 18,
+                                                                  fontWeight: FontWeight.normal,
+                                                                ),
+                                                              children:[
+                                                               WidgetSpan(
+                                                                  child: Transform.translate(
+                                                                    offset: const Offset(0.0, -8.0),
+                                                                    child: Text(
+                                                                      ' +${sond['users'].length}',
+                                                                      style: TextStyle(fontSize: 12, color: Colors.red, fontWeight: FontWeight.bold),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
                                                           IconButton(
                                                           iconSize: 16,
                                                             onPressed: () {
@@ -417,38 +449,41 @@ class _SondageState extends State<Sondage> {
                 ],
               ),
               children: [
+                Container(
+                      alignment: Alignment.centerLeft,
+                      margin: EdgeInsets.symmetric(horizontal: 15),
+                      padding: EdgeInsets.symmetric(horizontal: 20.0),
+                      //height: 50,
+                      width: Get.width * .5,
+                      decoration: BoxDecoration(
+                          color: Colors.transparent,
+                          borderRadius: BorderRadius.circular(15),
+                          border: Border.all(
+                            width: 2,
+                            color: primaire,
+                          )),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          Expanded(
+                            child: TextFormField(
+                              style: TextStyle(color: Colors.black),
+                              decoration: InputDecoration(
+                                hintText: " Titre",
+                                hintStyle: TextStyle(
+                                  color: Colors.black.withOpacity(.5),
+                                ),
+                                enabledBorder: InputBorder.none,
+                                focusedBorder: InputBorder.none,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                 SingleChildScrollView(
                   child: Column(
-                    children: const [
-                      ListTile(
-                        leading: Icon(
-                          Icons.add,
-                          color: Colors.orange,
-                        ),
-                        title: Text(
-                          "Femme au foyer",
-                          style: TextStyle(color: Colors.black),
-                        ),
-                        trailing: Icon(
-                          Icons.delete,
-                          color: Colors.red,
-                        ),
-                      ),
-                      ListTile(
-                        leading: Icon(
-                          Icons.add,
-                          color: Colors.orange,
-                        ),
-                        title: Text(
-                          "Femme au travail",
-                          style: TextStyle(color: Colors.black),
-                        ),
-                        trailing: Icon(
-                          Icons.delete,
-                          color: Colors.red,
-                        ),
-                      ),
-                    ],
+                    children: sondageActu 
                   ),
                 ),
                 Row(
@@ -462,20 +497,54 @@ class _SondageState extends State<Sondage> {
                           borderRadius: BorderRadius.circular(7)),
                       margin: const EdgeInsets.symmetric(horizontal: 15),
                       width: Get.width * .5,
-                      height: 30,
-                      child: const TextField(
+                      height: 35,
+                      child: TextField(
+                        controller: appController.sondageChoix,
                         decoration: InputDecoration.collapsed(
-                          border: InputBorder.none,
-                          hintText: '',
+                          // border: InputBorder.none,
+                          hintText: 'choix ${sondageActu.length+1}',
                         ),
                       ),
                     ),
                     IconButton(
-                        onPressed: () {},
-                        icon: Icon(
-                          Icons.add,
-                          color: Colors.blue,
-                        ))
+                      onPressed: (){
+                        final int index = sondageActu.length;
+                        setState(() {
+                            sondageActu.add(
+                              ListTile(
+                                leading: Icon(
+                                  Icons.add,
+                                  color: Colors.orange,
+                                ),
+                                title: Text(
+                                  appController.sondageChoix.text,
+                                  style: TextStyle(color: Colors.black),
+                                ),
+                                trailing: IconButton(
+                                  icon: Icon(Icons.delete,
+                                    color: Colors.red
+                                  ),
+                                  onPressed: (){
+                                    
+                                    setState(() {
+                                      sondageActu.removeAt(sondageActu.length - index);
+                                      Get.back();
+                                      sondage();
+                                    });
+                                  },
+                                ),
+                              )
+                          );
+                          Get.back();
+                          sondage();
+                          appController.sondageChoix.text = '';
+                        });
+                      },
+                      icon: Icon(
+                        Icons.add,
+                        color: Colors.blue,
+                      ),
+                    )
                   ],
                 ),
               ],

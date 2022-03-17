@@ -481,5 +481,24 @@ class ApiController extends GetxController {
     }
   }
 
+   Future<List> deletePost(int userid, String token, int actualite) async{
+     try {
+      var response = await client.post(
+        "/api/v1/unvote",
+        data: {
+          "user_id": userid,
+          "token": token,
+          "actualite_id": actualite
+        },
+      );
+      return [true, response.data];
+    } on dio.DioError catch (err) {
+      return [false, err.response!.data['status']];
+    } catch (e) {
+      print("--: $e");
+      return [false, "..."];
+    }
+  }
+
 
 }

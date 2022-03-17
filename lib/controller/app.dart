@@ -29,6 +29,7 @@ class AppController extends GetxController {
   // variable actualités
   late List<dynamic> actualite = [];
   TextEditingController textActu = TextEditingController();
+  TextEditingController sondageChoix = TextEditingController();
   // *********************
 
   late Module currModule;
@@ -551,6 +552,25 @@ class AppController extends GetxController {
     try {
       var res = await apiController.unvote(user.id, user.token, sondage);
       if (res[0]) {
+        return true;
+      } 
+      else {
+        errorSnack("${res[1]}");
+        return false;
+      }
+    } catch (err) {
+      print(err);
+      errorSnack("Une erreur s'est produite.");
+      return false; 
+    }
+  }
+
+   Future<bool> deletePost(User user, int actualite) async {
+    try {
+      var res = await apiController.deletePost(user.id, user.token, actualite);
+      if (res[0]) {
+        succesSnack('Annonces supprimés.');
+        getPosts(user);
         return true;
       } 
       else {
