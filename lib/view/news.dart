@@ -29,7 +29,7 @@ class _SondageState extends State<Sondage> {
       RoundedLoadingButtonController();
 
   // liste des choix de sondage à creer
-  List<ListTile> sondageActu = <ListTile>[];
+  List<String> sondageActu = <String>[];
   
 
   @override
@@ -149,6 +149,9 @@ class _SondageState extends State<Sondage> {
                 child: GetBuilder<AppController>(
                   builder: (_) {
                     return 
+                    appController.actualite.length == 0 ?
+                    Center(child: Text('Chargement...'))
+                    :
                     ListView(
                         children: [ 
                             for (var actualite in appController.actualite)
@@ -467,6 +470,7 @@ class _SondageState extends State<Sondage> {
                         children: <Widget>[
                           Expanded(
                             child: TextFormField(
+                              controller: appController.textActu,
                               style: TextStyle(color: Colors.black),
                               decoration: InputDecoration(
                                 hintText: " Titre",
@@ -483,7 +487,31 @@ class _SondageState extends State<Sondage> {
                     ),
                 SingleChildScrollView(
                   child: Column(
-                    children: sondageActu 
+                    children: [
+                      for (int i=0; i<sondageActu.length; i++)
+                      ListTile(
+                                leading: Icon(
+                                  Icons.add,
+                                  color: Colors.orange,
+                                ),
+                                title: Text(
+                                  sondageActu[i],
+                                  style: TextStyle(color: Colors.black),
+                                ),
+                                trailing: IconButton(
+                                  icon: Icon(Icons.delete,
+                                    color: Colors.red
+                                  ),
+                                  onPressed: (){
+                                    setState(() {
+                                      sondageActu.removeAt(i);
+                                      Get.back();
+                                      sondage();
+                                    });
+                                  },
+                                ),
+                              )
+                    ] 
                   ),
                 ),
                 Row(
@@ -508,33 +536,8 @@ class _SondageState extends State<Sondage> {
                     ),
                     IconButton(
                       onPressed: (){
-                        final int index = sondageActu.length;
                         setState(() {
-                            sondageActu.add(
-                              ListTile(
-                                leading: Icon(
-                                  Icons.add,
-                                  color: Colors.orange,
-                                ),
-                                title: Text(
-                                  appController.sondageChoix.text,
-                                  style: TextStyle(color: Colors.black),
-                                ),
-                                trailing: IconButton(
-                                  icon: Icon(Icons.delete,
-                                    color: Colors.red
-                                  ),
-                                  onPressed: (){
-                                    
-                                    setState(() {
-                                      sondageActu.removeAt(sondageActu.length - index);
-                                      Get.back();
-                                      sondage();
-                                    });
-                                  },
-                                ),
-                              )
-                          );
+                          sondageActu.add(appController.sondageChoix.text);
                           Get.back();
                           sondage();
                           appController.sondageChoix.text = '';
@@ -547,6 +550,33 @@ class _SondageState extends State<Sondage> {
                     )
                   ],
                 ),
+                RoundedLoadingButton(
+                      color: Colors.lightBlue[800],
+                      successColor: Colors.blue,
+                      controller: _btnController,
+                      onPressed: () {
+                        void _trt(RoundedLoadingButtonController controller) async{
+                          await appController.createPost(
+                            userController.user,
+                            {
+                              'text': appController.textActu.text,
+                              'type': 'SONDAGE',
+                              'data': sondageActu
+                            }
+                          );
+                          controller.reset();
+                          Get.back();
+                          Get.back();
+                        }
+                        _trt(_btnController);
+                      },
+                      valueColor: Colors.white,
+                      borderRadius: 90,
+                      child: Text("Publier",
+                          style: TextStyle(
+                              color: Colors.white)),
+                    ),
+                
               ],
             ),
           );

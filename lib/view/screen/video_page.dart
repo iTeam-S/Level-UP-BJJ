@@ -29,12 +29,12 @@ final double itemHeight = (size.height - kToolbarHeight - 24) / 5;
 final double itemWidth = size.width / 1.8;
 var tapPosition;
 
-RefreshController _refreshControllerTab =
+final RefreshController _refreshControllerTab =
     RefreshController(initialRefresh: false);
 
-List<RefreshController> _refreshControllerTabList = <RefreshController>[ RefreshController(initialRefresh: false),  RefreshController(initialRefresh: false)];
+final List<RefreshController> _refreshControllerTabList = <RefreshController>[ RefreshController(initialRefresh: false),  RefreshController(initialRefresh: false)];
 
-RefreshController _refreshControllerAll =
+final RefreshController _refreshControllerAll =
     RefreshController(initialRefresh: false);
 
 void _onRefreshTab() async {

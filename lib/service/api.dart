@@ -484,7 +484,7 @@ class ApiController extends GetxController {
    Future<List> deletePost(int userid, String token, int actualite) async{
      try {
       var response = await client.post(
-        "/api/v1/unvote",
+        "/api/v1/delete_post",
         data: {
           "user_id": userid,
           "token": token,
