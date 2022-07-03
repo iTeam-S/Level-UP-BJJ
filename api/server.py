@@ -355,7 +355,7 @@ def create_module_v2():
 		cursor = db.cursor()
 	
 		cursor.execute("""
-			INSERT INTO Module(nom, couverture, niveau) VALUES (%s, %s)
+			INSERT INTO Module(nom, couverture) VALUES (%s, %s)
 		""",(nom, filename)
 		)
 		db.commit()
