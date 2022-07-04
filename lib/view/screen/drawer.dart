@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:restart_app/restart_app.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 
 
@@ -305,6 +306,7 @@ class AppDrawer extends StatelessWidget {
               appController.finish();
               box.remove('user');
               Get.offNamed('/login');
+              Restart.restartApp(webOrigin: '/');
             },
             child: Text('OK'),
           ),

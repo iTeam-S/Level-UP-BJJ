@@ -1,9 +1,3 @@
--- --------------------------------------------------------
--- Hôte:                         iteam-s.mg
--- Version du serveur:           10.3.31-MariaDB-0ubuntu0.20.04.1 - Ubuntu 20.04
--- SE du serveur:                debian-linux-gnu
--- HeidiSQL Version:             12.0.0.6468
--- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET NAMES utf8 */;

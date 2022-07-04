@@ -12,7 +12,6 @@ from random import randrange
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
-# from send_code import send_mail
 #from flask_socketio import SocketIO, emit, disconnect
 
 webserver = Flask(__name__)
@@ -100,7 +99,7 @@ def send_mail(mail, content, objet):
 	msg.attach(message)
 	msg.attach(html)
 	try:
-		server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
+		server = smtplib.SMTP_SSL('mail56.lwspanel.com', 465)
 		server.login(os.environ.get('MAIL_SENDER'), os.environ.get('MAIL_PASSWD'))
 		server.sendmail(os.environ.get('MAIL_SENDER'), mail, msg.as_string())
 		server.quit()
