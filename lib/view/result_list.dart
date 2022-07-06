@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 
 import 'package:get/get.dart';
-import 'package:rounded_loading_button/rounded_loading_button.dart';
+
 
 class ResultListScreen extends StatefulWidget {
   @override
@@ -15,8 +15,6 @@ class ResultListScreen extends StatefulWidget {
 class _ResultListScreen extends State<ResultListScreen> {
   // Instance ana controlleur
   AppController appController = Get.put(AppController());
-  final RoundedLoadingButtonController _btnController =
-    RoundedLoadingButtonController();
     
   final box = GetStorage();
   @override

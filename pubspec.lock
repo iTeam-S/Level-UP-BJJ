@@ -29,13 +29,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.0"
-  bottom_bar_with_sheet:
-    dependency: "direct main"
-    description:
-      name: bottom_bar_with_sheet
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.2.0"
   characters:
     dependency: transitive
     description:
@@ -359,13 +352,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.2.4"
-  progress_state_button:
-    dependency: "direct main"
-    description:
-      name: progress_state_button
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.4"
   provider:
     dependency: transitive
     description:
@@ -574,13 +560,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.2.0"
-  web_socket_channel:
-    dependency: "direct main"
-    description:
-      name: web_socket_channel
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.1.0"
   webview_flutter:
     dependency: "direct main"
     description:
