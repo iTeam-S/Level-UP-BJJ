@@ -92,6 +92,11 @@ def send_mail(mail, content, objet):
 				  <br/>
 				  {content}
 			  </div>
+			  <div>
+				Level UP BJJ <br/>.
+				Chaussée de Bruxelles Belgique </br>
+				+32471343165
+			  </div>
 			</body>
 		</html>
 	""", 'html')

@@ -746,11 +746,11 @@ Container videoListQuery(context, String query){
                                                             ),
                                                             TextButton(
                                                               onPressed: () {
-                                                                // supprimerVideo(
-                                                                //     video.id,
-                                                                //     _btnController);
-                                                                // Navigator.pop(
-                                                                //     context);
+                                                                supprimerVideo(
+                                                                    video.id,
+                                                                    _btnController);
+                                                                Navigator.pop(
+                                                                    context);
                                                               },
                                                               child: Text('OK'),
                                                             ),
