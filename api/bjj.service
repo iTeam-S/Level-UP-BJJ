@@ -4,11 +4,11 @@ After=network.target
 
 [Service]
 User=root
-Group=dev
+Group=root
 Restart=always
 RestartSec=10
 WorkingDirectory=/opt/bjj/api
-ExecStart=/usr/local/bin/gunicorn --workers 3  --bind 127.0.0.1:4444 wsgi
+ExecStart=/usr/local/bin/gunicorn --workers 3  --timeout 3600  --access-logfile - --bind 0.0.0.0:4444 wsgi
 
 [Install]
 WantedBy=multi-user.target

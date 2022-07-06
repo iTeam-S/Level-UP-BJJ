@@ -585,6 +585,7 @@ class AppController extends GetxController {
   }
 
   List<Video> getVideosByQuery(String query) {
+    query = query.trim();
     List<Video> resulat = [];
     for (Module mod in _moduleList)
       for (Video vid in mod.videos)
@@ -592,6 +593,5 @@ class AppController extends GetxController {
           resulat.add(vid);
     return resulat;
   }
-
    
 }
