@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 class UserController extends GetxController {
   GlobalKey<FormState> loginFormkey = GlobalKey<FormState>();
   late TextEditingController emailController, passwordController, emailAccountController;
-  late TextEditingController newPassController, oldPassController, codeController;
+  late TextEditingController newPassController, oldPassController, codeController, searchController;
   String email = '';
   String password = '';
   bool valid = false;
@@ -20,6 +20,7 @@ class UserController extends GetxController {
     oldPassController = TextEditingController();
     newPassController = TextEditingController();
     codeController = TextEditingController();
+    searchController = TextEditingController();
   }
 
   String? checkEmail(String value) {

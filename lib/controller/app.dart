@@ -584,4 +584,14 @@ class AppController extends GetxController {
     }
   }
 
+  List<Video> getVideosByQuery(String query) {
+    List<Video> resulat = [];
+    for (Module mod in _moduleList)
+      for (Video vid in mod.videos)
+        if (vid.titre.toLowerCase().contains(query.toLowerCase()))
+          resulat.add(vid);
+    return resulat;
+  }
+
+   
 }

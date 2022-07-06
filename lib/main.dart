@@ -5,6 +5,7 @@ import 'package:bjj_library/view/confirm_pass.dart';
 import 'package:bjj_library/view/play_video.dart';
 import 'package:bjj_library/view/reinitialize_pass.dart';
 import 'package:bjj_library/view/renew.dart';
+import 'package:bjj_library/view/result_list.dart';
 import 'package:bjj_library/view/signup.dart';
 import 'package:bjj_library/view/news.dart';
 import 'package:bjj_library/view/video_list.dart';
@@ -68,6 +69,7 @@ class MyApp extends StatelessWidget {
         '/videolist': (context) => VideoListScreen(),
         '/renew': (context) => Renew(),
         '/new': (context) => Sondage(),
+        '/search': (context) => ResultListScreen(),
       },
     );
   }

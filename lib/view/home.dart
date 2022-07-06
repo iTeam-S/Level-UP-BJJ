@@ -449,33 +449,66 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                             )
                         ]),
+
                       ]
                     : null,
                 actionsIconTheme: IconThemeData(color: Colors.white, size: 21),
               ),
               drawer: AppDrawer(),
-              // bottomNavigationBar: Container(
-              //   color: Colors.black12,
-              //   child: TabBar(
-              //     isScrollable: true,
-              //     unselectedLabelColor: Colors.grey[800],
-              //     labelColor: Colors.lightBlue[800],
-              //     indicatorSize: TabBarIndicatorSize.tab,
-              //     indicatorPadding: EdgeInsets.all(5.0),
-              //     indicatorColor: Colors.blue,
-              //     tabs: [
-              //       for (Module module in appController.getmoduleList())
-              //         Tab(
-              //             text: module.nom,
-              //             icon: module.nom == 'Tous'
-              //                 ? Icon(Icons.video_library_outlined, size: 20)
-              //                 : Icon(Icons.motion_photos_on, size: 20)),
-              //     ],
-              //   ),
-              // ),
               body: Container(
                 color: Colors.lightBlue[100],
-                child: videoAllModule(context, appController.getmoduleList())),
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      Container(
+                        color: Colors.white60,
+                        child:  TextField(
+                          controller: userController.searchController,
+                          style: TextStyle(
+                              fontSize: 12,
+                              color: Colors.grey[800]),
+                              decoration: InputDecoration(
+                                filled: false,
+                                fillColor: Colors.blue[50],
+                                floatingLabelBehavior:
+                                    FloatingLabelBehavior.auto,
+                                border: OutlineInputBorder(
+                                    borderRadius:
+                                        BorderRadius.all(
+                                            Radius.circular(
+                                                90.0)),
+                                    borderSide:
+                                        BorderSide.none),
+                                focusedBorder:
+                                    OutlineInputBorder(
+                                        borderRadius:
+                                            BorderRadius.all(
+                                                Radius.circular(
+                                                    90.0)),
+                                        borderSide:
+                                            BorderSide.none),
+                                hintText: "Champ de recherche",
+                                suffixIcon: IconButton(
+                                  onPressed: () {
+                                    if (userController.searchController.text.length < 3 ){
+                                      return appController.errorSnack("Veuillez entrer au moins 3 caractères");
+                                    }
+                                    Get.toNamed('/search');
+                                  } ,
+                                  icon: Icon(Icons.search_outlined,
+                                      color: Colors.lightBlue[800]),
+                                ),
+                                // prefixIcon: 
+                              ),
+                        ),
+                      ),
+                      Container(
+                        height: Get.height * 0.85,
+                        child: videoAllModule(context, appController.getmoduleList())),
+                    ],
+                  ),
+                ),
+              ),
               floatingActionButton: userController.user.admin
                   ? FloatingActionButton(
                       onPressed: () {
