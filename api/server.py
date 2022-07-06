@@ -88,14 +88,14 @@ def send_mail(mail, content, objet):
 		<html>
 			<body>
 			  <div style="font-size:20">
-				  <h3 style="color:blue"> BJJ Library ! </h3>
+				  <h3 style="color:blue"> Level UP BJJ ! </h3>
 				  <br/>
 				  {content}
 			  </div>
-			  <div>
-				Level UP BJJ <br/>.
-				Chaussée de Bruxelles Belgique </br>
-				+32471343165
+			  <div style="margin-top: 20px; font-size: 12; color: grey">
+				<p> Level UP BJJ </p>
+				<p>Chaussée de Bruxelles Belgique </p>
+				<p>+32471343165 </p>
 			  </div>
 			</body>
 		</html>

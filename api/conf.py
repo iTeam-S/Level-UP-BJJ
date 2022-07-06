@@ -7,7 +7,7 @@ TOKEN_PAYEMENT = env.get('TOKEN_PAYEMENT')
 
 def database(**kwargs):
      return {
-          'host' : "iteam-s.mg",
+          'host' : "127.0.0.1",
           'user' : env.get('ITEAMS_DB_USER'),
           'password': env.get('ITEAMS_DB_PASSWORD'),
           'database': 'BJJ',
