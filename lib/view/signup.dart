@@ -207,7 +207,7 @@ class _SignScreenState extends State<SignScreen> {
 
                                                         void verifMail() async {
                                                             // envoie de la requete de la demande.
-                                                            var res = await appController.checkMail(userController.emailAccountController.text);
+                                                            var res = await appController.checkMail(userController.emailAccountController.text.trim());
                                                             // arrete le chargement lancé avant lancement du verification mail
                                                             Get.back();
 
@@ -252,7 +252,7 @@ class _SignScreenState extends State<SignScreen> {
                                                       onPressed: (){
                                                         void verifMail() async {
                                                           // envoie de la requete de la demande.
-                                                          var res = await appController.checkMail(userController.emailAccountController.text);
+                                                          var res = await appController.checkMail(userController.emailAccountController.text.trim());
                                                           // arrete le chargement lancé avant lancement du verification mail
                                                           Get.back();
 
