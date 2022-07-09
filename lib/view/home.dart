@@ -462,7 +462,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Column(
                     children: [
                       Container(
-                        color: Colors.white60,
+                        // color: Colors.white,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.01),
+                        width: Get.width * .95,
                         child:  TextField(
                           controller: userController.searchController,
                           style: TextStyle(
@@ -472,12 +478,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                 filled: false,
                                 fillColor: Colors.blue[50],
                                 floatingLabelBehavior:
-                                    FloatingLabelBehavior.auto,
+                                    FloatingLabelBehavior.always,
                                 border: OutlineInputBorder(
                                     borderRadius:
                                         BorderRadius.all(
                                             Radius.circular(
-                                                90.0)),
+                                                180.0)),
                                     borderSide:
                                         BorderSide.none),
                                 focusedBorder:

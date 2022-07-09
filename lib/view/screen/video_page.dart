@@ -587,7 +587,7 @@ Container videoAllModule(context, data) {
         ])),
     Container(
       width: MediaQuery.of(context).size.width * 1,
-      color: Colors.lightBlue[100],
+      // color: Colors.red[100],
       // alignment: Alignment.centerLeft,
       padding: EdgeInsets.only(
         left: MediaQuery.of(context).size.width * 0.03,
