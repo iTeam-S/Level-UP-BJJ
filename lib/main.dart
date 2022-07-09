@@ -34,7 +34,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Future.delayed(const Duration(milliseconds: 2000), () {
-      print("Hello world");
+      // Deconnexion a la code.
+      // box.remove('user');
       if (box.hasData('user')) {
         Map usrTmp = box.read('user');
         userController.user = User.fromJson(usrTmp);

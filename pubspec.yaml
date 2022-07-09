@@ -44,7 +44,7 @@ dependencies:
   get_storage:
   path_provider_android:
   restart_app: ^1.1.0
-  flutter_stripe: ^2.1.0
+  flutter_stripe: ^3.2.0
 
 dev_dependencies:
   flutter_test:
@@ -101,8 +101,7 @@ flutter:
     - assets/images/workout.jpg
     - assets/images/logo.jpg
     - assets/images/video_logo.jpg
-    - assets/images/stripe.jpg
-    - assets/images/paypal.jpg
-    - assets/images/visa.jpg
+    - assets/images/paypal.png
+    - assets/images/visa.png
     - .env
 

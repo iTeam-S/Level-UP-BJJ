@@ -292,11 +292,12 @@ class _HomeScreenState extends State<HomeScreen> {
     focus.addListener(_onFocusChange);
     // appController.trtModules(userController.user.id, userController.user.token);
     // assemblé les données dans une seule requete.
-    appController.trtVideos(userController.user.id, userController.user.token);
     if (userController.user.admin)
-      appController.trtNotifs(
-          userController.user.id, userController.user.token);
-    appController.verifexp(userController.user);
+      appController.trtNotifs(userController.user.id, userController.user.token);
+    else
+      appController.verifexp(userController.user);
+    
+    appController.trtVideos(userController.user.id, userController.user.token);
   }
 
   @override

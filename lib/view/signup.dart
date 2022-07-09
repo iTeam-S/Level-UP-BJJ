@@ -151,7 +151,7 @@ class _SignScreenState extends State<SignScreen> {
                                                     .height *
                                                 0.01),
                                         child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                           children: [
                                             InkWell(
                                               onTap: () {
@@ -231,8 +231,8 @@ class _SignScreenState extends State<SignScreen> {
                                               child: Container(
                                                 margin: EdgeInsets.only(
                                                     top: MediaQuery.of(context).size.height * 0.00),
-                                                height: MediaQuery.of(context).size.height * 0.06,
-                                                child: Image.asset('assets/images/paypal.jpg'),
+                                                height: MediaQuery.of(context).size.height * 0.05,
+                                                child: Image.asset('assets/images/paypal.png'),
                                               ),
                                             ),
                                             InkWell(
@@ -279,43 +279,13 @@ class _SignScreenState extends State<SignScreen> {
                                               child: Container(
                                                 margin: EdgeInsets.only(
                                                     top: MediaQuery.of(context).size.height * 0.00),
-                                                height: MediaQuery.of(context).size.height * 0.10,
-                                                child: Image.asset('assets/images/stripe.jpg'),
+                                                height: MediaQuery.of(context).size.height * 0.05,
+                                                child: Image.asset('assets/images/visa.png'), 
                                               ),
                                             ),
                                           ],
                                         ),
                                       ),
-                                      /*Container(
-                                        margin: EdgeInsets.symmetric(
-                                            horizontal:
-                                                MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.06,
-                                            vertical: MediaQuery.of(context)
-                                                    .size
-                                                    .height *
-                                                0.01),
-                                        child: 
-                                          InkWell(
-                                            onTap: () {
-                                                Get.defaultDialog(
-                                                  title: "Bientôt",
-                                                  middleText: "Pas encore disponible!",
-                                                  backgroundColor: Colors.lightBlue[700],
-                                                  titleStyle: TextStyle(color: Colors.white),
-                                                  middleTextStyle: TextStyle(color: Colors.white)
-                                                );
-                                            },
-                                            child: Container(
-                                              margin: EdgeInsets.only(
-                                                  top: MediaQuery.of(context).size.height * 0.00),
-                                              height: MediaQuery.of(context).size.height * 0.06,
-                                              child: Image.asset('assets/images/visa.jpg'),
-                                            ),
-                                          ),
-                                      ),*/
                                     ],
                                   ))),
                         ]))
