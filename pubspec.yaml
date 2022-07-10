@@ -104,4 +104,5 @@ flutter:
     - assets/images/paypal.png
     - assets/images/visa.png
     - .env
+    - assets/ca/
 

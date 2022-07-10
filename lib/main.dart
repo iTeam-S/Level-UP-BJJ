@@ -1,3 +1,13 @@
+import 'dart:io';
+
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
+import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
 import 'package:bjj_library/service/api.dart';
 import 'package:bjj_library/model/users.dart';
 import 'package:bjj_library/controller/users.dart';
@@ -9,20 +19,21 @@ import 'package:bjj_library/view/result_list.dart';
 import 'package:bjj_library/view/signup.dart';
 import 'package:bjj_library/view/news.dart';
 import 'package:bjj_library/view/video_list.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_stripe/flutter_stripe.dart';
-import 'package:get/get.dart';
 import 'package:bjj_library/view/splash.dart';
 import 'package:bjj_library/view/login.dart';
 import 'package:bjj_library/view/forgot_pass.dart';
 import 'package:bjj_library/view/home.dart';
-import 'package:get_storage/get_storage.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
+
 
 void main() async {
   await GetStorage.init();
   await dotenv.load();
   Stripe.publishableKey = dotenv.env['STRIPE_PUBLISH_KEY']!;
+  
+  WidgetsFlutterBinding.ensureInitialized();
+  ByteData data = await PlatformAssetBundle().load('assets/ca/lets-encrypt-r3.pem');
+  SecurityContext.defaultContext.setTrustedCertificatesBytes(data.buffer.asUint8List());
+
   runApp(MyApp());
 }
 

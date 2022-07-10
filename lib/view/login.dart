@@ -40,10 +40,11 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void _doSomething(RoundedLoadingButtonController controller) async {
     //apiController.login("a", "b");
-    try {
+    
       if (userController.valid) {
         List rep = await apiController.login(
             userController.email, userController.password);
+        print("==>> $rep");
         if (rep[0]) {
           userController.user = User(
               email: userController.email,
@@ -81,8 +82,8 @@ class _LoginScreenState extends State<LoginScreen> {
           return;
         }
       }
-    } catch (e) {
-      print(e);
+  /*  } catch (e) {
+      print("ato ve zany ela le ? ");
       Get.snackbar(
         "Erreur",
         "Verifier votre réseau",
@@ -102,7 +103,7 @@ class _LoginScreenState extends State<LoginScreen> {
       //
       controller.reset();
     });
-    controller.error();
+    controller.error(); */ 
   }
 
   // Instance ana controlleur
